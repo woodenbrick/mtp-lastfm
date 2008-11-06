@@ -19,7 +19,8 @@ class songData:
     def newData(self, newData):
         """Needs to find out what data it is and assign 
         it to the correct variable"""
-        pass
+        clean = self._cleanData(newData)
+        self.songData.append(clean)
     
     def checkIfFull(self):
         """Returns true if all songdata is available"""
