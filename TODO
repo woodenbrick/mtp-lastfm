@@ -1,0 +1,2 @@
+songDataClass.py
+checkFileType function must check if item is a valid audio file(skip movie files)
