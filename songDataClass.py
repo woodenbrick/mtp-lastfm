@@ -33,12 +33,22 @@ class songData:
         if self._isData(newData):
             clean = self._cleanData(newData)
             self.songData.append(clean)
-    
+        else:
+            pass
+            
     def checkFiletype(self, filetype):
         """if this is called we are at the end of the song.
         check that its a valid type mp3, check if use count exists and if not append"""
         if self.checkIfFull():
-            
+            #use count exists
+            print 'all accounted for'
+            print self.songData
+        else:
+            self.songData.append(0)
+            print 'use count missing'
+            print self.songData
+        #resetdata for next song
+        self.resetValues()
         
         
     def checkIfFull(self):
@@ -52,3 +62,5 @@ class songData:
     def checkSongDataCount(self):
         return len(self.songData)
     
+    def resetValues(self):
+        self.songData = []

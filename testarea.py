@@ -1,7 +1,8 @@
-from songDataClass import songData
-
-trackListing = file('./mtp-tracklisting', 'r')
+import songDataClass
+trackListing = file('./mtp-tracktest2', 'r')
+sd = songDataClass.songData()
 for line in trackListing.readlines():
-    if line.__contains__('Track ID'):
-        
+    print 'Data: ', line
+    sd.newData(line)
+    
     
