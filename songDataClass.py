@@ -104,12 +104,22 @@ class songData:
             self._trimExportData()
         else:
             print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
+            
     def _trimExportData(self):
         self.songData[0] = int(self.songData[0])
         self.songData[4] = int(self.songData[4])
         self.songData[5] = int(string.split(self.songData[5], ' ')[0]) / 1000
         self.songData[6] = int(string.split(self.songData[6], ' ')[0])
         
+    def userFriendlyNames(self):
+        self.trackId = self.songData[0]
+        self.title = self.songData[1]
+        self.artist = self.songData[2]
+        self.album = self.songData[3]
+        self.trackNumber = self.songData[4]
+        self.duration = self.songData[5]
+        self.useCount = self.songData[6]
+
 def run():
     trackListing = file('./mtp-tracklisting', 'r')
     sd = songData()

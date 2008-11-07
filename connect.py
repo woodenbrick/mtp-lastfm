@@ -1,3 +1,6 @@
+#This module is used for all connections:
+#database-> mtp file list & database->audioscrobbler
+
 import os
 import sqlite3
 
@@ -12,12 +15,9 @@ class lastfmDb:
         self.checkAccount()
         
     def initialCreation(self):
-        self.db.execute('''create table IF NOT EXISTS songs
-(trackid integer, artist text, song text, album text,
- playcount integer)''')
-        #todo: fix to md5
-        self.db.execute('''create table IF NOT EXISTS account 
-(username text, password text)''')
+        """Used to check if database exists"""
+        pass
+    
     
     def checkAccount(self):
         result = self.db.execute('''SELECT * FROM account''')
@@ -27,6 +27,12 @@ class lastfmDb:
     def closeConnection(self):
         self.db.commit()
         self.db.close()
+    
+    def addNewData(self, data):
+        """recieves a list of a songs data, checks it against what is in the counter table already.
+        Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
+        table is added to as well."""
+        
         
 # Save (commit) the changes
 db.commit()
