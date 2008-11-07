@@ -7,7 +7,19 @@ class songData:
         self.max = 7 #count of all possible song data
         self.requiredData = ['Track ID', 'Title', 'Artist', 'Album', 'Track number', 
                              'Duration', 'Use Count']
+        self.acceptedDataTypes = ('ISO MPEG-1 Audio Layer 3',)
         self.filetypeReached = False
+        self.isSong = False
+        
+    def resetValues(self):
+        self.songData = []
+        self.filetypeReached = False
+        self.isSong = False
+        
+    def _isSong(self, data):
+        for item in self.acceptedDataTypes:
+            if data.__contains__(item):
+                self.isSong = True
         
     def _isData(self, data):
         """Returns true if the data submitted is data we want"""
@@ -16,7 +28,7 @@ class songData:
                 return True
         if data.__contains__('Filetype:'):
             self.filetypeReached = True
-            print self.filetypeReached
+            self._isSong(data)
                 #self.checkFiletype(data)
         return False
         
@@ -39,7 +51,6 @@ class songData:
         """Needs to find out what data it is and assign 
         it to the correct variable"""
         if self.filetypeReached == True:
-            print 'is true'
             #check if this line is usecount if not we need to append
             if self._isUsecount(newData):
                 self.songData.append(self._cleanData(newData))
@@ -84,16 +95,15 @@ class songData:
     def checkSongDataCount(self):
         return len(self.songData)
     
-    def resetValues(self):
-        self.songData = []
-        self.filetypeReached = False
+
         
     def exportData(self):
         """Sends song data to database"""
         #trim seconds and usecount before export
-        self._trimExportData()
-        print self.songData
-        
+        if self.isSong == True and self.checkIfFull():
+            self._trimExportData()
+        else:
+            print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
     def _trimExportData(self):
         self.songData[0] = int(self.songData[0])
         self.songData[4] = int(self.songData[4])
