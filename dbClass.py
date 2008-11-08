@@ -30,21 +30,21 @@ class lastfmDb:
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
         table is added to as well."""
         print songObj.trackid, 'song id'
-        self.cursor.execute("""SELECT id, playcount FROM songs WHERE id = ?""", (songObj.trackid,))
+        self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (songObj.trackid,))
         row = self.cursor.fetchone()
         if row == None:
             print 'song doesnt exist'
             numScrobbles = songObj.usecount
             self.cursor.execute("""insert into songs (trackid, artist, song, album, tracknumber, duration, usecount) values
-                                                   (?, ?, ?, ?, ?, ?, ?)""", (songObj.trackid, songObj.artist, songObj.song,
+                                                   (?, ?, ?, ?, ?, ?, ?)""", (songObj.trackid, songObj.artist, songObj.title,
                                                                               songObj.album, songObj.tracknumber,
                                                                               songObj.duration, songObj.usecount))
-            self.cursor.commit()
+            self.db.commit()
         else:
             #song has row in db
             numScrobbles = songObj.usecount - row[1]
             self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
-            self.cursor.commit()
+            self.db.commit()
         if numScrobbles > 0:
             self.cursor.execute("""insert into scrobble (trackid, scrobbles) values (?, ?)""", (songObj.trackid, numScrobbles))
-            self.cursor.commit()
+            self.db.commit()

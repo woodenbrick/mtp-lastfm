@@ -59,6 +59,8 @@ class songData:
             else:
                 self.songData.append('0 times')
             self.exportData()
+            if self.readyForExport == False:
+                self.newData(newData)
                 
         elif self._isData(newData):
             clean = self._cleanData(newData)
@@ -104,7 +106,7 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
-            pass
+            self.resetValues()
             #print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
         
     
@@ -121,7 +123,7 @@ class songData:
         self.album = self.songData[3]
         self.tracknumber = self.songData[4]
         self.duration = self.songData[5]
-        self.useCount = self.songData[6]
+        self.usecount = self.songData[6]
 
 def run():
     trackListing = file('./mtp-tracklisting', 'r')

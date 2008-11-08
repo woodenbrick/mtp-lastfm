@@ -6,7 +6,7 @@ import dbClass
 #This retrieves the tracklisting fm the MTP device, with its playcount
 #listing = os.system("mtp-tracks >/home/wode/mtp-tracklisting")
 
-f = file('./mtp-tracklisting', 'r')
+f = file('./mtp-tracktest2', 'r')
 songObj = songDataClass.songData()
 database = dbClass.lastfmDb('./lastfm')
 for line in f.readlines():
