@@ -12,6 +12,7 @@ database = dbClass.lastfmDb('./lastfm')
 for line in f.readlines():
     songObj.newData(line)
     if songObj.readyForExport:
+        print 'exporting song'
         database.addNewData(songObj)
         #run newData again, because we have a new track
         songObj.resetValues()

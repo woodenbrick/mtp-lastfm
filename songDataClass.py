@@ -59,9 +59,6 @@ class songData:
             else:
                 self.songData.append('0 times')
             self.exportData()
-            self.resetValues()
-            #run newData again, because we have a new track
-            self.newData(newData)
                 
         elif self._isData(newData):
             clean = self._cleanData(newData)
