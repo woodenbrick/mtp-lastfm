@@ -32,31 +32,21 @@ class lastfmDb:
         """recieves a list of a songs data, checks it against what is in the counter table already.
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
         table is added to as well."""
-        self.cursor.execute("""SELECT trackid, playcount FROM songs WHERE trackid = 
-        
-        
-         if i == None:
+        self.cursor.execute("""SELECT id, playcount FROM songs WHERE id = ?""", (songObj.trackid,))
+        row = self.cursor.fetchone()
+        if row == None:
             print 'song doesnt exist'
-            numScrobbles = data[6]
-            c.execute("""insert into songs (id, artist, song, 
-                                                   album, tracknumber, duration, playcount) values
-                                                   (?, ?, ?, ?, ?, ?, ?)""", (data[0], data[1], data[2], data[3], data[4], data[5], data[6]))
-            conn.commit()
+            numScrobbles = songObj.usecount
+            self.cursor.execute("""insert into songs (trackid, artist, song, album, tracknumber, duration, usecount) values
+                                                   (?, ?, ?, ?, ?, ?, ?)""", (songObj.trackid, songObj.artist, songObj.song,
+                                                                              songObj.album, songObj.tracknumber,
+                                                                              songObj.duration, songObj.usecount))
+            self.cursor.commit()
         else:
-            numScrobbles = data[6] - i[1]
-            c.execute("""update songs set playcount=? where id=?""", (data[6], data[0]))
+            #song has row in db
+            numScrobbles = songObj.usecount - row[1]
+            self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
+            self.cursor.commit()
         if numScrobbles > 0:
-            c.execute("""insert into scrobble (trackid, scrobbles) values (?, ?)""", (data[0], numScrobbles))
-            conn.commit()
-        
-# Save (commit) the changes
-db.commit()
-
-# We can also close the cursor if we are done with it
-db.close()
-
-db = sqlite3.Connection('./lastfm')
-db.cursor()
-c = db.execute('select * from account')
-for row in c:
-    print row
+            self.cursor.execute("""insert into scrobble (trackid, scrobbles) values (?, ?)""", (songObj.trackid, numScrobbles))
+            self.cursor.commit()

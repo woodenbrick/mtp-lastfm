@@ -102,6 +102,7 @@ class songData:
         #trim seconds and usecount before export
         if self.isSong == True and self.checkIfFull():
             self._trimExportData()
+            self.userFriendlyNames()
         else:
             print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
             
@@ -112,11 +113,11 @@ class songData:
         self.songData[6] = int(string.split(self.songData[6], ' ')[0])
         
     def userFriendlyNames(self):
-        self.trackId = self.songData[0]
+        self.trackid = self.songData[0]
         self.title = self.songData[1]
         self.artist = self.songData[2]
         self.album = self.songData[3]
-        self.trackNumber = self.songData[4]
+        self.tracknumber = self.songData[4]
         self.duration = self.songData[5]
         self.useCount = self.songData[6]
 

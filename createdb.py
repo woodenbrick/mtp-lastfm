@@ -16,14 +16,14 @@ if not os.path.exists('./lastfm'):
 )''', '''
 
 CREATE TABLE IF NOT EXISTS `songs` (
-  `id` int(8) NOT NULL,
+  `trackid` int(8) NOT NULL,
   `artist` varchar(255) NOT NULL,
   `song` varchar(255) NOT NULL,
   `album` varchar(255) NOT NULL,
   `tracknumber` int(2) NOT NULL,
   `duration` int(6) NOT NULL,
-  `playcount` int(6) NOT NULL,
-  PRIMARY KEY  (`id`)
+  `usecount` int(6) NOT NULL,
+  PRIMARY KEY  (`trackid`)
 )''', '''
 
 CREATE TABLE IF NOT EXISTS `users` (
