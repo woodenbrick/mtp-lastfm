@@ -1,5 +1,5 @@
 import string
-import re
+import dbClass
 
 class songData:
     def __init__(self):
@@ -10,11 +10,13 @@ class songData:
         self.acceptedDataTypes = ('ISO MPEG-1 Audio Layer 3',)
         self.filetypeReached = False
         self.isSong = False
+        self.readyForExport = False
         
     def resetValues(self):
         self.songData = []
         self.filetypeReached = False
         self.isSong = False
+        self.readyForExport = False
         
     def _isSong(self, data):
         for item in self.acceptedDataTypes:
@@ -103,9 +105,12 @@ class songData:
         if self.isSong == True and self.checkIfFull():
             self._trimExportData()
             self.userFriendlyNames()
+            self.readyForExport = True
         else:
-            print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
-            
+            pass
+            #print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
+        
+    
     def _trimExportData(self):
         self.songData[0] = int(self.songData[0])
         self.songData[4] = int(self.songData[4])

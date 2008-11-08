@@ -4,15 +4,12 @@
 import os
 import sqlite3
 
-#This retrieves the tracklisting fm the MTP device, with its playcount
-#listing = os.system("mtp-tracks >/home/wode/mtp-tracklisting")
-
 class lastfmDb:
-    def __init__(self):
-        self.db = sqlite3.Connection('./lastfm')
+    def __init__(self, database):
+        self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
         #self.intialCreation()
-        self.checkAccount()
+        #self.checkAccount()
         
     def initialCreation(self):
         """Used to check if database exists"""
@@ -32,6 +29,7 @@ class lastfmDb:
         """recieves a list of a songs data, checks it against what is in the counter table already.
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
         table is added to as well."""
+        print songObj.trackid, 'song id'
         self.cursor.execute("""SELECT id, playcount FROM songs WHERE id = ?""", (songObj.trackid,))
         row = self.cursor.fetchone()
         if row == None:
