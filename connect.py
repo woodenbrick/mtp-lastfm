@@ -35,6 +35,20 @@ class lastfmDb:
         self.cursor.execute("""SELECT trackid, playcount FROM songs WHERE trackid = 
         
         
+         if i == None:
+            print 'song doesnt exist'
+            numScrobbles = data[6]
+            c.execute("""insert into songs (id, artist, song, 
+                                                   album, tracknumber, duration, playcount) values
+                                                   (?, ?, ?, ?, ?, ?, ?)""", (data[0], data[1], data[2], data[3], data[4], data[5], data[6]))
+            conn.commit()
+        else:
+            numScrobbles = data[6] - i[1]
+            c.execute("""update songs set playcount=? where id=?""", (data[6], data[0]))
+        if numScrobbles > 0:
+            c.execute("""insert into scrobble (trackid, scrobbles) values (?, ?)""", (data[0], numScrobbles))
+            conn.commit()
+        
 # Save (commit) the changes
 db.commit()
 
