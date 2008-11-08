@@ -10,7 +10,7 @@ import sqlite3
 class lastfmDb:
     def __init__(self):
         self.db = sqlite3.Connection('./lastfm')
-        self.db.cursor()
+        self.cursor = self.db.cursor()
         #self.intialCreation()
         self.checkAccount()
         
@@ -28,10 +28,11 @@ class lastfmDb:
         self.db.commit()
         self.db.close()
     
-    def addNewData(self, data):
+    def addNewData(self, songObj):
         """recieves a list of a songs data, checks it against what is in the counter table already.
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
         table is added to as well."""
+        self.cursor.execute("""SELECT trackid, playcount FROM songs WHERE trackid = 
         
         
 # Save (commit) the changes
