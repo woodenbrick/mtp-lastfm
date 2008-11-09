@@ -1,0 +1,3 @@
+The purpose of this program is to scrobble tracks from mtp devices to last.fm.  I expect I'll have a working solution by the end of the week.  Due to limitations of the mtp devices (or perhaps its just my Zen?), tracks which are listened to for any length of time (including skipped tracks) will have a playcount added and so be scrobbled. 
+
+For the moment I decided to stick with using an sqlite database because of its portability, It seems to be quite slow however so I might look at other possibilities once I have a working version.  For now, the program will be console based, and for UNIX enviroments, in the future I plan to make the code cross platform, perhaps with a GUI.
