@@ -1,5 +1,5 @@
 import string
-import re
+import dbClass
 
 class songData:
     def __init__(self):
@@ -10,11 +10,13 @@ class songData:
         self.acceptedDataTypes = ('ISO MPEG-1 Audio Layer 3',)
         self.filetypeReached = False
         self.isSong = False
+        self.readyForExport = False
         
     def resetValues(self):
         self.songData = []
         self.filetypeReached = False
         self.isSong = False
+        self.readyForExport = False
         
     def _isSong(self, data):
         for item in self.acceptedDataTypes:
@@ -57,9 +59,8 @@ class songData:
             else:
                 self.songData.append('0 times')
             self.exportData()
-            self.resetValues()
-            #run newData again, because we have a new track
-            self.newData(newData)
+            if self.readyForExport == False:
+                self.newData(newData)
                 
         elif self._isData(newData):
             clean = self._cleanData(newData)
@@ -102,14 +103,28 @@ class songData:
         #trim seconds and usecount before export
         if self.isSong == True and self.checkIfFull():
             self._trimExportData()
+            self.userFriendlyNames()
+            self.readyForExport = True
         else:
-            print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
+            self.resetValues()
+            #print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
+        
+    
     def _trimExportData(self):
         self.songData[0] = int(self.songData[0])
         self.songData[4] = int(self.songData[4])
         self.songData[5] = int(string.split(self.songData[5], ' ')[0]) / 1000
         self.songData[6] = int(string.split(self.songData[6], ' ')[0])
         
+    def userFriendlyNames(self):
+        self.trackid = self.songData[0]
+        self.title = self.songData[1]
+        self.artist = self.songData[2]
+        self.album = self.songData[3]
+        self.tracknumber = self.songData[4]
+        self.duration = self.songData[5]
+        self.usecount = self.songData[6]
+
 def run():
     trackListing = file('./mtp-tracklisting', 'r')
     sd = songData()
