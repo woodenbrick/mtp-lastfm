@@ -1,16 +1,10 @@
-import sqlite3
-import httplib
 import md5
 import time
 import urllib
 import urllib2
 import string
 import dbClass
-#c = sqlite3.Connection('./lastfm')
-#cursor = c.cursor()
-#cursor.execute('SELECT songs.*, scrobble.scrobbles FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
-#for i in cursor:
-#    print i
+
 
 class Scrobbler:
     
@@ -51,11 +45,6 @@ class Scrobbler:
         return False
         
     def submitTracks(self):
-#        All specified parameters must be present; they should be left empty if
-#        not known. The example below assumes one track is being submitted as the
-#        fields which allow multiple values are indexed with zero ([0]). The
-#        key-value pairs are:
-#
         #s=<sessionID>  The Session ID string returned by the handshake request. Required.
         #a[0]=<artist>  The artist name. Required.
         #t[0]=<track>   The track title. Required.
@@ -71,6 +60,7 @@ class Scrobbler:
         for t in tracks:
             trackList.append(t)
         print trackList
+        
         #self.submissionUrl
         #postValues = {"s" : self.sessionID,
         #              "a[0]" : self.
