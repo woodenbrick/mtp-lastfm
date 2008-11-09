@@ -1,6 +1,7 @@
 *.pydevproject
 *.project
 *.pyc
+*~
 mtp-tracklisting
 mtp-tracktest2
 testarea.py
