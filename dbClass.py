@@ -5,7 +5,7 @@ import os
 import sqlite3
 
 class lastfmDb:
-    def __init__(self, database):
+    def __init__(self, database='./lastfm'):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
         #self.intialCreation()
@@ -24,6 +24,10 @@ class lastfmDb:
     def closeConnection(self):
         self.db.commit()
         self.db.close()
+    
+    def returnScrobbleList(self):
+        self.cursor.execute('SELECT songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber, scrobble.scrobbles FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
+        return self.cursor
     
     def addNewData(self, songObj):
         """recieves a list of a songs data, checks it against what is in the counter table already.
