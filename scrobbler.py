@@ -30,9 +30,9 @@ class Scrobbler:
         self.serverResponse = conn.readline().strip()
         if self.serverResponse == 'OK':
             print 'Server response OK.'
-            self.sessionID = conn.readline().strip
+            self.sessionID = conn.readline()[:-1]
             self.nowPlayingUrl = conn.readline().strip #not used at this time
-            self.submissionUrl = conn.readline().strip
+            self.submissionUrl = conn.readline()[:-1]
             return True
         elif self.serverResponse == 'BADAUTH':
             print 'user details incorrect'
@@ -54,54 +54,100 @@ class Scrobbler:
         #l[0]=<secs>    The length of the track in seconds. 
         #b[0]=<album>   The album title, or an empty string if not known.
         #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
+        #m[0]=music brainz identifier, leave blank
         db = dbClass.lastfmDb()
-        tracks = db.returnScrobbleList()
-        trackList = []
-        for t in tracks:
-            trackList.append(t)
-        print trackList
+        c = db.returnScrobbleList()
         
-        #self.submissionUrl
-        #postValues = {"s" : self.sessionID,
-        #              "a[0]" : self.
-        #self.url += r"/?" +self.encodeUrl()
-        #conn = urllib2.urlopen(self.url)
+        while True:
+            cache = c.fetchmany(10)
+            if len(cache) == 0:
+                break
+            else:
+            #s=<sessionID>  The Session ID string returned by the handshake request. Required.
+            #a[0]=<artist>  The artist name. Required.
+            #t[0]=<track>   The track title. Required.
+            #i[0]=<time>    The time the track started playing, in UNIX timestamp format
+            #o[0]=<source>  Put P for this value
+            #r[0]=<rating>  Blank or dont use
+            #l[0]=<secs>    The length of the track in seconds. 
+            #b[0]=<album>   The album title, or an empty string if not known.
+            #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
+            #m[0]=music brainz identifier, leave blank
 
-
-
-
-#m[0]=<mb-trackid>
-#    The MusicBrainz Track ID, or an empty string if not known.
-#
-#Key-value pairs are separated by an '&' character, in the usual manner for form
-#submissions in HTTP. The values must be converted to UTF-8 first, and must be
-#URL encoded. Multiple submissions may be specified by repeating the a[], t[],
-#i[], o[], r[], l[], b[], n[], and m[] key-value pairs with increasing indices.
-#(e.g. a[1], a[2] etc.) Note that when performing multiple submissions, the
-#tracks must be submitted in chronological order according to when they were
-#listened to (i.e. the track identified by t[0].. must have been played before
-#the track identified by t[1].. and so on). 3.3 Submission Response
-#
-#The body of the server response will consist of a single \n (ASCII 10)
-#terminated line. The client should process the first line of the body to
-#determine the action it should take:
-#
-#OK
-#    This indicates that the submission request was accepted for processing. It
-#    does not mean that the submission was valid, but only that the
-#    authentication and the form of the submission was validated. The client
-#    should remove the submitted track(s) from its queue.
-#BADSESSION
-#    This indicates that the Session ID sent was somehow invalid, possibly
-#    because another client has performed a handshake for this user. On receiving
-#    this, the client should re-handshake with the server before continuing. The
-#    client should not remove submitted tracks from its queue.
-#FAILED <reason>
-#    This indicates that a failure has occurred somewhere. The reason indicates
-#    the cause of the failure. Clients should treat this as a hard failure, and
-#    should proceed as directed in the failure handling section. The client
-#    should not remove submitted tracks from its queue.
-#        
+                a = []
+                t = []
+                i = []
+                o = []
+                r = []
+                l = []
+                b = []
+                n = []
+                m = []
+                fullList = [a, t, l, b, n, i, o, r, m]
+                pastTime = time.time() - 3600 #this is an hour in the past where we will start our scrobbling
+                for track in cache:
+                    for index in range(0, len(fullList)):
+                        if index < 5:
+                            fullList[index].append(track[index])
+                        elif index == 5:
+                            #append time, use l to work out
+                            #this needs to be corrected
+                            length = fullList[2][0]
+                            pastTime += length
+                            fullList[index].append(pastTime)
+                        elif index == 6:
+                            #source (always P)
+                            fullList[index].append("P")
+                        elif index > 6:
+                            #empty strings for music brain tags and rating
+                            fullList[index].append("")
+                            
+                a = fullList[0]
+                t = fullList[1]
+                i = fullList[2]
+                o = fullList[3]
+                r = fullList[4]
+                l = fullList[5]
+                b = fullList[6]
+                n = fullList[7]
+                m = fullList[8]
+                postValues = { "s" : self.authenticationCode }
+                for ind in range(0, len(a)):
+                    #needs refactorindng
+                    vala = "a[%d]" % ind
+                    postValues[vala] = a[ind]
+                    valt = "t[%d]" % ind
+                    postValues[valt] = t[ind]
+                    vali = "i[%d]" % ind
+                    postValues[vali] = i[ind]
+                    valo = "o[%d]" % ind
+                    postValues[valo] = o[ind]
+                    valr = "r[%d]" % ind
+                    postValues[valr] = r[ind]
+                    vall = "l[%d]" % ind
+                    postValues[vall] = l[ind]
+                    valb = "b[%d]" % ind
+                    postValues[valb] = b[ind]
+                    valn = "n[%d]" % ind
+                    postValues[valn] = n[ind]
+                    valm = "m[%d]" % ind
+                    postValues[valm] = m[ind]
+                postValues = urllib.urlencode(postValues)
+                print postValues
+                self.submitSongs(postValues)
+        
+    def submitSongs(self, postValues):
+        req = urllib2.Request(url=self.submissionUrl, data=postValues)
+        url_handle = urllib2.urlopen(req)
+        response = url_handle.readline().strip()
+        if response == 'OK':
+            #remove tracks from cache
+            print 'success'
+        elif response == 'BADSESSION':
+            pass
+            #handshake again dont delete cache
+        elif response.startswith('FAILED'):
+            print 'Scrobbling Failure:', response
    
     def encodeUrl(self):
         u = urllib.urlencode({

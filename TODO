@@ -1,2 +1,7 @@
-songDataClass.py
-checkFileType function must check if item is a valid audio file(skip movie files)
+Instead of calling the database for every single track, do one call and cycle through.
+If we find a track we dont have then insert.
+
+use the database function arraysize to return 10 songs at once or the remainder if less than 10
+use fetchmany([size]) instead <= may be slower
+
+time area in scrobbler submit tracks needs to be corrected. currently it just uses an arbitary value.
