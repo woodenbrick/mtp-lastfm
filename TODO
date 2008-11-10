@@ -1,0 +1,2 @@
+Instead of calling the database for every single track, do one call and cycle through.
+If we find a track we dont have then insert.
