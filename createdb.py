@@ -11,8 +11,7 @@ if not os.path.exists('./lastfm'):
     cursor = conn.cursor()
     query = ['''
     CREATE TABLE IF NOT EXISTS `scrobble` (
-  `trackid` int(8) NOT NULL,
-  `scrobbles` int(4) NOT NULL
+  `trackid` int(8) NOT NULL
 )''', '''
 
 CREATE TABLE IF NOT EXISTS `songs` (
@@ -34,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 )''']
     print 'Creating Tables'
     for q in query:
-        print q
         cursor.execute(q)
         conn.commit()
     conn.close()
