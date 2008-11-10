@@ -113,7 +113,7 @@ class Scrobbler:
                 m = fullList[8]
                 postValues = { "s" : self.authenticationCode }
                 for ind in range(0, len(a)):
-                    #needs refactorindng
+                    #needs refactoring
                     vala = "a[%d]" % ind
                     postValues[vala] = a[ind]
                     valt = "t[%d]" % ind
