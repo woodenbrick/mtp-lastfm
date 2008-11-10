@@ -26,7 +26,7 @@ class lastfmDb:
         self.db.close()
     
     def returnScrobbleList(self):
-        self.cursor.execute('SELECT songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber, scrobble.scrobbles FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
+        self.cursor.execute('SELECT songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
         return self.cursor
     
     def execute(self, query):
@@ -42,11 +42,9 @@ class lastfmDb:
         """recieves a list of a songs data, checks it against what is in the counter table already.
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
         table is added to as well."""
-        print songObj.trackid, 'song id'
         self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (songObj.trackid,))
         row = self.cursor.fetchone()
         if row == None:
-            print 'song doesnt exist'
             numScrobbles = songObj.usecount
             self.cursor.execute("""insert into songs (trackid, artist, song, album, tracknumber, duration, usecount) values
                                                    (?, ?, ?, ?, ?, ?, ?)""", (songObj.trackid, songObj.artist, songObj.title,
@@ -59,6 +57,6 @@ class lastfmDb:
             self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
             self.db.commit()
         while numScrobbles > 0:
-            self.cursor.execute("""insert into scrobble (trackid, scrobbles) values (?, ?)""", (songObj.trackid, numScrobbles))
+            self.cursor.execute("""insert into scrobble (trackid) values (?)""", (songObj.trackid))
             numScrobbles -= 1
             self.db.commit()
