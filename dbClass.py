@@ -29,6 +29,15 @@ class lastfmDb:
         self.cursor.execute('SELECT songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber, scrobble.scrobbles FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
         return self.cursor
     
+    def execute(self, query):
+        """wrapper for executing arbitrary queries"""
+        self.cursor.execute(query)
+        return self.cursor
+    
+    def commit(self):
+        """commit wrapper"""
+        self.db.commit()
+    
     def addNewData(self, songObj):
         """recieves a list of a songs data, checks it against what is in the counter table already.
         Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
