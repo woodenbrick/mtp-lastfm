@@ -45,16 +45,6 @@ class Scrobbler:
         return False
         
     def submitTracks(self):
-        #s=<sessionID>  The Session ID string returned by the handshake request. Required.
-        #a[0]=<artist>  The artist name. Required.
-        #t[0]=<track>   The track title. Required.
-        #i[0]=<time>    The time the track started playing, in UNIX timestamp format
-        #o[0]=<source>  Put P for this value
-        #r[0]=<rating>  Blank or dont use
-        #l[0]=<secs>    The length of the track in seconds. 
-        #b[0]=<album>   The album title, or an empty string if not known.
-        #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
-        #m[0]=music brainz identifier, leave blank
         db = dbClass.lastfmDb()
         c = db.returnScrobbleList()
         
@@ -86,7 +76,7 @@ class Scrobbler:
                             fullList[index].append(pastTime)
                         elif index == 6:
                             #source (always P)
-                            fullList[index].append("P")
+                            fullList[index].append(u"P")
                         elif index > 6:
                             #empty strings for music brain tags and rating
                             fullList[index].append("")
@@ -94,12 +84,21 @@ class Scrobbler:
                 a = fullList[0]
                 t = fullList[1]
                 i = fullList[2]
-                o = fullList[3]
-                r = fullList[4]
+                o = fullList[6]
+                r = fullList[7]
                 l = fullList[5]
-                b = fullList[6]
-                n = fullList[7]
+                b = fullList[3]
+                n = fullList[4]
                 m = fullList[8]
+                print 'artist', a
+                print 'track', t
+                print 'time', i
+                print 'source', o
+                print 'rating', r
+                print 'seconds', l
+                print 'album', b
+                print 'tracknumer', n
+                print 'music brain', m
                 postValues = { "s" : self.authenticationCode }
                 for ind in range(0, len(a)):
                     #needs refactoring
@@ -133,6 +132,7 @@ class Scrobbler:
             #remove tracks from cache
             print 'success'
         elif response == 'BADSESSION':
+            print 'bad sess'
             pass
             #handshake again dont delete cache
         elif response.startswith('FAILED'):
