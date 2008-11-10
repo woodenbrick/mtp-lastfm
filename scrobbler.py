@@ -91,8 +91,7 @@ class Scrobbler:
                             fullList[index].append(track[index])
                         elif index == 5:
                             #append time, use l to work out
-                            #this needs to be corrected
-                            length = fullList[2][0]
+                            length = fullList[2][-1]
                             pastTime += length
                             fullList[index].append(pastTime)
                         elif index == 6:
@@ -152,7 +151,7 @@ class Scrobbler:
     def encodeUrl(self):
         u = urllib.urlencode({
             "hs":"true",
-            "p":"1.2.1",
+            "p":"1.2",
             "c":self.client,
             "v":self.version,
             "u":self.user,
