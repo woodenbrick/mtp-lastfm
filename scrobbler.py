@@ -64,7 +64,7 @@ class Scrobbler:
             #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
             #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], []]
-                pastTime = time.time() - 3600 #this is an hour in the past where we will start our scrobbling
+                pastTime = int(time.time() - 3600) #this is an hour in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
@@ -84,30 +84,15 @@ class Scrobbler:
                     fullList[7].append(u"")
                     fullList[8].append(u"")
                     
-                a = fullList[0]
-                t = fullList[1]
-                l = fullList[2]
-                b = fullList[3]
-                n = fullList[4]
-                print fullList
-                #print 'artist', a
-                #print 'track', t
-                #print 'time', i
-                #print 'source', o
-                #print 'rating', r
-                #print 'seconds', l
-                #print 'album', b
-                #print 'tracknumer', n
-                #print 'music brain', m
-                postValues = { "s" : self.authenticationCode }
+                postValues = { "s" : self.sessionID }
                 for i in range(0, size):
                     dic = self.getDicValue(i)
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
 
-                #postValues = urllib.urlencode(postValues)
+                postValues = urllib.urlencode(postValues)
                 print postValues
-                #self.submitSongs(postValues)
+                self.submitSongs(postValues)
                 
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
@@ -125,7 +110,7 @@ class Scrobbler:
             #remove tracks from cache
             print 'success'
         elif response == 'BADSESSION':
-            print 'bad sess'
+            print 'Bad session'
             pass
             #handshake again dont delete cache
         elif response.startswith('FAILED'):
