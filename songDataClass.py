@@ -107,7 +107,7 @@ class songData:
             self.readyForExport = True
         else:
             self.resetValues()
-            #print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all reqiured data'
+            print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all required data'
         
     
     def _trimExportData(self):
