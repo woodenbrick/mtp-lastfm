@@ -14,12 +14,6 @@ class Scrobbler:
         self.client = 'tst'
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
-        if self.handshake():
-            #run scrobbles
-            self.submitTracks()
-        else:
-            #end program
-            pass
     
     
     def handshake(self):
@@ -44,10 +38,8 @@ class Scrobbler:
             print 'Connection to server failed:', string.split(response, ' ')[1:]
         return False
         
-    def submitTracks(self):
-        db = dbClass.lastfmDb()
-        c = db.returnScrobbleList()
-        
+    def submitTracks(self, c):
+        """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
         while True:
             cache = c.fetchmany(10)
             if len(cache) == 0:
@@ -90,11 +82,9 @@ class Scrobbler:
                     dic = self.getDicValue(i)
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
-                print postValues
                 postValues = urllib.urlencode(postValues)
-                #print postValues
-                print self.deletionIds
-                #self.submitSongs(postValues)
+                return self._sendPost(postValues)
+                    
                 
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
@@ -104,19 +94,22 @@ class Scrobbler:
             list.append("%s[%d]" % (v, i))
         return list
         
-    def submitSongs(self, postValues):
+    def _sendPost(self, postValues):
         req = urllib2.Request(url=self.submissionUrl, data=postValues)
         url_handle = urllib2.urlopen(req)
         response = url_handle.readline().strip()
         if response == 'OK':
             #remove tracks from cache
-            print 'success'
+            print 'Success'
+            return True
         elif response == 'BADSESSION':
             print 'Bad session'
             pass
             #handshake again dont delete cache
+            return False
         elif response.startswith('FAILED'):
             print 'Scrobbling Failure:', response
+            return False
    
     def encodeUrl(self):
         u = urllib.urlencode({
