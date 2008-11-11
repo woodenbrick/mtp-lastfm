@@ -101,13 +101,12 @@ class Scrobbler:
                 #print 'music brain', m
                 postValues = { "s" : self.authenticationCode }
                 for i in range(0, size):
-                    #needs refactoring
-                    vala = "a[%d]" % ind
-                    postValues[vala] = a[ind]
+                    dic = self.getDicValue(i)
+                    print dic
 
-                postValues = urllib.urlencode(postValues)
+                #postValues = urllib.urlencode(postValues)
                 print postValues
-                self.submitSongs(postValues)
+                #self.submitSongs(postValues)
                 
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
