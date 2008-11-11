@@ -63,66 +63,59 @@ class Scrobbler:
             #b[0]=<album>   The album title, or an empty string if not known.
             #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
             #m[0]=music brainz identifier, leave blank
-                fullList = [[], [], [], [], [], [], [], [], []]
+                fullList = [[], [], [], [], []]
                 pastTime = time.time() - 3600 #this is an hour in the past where we will start our scrobbling
+                size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
-                        if index < 5:
-                            fullList[index].append(track[index])
-                        elif index == 5:
-                            #append time, use l to work out
-                            length = fullList[2][-1]
-                            pastTime += length
-                            fullList[index].append(pastTime)
-                        elif index == 6:
-                            #source (always P)
-                            fullList[index].append(u"P")
-                        elif index > 6:
-                            #empty strings for music brain tags and rating
-                            fullList[index].append("")
-                            
+                        fullList[index].append(track[index])
+
+                #append extra lists to fullList
+                while len(fullList) < 9:
+                    fullList.append([])
+                for extra in range(0, len(cache)):
+                    #append time, use l to work out
+                    length = fullList[2][extra]
+                    pastTime += length
+                    fullList[5].append(pastTime)
+                    #append source (always P)
+                    fullList[6].append(u"P")
+                    #empty strings for music brain tags and rating
+                    fullList[7].append(u"")
+                    fullList[8].append(u"")
+                    
                 a = fullList[0]
                 t = fullList[1]
-                i = fullList[2]
-                o = fullList[6]
-                r = fullList[7]
-                l = fullList[5]
+                l = fullList[2]
                 b = fullList[3]
                 n = fullList[4]
-                m = fullList[8]
-                print 'artist', a
-                print 'track', t
-                print 'time', i
-                print 'source', o
-                print 'rating', r
-                print 'seconds', l
-                print 'album', b
-                print 'tracknumer', n
-                print 'music brain', m
+                print fullList
+                #print 'artist', a
+                #print 'track', t
+                #print 'time', i
+                #print 'source', o
+                #print 'rating', r
+                #print 'seconds', l
+                #print 'album', b
+                #print 'tracknumer', n
+                #print 'music brain', m
                 postValues = { "s" : self.authenticationCode }
-                for ind in range(0, len(a)):
+                for i in range(0, size):
                     #needs refactoring
                     vala = "a[%d]" % ind
                     postValues[vala] = a[ind]
-                    valt = "t[%d]" % ind
-                    postValues[valt] = t[ind]
-                    vali = "i[%d]" % ind
-                    postValues[vali] = i[ind]
-                    valo = "o[%d]" % ind
-                    postValues[valo] = o[ind]
-                    valr = "r[%d]" % ind
-                    postValues[valr] = r[ind]
-                    vall = "l[%d]" % ind
-                    postValues[vall] = l[ind]
-                    valb = "b[%d]" % ind
-                    postValues[valb] = b[ind]
-                    valn = "n[%d]" % ind
-                    postValues[valn] = n[ind]
-                    valm = "m[%d]" % ind
-                    postValues[valm] = m[ind]
+
                 postValues = urllib.urlencode(postValues)
                 print postValues
                 self.submitSongs(postValues)
+                
+    def getDicValue(self, i):
+        """Returns a list of dictionary keys for a specified index"""
+        values = "atlbniorm".split()
+        list = []
+        for v in values:
+            list.append("%s[%d]" % (v, i))
+        return list
         
     def submitSongs(self, postValues):
         req = urllib2.Request(url=self.submissionUrl, data=postValues)
