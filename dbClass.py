@@ -26,7 +26,7 @@ class lastfmDb:
         self.db.close()
     
     def returnScrobbleList(self):
-        self.cursor.execute('SELECT songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
+        self.cursor.execute('SELECT scrobble.ROWID, songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
         return self.cursor
     
     def execute(self, query):
