@@ -63,13 +63,14 @@ class Scrobbler:
             #b[0]=<album>   The album title, or an empty string if not known.
             #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
             #m[0]=music brainz identifier, leave blank
-                fullList = [[], [], [], [], []]
+                fullList = [[], [], [], [], [], []]
                 pastTime = int(time.time() - 3600) #this is an hour in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
                         fullList[index].append(track[index])
-
+                #remove row ID's which will be used for deletions
+                self.deletionIds = fullList.pop(0)
                 #append extra lists to fullList
                 while len(fullList) < 9:
                     fullList.append([])
@@ -89,10 +90,11 @@ class Scrobbler:
                     dic = self.getDicValue(i)
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
-
-                postValues = urllib.urlencode(postValues)
                 print postValues
-                self.submitSongs(postValues)
+                postValues = urllib.urlencode(postValues)
+                #print postValues
+                print self.deletionIds
+                #self.submitSongs(postValues)
                 
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
