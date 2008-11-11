@@ -2,16 +2,26 @@
 import songDataClass
 import dbClass
 import scrobbler
+import os
 
+#inital db creation
+
+if not os.path.exists('./lastfmDB'):
+    print "Database doesn't exist, creating"
+    db = dbClass.lastfmDb()
+    db.initialCreation()
+    username = raw_input("last.fm username: ")
+    password = raw_input("password: ")
+    db.createAccount(username, password)
 
 #This retrieves the tracklisting fm the MTP device, with its playcount
 print 'Connecting to MTP device...'
-listing = os.system("mtp-tracks >./mtp-tracklisting")
+#os.system("mtp-tracks >./mtp-tracklisting")
 print 'Done. It is now safe to remove your MTP device.'
 
-f = file('./mtp-tracklisting', 'r')
 songObj = songDataClass.songData()
-database = dbClass.lastfmDb('./lastfm')
+database = dbClass.lastfmDb('./lastfmDB')
+f = file('./mtp-tracklisting', 'r')
 
 #into db
 print 'Cross checking song data with local database, may take some time...',

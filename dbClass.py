@@ -3,24 +3,46 @@
 
 import os
 import sqlite3
+import md5
 
 class lastfmDb:
-    def __init__(self, database='./lastfm'):
+    def __init__(self, database='./lastfmDB'):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
         #self.intialCreation()
         #self.checkAccount()
         
     def initialCreation(self):
-        """Used to check if database exists"""
-        pass
+        query = ['''
+CREATE TABLE IF NOT EXISTS `scrobble` (
+`trackid` int(8) NOT NULL
+)''', '''
+
+CREATE TABLE IF NOT EXISTS `songs` (
+`trackid` int(8) NOT NULL,
+`artist` varchar(255) NOT NULL,
+`song` varchar(255) NOT NULL,
+`album` varchar(255) NOT NULL,
+`tracknumber` int(2) NOT NULL,
+`duration` int(6) NOT NULL,
+`usecount` int(6) NOT NULL,
+PRIMARY KEY  (`trackid`)
+)''', '''
+
+CREATE TABLE IF NOT EXISTS `users` (
+`username` varchar(100) NOT NULL,
+`password` varchar(255) NOT NULL,
+)''']
+        print 'Creating Tables'
+        for q in query:
+            self.cursor.execute(q)
+            self.db.commit()
     
     
-    def checkAccount(self):
-        result = self.db.execute('''SELECT * FROM account''')
-        if result != None:
-            pass
-    
+    def createAccount(self, user, password):
+        password = md5.new(password).hexdigest()
+        self.db.execute("INSERT INTO users (username, password) values ('?', '?')", (user, password))
+            
     def closeConnection(self):
         self.db.commit()
         self.db.close()
