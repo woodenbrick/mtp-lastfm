@@ -10,9 +10,6 @@ if not os.path.exists('./lastfmDB'):
     print "Database doesn't exist, creating"
     db = dbClass.lastfmDb()
     db.initialCreation()
-    username = raw_input("last.fm username: ")
-    password = raw_input("password: ")
-    db.createAccount(username, password)
 
 #This retrieves the tracklisting fm the MTP device, with its playcount
 print 'Connecting to MTP device...'
