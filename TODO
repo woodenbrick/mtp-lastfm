@@ -1,5 +1,4 @@
 Instead of calling the database for every single track, do one call and cycle through.
 If we find a track we dont have then insert.
 
-use the database function arraysize to return 10 songs at once or the remainder if less than 10
-use fetchmany([size]) instead <= may be slower
+delete tracks after they have been scrobbled.

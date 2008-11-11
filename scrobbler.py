@@ -14,6 +14,7 @@ class Scrobbler:
         self.client = 'tst'
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
+        self.deletionIds = []
     
     
     def handshake(self):
@@ -62,7 +63,7 @@ class Scrobbler:
                     for index in range(0, len(fullList)):
                         fullList[index].append(track[index])
                 #remove row ID's which will be used for deletions
-                self.deletionIds = fullList.pop(0)
+                self._delIds = fullList.pop(0)
                 #append extra lists to fullList
                 while len(fullList) < 9:
                     fullList.append([])
@@ -83,7 +84,11 @@ class Scrobbler:
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
                 postValues = urllib.urlencode(postValues)
-                return self._sendPost(postValues)
+                if not self._sendPost(postValues):
+                    print 'Error posting to last.fm'
+                    return False
+                else:
+                    continue
                     
                 
     def getDicValue(self, i):
@@ -101,6 +106,7 @@ class Scrobbler:
         if response == 'OK':
             #remove tracks from cache
             print 'Success'
+            self.deletionIds.extend(self._delIds)
             return True
         elif response == 'BADSESSION':
             print 'Bad session'

@@ -34,6 +34,12 @@ class lastfmDb:
         self.cursor.execute(query)
         return self.cursor
     
+    def deleteScrobbles(self, idList):
+        """Given a list of ROWIDs, will delete items from the scrobble list"""
+        for id in idList:
+            self.cursor.execute('delete from scrobble where id=?', (id,))
+            self.db.commit()
+    
     def commit(self):
         """commit wrapper"""
         self.db.commit()
