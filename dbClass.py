@@ -42,7 +42,8 @@ class lastfmDb:
         password = getpass.default_getpass()
         password = md5.new(password).hexdigest()
         self.cursor.execute("INSERT INTO users (username, password) values ('?', '?')", (user, password))
-        self.db.commit()
+        'BREAKS HERE!!!!'
+        #self.db.commit()
         self.cursor.execute("SELECT * FROM users")
         row = self.cursor.fetchone()
         return row
@@ -72,6 +73,7 @@ class lastfmDb:
     
     def returnUserDetails(self):
         self.cursor.execute("""SELECT username, password FROM users""")
+        print 'running'
         row = self.cursor.fetchone()
         if row == None:
             row = self.createAccount()
