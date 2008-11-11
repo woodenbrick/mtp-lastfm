@@ -102,7 +102,8 @@ class Scrobbler:
                 postValues = { "s" : self.authenticationCode }
                 for i in range(0, size):
                     dic = self.getDicValue(i)
-                    print dic
+                    for j in range (0, len(dic)): #haha!
+                        postValues[dic[j]] = fullList[j][i]
 
                 #postValues = urllib.urlencode(postValues)
                 print postValues
@@ -110,7 +111,7 @@ class Scrobbler:
                 
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
-        values = "atlbniorm".split()
+        values = "atlbniorm"
         list = []
         for v in values:
             list.append("%s[%d]" % (v, i))
