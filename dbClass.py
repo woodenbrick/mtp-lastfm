@@ -42,6 +42,10 @@ class lastfmDb:
         password = getpass.default_getpass()
         password = md5.new(password).hexdigest()
         self.cursor.execute("INSERT INTO users (username, password) values ('?', '?')", (user, password))
+        self.db.commit()
+        self.cursor.execute("SELECT * FROM users")
+        row = self.cursor.fetchone()
+        return row
             
     def closeConnection(self):
         self.db.commit()
@@ -70,10 +74,8 @@ class lastfmDb:
         self.cursor.execute("""SELECT username, password FROM users""")
         row = self.cursor.fetchone()
         if row == None:
-            self.createAccount()
-            self.returnUserDetails()
-        else:
-            return row[0], row[1]
+            row = self.createAccount()
+        return row[0], row[1]
     
     def addNewData(self, songObj):
         """recieves a list of a songs data, checks it against what is in the counter table already.
