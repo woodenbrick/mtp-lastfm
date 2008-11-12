@@ -57,7 +57,7 @@ class Scrobbler:
             #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
             #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
-                pastTime = int(time.time() - 20000) #this is in the past where we will start our scrobbling
+                pastTime = int(time.time() - 3600) #this is in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
