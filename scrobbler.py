@@ -15,6 +15,7 @@ class Scrobbler:
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
         self.deletionIds = []
+        self.scrobbleCount = 0
     
     
     def handshake(self):
@@ -46,6 +47,7 @@ class Scrobbler:
             if len(cache) == 0:
                 break
             else:
+            self.scrobbleCount += len(cache)
             #s=<sessionID>  The Session ID string returned by the handshake request. Required.
             #a[0]=<artist>  The artist name. Required.
             #t[0]=<track>   The track title. Required.
@@ -63,14 +65,17 @@ class Scrobbler:
                     for index in range(0, len(fullList)):
                         x = track[index]
                         try:
+                            #this is to avoid a unicode to ascii error,
+                            #which occours when we try to urlencode accented characters (umlauts etc.)
                             x = x.encode('latin-1')
                         except AttributeError:
+                            #cannot encode integers
                             pass
                         
                         fullList[index].append(x)
-                #remove row ID's which will be used for deletions
+                #remove row ID's which will track which items in scrobble list require deletions
                 self._delIds = fullList.pop(0)
-                #append extra lists to fullList
+                #append extra data to fullList, time, source, musicbrainz tags ad rating
                 while len(fullList) < 9:
                     fullList.append([])
                 for extra in range(0, len(cache)):
@@ -110,8 +115,7 @@ class Scrobbler:
         url_handle = urllib2.urlopen(req)
         response = url_handle.readline().strip()
         if response == 'OK':
-            #remove tracks from cache
-            print 'Success'
+            print 'Scrobbled %d songs' % self.scrobbleCount
             self.deletionIds.extend(self._delIds)
             return True
         elif response == 'BADSESSION':
