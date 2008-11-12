@@ -1,0 +1,6 @@
+Instead of calling the database for every single track, do one call and cycle through.
+If we find a track we dont have then insert.
+Currently it takes (with about 1200 tracks):
+27 seconds: worst case
+16 seconds: best case
+delete tracks after they have been scrobbled.

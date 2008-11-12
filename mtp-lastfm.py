@@ -1,21 +1,43 @@
 #!/usr/bin/env python
 import songDataClass
 import dbClass
+import scrobbler
+import os
 
+#inital db creation
+
+if not os.path.exists('./lastfmDB'):
+    print "Database doesn't exist, creating"
+    db = dbClass.lastfmDb()
+    db.initialCreation()
 
 #This retrieves the tracklisting fm the MTP device, with its playcount
-#listing = os.system("mtp-tracks >/home/wode/mtp-tracklisting")
+print 'Connecting to MTP device...'
+#os.system("mtp-tracks >./mtp-tracklisting")
+print 'Done. It is now safe to remove your MTP device.'
 
-f = file('./mtp-tracktest2', 'r')
 songObj = songDataClass.songData()
-database = dbClass.lastfmDb('./lastfm')
+database = dbClass.lastfmDb('./lastfmDB')
+f = file('./mtp-tracklisting', 'r')
+
+#into db
+print 'Cross checking song data with local database, may take some time...',
 for line in f.readlines():
     songObj.newData(line)
     if songObj.readyForExport:
-        print 'exporting song'
         database.addNewData(songObj)
         #run newData again, because we have a new track
         songObj.resetValues()
         songObj.newData(line)
+print 'Done.'
 
+#out to lastfm
+deleteList = []
+user, password = database.returnUserDetails()
+print 'Logged in as', user
+c = database.returnScrobbleList()
+scrobble = scrobbler.Scrobbler(user, password)
+if scrobble.handshake():
+    scrobble.submitTracks(c)
+database.deleteScrobbles(scrobble.deletionIds)
 database.closeConnection()
