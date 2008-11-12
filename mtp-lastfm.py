@@ -13,12 +13,18 @@ if not os.path.exists('./lastfmDB'):
 
 #This retrieves the tracklisting fm the MTP device, with its playcount
 print 'Connecting to MTP device...'
-#os.system("mtp-tracks >./mtp-tracklisting")
-print 'Done. It is now safe to remove your MTP device.'
+os.system("mtp-tracks >./mtp-tracklisting")
 
 songObj = songDataClass.songData()
 database = dbClass.lastfmDb('./lastfmDB')
 f = file('./mtp-tracklisting', 'r')
+
+if f.readline().__contains__('No Devices have been found'):
+    print 'No devices where found'
+else:
+    print 'Done. It is now safe to remove your MTP device.'
+
+
 
 #into db
 print 'Cross checking song data with local database, may take some time...',

@@ -57,11 +57,17 @@ class Scrobbler:
             #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
             #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
-                pastTime = int(time.time() - 3600) #this is an hour in the past where we will start our scrobbling
+                pastTime = int(time.time() - 20000) #this is in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
-                        fullList[index].append(track[index])
+                        x = track[index]
+                        try:
+                            x = x.encode('latin-1')
+                        except AttributeError:
+                            pass
+                        
+                        fullList[index].append(x)
                 #remove row ID's which will be used for deletions
                 self._delIds = fullList.pop(0)
                 #append extra lists to fullList
@@ -70,7 +76,7 @@ class Scrobbler:
                 for extra in range(0, len(cache)):
                     #append time, use l to work out
                     length = fullList[2][extra]
-                    pastTime += length
+                    pastTime += int(length)
                     fullList[5].append(pastTime)
                     #append source (always P)
                     fullList[6].append(u"P")

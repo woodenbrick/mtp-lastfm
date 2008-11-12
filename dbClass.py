@@ -41,9 +41,8 @@ class lastfmDb:
         username = raw_input("last.fm username: ")
         password = getpass.default_getpass()
         password = md5.new(password).hexdigest()
-        self.cursor.execute("INSERT INTO users (username, password) values ('?', '?')", (user, password))
-        'BREAKS HERE!!!!'
-        #self.db.commit()
+        self.cursor.execute("INSERT INTO users (username, password) values (?, ?)", (username, password))
+        self.db.commit()
         self.cursor.execute("SELECT * FROM users")
         row = self.cursor.fetchone()
         return row
@@ -64,7 +63,8 @@ class lastfmDb:
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
         for id in idList:
-            self.cursor.execute('delete from scrobble where id=?', (id,))
+            print 'deleting track', id, 'from scrobblelist'
+            self.cursor.execute('delete from scrobble where trackid=?', (id,))
             self.db.commit()
     
     def commit(self):
