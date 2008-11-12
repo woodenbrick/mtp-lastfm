@@ -10,8 +10,6 @@ class lastfmDb:
     def __init__(self, database='./lastfmDB'):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
-        #self.intialCreation()
-        #self.checkAccount()
         
     def initialCreation(self):
         query = ['''
@@ -63,7 +61,6 @@ class lastfmDb:
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
         for id in idList:
-            print 'deleting track', id, 'from scrobblelist'
             self.cursor.execute('delete from scrobble where trackid=?', (id,))
             self.db.commit()
     
