@@ -5,16 +5,11 @@ import scrobbler
 import os
 
 #inital db creation
-
 if not os.path.exists('./lastfmDB'):
     print "Database doesn't exist, creating"
     db = dbClass.lastfmDb()
     db.initialCreation()
-
-songObj = songDataClass.songData()
-database = dbClass.lastfmDb('./lastfmDB')
-f = file('./mtp-tracklisting', 'r')
-
+    db.closeConnection()
 
 def connectToMtpDevice():
     #This retrieves the tracklisting fm the MTP device, with its playcount
@@ -33,6 +28,7 @@ def connectToMtpDevice():
 
 def addListToDb():
     print 'Cross checking song data with local database, may take some time...',
+    f = file('./mtp-tracklisting', 'r')
     for line in f.readlines():
         songObj.newData(line)
         if songObj.readyForExport:
@@ -53,7 +49,10 @@ def scrobbleToLastFm():
     database.deleteScrobbles(scrobble.deletionIds)
 
 
+
 connectToMtpDevice()
+songObj = songDataClass.songData()
+database = dbClass.lastfmDb('./lastfmDB')
 addListToDb()
 scrobbleToLastFm()
 database.closeConnection()
