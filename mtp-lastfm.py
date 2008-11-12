@@ -72,7 +72,7 @@ def isNewHash():
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
 songObj = songDataClass.songData()
-#connectToMtpDevice()
+connectToMtpDevice()
 addListToDb()
 scrobbleToLastFm()
 database.closeConnection()
