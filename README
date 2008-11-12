@@ -1,12 +1,17 @@
-The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen, or the Zune) to last.fm. 
-Due to limitations of mtp devices, tracks which are listened to for any length of time (including skipped tracks) will have a playcount added and so be scrobbled. I also have no way to tell what time a song was listen to, and so the ordering will be inaccurate.
-For now, the program will be console based, and for UNIX enviroments, in the future I plan to make the code cross platform, perhaps with a GUI.
+The purpose of this program is to scrobble tracks from mtp devices
+(such as the Creative Zen, or the Zune) to last.fm. 
+Due to limitations of mtp devices, tracks which are listened to for any length of time
+(including skipped tracks) will have a playcount added and so be scrobbled. I also
+have no way to tell what time a song was listen to, and so the ordering will be inaccurate.
+For now, the program will be console based, and for UNIX enviroments,
+in the future I plan to make the code cross platform, perhaps with a GUI.
 
 
 Known issues:
 Deletion doesn't work 100% correcly, though it will work if all scrobbles are successful.
 mtp-tools sometimes doesn't want to connect to the device, there is nothing I can do about this.
-Tracks with non-ascii characters wont get scrobbled eg. bands like Sigur Rós, Röyksopp. I'm trying to work out a solution for this
+Tracks with non-ascii characters wont get scrobbled eg. bands like Sigur Rós, Röyksopp. I'm
+trying to work out a solution for this.
 
 
 Dependencies:
