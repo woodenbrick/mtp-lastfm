@@ -1,6 +1,6 @@
 import string
 import dbClass
-
+import time
 class songData:
     def __init__(self):
         self.songData = []
@@ -11,6 +11,9 @@ class songData:
         self.filetypeReached = False
         self.isSong = False
         self.readyForExport = False
+        self.errorLog = file('./importError.log', 'a')
+        self.errorLog.write(time.strftime("%Y-%m-%d %H:%M:%S"))
+
         
     def resetValues(self):
         self.songData = []
@@ -31,7 +34,6 @@ class songData:
         if data.__contains__('Filetype:'):
             self.filetypeReached = True
             self._isSong(data)
-                #self.checkFiletype(data)
         return False
         
     def _isUsecount(self, data):
@@ -68,22 +70,6 @@ class songData:
         else:
             pass
             
-    def checkFiletype(self, filetype):
-        """if this is called we are at the end of the song. 
-        check that its a valid type mp3, check if use count exists and if not append"""
-        print 'calling checkFiletype'
-        if self.checkIfFull():
-            #use count exists
-            print 'all accounted for'
-            print self.songData
-        elif self.checkSongDataCount() == 6:
-            self.songData.append(0)
-            print 'use count missing'
-            print self.songData
-
-        #resetdata for next song
-        self.resetValues()
-        
         
     def checkIfFull(self):
         """Returns true if all songdata is available. Note that Use Count wont exist
@@ -106,8 +92,8 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
+            self.errorLog.write(self.songData+'\n')
             self.resetValues()
-            print 'discarding', self.songData, 'as it is not a valid file or doesnt contain all required data'
         
     
     def _trimExportData(self):
