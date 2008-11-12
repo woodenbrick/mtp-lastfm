@@ -92,7 +92,7 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
-            self.errorLog.write(self.songData+'\n')
+            self.errorLog.write(self.songData)
             self.resetValues()
         
     

@@ -2,6 +2,9 @@ The purpose of this program is to scrobble tracks from mtp devices (such as the 
 Due to limitations of mtp devices, tracks which are listened to for any length of time (including skipped tracks) will have a playcount added and so be scrobbled. I also have no way to tell what time a song was listen to, and so the ordering will be inaccurate.
 For now, the program will be console based, and for UNIX enviroments, in the future I plan to make the code cross platform, perhaps with a GUI.
 
+
+Known issues:
+
 Dependencies:
 Python
 python-sqlite

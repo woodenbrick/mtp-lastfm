@@ -3,28 +3,28 @@ import songDataClass
 import dbClass
 import scrobbler
 import os
+import md5
 
-#inital db creation
-if not os.path.exists('./lastfmDB'):
-    print "Database doesn't exist, creating"
-    db = dbClass.lastfmDb()
-    db.initialCreation()
-    db.closeConnection()
+def createDatabase():
+    if not os.path.exists('./lastfmDB'):
+        print "Database doesn't exist, creating"
+        db = dbClass.lastfmDb()
+        db.initialCreation()
+        db.closeConnection()
+
+
 
 def connectToMtpDevice():
     #This retrieves the tracklisting fm the MTP device, with its playcount
     print 'Connecting to MTP device...'
     os.system("mtp-tracks >./mtp-tracklisting")
-    
-    x = f.readlines()
+    x = file('./mtp-tracklisting', 'r').readlines()
     if len(x) < 3:
         print x
         return False
     else:
         print 'Done. It is now safe to remove your MTP device.'
-        f.seek(0)
         return True
-
 
 def addListToDb():
     print 'Cross checking song data with local database, may take some time...',
@@ -36,23 +36,43 @@ def addListToDb():
             #run newData again, because we have a new track
             songObj.resetValues()
             songObj.newData(line)
+    f.close()
     print 'Done.'
 
 def scrobbleToLastFm():
-    deleteList = []
     user, password = database.returnUserDetails()
     print 'Logged in as', user
     c = database.returnScrobbleList()
     scrobble = scrobbler.Scrobbler(user, password)
     if scrobble.handshake():
-        scrobble.submitTracks(c)
-    database.deleteScrobbles(scrobble.deletionIds)
+        if scrobble.submitTracks(c):
+            #delete all tracks
+            database.deleteScrobbles('all')
+        else:
+            #delete tracks that were scrobbled
+            database.deleteScrobbles(scrobble.deletionIds)
+
+def isNewHash():
+    """checks that we are not using the same mtpfile dump"""
+    x = os.path.getsize('./mtp-tracklisting')
+    hash = md5.new(file('./mtp-tracklisting', 'rb').read()).hexdigest()
+    
+    try:
+        oldHash = file('./oldHash', 'r').readline()
+    except IOError:
+        pass
+    if hash == oldHash:
+        return False
+    f = file('./oldHash', 'w')
+    f.write(hash)
+    f.close()    
+    return True
 
 
-
-connectToMtpDevice()
-songObj = songDataClass.songData()
+createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
+songObj = songDataClass.songData()
+#connectToMtpDevice()
 addListToDb()
 scrobbleToLastFm()
 database.closeConnection()

@@ -47,17 +47,17 @@ class Scrobbler:
             if len(cache) == 0:
                 break
             else:
-            self.scrobbleCount += len(cache)
-            #s=<sessionID>  The Session ID string returned by the handshake request. Required.
-            #a[0]=<artist>  The artist name. Required.
-            #t[0]=<track>   The track title. Required.
-            #i[0]=<time>    The time the track started playing, in UNIX timestamp format
-            #o[0]=<source>  Put P for this value
-            #r[0]=<rating>  Blank or dont use
-            #l[0]=<secs>    The length of the track in seconds. 
-            #b[0]=<album>   The album title, or an empty string if not known.
-            #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
-            #m[0]=music brainz identifier, leave blank
+                self.scrobbleCount += len(cache)
+                #s=<sessionID>  The Session ID string returned by the handshake request. Required.
+                #a[0]=<artist>  The artist name. Required.
+                #t[0]=<track>   The track title. Required.
+                #i[0]=<time>    The time the track started playing, in UNIX timestamp format
+                #o[0]=<source>  Put P for this value
+                #r[0]=<rating>  Blank or dont use
+                #l[0]=<secs>    The length of the track in seconds. 
+                #b[0]=<album>   The album title, or an empty string if not known.
+                #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
+                #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
                 pastTime = int(time.time() - 3600) #this is in the past where we will start our scrobbling
                 size = len(cache)
@@ -74,7 +74,7 @@ class Scrobbler:
                         
                         fullList[index].append(x)
                 #remove row ID's which will track which items in scrobble list require deletions
-                self._delIds = fullList.pop(0)
+                self.delIds = fullList.pop(0)
                 #append extra data to fullList, time, source, musicbrainz tags ad rating
                 while len(fullList) < 9:
                     fullList.append([])
@@ -98,10 +98,8 @@ class Scrobbler:
                 if not self._sendPost(postValues):
                     print 'Error posting to last.fm'
                     return False
-                else:
-                    continue
-                    
-                
+        #if all songs are scrobbled with ok response: 
+        return True   
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
         values = "atlbniorm"
@@ -116,7 +114,7 @@ class Scrobbler:
         response = url_handle.readline().strip()
         if response == 'OK':
             print 'Scrobbled %d songs' % self.scrobbleCount
-            self.deletionIds.extend(self._delIds)
+            self.deletionIds.extend(self.delIds)
             return True
         elif response == 'BADSESSION':
             print 'Bad session'
