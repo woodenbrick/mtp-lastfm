@@ -4,6 +4,10 @@ For now, the program will be console based, and for UNIX enviroments, in the fut
 
 
 Known issues:
+Deletion doesn't work 100% correcly, though it will work if all scrobbles are successful.
+mtp-tools sometimes doesn't want to connect to the device, there is nothing I can do about this.
+Tracks with non-ascii characters wont get scrobbled eg. bands like Sigur Rós, Röyksopp. I'm trying to work out a solution for this
+
 
 Dependencies:
 Python
