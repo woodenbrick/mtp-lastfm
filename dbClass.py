@@ -61,6 +61,7 @@ class lastfmDb:
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
         if idList == 'all':
+            print 'Removing scrobbles'
             self.cursor.execute('delete from scrobble')
             self.db.commit()
         else:
@@ -96,10 +97,10 @@ class lastfmDb:
         else:
             #song has row in db
             numScrobbles = songObj.usecount - row[1]
-            self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
-            self.db.commit()
+            if numScrobbles > 0:
+                self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
+                self.db.commit()
         while numScrobbles > 0:
-            print songObj.trackid
             self.cursor.execute("""insert into scrobble (trackid) values (?)""", (songObj.trackid,))
             numScrobbles -= 1
             self.db.commit()

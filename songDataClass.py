@@ -110,12 +110,3 @@ class songData:
         self.tracknumber = self.songData[4]
         self.duration = self.songData[5]
         self.usecount = self.songData[6]
-
-def run():
-    trackListing = file('./mtp-tracklisting', 'r')
-    sd = songData()
-    for line in trackListing.readlines():
-        sd.newData(line)
-
-if __name__ == "__main__":
-    run()
