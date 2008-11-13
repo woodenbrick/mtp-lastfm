@@ -20,7 +20,7 @@ def connectToMtpDevice():
     os.system("mtp-tracks >./mtp-tracklisting")
     x = file('./mtp-tracklisting', 'r').readlines()
     if len(x) < 3:
-        print x
+        print 'Error with MTP device, try reconnecting'
         return False
     else:
         print 'Done. It is now safe to remove your MTP device.'
@@ -60,10 +60,10 @@ def scrobbleToLastFm():
 
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
-connectToMtpDevice()
-if addListToDb(database):
-    scrobbleToLastFm()
-else:
-    print 'Error retrieving new playlist, please make sure your MTP device \
-is connected'
+if connectToMtpDevice():
+    if addListToDb(database):
+        scrobbleToLastFm()
+    else:
+        print 'Error retrieving new playlist, please make sure your MTP device \
+    is connected'
 database.closeConnection()
