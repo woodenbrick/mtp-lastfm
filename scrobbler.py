@@ -16,7 +16,20 @@ class Scrobbler:
         self.url = "http://post.audioscrobbler.com:80"
         self.deletionIds = []
         self.scrobbleCount = 0
-    
+        self.scrobbleTime = self.setScrobbleTime()
+        
+    def setScrobbleTime(self):
+        """A manual way for setting the time to start scrobbling"""
+        print 'Please set the time that the scrobbling was started in hours \
+eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
+        while True:
+            s = raw_input('>>> ') 
+            try:
+                s = int(float(s) * 3600)
+                break
+            except:
+                print 'You didn\'t enter a valid hour value.\n'
+        return s 
     
     def handshake(self):
         self.timestamp = self.createTimestamp()
@@ -59,7 +72,7 @@ class Scrobbler:
                 #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
                 #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
-                pastTime = int(time.time() - 3600) #this is in the past where we will start our scrobbling
+                pastTime = int(time.time() - self.scrobbleTime) #this is in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
@@ -144,13 +157,5 @@ class Scrobbler:
     def createTimestamp(self):
         stamp = str(int(time.time()))
         return stamp
-    
-
-def run():
-    password = md5.new('mst1PatyF').hexdigest()
-    scrobbler = Scrobbler('woodenbrick', password)
-    
-if __name__ == '__main__':
-    run()
 
 
