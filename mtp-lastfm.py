@@ -4,6 +4,7 @@ import dbClass
 import scrobbler
 import os
 import md5
+import shutil
 
 def createDatabase():
     if not os.path.exists('./lastfmDB'):
@@ -27,17 +28,22 @@ def connectToMtpDevice():
         return True
 
 def addListToDb():
-    print 'Cross checking song data with local database, may take some time...',
-    f = file('./mtp-tracklisting', 'r')
-    for line in f.readlines():
-        songObj.newData(line)
-        if songObj.readyForExport:
-            database.addNewData(songObj)
-            #run newData again, because we have a new track
-            songObj.resetValues()
+    try:
+        f = file('./mtp-tracklisting', 'r')
+        print 'Cross checking song data with local database, may take some time...',
+        for line in f.readlines():
             songObj.newData(line)
-    f.close()
-    print 'Done.'
+            if songObj.readyForExport:
+                database.addNewData(songObj)
+                #run newData again, because we have a new track
+                songObj.resetValues()
+                songObj.newData(line)
+        f.close()
+        shutil.move('./mtp-tracklisting', 'mtp-tracklisting.OLD')
+        print 'Done.'
+        return True
+    except IOError:
+        return False
 
 def scrobbleToLastFm():
     user, password = database.returnUserDetails()
@@ -55,7 +61,10 @@ def scrobbleToLastFm():
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
 songObj = songDataClass.songData()
-#connectToMtpDevice()
-addListToDb()
-scrobbleToLastFm()
+connectToMtpDevice()
+if addListToDb():
+    scrobbleToLastFm()
+else:
+    print 'Error retrieving new playlist, please make sure your MTP device \
+is connected'
 database.closeConnection()
