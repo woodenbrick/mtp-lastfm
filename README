@@ -18,7 +18,7 @@ Fixed: Deletion doesn't work 100% correctly, though it will work if all scrobble
 mtp-tools sometimes doesn't want to connect to the device, there is nothing I can do about this.
 Fixed: Tracks with non-ascii characters wont get scrobbled eg. bands like Sigur Rós, Röyksopp. I'm
 trying to work out a solution for this.
-
+Program doesn't quit gracefully when mtp-tools segfaults
 
 Dependencies:
 Python
