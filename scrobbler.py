@@ -66,8 +66,9 @@ class Scrobbler:
                         x = track[index]
                         try:
                             #this is to avoid a unicode to ascii error,
-                            #which occours when we try to urlencode accented characters (umlauts etc.)
-                            x = x.encode('latin-1')
+                            #which occours when we try to urlencode accented characters
+                            #(umlauts etc.)
+                            x = x.encode('UTF-8')
                         except AttributeError:
                             #cannot encode integers
                             pass
