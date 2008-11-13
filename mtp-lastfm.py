@@ -52,27 +52,10 @@ def scrobbleToLastFm():
             #delete tracks that were scrobbled
             database.deleteScrobbles(scrobble.deletionIds)
 
-def isNewHash():
-    """checks that we are not using the same mtpfile dump"""
-    x = os.path.getsize('./mtp-tracklisting')
-    hash = md5.new(file('./mtp-tracklisting', 'rb').read()).hexdigest()
-    
-    try:
-        oldHash = file('./oldHash', 'r').readline()
-    except IOError:
-        pass
-    if hash == oldHash:
-        return False
-    f = file('./oldHash', 'w')
-    f.write(hash)
-    f.close()    
-    return True
-
-
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
 songObj = songDataClass.songData()
-connectToMtpDevice()
+#connectToMtpDevice()
 addListToDb()
 scrobbleToLastFm()
 database.closeConnection()
