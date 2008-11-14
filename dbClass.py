@@ -34,6 +34,9 @@ class lastfmDb:
             self.cursor.execute(q)
             self.db.commit()
     
+    def removeOldUser(self):
+        self.cursor.execute('delete from users')
+        self.cursor.commit()
     
     def createAccount(self):
         username = raw_input("last.fm username: ")

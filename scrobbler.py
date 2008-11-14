@@ -44,11 +44,12 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             self.submissionUrl = conn.readline()[:-1]
             return True
         elif self.serverResponse == 'BADAUTH':
-            print 'user details incorrect'
+            print 'Username or password incorrect.'
+            return 'BADAUTH'
         elif self.serverResponse == 'BANNED':
             print 'this scrobbling client has been banned from submission, please notify the developer'
         elif self.serverResponse == 'BADTIME':
-            print 'timestamp is incorrect, please check your clock settings'
+            print 'Timestamp is incorrect, please check your clock settings'
         elif self.serverResponse.startswith('FAILED'):
             print 'Connection to server failed:', string.split(response, ' ')[1:]
         return False
