@@ -15,7 +15,21 @@ class Scrobbler:
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
         self.deletionIds = []
-    
+        self.scrobbleCount = 0
+        self.scrobbleTime = self.setScrobbleTime()
+        
+    def setScrobbleTime(self):
+        """A manual way for setting the time to start scrobbling"""
+        print 'Please set the time that the scrobbling was started in hours \
+eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
+        while True:
+            s = raw_input('>>> ') 
+            try:
+                s = int(float(s) * 3600)
+                break
+            except:
+                print 'You didn\'t enter a valid hour value.\n'
+        return s 
     
     def handshake(self):
         self.timestamp = self.createTimestamp()
@@ -30,11 +44,12 @@ class Scrobbler:
             self.submissionUrl = conn.readline()[:-1]
             return True
         elif self.serverResponse == 'BADAUTH':
-            print 'user details incorrect'
+            print 'Username or password incorrect.'
+            return 'BADAUTH'
         elif self.serverResponse == 'BANNED':
             print 'this scrobbling client has been banned from submission, please notify the developer'
         elif self.serverResponse == 'BADTIME':
-            print 'timestamp is incorrect, please check your clock settings'
+            print 'Timestamp is incorrect, please check your clock settings'
         elif self.serverResponse.startswith('FAILED'):
             print 'Connection to server failed:', string.split(response, ' ')[1:]
         return False
@@ -46,31 +61,42 @@ class Scrobbler:
             if len(cache) == 0:
                 break
             else:
-            #s=<sessionID>  The Session ID string returned by the handshake request. Required.
-            #a[0]=<artist>  The artist name. Required.
-            #t[0]=<track>   The track title. Required.
-            #i[0]=<time>    The time the track started playing, in UNIX timestamp format
-            #o[0]=<source>  Put P for this value
-            #r[0]=<rating>  Blank or dont use
-            #l[0]=<secs>    The length of the track in seconds. 
-            #b[0]=<album>   The album title, or an empty string if not known.
-            #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
-            #m[0]=music brainz identifier, leave blank
+                self.scrobbleCount += len(cache)
+                #s=<sessionID>  The Session ID string returned by the handshake request. Required.
+                #a[0]=<artist>  The artist name. Required.
+                #t[0]=<track>   The track title. Required.
+                #i[0]=<time>    The time the track started playing, in UNIX timestamp format
+                #o[0]=<source>  Put P for this value
+                #r[0]=<rating>  Blank or dont use
+                #l[0]=<secs>    The length of the track in seconds. 
+                #b[0]=<album>   The album title, or an empty string if not known.
+                #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
+                #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
-                pastTime = int(time.time() - 3600) #this is an hour in the past where we will start our scrobbling
+                pastTime = int(time.time() - self.scrobbleTime) #this is in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
-                        fullList[index].append(track[index])
-                #remove row ID's which will be used for deletions
-                self._delIds = fullList.pop(0)
-                #append extra lists to fullList
+                        x = track[index]
+                        try:
+                            #this is to avoid a unicode to ascii error,
+                            #which occours when we try to urlencode accented characters
+                            #(umlauts etc.)
+                            x = x.encode('UTF-8')
+                        except AttributeError:
+                            #cannot encode integers
+                            pass
+                        
+                        fullList[index].append(x)
+                #remove row ID's which will track which items in scrobble list require deletions
+                self.delIds = fullList.pop(0)
+                #append extra data to fullList, time, source, musicbrainz tags ad rating
                 while len(fullList) < 9:
                     fullList.append([])
                 for extra in range(0, len(cache)):
                     #append time, use l to work out
                     length = fullList[2][extra]
-                    pastTime += length
+                    pastTime += int(length)
                     fullList[5].append(pastTime)
                     #append source (always P)
                     fullList[6].append(u"P")
@@ -87,10 +113,8 @@ class Scrobbler:
                 if not self._sendPost(postValues):
                     print 'Error posting to last.fm'
                     return False
-                else:
-                    continue
-                    
-                
+        #if all songs are scrobbled with ok response: 
+        return True   
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
         values = "atlbniorm"
@@ -104,9 +128,8 @@ class Scrobbler:
         url_handle = urllib2.urlopen(req)
         response = url_handle.readline().strip()
         if response == 'OK':
-            #remove tracks from cache
-            print 'Success'
-            self.deletionIds.extend(self._delIds)
+            print 'Scrobbled %d songs' % self.scrobbleCount
+            self.deletionIds.extend(self.delIds)
             return True
         elif response == 'BADSESSION':
             print 'Bad session'
@@ -135,13 +158,5 @@ class Scrobbler:
     def createTimestamp(self):
         stamp = str(int(time.time()))
         return stamp
-    
-
-def run():
-    password = md5.new('mst1PatyF').hexdigest()
-    scrobbler = Scrobbler('woodenbrick', password)
-    
-if __name__ == '__main__':
-    run()
 
 

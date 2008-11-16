@@ -10,8 +10,6 @@ class lastfmDb:
     def __init__(self, database='./lastfmDB'):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
-        #self.intialCreation()
-        #self.checkAccount()
         
     def initialCreation(self):
         query = ['''
@@ -36,14 +34,16 @@ class lastfmDb:
             self.cursor.execute(q)
             self.db.commit()
     
+    def removeOldUser(self):
+        self.cursor.execute('delete from users')
+        self.cursor.commit()
     
     def createAccount(self):
         username = raw_input("last.fm username: ")
         password = getpass.default_getpass()
         password = md5.new(password).hexdigest()
-        self.cursor.execute("INSERT INTO users (username, password) values ('?', '?')", (user, password))
-        'BREAKS HERE!!!!'
-        #self.db.commit()
+        self.cursor.execute("INSERT INTO users (username, password) values (?, ?)", (username, password))
+        self.db.commit()
         self.cursor.execute("SELECT * FROM users")
         row = self.cursor.fetchone()
         return row
@@ -63,9 +63,14 @@ class lastfmDb:
     
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
-        for id in idList:
-            self.cursor.execute('delete from scrobble where id=?', (id,))
+        if idList == 'all':
+            print 'Removing scrobbles'
+            self.cursor.execute('delete from scrobble')
             self.db.commit()
+        else:
+            for id in idList:
+                self.cursor.execute('delete from scrobble where trackid=?', (id,))
+                self.db.commit()
     
     def commit(self):
         """commit wrapper"""
@@ -95,10 +100,10 @@ class lastfmDb:
         else:
             #song has row in db
             numScrobbles = songObj.usecount - row[1]
-            self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
-            self.db.commit()
+            if numScrobbles > 0:
+                self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
+                self.db.commit()
         while numScrobbles > 0:
-            print songObj.trackid
             self.cursor.execute("""insert into scrobble (trackid) values (?)""", (songObj.trackid,))
             numScrobbles -= 1
             self.db.commit()
