@@ -57,7 +57,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
     def submitTracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
         while True:
-            cache = c.fetchmany(10)
+            cache = c.fetchmany(50)
             if len(cache) == 0:
                 break
             else:
