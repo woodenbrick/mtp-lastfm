@@ -1,6 +1,7 @@
 import string
 import dbClass
 import time
+
 class songData:
     def __init__(self):
         self.songData = []
@@ -81,8 +82,6 @@ class songData:
         
     def checkSongDataCount(self):
         return len(self.songData)
-    
-
         
     def exportData(self):
         """Sends song data to database"""
@@ -92,7 +91,8 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
-            #self.errorLog.write(self.songData)
+            for line in self.songData:
+                self.errorLog.write(line)
             self.resetValues()
         
     
