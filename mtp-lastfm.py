@@ -50,15 +50,14 @@ def scrobbleToLastFm():
     print 'Logged in as', user
     c = database.returnScrobbleList()
     scrobble = scrobbler.Scrobbler(user, password)
-    handshake = scrobble.handshake()
-    if handshake:
+    if scrobble.handshake():
         if scrobble.submitTracks(c):
             #delete all tracks
             database.deleteScrobbles('all')
         else:
             #delete tracks that were scrobbled
             database.deleteScrobbles(scrobble.deletionIds)
-    elif handshake == 'BADAUTH':
+    else:
         database.removeOldUser()
         database.createAccount()
 

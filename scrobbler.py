@@ -45,7 +45,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             return True
         elif self.serverResponse == 'BADAUTH':
             print 'Username or password incorrect.'
-            return 'BADAUTH'
+            return False
         elif self.serverResponse == 'BANNED':
             print 'this scrobbling client has been banned from submission, please notify the developer'
         elif self.serverResponse == 'BADTIME':
