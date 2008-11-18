@@ -5,11 +5,12 @@ import os
 import sqlite3
 import md5
 import getpass
-
+from logger import Logger
 class lastfmDb:
     def __init__(self, database='./lastfmDB'):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
+        self.log = Logger(name='sqliteDb Log')
         
     def initialCreation(self):
         query = ['''
@@ -29,7 +30,7 @@ class lastfmDb:
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL
         )''']
-        print 'Creating Tables'
+        self.log.logger.info('Creating Tables')
         for q in query:
             self.cursor.execute(q)
             self.db.commit()
@@ -37,6 +38,7 @@ class lastfmDb:
     def removeOldUser(self):
         self.cursor.execute('delete from users')
         self.cursor.commit()
+        self.log.logging.info('Deleting old user')
     
     def createAccount(self):
         username = raw_input("last.fm username: ")
@@ -63,6 +65,7 @@ class lastfmDb:
     
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
+        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ','.join(idList))
         if idList == 'all':
             print 'Removing scrobbles'
             self.cursor.execute('delete from scrobble')
@@ -78,7 +81,6 @@ class lastfmDb:
     
     def returnUserDetails(self):
         self.cursor.execute("""SELECT username, password FROM users""")
-        print 'running'
         row = self.cursor.fetchone()
         if row == None:
             row = self.createAccount()
