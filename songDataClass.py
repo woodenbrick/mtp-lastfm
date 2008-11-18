@@ -1,7 +1,7 @@
 import string
 import dbClass
 import time
-
+from logger import Logger
 class songData:
     def __init__(self):
         self.songData = []
@@ -12,8 +12,7 @@ class songData:
         self.filetypeReached = False
         self.isSong = False
         self.readyForExport = False
-        self.errorLog = file('./importError.log', 'a')
-        self.errorLog.write(time.strftime("%Y-%m-%d %H:%M:%S"))
+        self.log = Logger(name='mtptracksRetrieval.log', stream_log=False)
 
         
     def resetValues(self):
@@ -92,7 +91,7 @@ class songData:
             self.readyForExport = True
         else:
             for line in self.songData:
-                self.errorLog.write(line)
+                self.log.logger.warn(line)
             self.resetValues()
         
     
