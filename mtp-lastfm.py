@@ -64,9 +64,9 @@ def scrobbleToLastFm():
 
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
-if connectToMtpDevice():
+if True: #connectToMtpDevice():
     if addListToDb(database):
-        scrobbleToLastFm()
+        pass #scrobbleToLastFm()
     else:
         print 'Error retrieving new playlist, please make sure your MTP device \
     is connected'

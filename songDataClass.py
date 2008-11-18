@@ -12,7 +12,7 @@ class songData:
         self.filetypeReached = False
         self.isSong = False
         self.readyForExport = False
-        self.log = Logger(name='mtptracksRetrieval.log', stream_log=False)
+        self.log = Logger(name='Not added to scrobbling db', stream_log=False)
 
         
     def resetValues(self):
@@ -90,8 +90,8 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
-            for line in self.songData:
-                self.log.logger.warn(line)
+            data = '\n'.join(self.songData) 
+            self.log.logger.warn(data)
             self.resetValues()
         
     
