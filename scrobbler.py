@@ -16,8 +16,9 @@ class Scrobbler:
         self.url = "http://post.audioscrobbler.com:80"
         self.deletionIds = []
         self.scrobbleCount = 0
-        self.scrobbleTime = self.setScrobbleTime()
         self.log = Logger(name='scrobbling')
+        self.scrobbleTime = self.setScrobbleTime()
+        
         
     def setScrobbleTime(self):
         """A manual way for setting the time to start scrobbling"""
