@@ -4,7 +4,7 @@ import urllib
 import urllib2
 import string
 import dbClass
-
+from logger import Logger
 
 class Scrobbler:
     
@@ -17,6 +17,7 @@ class Scrobbler:
         self.deletionIds = []
         self.scrobbleCount = 0
         self.scrobbleTime = self.setScrobbleTime()
+        self.log = Logger(name='scrobbling')
         
     def setScrobbleTime(self):
         """A manual way for setting the time to start scrobbling"""
@@ -29,7 +30,8 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                 break
             except:
                 print 'You didn\'t enter a valid hour value.\n'
-        return s 
+        self.log.logger.info('User started listen to current scrobbles %d ago' % s)
+        return s
     
     def handshake(self):
         self.timestamp = self.createTimestamp()
@@ -38,26 +40,27 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         conn = urllib2.urlopen(self.url)
         self.serverResponse = conn.readline().strip()
         if self.serverResponse == 'OK':
-            print 'Server response OK.'
+            self.log.logger.info('Server Response OK.')
             self.sessionID = conn.readline()[:-1]
             self.nowPlayingUrl = conn.readline().strip #not used at this time
             self.submissionUrl = conn.readline()[:-1]
-            return True
+            return 'OK'
         elif self.serverResponse == 'BADAUTH':
-            print 'Username or password incorrect.'
-            return False
+            self.log.logger.warn('Username or password incorrect.')
+            return 'BADAUTH'
         elif self.serverResponse == 'BANNED':
-            print 'this scrobbling client has been banned from submission, please notify the developer'
+            self.log.logger.critical('this scrobbling client has been banned from submission, \
+                                     please notify the developer')
         elif self.serverResponse == 'BADTIME':
-            print 'Timestamp is incorrect, please check your clock settings'
+            self.log.logger.warn('Timestamp is incorrect, please check your clock settings')
         elif self.serverResponse.startswith('FAILED'):
-            print 'Connection to server failed:', string.split(response, ' ')[1:]
+            self.log.logger.critical('Connection to server failed:', string.split(response, ' ')[1:])
         return False
         
     def submitTracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
         while True:
-            cache = c.fetchmany(10)
+            cache = c.fetchmany(50)
             if len(cache) == 0:
                 break
             else:
@@ -110,8 +113,9 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
                 postValues = urllib.urlencode(postValues)
+                self.log.logger.info('Current cache post values:', postValues)
                 if not self._sendPost(postValues):
-                    print 'Error posting to last.fm'
+                    self.log.logger.critical('Error posting to last.fm')
                     return False
         #if all songs are scrobbled with ok response: 
         return True   
@@ -128,16 +132,16 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         url_handle = urllib2.urlopen(req)
         response = url_handle.readline().strip()
         if response == 'OK':
-            print 'Scrobbled %d songs' % self.scrobbleCount
-            self.deletionIds.extend(self.delIds)
+            self.log.logger.info('Scrobbled %d songs' % self.scrobbleCount)
+            self.deletionIds.extend(self.delIds)    
             return True
         elif response == 'BADSESSION':
-            print 'Bad session'
+            self.log.logger.critical('Bad session')
             pass
             #handshake again dont delete cache
             return False
         elif response.startswith('FAILED'):
-            print 'Scrobbling Failure:', response
+            self.log.logger.critical('Scrobbling Failure:', response)
             return False
    
     def encodeUrl(self):

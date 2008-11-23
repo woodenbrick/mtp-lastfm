@@ -1,6 +1,7 @@
 import string
 import dbClass
 import time
+from logger import Logger
 class songData:
     def __init__(self):
         self.songData = []
@@ -11,8 +12,7 @@ class songData:
         self.filetypeReached = False
         self.isSong = False
         self.readyForExport = False
-        self.errorLog = file('./importError.log', 'a')
-        self.errorLog.write(time.strftime("%Y-%m-%d %H:%M:%S"))
+        self.log = Logger(name='Not added to scrobbling db', stream_log=False)
 
         
     def resetValues(self):
@@ -81,8 +81,6 @@ class songData:
         
     def checkSongDataCount(self):
         return len(self.songData)
-    
-
         
     def exportData(self):
         """Sends song data to database"""
@@ -92,7 +90,8 @@ class songData:
             self.userFriendlyNames()
             self.readyForExport = True
         else:
-            #self.errorLog.write(self.songData)
+            data = '\n'.join(self.songData) 
+            self.log.logger.warn(data)
             self.resetValues()
         
     

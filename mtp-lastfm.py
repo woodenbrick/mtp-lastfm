@@ -50,22 +50,22 @@ def scrobbleToLastFm():
     print 'Logged in as', user
     c = database.returnScrobbleList()
     scrobble = scrobbler.Scrobbler(user, password)
-    if scrobble.handshake():
+    if scrobble.handshake() == 'OK':
         if scrobble.submitTracks(c):
             #delete all tracks
             database.deleteScrobbles('all')
         else:
             #delete tracks that were scrobbled
             database.deleteScrobbles(scrobble.deletionIds)
-    else:
+    elif handshakeResponse == 'BADAUTH':
         database.removeOldUser()
         database.createAccount()
 
 createDatabase()
 database = dbClass.lastfmDb('./lastfmDB')
-if connectToMtpDevice():
+if True: #connectToMtpDevice():
     if addListToDb(database):
-        scrobbleToLastFm()
+        pass #scrobbleToLastFm()
     else:
         print 'Error retrieving new playlist, please make sure your MTP device \
     is connected'
