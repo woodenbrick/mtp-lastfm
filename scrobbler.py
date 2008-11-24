@@ -16,7 +16,7 @@ class Scrobbler:
         self.url = "http://post.audioscrobbler.com:80"
         self.deletionIds = []
         self.scrobbleCount = 0
-        self.log = Logger(name='scrobbling')
+        self.log = Logger(name='scrobbling', stream_log_level=2)
         self.scrobbleTime = self.setScrobbleTime()
         
         
