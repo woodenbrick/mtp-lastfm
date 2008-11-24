@@ -31,7 +31,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                 break
             except:
                 print 'You didn\'t enter a valid hour value.\n'
-        self.log.logger.info('User started listen to current scrobbles %d ago' % s)
+        self.log.logger.info('User started listen to current scrobbles %d seconds ago' % s)
         return s
     
     def handshake(self):
@@ -114,7 +114,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
                 postValues = urllib.urlencode(postValues)
-                self.log.logger.info('Current cache post values:', postValues)
+                self.log.logger.info('Current cache post values: %s' % postValues)
                 if not self._sendPost(postValues):
                     self.log.logger.critical('Error posting to last.fm')
                     return False
