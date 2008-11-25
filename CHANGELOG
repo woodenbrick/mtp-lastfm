@@ -1,3 +1,145 @@
+commit 7675909d08d4e2dc2be74ee33e3b41ae06e4d8b8
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Tue Nov 25 10:26:24 2008 +0200
+
+    Removed logging of post values to stream
+    
+    Also file, may be included at a later date for debugging purposes.  This
+    version seems to be stable.
+
+commit 396192216ef52d575b195d972d71182ed60ab33c
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Mon Nov 24 16:30:07 2008 +0200
+
+    increased level for streamlogging to info
+
+commit d95445ab42413a7aa7dbdae4acc408e39841c22b
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Mon Nov 24 16:23:51 2008 +0200
+
+    fixed bug in scrobbler logging
+
+commit 899eb7d304f9271495ac67fd1a3e2f2a41168a27
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Sun Nov 23 13:45:15 2008 +0200
+
+    buggy logging
+
+commit 859ece0340c7ce6095f54be065266f422e46a04a
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Sun Nov 23 13:16:04 2008 +0200
+
+    re-enabled scrobbling and mtp reading
+
+commit b6529924ff933d436b96719122b016c06e217c9e
+Merge: e1f7676... 20179da...
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Sun Nov 23 13:12:24 2008 +0200
+
+    fixed merge
+
+commit 20179da26e467ad40d007aa35d9d73da35326911
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 17:22:15 2008 +0200
+
+    Reworked logger to accept 1-4 as debugging values
+    
+    1 - Debug
+    2 - Info
+    3 - Warn
+    4 - Critical
+
+commit b5d3a8eb23a572c7e5ac833599be0cbe0263540c
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 17:17:19 2008 +0200
+
+    updated scrobbler to log data
+
+commit e2fe682ac33b2d02272af85341a7856c091dac28
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 17:03:24 2008 +0200
+
+    added logging to dbclass (untested)
+
+commit 3f4d53813af11fd9777e08a84dfc05d68241cf13
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 16:55:15 2008 +0200
+
+    fixed logging errors for songdata
+
+commit 9b412f50760bf6f7c04f8f5f0c93d9556253c41d
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 16:16:03 2008 +0200
+
+    adding logging to songDataclass
+
+commit bb3b60909cb757d7364fe048b7b9b87728e4ae8e
+Author: bory <bory@bory-laptop.(none)>
+Date:   Tue Nov 18 15:48:51 2008 +0200
+
+    created logger
+
+commit e1f767645a1d074d10336a319d07774d0f3dd4eb
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Mon Nov 17 23:17:24 2008 +0200
+
+    break on incorrect user/pass fixed
+
+commit cdbf329358728a22548e2ad4a324dcc7a5aed9be
+Author: bory <bory@bory-laptop.(none)>
+Date:   Mon Nov 17 16:05:43 2008 +0200
+
+    added logging for throwaway tracks
+
+commit 3aba28996b56ba14694fcc04671d973a813764c2
+Author: bory <bory@bory-laptop.(none)>
+Date:   Mon Nov 17 15:48:15 2008 +0200
+
+    increased cache count to 50
+
+commit c4849011a4ff6279e728562959e20aec1ae7a85e
+Merge: e82c83f... 9c17f53...
+Author: bory <bory@bory-laptop.(none)>
+Date:   Sun Nov 16 19:44:34 2008 +0200
+
+    Merge branch 'master' of git@github.com:woodenbrick/mtp-lastfm
+
+commit 9c17f537a4851c9fba4bb69bfbbc67df13d4f620
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Fri Nov 14 17:49:34 2008 +0200
+
+    resets user password on badauth
+
+commit 187acc747dc9d855c9418c83b029bfdfd63b0b19
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Thu Nov 13 17:01:23 2008 +0200
+
+    graceful exit on mtp-tools segfault
+
+commit ffc37b992ef472d759912b004a7377fe54de9426
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Thu Nov 13 16:56:56 2008 +0200
+
+    update readme
+
+commit ea015078d7bc843b0a7f517eecbcdca142f7ac44
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Thu Nov 13 16:56:34 2008 +0200
+
+    created manual time input for scrobble start
+
+commit 733fd386c2c11c0a49aba108d41bb5f26379fa29
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Thu Nov 13 16:32:04 2008 +0200
+
+    Added Future plans section
+
+commit 10df544ac09986223c963f8224dae58f6880501e
+Author: Daniel <wodemoneke@gmail.com>
+Date:   Thu Nov 13 16:28:41 2008 +0200
+
+    Added CHANGELOG
+
 commit bb26ab1fdbfc8383ce334740d5d66cc5c317c340
 Author: Daniel <wodemoneke@gmail.com>
 Date:   Thu Nov 13 16:28:04 2008 +0200
@@ -100,6 +242,13 @@ Author: Daniel <wodemoneke@gmail.com>
 Date:   Wed Nov 12 13:24:14 2008 +0200
 
     fixed bug that failed on non ascii characters
+
+commit e82c83ff90ca3ed3c464e0bff1ebb1f3b9b142f9
+Merge: 6ded49d... ed9d799...
+Author: bory <bory@bory-laptop.(none)>
+Date:   Wed Nov 12 11:27:48 2008 +0200
+
+    merge
 
 commit ed9d79911004807496886cc8e0eab425958bac69
 Author: Daniel <wodemoneke@gmail.com>
