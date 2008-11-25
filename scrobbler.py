@@ -114,7 +114,6 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                     for j in range (0, len(dic)): #haha!
                         postValues[dic[j]] = fullList[j][i]
                 postValues = urllib.urlencode(postValues)
-                self.log.logger.info('Current cache post values: %s' % postValues)
                 if not self._sendPost(postValues):
                     self.log.logger.critical('Error posting to last.fm')
                     return False
