@@ -65,7 +65,7 @@ def scrobbleToLastFm():
 
 path = getPath()
 createDatabase()
-database = dbClass.lastfmDb()
+database = dbClass.lastfmDb(path + 'lastfmDB')
 if connectToMtpDevice():
     if addListToDb(database):
         scrobbleToLastFm()
