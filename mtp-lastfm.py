@@ -6,19 +6,22 @@ import os
 import md5
 import sys
 def createDatabase():
-    if not os.path.exists('./lastfmDB'):
+    if not os.path.exists(path + 'lastfmDB'):
         print "Database doesn't exist, creating"
         db = dbClass.lastfmDb()
         db.initialCreation()
         db.closeConnection()
 
-
+def getPath():
+    """Finds the path that the script is running from"""
+    path = os.path.dirname(os.path.realpath(__file__)) + '/'
+    return path
 
 def connectToMtpDevice():
     #This retrieves the tracklisting fm the MTP device, with its playcount
     print 'Connecting to MTP device...'
-    os.system("mtp-tracks >./mtp-tracklisting")
-    x = file('./mtp-tracklisting', 'r').readlines()
+    os.system("mtp-tracks > "+ path + "mtp-tracklisting")
+    x = file(path + 'mtp-tracklisting', 'r').readlines()
     if len(x) < 3:
         print 'Error with MTP device, try reconnecting'
         return False
@@ -28,7 +31,7 @@ def connectToMtpDevice():
 
 def addListToDb(db):
     try:
-        f = file('./mtp-tracklisting', 'r')
+        f = file(path + 'mtp-tracklisting', 'r')
         print 'Cross checking song data with local database, may take some time...',
         songObj = songDataClass.songData()
         for line in f.readlines():
@@ -39,7 +42,6 @@ def addListToDb(db):
                 songObj.resetValues()
                 songObj.newData(line)
         f.close()
-        #os.rename('./mtp-tracklisting', 'OLDmtp-tracklisting')
         print 'Done.'
         return True
     except IOError:
@@ -61,8 +63,9 @@ def scrobbleToLastFm():
         database.removeOldUser()
         database.createAccount()
 
+path = getPath()
 createDatabase()
-database = dbClass.lastfmDb('./lastfmDB')
+database = dbClass.lastfmDb()
 if connectToMtpDevice():
     if addListToDb(database):
         scrobbleToLastFm()
