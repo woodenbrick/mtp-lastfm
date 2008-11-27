@@ -7,7 +7,7 @@ import md5
 import getpass
 from logger import Logger
 class lastfmDb:
-    def __init__(self, database='./lastfmDB'):
+    def __init__(self, database):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
         self.log = Logger(name='sqliteDb Log')
