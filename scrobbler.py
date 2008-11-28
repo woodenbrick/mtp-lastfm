@@ -129,8 +129,11 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         
     def _sendPost(self, postValues):
         req = urllib2.Request(url=self.submissionUrl, data=postValues)
-        url_handle = urllib2.urlopen(req)
-        response = url_handle.readline().strip()
+        try:
+            url_handle = urllib2.urlopen(req)
+            response = url_handle.readline().strip()
+        except urllib2.URLError:
+            response = 'Connection Refused, please try again'
         if response == 'OK':
             self.log.logger.info('Scrobbled %d songs' % self.scrobbleCount)
             self.deletionIds.extend(self.delIds)    
@@ -142,6 +145,9 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             return False
         elif response.startswith('FAILED'):
             self.log.logger.critical('Scrobbling Failure:', response)
+            return False
+        elif response.__contains__('Connection refused'):
+            self.log.logger.critical(response)
             return False
    
     def encodeUrl(self):
