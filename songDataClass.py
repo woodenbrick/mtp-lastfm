@@ -85,7 +85,7 @@ class songData:
     def exportData(self):
         """Sends song data to database"""
         #trim seconds and usecount before export
-        if self.isSong == True and self.checkIfFull():
+        if self.isSong == True and self.checkIfFull() and self.songData[5] > 30:
             self._trimExportData()
             self.userFriendlyNames()
             self.readyForExport = True
