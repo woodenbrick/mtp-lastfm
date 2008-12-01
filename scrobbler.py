@@ -31,7 +31,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                 break
             except:
                 print 'You didn\'t enter a valid hour value.\n'
-        self.log.logger.info('User started listen to current scrobbles %d seconds ago' % s)
+        self.log.logger.info('User started listening to current scrobbles %d seconds ago' % s)
         return s
     
     def handshake(self):
