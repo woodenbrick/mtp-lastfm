@@ -65,7 +65,7 @@ class lastfmDb:
     
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
-        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ','.join(idList))
+        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ''.join(str(idList)))
         if idList == 'all':
             self.cursor.execute('delete from scrobble')
             self.db.commit()
