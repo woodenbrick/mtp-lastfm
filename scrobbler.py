@@ -134,6 +134,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             response = url_handle.readline().strip()
         except urllib2.URLError:
             response = 'Connection Refused, please try again'
+        
         if response == 'OK':
             self.log.logger.info('Scrobbled %d songs' % self.scrobbleCount)
             self.deletionIds.extend(self.delIds)    
