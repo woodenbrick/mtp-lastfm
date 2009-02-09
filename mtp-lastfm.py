@@ -8,7 +8,7 @@ import sys
 def createDatabase():
     if not os.path.exists(path + 'lastfmDB'):
         print "Database doesn't exist, creating"
-        db = dbClass.lastfmDb()
+        db = dbClass.lastfmDb(path + 'lastfmDB')
         db.initialCreation()
         db.closeConnection()
 
