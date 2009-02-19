@@ -6,6 +6,35 @@ import sqlite3
 import md5
 import getpass
 from logger import Logger
+
+class lastfmDb_Users:
+    def __init__(self):
+        if not os.path.exists("usersDB"):
+            self.create_new_database()    
+        self.db = sqlite3.Connection("usersDB")
+        self.cursor = self.db.cursor()
+        
+    
+    def create_new_database(self):
+        connection = sqlite3.Connection("usersDB")
+        query = '''CREATE TABLE IF NOT EXISTS `users` (
+        `username` varchar(100) NOT NULL,
+        `password` varchar(255) NOT NULL,
+        `remember_me` boolean NOT NULL,
+        `current` boolean NOT NULL
+        )'''
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        connection.close()
+        
+    def get_current_user(self):
+        """Returns the user who last logged in and chose to remember their password"""
+        self.cursor.execute("SELECT * FROM users WHERE remember_me = 'True' ORDER BY current")
+        current_user = self.cursor.fetchone()
+        return current_user 
+
+#cli
 class lastfmDb:
     def __init__(self, database):
         self.db = sqlite3.Connection(database)
@@ -14,7 +43,9 @@ class lastfmDb:
         
     def initialCreation(self):
         query = ['''
-        CREATE TABLE IF NOT EXISTS `scrobble` (`trackid` int(8) NOT NULL)''',
+        CREATE TABLE IF NOT EXISTS `scrobble` (
+        `trackid` int(8) NOT NULL
+        )''',
         
         '''CREATE TABLE IF NOT EXISTS `songs` (
         `trackid` int(8) NOT NULL,
