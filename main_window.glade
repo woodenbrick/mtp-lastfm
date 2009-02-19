@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Feb 19 13:02:33 2009 -->
+<!--Generated with glade3 3.4.5 on Thu Feb 19 15:29:36 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -401,6 +401,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
+                <signal name="focus_out_event" handler="on_username_entry_focus_out_event"/>
               </widget>
               <packing>
                 <property name="position">1</property>
