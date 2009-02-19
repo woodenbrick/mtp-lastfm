@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import sys
+import re
+import md5
 import gtk
 import pygtk
 import gtk.glade
@@ -42,7 +44,8 @@ class MTPLastfmGTK:
         else:
             self.tree.get_widget("user").set_text(current_user[0])
             self.show_main_window()
-            
+        
+     
     
     def show_main_window(self):
         self.login_window.hide()
@@ -61,6 +64,7 @@ class MTPLastfmGTK:
     def on_logout_clicked(self, widget):
         self.tree.get_widget("username_entry").set_text("")
         self.tree.get_widget("password_entry").set_text("")
+        self.tree.get_widget("login_error").set_text("")
         self.show_login_window()
         
     
@@ -73,13 +77,14 @@ class MTPLastfmGTK:
     def on_username_entry_focus_out_event(self, widget, key):
         entry = self.tree.get_widget("username_entry").get_text()
         user = self.usersDB.user_exists(entry)
-        self.tree.get_widget("password_entry").set_text(user[1])
+        if user is not False:
+            self.tree.get_widget("password_entry").set_text(user[1])
         
-   
     def on_login_clicked(self, widget):
         self.username = self.tree.get_widget("username_entry").get_text()
         self.password = self.tree.get_widget("password_entry").get_text()
         remember_password = self.tree.get_widget("remember_password").get_active()
+        
         if self.username == '' or self.password == '':
             login_error = self.tree.get_widget("login_error")
             login_error.set_text("Error: Please enter a username and password")
@@ -87,6 +92,10 @@ class MTPLastfmGTK:
             self.show_main_window()
             self.tree.get_widget("user").set_text(self.username)
             if remember_password is True:
+                #check if its already hashed
+                if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
+                    self.password = md5.new(self.password).hexdigest()
+                    
                 self.usersDB.update_user(self.username, self.password)
             else:
                 self.usersDB.remove_user(self.username)
