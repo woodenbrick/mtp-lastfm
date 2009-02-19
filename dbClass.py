@@ -49,7 +49,7 @@ class lastfmDb_Users:
         if row is None:
             return False
         else:
-            return True
+            return row
         
     def update_user(self, username, password):
         import time

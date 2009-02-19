@@ -70,9 +70,15 @@ class MTPLastfmGTK:
     
     
     #This section deals with the LOGIN WINDOW
-    def on_username_entry_focus_out_event(self, widget):
-        print 'activation'
-    
+    def on_username_entry_focus_out_event(self, widget, key):
+        entry = self.tree.get_widget("username_entry").get_text()
+        user = self.usersDB.user_exists(entry)
+        self.tree.get_widget("password_entry").set_text(user[1])
+        print entry
+        print user
+        print user[1]
+        
+   
     def on_login_clicked(self, widget):
         self.username = self.tree.get_widget("username_entry").get_text()
         self.password = self.tree.get_widget("password_entry").get_text()
