@@ -35,11 +35,12 @@ class MTPLastfmGTK:
         
         #if a user was set to be logged in automatically, open the main window
         #otherwise show our login screen
-        users = dbClass.lastfmDb_Users()
-        current_user = users.get_current_user()
+        self.usersDB = dbClass.lastfmDb_Users()
+        current_user = self.usersDB.get_users()
         if current_user is None:
             self.show_login_window()
         else:
+            self.tree.get_widget("user").set_text(current_user[0])
             self.show_main_window()
             
     
@@ -58,8 +59,8 @@ class MTPLastfmGTK:
     # This section deals with the MAIN WINDOW
         
     def on_logout_clicked(self, widget):
-        self.username.set_text("")
-        self.password.set_text("")
+        self.tree.get_widget("username_entry").set_text("")
+        self.tree.get_widget("password_entry").set_text("")
         self.show_login_window()
         
     
@@ -73,20 +74,20 @@ class MTPLastfmGTK:
         print 'activation'
     
     def on_login_clicked(self, widget):
-        self.username = self.tree.get_widget("username_entry")
-        self.password = self.tree.get_widget("password_entry")
-        remember_password = self.tree.get_widget("remember_password")
-        if self.username.get_text() == '' or self.password.get_text() == '':
+        self.username = self.tree.get_widget("username_entry").get_text()
+        self.password = self.tree.get_widget("password_entry").get_text()
+        remember_password = self.tree.get_widget("remember_password").get_active()
+        if self.username == '' or self.password == '':
             login_error = self.tree.get_widget("login_error")
             login_error.set_text("Error: Please enter a username and password")
         else:
             self.show_main_window()
-            self.tree.get_widget("user").set_text(self.username.get_text())
-            if remember_password.get_active() is True:
-                print 'Remember this password'
-            
-            
-            
+            self.tree.get_widget("user").set_text(self.username)
+            if remember_password is True:
+                self.usersDB.update_user(self.username, self.password)
+            else:
+                self.usersDB.remove_user(self.username)
+ 
     
     
 if __name__ == "__main__":

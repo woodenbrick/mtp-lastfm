@@ -13,27 +13,58 @@ class lastfmDb_Users:
             self.create_new_database()    
         self.db = sqlite3.Connection("usersDB")
         self.cursor = self.db.cursor()
-        
     
     def create_new_database(self):
         connection = sqlite3.Connection("usersDB")
-        query = '''CREATE TABLE IF NOT EXISTS `users` (
+        query = ['''CREATE TABLE IF NOT EXISTS `users` (
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `remember_me` boolean NOT NULL,
-        `current` boolean NOT NULL
-        )'''
+        `time` integer(20) NOT NULL
+        )''',
+        '''CREATE TABLE IF NOT EXISTS `devices` (
+        `username` varchar(100) NOT NULL,
+        `serial_number` varchar(255) NOT NULL,
+        `friendly_name` varchar(100) NOT NULL
+        )''']
+        
         cursor = connection.cursor()
-        cursor.execute(query)
+        for q in query:
+            cursor.execute(q)
         connection.commit()
         connection.close()
         
-    def get_current_user(self):
-        """Returns the user who last logged in and chose to remember their password"""
-        self.cursor.execute("SELECT * FROM users WHERE remember_me = 'True' ORDER BY current")
-        current_user = self.cursor.fetchone()
-        return current_user 
+    def get_users(self, all=False):
+        """Returns last user who logged in and chose to remember their password
+        set all to true to get all users"""
+        self.cursor.execute("SELECT * FROM users ORDER BY time")
+        if all is False:
+            current_user = self.cursor.fetchone()
+            return current_user
+        else:
+            return self.cursor.fetchall()
+        
+    def user_exists(self, username):
+        self.cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+        row = self.cursor.fetchone()
+        if row is None:
+            return False
+        else:
+            return True
+        
+    def update_user(self, username, password):
+        import time
+        current_time = time.time()
+        if self.user_exists(username):
+            query = "update users set password='%s', time=%d where username='%s'" % (password, current_time, username)
+        else:
+            query = "insert into users (username, password, time) values ('%s', '%s', %d)" % (username, password, current_time)
+        print query
+        self.cursor.execute(query)
+        self.db.commit()
 
+    def remove_user(self, username):
+        self.cursor.execute("delete from users where username=?", (username,))
+        self.db.commit()
 #cli
 class lastfmDb:
     def __init__(self, database):
