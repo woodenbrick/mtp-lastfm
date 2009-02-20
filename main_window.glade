@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Feb 19 21:10:38 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Feb 20 09:50:14 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -287,7 +287,7 @@
               <widget class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
                 <child>
-                  <widget class="GtkSpinButton" id="spinbutton1">
+                  <widget class="GtkSpinButton" id="scrobble_time">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="adjustment">6.5 0.5 100 0.5 10 10</property>
@@ -331,6 +331,7 @@
                     <property name="label" translatable="yes">gtk-apply</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_apply_options_clicked"/>
                   </widget>
                 </child>
                 <child>
@@ -341,6 +342,7 @@
                     <property name="label" translatable="yes">gtk-cancel</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_cancel_options_clicked"/>
                   </widget>
                   <packing>
                     <property name="position">1</property>

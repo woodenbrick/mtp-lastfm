@@ -25,6 +25,8 @@ class MTPLastfmGTK:
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
             "on_options_clicked" : self.on_options_clicked,
+            "on_apply_options_clicked" : self.on_apply_options_clicked,
+            "on_cancel_options_clicked" : self.on_cancel_options_clicked
         }
         self.tree.signal_autoconnect(event_handlers)
         
@@ -35,6 +37,9 @@ class MTPLastfmGTK:
         #banned_window = self.tree.get_widget("banned_window")
         #cache_window = self.tree.get_widget("cache_window")
         
+        self.options_list = ("random", "alphabetical", "startup_check",
+                        "auto_scrobble", "scrobble_time", "use_default_time")
+        
         #if a user was set to be logged in automatically, open the main window
         #otherwise show our login screen
         self.usersDB = dbClass.lastfmDb_Users()
@@ -43,6 +48,7 @@ class MTPLastfmGTK:
             self.show_login_window()
         else:
             self.tree.get_widget("user").set_text(current_user[0])
+            self.username = current_user[0]
             self.show_main_window()
         
      
@@ -70,6 +76,13 @@ class MTPLastfmGTK:
     
     #menu options
     def on_options_clicked(self, widget):
+        options = self.usersDB.retrieve_options(self.username)
+        
+        for i in range(0, len(self.options_list)):
+            try:
+                self.tree.get_widget(self.options_list[i]).set_active(options[i])
+            except AttributeError:
+                self.tree.get_widget(self.options_list[i]).set_value(options[i])
         self.options_window.show()
     
     
@@ -99,7 +112,25 @@ class MTPLastfmGTK:
                 self.usersDB.update_user(self.username, self.password)
             else:
                 self.usersDB.remove_user(self.username)
- 
+                
+    #this section deals with the OPTIONS WINDOW
+    def on_cancel_options_clicked(self, widget):
+        self.options_window.hide()
+        
+    
+    def on_apply_options_clicked(self, widget):
+        random = self.tree.get_widget("random").get_active()
+        alpha = self.tree.get_widget("alphabetical").get_active()
+        startup_check = self.tree.get_widget("startup_check").get_active()
+        auto_scrobble = self.tree.get_widget("auto_scrobble").get_active()
+        scrobble_time = self.tree.get_widget("scrobble_time").get_value()
+        use_default_time = self.tree.get_widget("use_default_time").get_active()
+        self.usersDB.update_options(self.username, random, alpha,
+                                    startup_check, auto_scrobble,
+                                    scrobble_time, use_default_time)
+        self.options_window.hide()
+        
+    
     
     
 if __name__ == "__main__":

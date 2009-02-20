@@ -25,6 +25,15 @@ class lastfmDb_Users:
         `username` varchar(100) NOT NULL,
         `serial_number` varchar(255) NOT NULL,
         `friendly_name` varchar(100) NOT NULL
+        )''',
+        '''CREATE TABLE IF NOT EXISTS `options` (
+        `username` varchar(100) NOT NULL,
+        `scrobble_order_random` boolean DEFAULT 1,
+        `scrobble_order_alpha` boolean DEFAULT 0,
+        `connect_on_startup` boolean DEFAULT 0,
+        `auto_scrobble` boolean DEFAULT 0,
+        `scrobble_time` integer(3) DEFAULT 8.5,
+        `always_use_scrobble_time` boolean DEFAULT 0
         )''']
         
         cursor = connection.cursor()
@@ -58,13 +67,30 @@ class lastfmDb_Users:
             query = "update users set password='%s', time=%d where username='%s'" % (password, current_time, username)
         else:
             query = "insert into users (username, password, time) values ('%s', '%s', %d)" % (username, password, current_time)
+            self.cursor.execute("insert into options (username) values (?)", (username,))
         print query
         self.cursor.execute(query)
         self.db.commit()
 
     def remove_user(self, username):
         self.cursor.execute("delete from users where username=?", (username,))
+        self.cursor.execute("delete from options where username=?", (username,))
         self.db.commit()
+        
+    def update_options(self, username, *args):
+        query = """update options set scrobble_order_random=%d, scrobble_order_alpha=%d,
+        connect_on_startup=%d, auto_scrobble=%d, scrobble_time=%d,
+        always_use_scrobble_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
+        self.cursor.execute(query)
+        self.db.commit()
+    
+    def retrieve_options(self, username):
+        self.cursor.execute("""select scrobble_order_random,
+                            scrobble_order_alpha, connect_on_startup, 
+                        auto_scrobble, scrobble_time, always_use_scrobble_time from
+        options where username=?""", (username,))
+        return self.cursor.fetchone()
+    
 #cli
 class lastfmDb:
     def __init__(self, database):
@@ -86,6 +112,7 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
+        
         PRIMARY KEY  (`trackid`))''',
         
         '''CREATE TABLE IF NOT EXISTS `users` (
