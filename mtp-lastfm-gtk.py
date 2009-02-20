@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 import re
 import md5
@@ -8,8 +9,9 @@ import gtk.glade
 pygtk.require("2.0")
 
 import dbClass
+import songDataClass
 
-def getPath():
+def get_path():
     """Finds the path that the script is running from"""
     path = os.path.dirname(os.path.realpath(__file__)) + '/'
     return path
@@ -24,6 +26,7 @@ class MTPLastfmGTK:
             "on_login_clicked" : self.on_login_clicked,
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
+            "on_check_device_clicked" : self.on_check_device_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked
@@ -72,7 +75,30 @@ class MTPLastfmGTK:
         self.tree.get_widget("password_entry").set_text("")
         self.tree.get_widget("login_error").set_text("")
         self.show_login_window()
+    
+    def on_check_device_clicked(self,widget):
+        path = get_path()
+        self.write_info("Connecting to MTP device...")
+        os.system("mtp-tracks > " + path + self.username + "tracklisting")
+        f = file(path + self.username + "tracklisting", 'r').readlines()
+        if len(f) < 3:
+            self.write_info("MTP Device not found, please connect")
+        else:
+            self.write_info("Done. It is now safe to remove your MTP device")
+            self.write_info("Cross checking song data with local database...")
+            song_obj = songDataClass.songData()
+            for line in f:
+                song_obj.newData(line)
+                if song_obj.readyForExport:
+                    #addnewdata
+                    song_obj.resetValues()
+                    song_obj.newData(line)
+            self.write_info("Done.", new_line=False)
         
+    
+    def write_info(self, info, new_line=True, clear_buffer=False):
+        """Writes data to the main window to let the user know what is going on"""
+        pass
     
     #menu options
     def on_options_clicked(self, widget):

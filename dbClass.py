@@ -112,39 +112,23 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
+        `rating` varchar(1)
         
-        PRIMARY KEY  (`trackid`))''',
-        
-        '''CREATE TABLE IF NOT EXISTS `users` (
-        `username` varchar(100) NOT NULL,
-        `password` varchar(255) NOT NULL
-        )''']
+        PRIMARY KEY  (`trackid`))''']
         self.log.logger.info('Creating Tables')
         for q in query:
             self.cursor.execute(q)
             self.db.commit()
     
-    def removeOldUser(self):
-        self.cursor.execute('delete from users')
-        self.db.commit()
-        self.log.logging.info('Deleting old user')
-    
-    def createAccount(self):
-        username = raw_input("last.fm username: ")
-        password = getpass.default_getpass()
-        password = md5.new(password).hexdigest()
-        self.cursor.execute("INSERT INTO users (username, password) values (?, ?)", (username, password))
-        self.db.commit()
-        self.cursor.execute("SELECT * FROM users")
-        row = self.cursor.fetchone()
-        return row
-            
     def closeConnection(self):
         self.db.commit()
         self.db.close()
     
     def returnScrobbleList(self):
-        self.cursor.execute('SELECT scrobble.ROWID, songs.artist, songs.song, songs.duration, songs.album, songs.tracknumber FROM songs INNER JOIN scrobble ON songs.trackid=scrobble.trackid')
+        self.cursor.execute("""SELECT scrobble.ROWID, songs.artist, songs.song,
+                            songs.duration, songs.album, songs.tracknumber,
+                            songs.rating FROM songs INNER JOIN scrobble ON
+                            songs.trackid=scrobble.trackid""")
         return self.cursor
     
     def execute(self, query):
@@ -175,17 +159,20 @@ class lastfmDb:
         return row[0], row[1]
     
     def addNewData(self, songObj):
-        """recieves a list of a songs data, checks it against what is in the counter table already.
-        Updates the playcount if it already exists, or creates a new row. In both cases the scrobble
-        table is added to as well."""
+        """recieves a list of a songs data, checks it against what is in
+        the counter table already.  Updates the playcount if it already
+        exists, or creates a new row. In both cases the scrobble table
+        is added to as well."""
         self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (songObj.trackid,))
         row = self.cursor.fetchone()
         if row == None:
             numScrobbles = songObj.usecount
-            self.cursor.execute("""insert into songs (trackid, artist, song, album, tracknumber, duration, usecount) values
-                                                   (?, ?, ?, ?, ?, ?, ?)""", (songObj.trackid, songObj.artist, songObj.title,
-                                                                              songObj.album, songObj.tracknumber,
-                                                                              songObj.duration, songObj.usecount))
+            self.cursor.execute("""insert into songs (trackid, artist,
+                                song, album, tracknumber, duration,
+                                usecount, rating) values (?, ?, ?, ?, ?, ?, ?)""",
+                                (songObj.trackid, songObj.artist, songObj.title,
+                                 songObj.album, songObj.tracknumber,
+                                 songObj.duration, songObj.usecount, ""))
             self.db.commit()
         else:
             #song has row in db
