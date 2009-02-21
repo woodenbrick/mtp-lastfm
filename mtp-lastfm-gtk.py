@@ -36,7 +36,7 @@ def get_path():
 
 class MTPLastfmGTK:
     def __init__(self):
-        self.gladefile = os.path.join(get_path, "glade", "gui.glade")
+        self.gladefile = os.path.join(get_path(), "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
         event_handlers = {
             "on_main_window_destroy" : gtk.main_quit,
@@ -99,7 +99,7 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         path = get_path()
         self.write_info("Connecting to MTP device...")
-        os.system("mtp-tracks > " + path + self.username + "tracklisting")
+        #os.system("mtp-tracks > " + path + self.username + "tracklisting")
         f = file(path + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -107,16 +107,12 @@ class MTPLastfmGTK:
             self.write_info("Done. It is now safe to remove your MTP device")
             self.write_info("Cross checking song data with local database...")
             song_obj = songDataClass.songData()
-            x = 1
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    print song_obj.artist, song_obj.title
+                    
                     song_obj.resetValues()
                     song_obj.newData(line)
-                if x == 10:
-                    break
-                x += 1
             self.write_info("Done.", new_line='')
         
     
