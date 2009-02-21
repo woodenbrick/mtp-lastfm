@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+
+
 import os
 import sys
 import re
@@ -29,7 +32,9 @@ class MTPLastfmGTK:
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
-            "on_cancel_options_clicked" : self.on_cancel_options_clicked
+            "on_cancel_options_clicked" : self.on_cancel_options_clicked,
+            "on_about_clicked" : self.on_about_clicked,
+            "on_about_closed" : self.on_about_closed
         }
         self.tree.signal_autoconnect(event_handlers)
         
@@ -76,7 +81,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("login_error").set_text("")
         self.show_login_window()
     
-    def on_check_device_clicked(self,widget):
+    def on_check_device_clicked(self, widget):
         path = get_path()
         self.write_info("Connecting to MTP device...")
         os.system("mtp-tracks > " + path + self.username + "tracklisting")
@@ -87,18 +92,31 @@ class MTPLastfmGTK:
             self.write_info("Done. It is now safe to remove your MTP device")
             self.write_info("Cross checking song data with local database...")
             song_obj = songDataClass.songData()
+            x = 1
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    #addnewdata
+                    #add to db
                     song_obj.resetValues()
                     song_obj.newData(line)
+                if x == 10:
+                    break
+                x += 1
             self.write_info("Done.", new_line=False)
         
     
-    def write_info(self, info, new_line=True, clear_buffer=False):
+    def write_info(self, new_info, new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
-        pass
+        buffer = self.tree.get_widget("info").get_buffer()
+        if clear_buffer is True:
+            buffer.set_text(new_info)
+        else:
+            start, end = buffer.get_bounds()
+            info = buffer.get_text(start, end)
+            if info is None:
+                buffer.set_text(new_info)
+            else:
+                buffer.set_text(info + new_line + new_info)
     
     #menu options
     def on_options_clicked(self, widget):
@@ -157,6 +175,12 @@ class MTPLastfmGTK:
         self.options_window.hide()
         
     
+    #About Window
+    def on_about_clicked(self, widget):
+        self.tree.get_widget("about_dialog").show()
+    
+    def on_about_closed(self, widget):
+        self.tree.get_widget("about_dialog").hide()
     
     
 if __name__ == "__main__":
