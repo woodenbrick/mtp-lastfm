@@ -31,12 +31,12 @@ import songDataClass
 
 def get_path():
     """Finds the path that the script is running from"""
-    path = os.path.dirname(os.path.realpath(__file__)) + '/'
+    path = os.path.dirname(os.path.realpath(__file__)) + os.sep
     return path
 
 class MTPLastfmGTK:
     def __init__(self):
-        self.gladefile = "main_window.glade"
+        self.gladefile = os.path.join(get_path, "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
         event_handlers = {
             "on_main_window_destroy" : gtk.main_quit,
@@ -111,13 +111,13 @@ class MTPLastfmGTK:
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    #add to db
+                    print song_obj.artist, song_obj.title
                     song_obj.resetValues()
                     song_obj.newData(line)
                 if x == 10:
                     break
                 x += 1
-            self.write_info("Done.", new_line=False)
+            self.write_info("Done.", new_line='')
         
     
     def write_info(self, new_info, new_line='\n', clear_buffer=False):
@@ -128,11 +128,14 @@ class MTPLastfmGTK:
         else:
             start, end = buffer.get_bounds()
             info = buffer.get_text(start, end)
+            print info, new_line, new_info
             if info is None:
                 buffer.set_text(new_info)
             else:
                 buffer.set_text(info + new_line + new_info)
-    
+
+
+
     #menu options
     def on_options_clicked(self, widget):
         options = self.usersDB.retrieve_options(self.username)

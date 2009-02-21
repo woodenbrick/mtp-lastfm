@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Feb 21 18:04:38 2009 -->
+<!--Generated with glade3 3.4.5 on Sat Feb 21 19:04:59 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -12,9 +12,9 @@
         <child>
           <widget class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
+            <property name="homogeneous">True</property>
             <child>
               <widget class="GtkButton" id="check_device">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -59,7 +59,6 @@
             </child>
             <child>
               <widget class="GtkButton" id="options">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -80,7 +79,6 @@
             </child>
             <child>
               <widget class="GtkButton" id="banned_tracks">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -101,7 +99,6 @@
             </child>
             <child>
               <widget class="GtkButton" id="cache">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -122,7 +119,6 @@
             </child>
             <child>
               <widget class="GtkButton" id="about">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
