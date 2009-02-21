@@ -98,6 +98,12 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         path = get_path()
+        if not os.path.exists(path + self.username + 'DB'):
+            self.write_info("User db doesn't exist, creating.")
+            create_new = True
+        else:
+            create_new = False
+        song_db = dbClass.lastfmDb(self.username + 'DB', create_new)
         self.write_info("Connecting to MTP device...")
         #os.system("mtp-tracks > " + path + self.username + "tracklisting")
         f = file(path + self.username + "tracklisting", 'r').readlines()
@@ -110,7 +116,7 @@ class MTPLastfmGTK:
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    
+                    song_db.addNewData(song_obj)
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')

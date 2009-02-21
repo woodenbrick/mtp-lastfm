@@ -107,11 +107,13 @@ class lastfmDb_Users:
     
 #cli
 class lastfmDb:
-    def __init__(self, database):
+    def __init__(self, database, create=False):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
         self.log = Logger(name='sqliteDb Log')
-        
+        if create is True:
+            self.initialCreation()
+            
     def initialCreation(self):
         query = ['''
         CREATE TABLE IF NOT EXISTS `scrobble` (
@@ -126,8 +128,7 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
-        `rating` varchar(1)
-        
+        `rating` varchar(1),
         PRIMARY KEY  (`trackid`))''']
         self.log.logger.info('Creating Tables')
         for q in query:
@@ -183,10 +184,10 @@ class lastfmDb:
             numScrobbles = songObj.usecount
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
-                                usecount, rating) values (?, ?, ?, ?, ?, ?, ?)""",
+                                usecount, rating) values (?, ?, ?, ?, ?, ?, ?, '')""",
                                 (songObj.trackid, songObj.artist, songObj.title,
                                  songObj.album, songObj.tracknumber,
-                                 songObj.duration, songObj.usecount, ""))
+                                 songObj.duration, songObj.usecount))
             self.db.commit()
         else:
             #song has row in db
