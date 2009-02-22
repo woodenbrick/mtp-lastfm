@@ -58,22 +58,20 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         conn = urllib2.urlopen(self.url)
         self.serverResponse = conn.readline().strip()
         if self.serverResponse == 'OK':
-            self.log.logger.info('Server Response OK.')
+            msg = 'User authenticated.'
             self.sessionID = conn.readline()[:-1]
             self.nowPlayingUrl = conn.readline().strip #not used at this time
             self.submissionUrl = conn.readline()[:-1]
-            return 'OK'
         elif self.serverResponse == 'BADAUTH':
-            self.log.logger.warn('Username or password incorrect.')
-            return 'BADAUTH'
+            msg = 'Username or password incorrect, please reset'
         elif self.serverResponse == 'BANNED':
-            self.log.logger.critical('this scrobbling client has been banned from submission, \
-                                     please notify the developer')
+            msg = 'This scrobbling client has been banned from submission,\
+                  please notify the developer'
         elif self.serverResponse == 'BADTIME':
-            self.log.logger.warn('Timestamp is incorrect, please check your clock settings')
+            msg = 'Timestamp is incorrect, please check your clock settings'
         elif self.serverResponse.startswith('FAILED'):
-            self.log.logger.critical('Connection to server failed:', string.split(response, ' ')[1:])
-        return False
+            msg = 'Connection to server failed:', string.split(response, ' ')[1:]
+        return self.serverResponse, msg
         
     def submitTracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""

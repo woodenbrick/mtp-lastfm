@@ -45,6 +45,7 @@ class MTPLastfmGTK:
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
             "on_check_device_clicked" : self.on_check_device_clicked,
+            "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
@@ -60,8 +61,7 @@ class MTPLastfmGTK:
         #banned_window = self.tree.get_widget("banned_window")
         #cache_window = self.tree.get_widget("cache_window")
         
-        self.options_list = ("random", "alphabetical", "startup_check",
-                        "auto_scrobble", "scrobble_time", "use_default_time")
+
         
         #if a user was set to be logged in automatically, open the main window
         #otherwise show our login screen
@@ -72,6 +72,8 @@ class MTPLastfmGTK:
         else:
             self.tree.get_widget("user").set_text(current_user[0])
             self.username = current_user[0]
+            self.password = current_user[1]
+            self.options = Options(self.username, self.usersDB)
             self.show_main_window()
         
      
@@ -120,7 +122,24 @@ class MTPLastfmGTK:
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-        
+        song_db.closeConnection()
+    
+    def on_scrobble_clicked(self, widget):
+        """Scrobbles tracks to last.fm"""
+        import scrobbler
+        scr = scrobbler.Scrobbler(self.username, self.password)
+        #show scrobble dialog, if user has indicated in preferences
+        if self.options[5] is True:
+            pass
+        song_db = dbClass.lastfmDb(self.username + "DB")
+        scrobble_list = song_db.returnScrobbleList()
+        server_response, msg = scr.handshake()
+        if server_response == 'OK':
+            if scr.submitTracks(scrobble_list):
+                song_db.deleteScrobbles('all')
+            else:
+                song_db.deleteScrobbles(scrobble.deletionIds)                
+        self.write_info(msg)
     
     def write_info(self, new_info, new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
@@ -140,13 +159,11 @@ class MTPLastfmGTK:
 
     #menu options
     def on_options_clicked(self, widget):
-        options = self.usersDB.retrieve_options(self.username)
-        
-        for i in range(0, len(self.options_list)):
+        for o in self.options.options_list:
             try:
-                self.tree.get_widget(self.options_list[i]).set_active(options[i])
+                self.tree.get_widget(o).set_active(self.options.return_option(o))
             except AttributeError:
-                self.tree.get_widget(self.options_list[i]).set_value(options[i])
+                self.tree.get_widget(o).set_value(self.options.return_option(o))
         self.options_window.show()
     
     
@@ -192,6 +209,7 @@ class MTPLastfmGTK:
         self.usersDB.update_options(self.username, random, alpha,
                                     startup_check, auto_scrobble,
                                     scrobble_time, use_default_time)
+        self.options = self.options.reset_options(self.username, self.usersDB)
         self.options_window.hide()
         
     
@@ -202,7 +220,27 @@ class MTPLastfmGTK:
     def on_about_closed(self, widget):
         self.tree.get_widget("about_dialog").hide()
     
+
+class Options:
+    def __init__(self, username, db):
+        self.options_list = ("random", "alphabetical", "startup_check",
+                        "auto_scrobble", "scrobble_time", "use_default_time")
+        self.reset_options(username, db)
+        
+    def reset_options(self, username, db):
+        options = db.retrieve_options(username)
+        self.dic_options = self.create_option_dic(options)
+        
+    def create_option_dic(self, options):
+        dic = {}
+        for o in range(0, len(self.options_list)):
+            dic[self.options_list[o]] = options[o]
+        return dic
     
+    def return_option(self, option_name):
+        return self.dic_options[option_name]
+        
+        
 if __name__ == "__main__":
     mtp = MTPLastfmGTK()
     gtk.main()
