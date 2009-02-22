@@ -34,10 +34,12 @@ class Scrobbler:
         self.deletionIds = []
         self.scrobbleCount = 0
         self.log = Logger(name='scrobbling', stream_log_level=2)
-        self.scrobbleTime = self.setScrobbleTime()
         
+    def setScrobbleTime(self, time):
+        self.scrobbleTime = time
         
-    def setScrobbleTime(self):
+    def _setScrobbleTime(self):
+        #depreciated
         """A manual way for setting the time to start scrobbling"""
         print 'Please set the time that the scrobbling was started in hours \
 eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'

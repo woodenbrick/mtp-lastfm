@@ -59,7 +59,7 @@ class lastfmDb_Users:
     def get_users(self, all=False):
         """Returns last user who logged in and chose to remember their password
         set all to true to get all users"""
-        self.cursor.execute("SELECT * FROM users ORDER BY time")
+        self.cursor.execute("SELECT * FROM users ORDER BY time DESC")
         if all is False:
             current_user = self.cursor.fetchone()
             return current_user

@@ -46,6 +46,7 @@ class MTPLastfmGTK:
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
+            "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
@@ -107,7 +108,7 @@ class MTPLastfmGTK:
             create_new = False
         song_db = dbClass.lastfmDb(self.username + 'DB', create_new)
         self.write_info("Connecting to MTP device...")
-        #os.system("mtp-tracks > " + path + self.username + "tracklisting")
+        os.system("mtp-tracks > " + path + self.username + "tracklisting")
         f = file(path + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -129,8 +130,13 @@ class MTPLastfmGTK:
         import scrobbler
         scr = scrobbler.Scrobbler(self.username, self.password)
         #show scrobble dialog, if user has indicated in preferences
-        if self.options[5] is True:
-            pass
+        if self.options.return_option("use_default_time") is True:
+            scr.setScrobbleTime(self.options.return_option("scrobble_time"))
+        else:
+            self.show_scrobble_dialog()
+            scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
+            scr.setScrobbleTime(scr_time)
+            
         song_db = dbClass.lastfmDb(self.username + "DB")
         scrobble_list = song_db.returnScrobbleList()
         server_response, msg = scr.handshake()
@@ -140,6 +146,15 @@ class MTPLastfmGTK:
             else:
                 song_db.deleteScrobbles(scrobble.deletionIds)                
         self.write_info(msg)
+    
+    def show_scrobble_dialog(self):
+        self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))
+        (self.options.return_option("scrobble_time"))
+        self.tree.get_widget("scrobble_dialog").run()
+        
+    def on_scrobble_time_entered_clicked(self, widget):
+        self.tree.get_widget("scrobble_dialog").hide()
+        
     
     def write_info(self, new_info, new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
