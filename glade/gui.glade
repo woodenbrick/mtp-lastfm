@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Feb 21 19:04:59 2009 -->
+<!--Generated with glade3 3.4.5 on Sun Feb 22 15:22:34 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -12,22 +12,17 @@
         <child>
           <widget class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
-            <property name="homogeneous">True</property>
             <child>
               <widget class="GtkButton" id="check_device">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text">Connects to your MTP Device and downloads played tracks</property>
+                <property name="label" translatable="yes">gtk-connect</property>
+                <property name="use_stock">True</property>
                 <property name="yalign">0.4699999988079071</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_check_device_clicked"/>
-                <child>
-                  <widget class="GtkImage" id="image4">
-                    <property name="visible">True</property>
-                    <property name="stock">gtk-connect</property>
-                  </widget>
-                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -41,13 +36,23 @@
                 <property name="receives_default">True</property>
                 <property name="response_id">0</property>
                 <child>
-                  <widget class="GtkImage" id="image1">
-                    <property name="width_request">50</property>
+                  <widget class="GtkHBox" id="hbox7">
                     <property name="visible">True</property>
-                    <property name="tooltip_text">Scrobbles tracks in your cache</property>
-                    <property name="pixbuf">audioscrobbler_logo.jpg</property>
-                    <property name="icon_size">3</property>
-                    <property name="pixel_size">4</property>
+                    <child>
+                      <widget class="GtkImage" id="image1">
+                        <property name="visible">True</property>
+                        <property name="pixbuf">audioscrobbler.png</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label7">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Scrobble</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -62,14 +67,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="label" translatable="yes">gtk-preferences</property>
+                <property name="use_stock">True</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_options_clicked"/>
-                <child>
-                  <widget class="GtkImage" id="image3">
-                    <property name="visible">True</property>
-                    <property name="stock">gtk-preferences</property>
-                  </widget>
-                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -85,9 +86,23 @@
                 <property name="tooltip_text">List of tracks that will not be scrobbled</property>
                 <property name="response_id">0</property>
                 <child>
-                  <widget class="GtkImage" id="image2">
+                  <widget class="GtkHBox" id="hbox8">
                     <property name="visible">True</property>
-                    <property name="pixbuf">110_F_6610709_T8gxxJlgzVQALMHSL0wtwSX0k7Ycoh58.jpg</property>
+                    <child>
+                      <widget class="GtkImage" id="image2">
+                        <property name="visible">True</property>
+                        <property name="pixbuf">banned.png</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label8">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Banned</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -103,13 +118,9 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text">A cache of songs waiting to be scrobbled</property>
+                <property name="label" translatable="yes">gtk-index</property>
+                <property name="use_stock">True</property>
                 <property name="response_id">0</property>
-                <child>
-                  <widget class="GtkImage" id="image5">
-                    <property name="visible">True</property>
-                    <property name="stock">gtk-edit</property>
-                  </widget>
-                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -122,14 +133,10 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="label" translatable="yes">gtk-about</property>
+                <property name="use_stock">True</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_about_clicked"/>
-                <child>
-                  <widget class="GtkImage" id="image6">
-                    <property name="visible">True</property>
-                    <property name="stock">gnome-stock-about</property>
-                  </widget>
-                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
