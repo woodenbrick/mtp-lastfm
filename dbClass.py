@@ -195,11 +195,11 @@ class lastfmDb:
         else:
             #song has row in db
             numScrobbles = songObj.usecount - row[1]
-            if numScrobbles > 0:
-                self.cursor.execute("""update songs set usecount=?
-                                    where trackid=?""", (songObj.usecount,
-                                                         songObj.trackid))
-                self.db.commit()
-            self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                values (?, ?)""", (songObj.trackid, numScrobbles))
+        if numScrobbles > 0:
+            self.cursor.execute("""update songs set usecount=?
+                                where trackid=?""", (songObj.usecount,
+                                                    songObj.trackid))
             self.db.commit()
+        self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
+                                values (?, ?)""", (songObj.trackid, numScrobbles))
+        self.db.commit()

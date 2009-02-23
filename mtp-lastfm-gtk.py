@@ -164,14 +164,8 @@ class MTPLastfmGTK:
     def on_cache_clicked(self, widget):
         data_set = self.song_db.returnScrobbleList()
         listing = []
-        last_id = None
-        count = 1
         for row in data_set:
-            count +=1
-            if last_id != row[0]:
-                listing.append(row[1] + " " + row[2] + " " + str(count))
-                count = 0
-                last_id = row[0]
+            listing.append( row[2]+ " " + row[3] + " " + str(row[1]))
         listing = "\n".join(listing)
         self.write_info(listing, buffer_name="cache_buffer", clear_buffer=True)
         self.tree.get_widget("cache_window").show()
