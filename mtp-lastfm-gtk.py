@@ -244,6 +244,7 @@ class MTPLastfmGTK:
     
     #About Window
     def on_about_clicked(self, widget):
+        self.tree.get_widget("about_dialog").set_website("http://www.google.com")
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
