@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Feb 23 20:07:45 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Feb 23 20:11:17 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -594,12 +594,6 @@
       <widget class="GtkVBox" id="vbox6">
         <property name="visible">True</property>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -612,41 +606,6 @@
               </widget>
             </child>
           </widget>
-          <packing>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkHBox" id="hbox8">
-            <property name="visible">True</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </widget>
-          <packing>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </widget>
     </child>
