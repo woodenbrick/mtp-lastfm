@@ -34,16 +34,20 @@ __version__ = "0.1-dev"
 
 def get_path():
     if "dev" in __version__:
-        return "/usr/local/applications/mtp-lastfm/"
-    else:
+        print 'Development version'
         return os.path.dirname(__file__)
+    else:
+        return "/usr/local/applications/mtp-lastfm/"
 
 class MTPLastfmGTK:
     def __init__(self):
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
-        
         self.MAIN_PATH = get_path()
+        try:
+            os.mkdir(self.HOME_DIR)
+        except OSError:
+            pass
         
         self.gladefile = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
@@ -59,6 +63,7 @@ class MTPLastfmGTK:
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
+            "on_cache_clicked" : self.on_cache_clicked,
             "on_about_clicked" : self.on_about_clicked,
             "on_about_closed" : self.on_about_closed,
             "on_about_dialog_destroy" : self.on_about_dialog_destroy
@@ -82,10 +87,14 @@ class MTPLastfmGTK:
             self.username = current_user[0]
             self.password = current_user[1]
             self.options = Options(self.username, self.usersDB)
+            if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
+                self.write_info("User db doesn't exist, creating.")
+                create_new = True
+            else:
+                create_new = False
+            self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
             self.show_main_window()
-        
-     
-    
+            
     def show_main_window(self):
         self.login_window.hide()
         self.main_window.show()
@@ -107,31 +116,22 @@ class MTPLastfmGTK:
         self.show_login_window()
     
     def on_check_device_clicked(self, widget):
-        if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
-            self.write_info("User db doesn't exist, creating.")
-            create_new = True
-        else:
-            create_new = False
-        song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + 'DB', create_new)
         self.write_info("Connecting to MTP device...")
-        import time
-        time.sleep(1)
-        os.system("mtp-tracks > " + path + self.username + "tracklisting")
-        f = file(path + self.username + "tracklisting", 'r').readlines()
+        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
         else:
-            self.write_info("Done. It is now safe to remove your MTP device")
-            self.write_info("Cross checking song data with local database...")
+            self.write_info("Done. It is now safe to remove your MTP device\n\
+                            Cross checking song data with local database...")
             song_obj = songDataClass.songData()
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    song_db.addNewData(song_obj)
+                    self.song_db.addNewData(song_obj)
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-        song_db.closeConnection()
     
     def on_scrobble_clicked(self, widget):
         """Scrobbles tracks to last.fm"""
@@ -144,15 +144,13 @@ class MTPLastfmGTK:
             self.show_scrobble_dialog()
             scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
             scr.setScrobbleTime(scr_time)
-            
-        song_db = dbClass.lastfmDb(self.username + "DB")
         scrobble_list = song_db.returnScrobbleList()
         server_response, msg = scr.handshake()
         if server_response == 'OK':
             if scr.submitTracks(scrobble_list):
-                song_db.deleteScrobbles('all')
+                self.song_db.deleteScrobbles('all')
             else:
-                song_db.deleteScrobbles(scrobble.deletionIds)                
+                self.song_db.deleteScrobbles(scrobble.deletionIds)                
         self.write_info(msg)
     
     def show_scrobble_dialog(self):
@@ -163,10 +161,24 @@ class MTPLastfmGTK:
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
         
+    def on_cache_clicked(self, widget):
+        data_set = self.song_db.returnScrobbleList()
+        listing = []
+        last_id = None
+        count = 1
+        for row in data_set:
+            count +=1
+            if last_id != row[0]:
+                listing.append(row[1] + " " + row[2] + " " + str(count))
+                count = 0
+                last_id = row[0]
+        listing = "\n".join(listing)
+        self.write_info(listing, buffer_name="cache_buffer", clear_buffer=True)
+        self.tree.get_widget("cache_window").show()
     
-    def write_info(self, new_info, new_line='\n', clear_buffer=False):
+    def write_info(self, new_info, buffer_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
-        buffer = self.tree.get_widget("info").get_buffer()
+        buffer = self.tree.get_widget(buffer_name).get_buffer()
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
@@ -240,10 +252,12 @@ class MTPLastfmGTK:
     
     #About Window
     def on_about_clicked(self, widget):
-        self.tree.get_widget("about_dialog").show()
-    
+        self.response = self.tree.get_widget("about_dialog").run()
+        
+        
     def on_about_closed(self, widget):
-        dialog = self.tree.get_widget("about_dialog").hide()
+        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
+            self.tree.get_widget("about_dialog").hide()
     
     def on_about_dialog_destroy(self, widget):
         self.tree.get_widget("about_dialog").hide()
