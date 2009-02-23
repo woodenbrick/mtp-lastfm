@@ -30,13 +30,20 @@ import dbClass
 import songDataClass
 
 __author__ = "Daniel Woodhouse"
-__version__ = "0.1"
+__version__ = "0.1-dev"
+
+def get_path():
+    if "dev" in __version__:
+        return "/usr/local/applications/mtp-lastfm/"
+    else:
+        return os.path.dirname(__file__)
 
 class MTPLastfmGTK:
     def __init__(self):
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
-        self.MAIN_PATH = "/usr/local/applications/mtp-lastfm/"
+        
+        self.MAIN_PATH = get_path()
         
         self.gladefile = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
