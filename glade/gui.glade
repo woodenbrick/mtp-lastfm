@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Feb 23 21:32:03 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Feb 23 21:34:19 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -504,7 +504,6 @@
     along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/</property>
     <property name="authors">Daniel Woodhouse</property>
     <property name="documenters"></property>
-    <signal name="close" handler="on_about_dialog_close"/>
     <signal name="destroy" handler="on_about_dialog_destroy"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">

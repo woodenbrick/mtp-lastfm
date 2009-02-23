@@ -65,8 +65,6 @@ class MTPLastfmGTK:
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
             "on_cache_clicked" : self.on_cache_clicked,
             "on_about_clicked" : self.on_about_clicked,
-            "on_about_dialog_close" : self.on_about_close,
-            "on_about_dialog_destroy" : self.on_about_dialog_destroy
         }
         self.tree.signal_autoconnect(event_handlers)
         
@@ -250,13 +248,6 @@ class MTPLastfmGTK:
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
         
-    def on_about_close(self, widget):
-        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
-            self.tree.get_widget("about_dialog").hide()
-    
-    def on_about_dialog_destroy(self, widget):
-        self.tree.get_widget("about_dialog").hide()
-
 class Options:
     def __init__(self, username, db):
         self.options_list = ("random", "alphabetical", "startup_check",
