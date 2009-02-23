@@ -22,14 +22,15 @@ import getpass
 from logger import Logger
 
 class lastfmDb_Users:
-    def __init__(self):
-        if not os.path.exists("usersDB"):
-            self.create_new_database()    
-        self.db = sqlite3.Connection("usersDB")
+    def __init__(self, path):
+        path = os.path.join(path, "usersDB")
+        if not os.path.exists(path):
+            self.create_new_database(path)    
+        self.db = sqlite3.Connection(path)
         self.cursor = self.db.cursor()
     
-    def create_new_database(self):
-        connection = sqlite3.Connection("usersDB")
+    def create_new_database(self, path):
+        connection = sqlite3.Connection(path)
         query = ['''CREATE TABLE IF NOT EXISTS `users` (
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL,

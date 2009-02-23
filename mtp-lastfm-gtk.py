@@ -32,17 +32,13 @@ import songDataClass
 __author__ = "Daniel Woodhouse"
 __version__ = "0.1"
 
-def get_path():
-    """Finds the path that the script is running from"""
-    path = os.path.dirname(os.path.realpath(__file__)) + os.sep
-    return path
-
 class MTPLastfmGTK:
     def __init__(self):
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = "/usr/local/applications/mtp-lastfm/"
-        self.gladefile = os.path.join(get_path(), "glade", "gui.glade")
+        
+        self.gladefile = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
         event_handlers = {
             "on_main_window_destroy" : gtk.main_quit,
@@ -70,7 +66,7 @@ class MTPLastfmGTK:
         
         #if a user was set to be logged in automatically, open the main window
         #otherwise show our login screen
-        self.usersDB = dbClass.lastfmDb_Users()
+        self.usersDB = dbClass.lastfmDb_Users(self.HOME_DIR)
         current_user = self.usersDB.get_users()
         if current_user is None:
             self.show_login_window()
@@ -104,13 +100,12 @@ class MTPLastfmGTK:
         self.show_login_window()
     
     def on_check_device_clicked(self, widget):
-        path = get_path()
-        if not os.path.exists(path + self.username + 'DB'):
+        if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
             self.write_info("User db doesn't exist, creating.")
             create_new = True
         else:
             create_new = False
-        song_db = dbClass.lastfmDb(self.username + 'DB', create_new)
+        song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + 'DB', create_new)
         self.write_info("Connecting to MTP device...")
         import time
         time.sleep(1)
