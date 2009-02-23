@@ -118,7 +118,8 @@ class lastfmDb:
     def initialCreation(self):
         query = ['''
         CREATE TABLE IF NOT EXISTS `scrobble` (
-        `trackid` int(8) NOT NULL
+        `trackid` int(8) NOT NULL,
+        `scrobble_count` int(4) NOT NULL
         )''',
         
         '''CREATE TABLE IF NOT EXISTS `songs` (
@@ -141,7 +142,8 @@ class lastfmDb:
         self.db.close()
     
     def returnScrobbleList(self):
-        self.cursor.execute("""SELECT scrobble.ROWID, songs.artist, songs.song,
+        self.cursor.execute("""SELECT scrobble.ROWID, scrobble.scrobble_count,
+                            songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,
                             songs.rating FROM songs INNER JOIN scrobble ON
                             songs.trackid=scrobble.trackid""")
@@ -194,9 +196,10 @@ class lastfmDb:
             #song has row in db
             numScrobbles = songObj.usecount - row[1]
             if numScrobbles > 0:
-                self.cursor.execute("""update songs set usecount=? where trackid=?""", (songObj.usecount, songObj.trackid))
+                self.cursor.execute("""update songs set usecount=?
+                                    where trackid=?""", (songObj.usecount,
+                                                         songObj.trackid))
                 self.db.commit()
-        while numScrobbles > 0:
-            self.cursor.execute("""insert into scrobble (trackid) values (?)""", (songObj.trackid,))
-            numScrobbles -= 1
+            self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
+                                values (?, ?)""", (songObj.trackid, numScrobbles))
             self.db.commit()
