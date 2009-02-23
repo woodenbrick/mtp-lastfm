@@ -29,6 +29,9 @@ pygtk.require("2.0")
 import dbClass
 import songDataClass
 
+__author__ = "Daniel Woodhouse"
+__version__ = "0.1"
+
 def get_path():
     """Finds the path that the script is running from"""
     path = os.path.dirname(os.path.realpath(__file__)) + os.sep
@@ -36,6 +39,9 @@ def get_path():
 
 class MTPLastfmGTK:
     def __init__(self):
+        
+        self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
+        self.MAIN_PATH = "/usr/local/applications/mtp-lastfm/"
         self.gladefile = os.path.join(get_path(), "glade", "gui.glade")
         self.tree = gtk.glade.XML(self.gladefile)
         event_handlers = {
@@ -51,18 +57,16 @@ class MTPLastfmGTK:
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
             "on_about_clicked" : self.on_about_clicked,
-            "on_about_closed" : self.on_about_closed
+            "on_about_closed" : self.on_about_closed,
+            "on_about_dialog_destroy" : self.on_about_dialog_destroy
         }
         self.tree.signal_autoconnect(event_handlers)
         
-        #set window names
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
         #banned_window = self.tree.get_widget("banned_window")
         #cache_window = self.tree.get_widget("cache_window")
-        
-
         
         #if a user was set to be logged in automatically, open the main window
         #otherwise show our login screen
@@ -108,6 +112,8 @@ class MTPLastfmGTK:
             create_new = False
         song_db = dbClass.lastfmDb(self.username + 'DB', create_new)
         self.write_info("Connecting to MTP device...")
+        import time
+        time.sleep(1)
         os.system("mtp-tracks > " + path + self.username + "tracklisting")
         f = file(path + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
@@ -164,11 +170,13 @@ class MTPLastfmGTK:
         else:
             start, end = buffer.get_bounds()
             info = buffer.get_text(start, end)
-            print info, new_line, new_info
             if info is None:
                 buffer.set_text(new_info)
             else:
                 buffer.set_text(info + new_line + new_info)
+        while gtk.events_pending():
+            gtk.main_iteration(False)
+
 
 
 
@@ -233,8 +241,10 @@ class MTPLastfmGTK:
         self.tree.get_widget("about_dialog").show()
     
     def on_about_closed(self, widget):
-        self.tree.get_widget("about_dialog").hide()
+        dialog = self.tree.get_widget("about_dialog").hide()
     
+    def on_about_dialog_destroy(self, widget):
+        self.tree.get_widget("about_dialog").hide()
 
 class Options:
     def __init__(self, username, db):

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Feb 22 17:04:22 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Feb 23 13:33:17 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -178,15 +178,23 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkTextView" id="info">
-            <property name="height_request">200</property>
+          <widget class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="visible">True</property>
-            <property name="editable">False</property>
-            <property name="wrap_mode">GTK_WRAP_WORD</property>
-            <property name="left_margin">5</property>
-            <property name="right_margin">5</property>
-            <property name="cursor_visible">False</property>
-            <property name="text" translatable="yes">Welcome to mtp-scrobbler 0.1!</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <child>
+              <widget class="GtkTextView" id="info">
+                <property name="height_request">200</property>
+                <property name="visible">True</property>
+                <property name="editable">False</property>
+                <property name="wrap_mode">GTK_WRAP_WORD</property>
+                <property name="left_margin">5</property>
+                <property name="right_margin">5</property>
+                <property name="cursor_visible">False</property>
+                <property name="text" translatable="yes">Welcome to mtp-scrobbler 0.1!</property>
+              </widget>
+            </child>
           </widget>
           <packing>
             <property name="position">2</property>
@@ -481,9 +489,7 @@
     <property name="comments" translatable="yes">mtp-lastfm tracks your listening habits on your mtp device and uploads them to last.fm</property>
     <property name="website">http://github.com/woodenbrick/mtp-lastfm/tree/master</property>
     <property name="website_label" translatable="yes">Source repository</property>
-    <property name="license" translatable="yes">    This file is part of mtp-lastfm.
-
-    mtp-lastfm is free software: you can redistribute it and/or modify
+    <property name="license" translatable="yes">    mtp-lastfm is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -496,8 +502,9 @@
     You should have received a copy of the GNU General Public License
     along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/</property>
     <property name="authors">Daniel Woodhouse</property>
-    <property name="documenters">Daniel Woodhouse</property>
+    <property name="documenters"></property>
     <signal name="close" handler="on_about_closed"/>
+    <signal name="destroy" handler="on_about_dialog_destroy"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
