@@ -109,9 +109,11 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                             pass
                         
                         fullList[index].append(x)
-                #remove row ID's which will track which items in scrobble list require deletions
+                #remove row ID's which will track which items in scrobble
+                #list require deletions
                 self.delIds = fullList.pop(0)
-                #append extra data to fullList, time, source, musicbrainz tags ad rating
+                #append extra data to fullList, time, source, musicbrainz
+                #tags ad rating
                 while len(fullList) < 9:
                     fullList.append([])
                 for extra in range(0, len(cache)):
