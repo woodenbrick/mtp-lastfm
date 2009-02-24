@@ -77,24 +77,28 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         
     def submitTracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
+        #The new cursor object contains these rows:
+        #trackID|ScrobbleCount|Artist|Track|Length|Album|tracknumber|
+        #we are still using the old style
+        #new_c = self.convert_to_old_style(c)
+        pastTime = int(time.time() - self.scrobbleTime)
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
                 break
             else:
                 self.scrobbleCount += len(cache)
-                #s=<sessionID>  The Session ID string returned by the handshake request. Required.
+                #s=<sessionID>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
                 #t[0]=<track>   The track title. Required.
-                #i[0]=<time>    The time the track started playing, in UNIX timestamp format
+                #i[0]=<time>    The time the track started playing, UNIX timestamp.
                 #o[0]=<source>  Put P for this value
-                #r[0]=<rating>  Blank or dont use
+                #r[0]=<rating>  Blank or dont use(for now)
                 #l[0]=<secs>    The length of the track in seconds. 
                 #b[0]=<album>   The album title, or an empty string if not known.
-                #n[0]=<tracknumber>The position of the track on the album, or an empty string if not known.
+                #n[0]=<tracknumber>The position of the track on the album, or empty.
                 #m[0]=music brainz identifier, leave blank
                 fullList = [[], [], [], [], [], []]
-                pastTime = int(time.time() - self.scrobbleTime) #this is in the past where we will start our scrobbling
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
