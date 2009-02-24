@@ -101,6 +101,7 @@ class MTPLastfmGTK:
             
     def show_main_window(self):
         self.login_window.hide()
+        self.write_info("User authenticated.")
         self.main_window.show()
         
     def show_options_window(self):
@@ -121,7 +122,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -139,6 +140,9 @@ class MTPLastfmGTK:
     
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
+        self.tree.get_widget("login_error").set_text("Authenticating...")
+        while gtk.events_pending():
+            gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
         server_response, msg = self.scrobbler.handshake()
         if server_response == "OK":
