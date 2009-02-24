@@ -36,7 +36,7 @@ class Scrobbler:
         self.log = Logger(name='scrobbling', stream_log_level=2)
         
     def setScrobbleTime(self, time):
-        self.scrobbleTime = time
+        self.scrobbleTime = int(time * 3600)
         
     def _setScrobbleTime(self):
         #depreciated
@@ -77,10 +77,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         
     def submitTracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
-        #The new cursor object contains these rows:
-        #trackID|ScrobbleCount|Artist|Track|Length|Album|tracknumber|
-        #we are still using the old style
-        #new_c = self.convert_to_old_style(c)
+
         pastTime = int(time.time() - self.scrobbleTime)
         while True:
             cache = c.fetchmany(50)

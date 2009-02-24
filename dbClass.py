@@ -142,7 +142,7 @@ class lastfmDb:
         self.db.close()
     
     def returnScrobbleList(self):
-        self.cursor.execute("""SELECT scrobble.ROWID, scrobble.scrobble_count,
+        self.cursor.execute("""SELECT scrobble.ROWID, 
                             songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,
                             songs.rating FROM songs INNER JOIN scrobble ON
@@ -200,6 +200,8 @@ class lastfmDb:
                                 where trackid=?""", (songObj.usecount,
                                                     songObj.trackid))
             self.db.commit()
-        self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
+        while numScrobbles > 0:
+            self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
                                 values (?, ?)""", (songObj.trackid, numScrobbles))
+            numScrobbles -= 1
         self.db.commit()
