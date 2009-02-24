@@ -28,6 +28,7 @@ pygtk.require("2.0")
 
 import dbClass
 import songDataClass
+import scrobbler
 
 __author__ = "Daniel Woodhouse"
 __version__ = "0.1-dev"
@@ -84,14 +85,19 @@ class MTPLastfmGTK:
             self.tree.get_widget("user").set_text(current_user[0])
             self.username = current_user[0]
             self.password = current_user[1]
-            self.options = Options(self.username, self.usersDB)
-            if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
-                self.write_info("User db doesn't exist, creating.")
-                create_new = True
+            #authenticate user with lastfm
+            if self.authenticate_user():
+                self.options = Options(self.username, self.usersDB)
+                if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
+                    self.write_info("User db doesn't exist, creating.")
+                    create_new = True
+                else:
+                    create_new = False
+                self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
+                self.show_main_window()
             else:
-                create_new = False
-            self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
-            self.show_main_window()
+                self.tree.get_widget("login_error").set_text(self.authentication_error)
+                self.show_login_window()
             
     def show_main_window(self):
         self.login_window.hide()
@@ -131,24 +137,31 @@ class MTPLastfmGTK:
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
     
+    def authenticate_user(self):
+        """This authenticates the user with last.fm ie. The Handshake"""
+        self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
+        server_response, msg = self.scrobbler.handshake()
+        if server_response == "OK":
+            return True
+        else:
+            self.authentication_error = msg
+            return False
+            
+    
     def on_scrobble_clicked(self, widget):
         """Scrobbles tracks to last.fm"""
-        import scrobbler
-        scr = scrobbler.Scrobbler(self.username, self.password)
         #show scrobble dialog, if user has indicated in preferences
         if self.options.return_option("use_default_time") is True:
-            scr.setScrobbleTime(self.options.return_option("scrobble_time"))
+            scr_time = self.options.return_option("scrobble_time")
         else:
             self.show_scrobble_dialog()
             scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
-            scr.setScrobbleTime(scr_time)
+        self.scrobbler.setScrobbleTime(scr_time)
         scrobble_list = song_db.returnScrobbleList()
-        server_response, msg = scr.handshake()
-        if server_response == 'OK':
-            if scr.submitTracks(scrobble_list):
+        if self.scrobbler.submitTracks(scrobble_list):
                 self.song_db.deleteScrobbles('all')
-            else:
-                self.song_db.deleteScrobbles(scrobble.deletionIds)                
+        else:
+            self.song_db.deleteScrobbles(scrobble.deletionIds)                
         self.write_info(msg)
     
     def show_scrobble_dialog(self):
@@ -212,16 +225,18 @@ class MTPLastfmGTK:
             login_error = self.tree.get_widget("login_error")
             login_error.set_text("Error: Please enter a username and password")
         else:
-            self.show_main_window()
-            self.tree.get_widget("user").set_text(self.username)
-            if remember_password is True:
-                #check if its already hashed
-                if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
-                    self.password = md5.new(self.password).hexdigest()
-                    
-                self.usersDB.update_user(self.username, self.password)
+            if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
+                self.password = md5.new(self.password).hexdigest()
+            if self.authenticate_user():
+                self.show_main_window()
+                self.tree.get_widget("user").set_text(self.username)
+                if remember_password is True:
+                    self.usersDB.update_user(self.username, self.password)
+                else:
+                    self.usersDB.remove_user(self.username)
             else:
-                self.usersDB.remove_user(self.username)
+                self.show_login_window()
+                self.tree.get_widget("login_error").set_text(self.authentication_error)
                 
     #this section deals with the OPTIONS WINDOW
     def on_cancel_options_clicked(self, widget):
