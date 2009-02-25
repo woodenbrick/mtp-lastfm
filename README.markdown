@@ -1,5 +1,3 @@
-This is Release 0.2 of mtp-lastfm.
-
 The purpose of this program is to scrobble tracks from mtp devices
 (such as the Creative Zen, or the Zune) to last.fm. 
 
