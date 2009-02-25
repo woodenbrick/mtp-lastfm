@@ -136,7 +136,7 @@ class lastfmDb:
         '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
         `count` int(5) NOT NULL)''',
         
-        '''update scrobble_counter set count=0''']
+        '''insert into scrobble_counter (count) values (0)''']
         
         self.log.logger.info('Creating Tables')
         for q in query:
@@ -157,7 +157,7 @@ class lastfmDb:
     
     def returnScrobbleCount(self):
         self.cursor.execute("""SELECT count from scrobble_counter""")
-        return self.cursor.fetchone()
+        return self.cursor.fetchone()[0]
         
     def updateScrobbleCount(self, new_value):
         self.cursor.execute("""update scrobble_counter set count=?""", (new_value,))

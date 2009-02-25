@@ -246,9 +246,9 @@ class MTPLastfmGTK:
         self.options = Options(self.username, self.usersDB)
         if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
             self.write_info("User db doesn't exist, creating.")
-                create_new = True
-            else:
-                create_new = False
+            create_new = True
+        else:
+            create_new = False
         self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
         self.show_main_window()
         
