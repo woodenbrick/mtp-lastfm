@@ -114,7 +114,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -161,7 +161,7 @@ class MTPLastfmGTK:
         else:
             self.song_db.deleteScrobbles(self.scrobbler.deletionIds)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobbleCount) +" Tracks")
-        self.tree.get_widget("cache_label").set_text(self.song_db.returnScrobbleCount())
+        self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
     
     def show_scrobble_dialog(self):
         self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))
@@ -246,6 +246,7 @@ class MTPLastfmGTK:
         else:
             create_new = False
         self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
+        self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
         self.show_main_window()
         
     #this section deals with the OPTIONS WINDOW

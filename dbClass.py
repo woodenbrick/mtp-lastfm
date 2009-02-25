@@ -114,7 +114,6 @@ class lastfmDb:
         if create is True:
             self.initialCreation()
         self.scrobble_counter = self.returnScrobbleCount()
-        print self.scrobble_counter
             
     def initialCreation(self):
         query = ['''
