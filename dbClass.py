@@ -106,7 +106,6 @@ class lastfmDb_Users:
         options where username=?""", (username,))
         return self.cursor.fetchone()
     
-#cli
 class lastfmDb:
     def __init__(self, database, create=False):
         self.db = sqlite3.Connection(database)
@@ -114,6 +113,8 @@ class lastfmDb:
         self.log = Logger(name='sqliteDb Log')
         if create is True:
             self.initialCreation()
+        self.scrobble_counter = self.returnScrobbleCount()
+        print self.scrobble_counter
             
     def initialCreation(self):
         query = ['''
@@ -138,7 +139,7 @@ class lastfmDb:
         
         '''insert into scrobble_counter (count) values (0)''']
         
-        self.log.logger.info('Creating Tables')
+        print 'Creating Tables'
         for q in query:
             self.cursor.execute(q)
             self.db.commit()
@@ -155,19 +156,20 @@ class lastfmDb:
                             songs.trackid=scrobble.trackid""")
         return self.cursor
     
-    def returnUniqueTracks(self):
-        self.cursor.execute("""SELECT songs.artist, songs.song,
-                            songs.album, songs.rating FROM songs INNER JOIN
-                            scrobble ON songs.trackid=scrobble.trackid
-                            WHERE scrobble.trackid DISTINCT"""
+    def returnUniqueScrobbles(self):
+        self.cursor.execute("""SELECT DISTINCT scrobble.trackid,
+                            songs.artist, songs.song,
+                            songs.album, songs.rating
+                            FROM songs INNER JOIN
+                            scrobble ON songs.trackid=scrobble.trackid""")
         return self.cursor
     
     def returnScrobbleCount(self):
         self.cursor.execute("""SELECT count from scrobble_counter""")
         return self.cursor.fetchone()[0]
         
-    def updateScrobbleCount(self, new_value):
-        self.cursor.execute("""update scrobble_counter set count=?""", (new_value,))
+    def updateScrobbleCount(self):
+        self.cursor.execute("""update scrobble_counter set count=?""", (self.scrobble_counter,))
         self.db.commit()
     
     def execute(self, query):
@@ -182,6 +184,7 @@ class lastfmDb:
             self.cursor.execute('delete from scrobble')
             self.cursor.execute('update scrobble_counter set count=0')
             self.db.commit()
+            self.scrobble_counter = 0
         else:
             count = self.returnScrobbleCount
             for id in idList:
@@ -189,6 +192,7 @@ class lastfmDb:
                 self.db.commit()
                 count -= 1
             self.cursor.execute('update scrobble_count set count=?', (count,))
+            self.scrobble_counter = count
     
     def commit(self):
         """commit wrapper"""
@@ -225,6 +229,7 @@ class lastfmDb:
                                 where trackid=?""", (songObj.usecount,
                                                     songObj.trackid))
             self.db.commit()
+        self.scrobble_counter += numScrobbles
         count = numScrobbles
         while numScrobbles > 0:
             self.cursor.execute("""insert into scrobble (trackid, scrobble_count)

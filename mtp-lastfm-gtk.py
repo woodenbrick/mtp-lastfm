@@ -119,22 +119,18 @@ class MTPLastfmGTK:
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
         else:
-            self.write_info("Done. It is now safe to remove your MTP device\n\
-                            Cross checking song data with local database...")
+            self.write_info("Done.", new_line=" ")
+            self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
             song_obj = songDataClass.songData()
-            new_song_counter = 0
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    new_song_counter += 1
                     self.song_db.addNewData(song_obj)
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-            new_count = self.song_db.returnScrobbleCount() + new_song_counter
-            self.song_db.updateScrobbleCount(new_count)
-            self.tree.get_widget("cache_label").set_text("(" + str(new_count) + ")")
-
+            self.song_db.updateScrobbleCount()
+            self.tree.get_widget("cache_label").set_text("(" +str(self.song_db.scrobble_counter) + ")")
    
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
@@ -176,10 +172,10 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_dialog").hide()
         
     def on_cache_clicked(self, widget):
-        data_set = self.song_db.returnScrobbleList()
+        data_set = self.song_db.returnUniqueScrobbles()
         listing = []
         for row in data_set:
-            listing.append( row[2]+ " " + row[3] + " " + str(row[1]))
+            listing.append( row[1]+ " - " + row[2] + " " + row[3] + " " + row[4])
         listing = "\n".join(listing)
         self.write_info(listing, buffer_name="cache_buffer", clear_buffer=True)
         self.tree.get_widget("cache_window").show()
