@@ -82,19 +82,11 @@ class MTPLastfmGTK:
         if current_user is None:
             self.show_login_window()
         else:
-            self.tree.get_widget("user").set_text(current_user[0])
             self.username = current_user[0]
             self.password = current_user[1]
             #authenticate user with lastfm
             if self.authenticate_user():
-                self.options = Options(self.username, self.usersDB)
-                if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
-                    self.write_info("User db doesn't exist, creating.")
-                    create_new = True
-                else:
-                    create_new = False
-                self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
-                self.show_main_window()
+                self.setup_user_session()
             else:
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
                 self.show_login_window()
@@ -139,7 +131,7 @@ class MTPLastfmGTK:
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-            new_count = self.song_db.returnScrobbleCount + new_song_counter
+            new_count = self.song_db.returnScrobbleCount() + new_song_counter
             self.song_db.updateScrobbleCount(new_count)
             self.tree.get_widget("cache_label").set_text("(" + str(new_count) + ")")
 
@@ -239,16 +231,27 @@ class MTPLastfmGTK:
             if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
                 self.password = md5.new(self.password).hexdigest()
             if self.authenticate_user():
-                self.show_main_window()
-                self.tree.get_widget("user").set_text(self.username)
                 if remember_password is True:
                     self.usersDB.update_user(self.username, self.password)
                 else:
                     self.usersDB.remove_user(self.username)
+                self.setup_user_session()
             else:
                 self.show_login_window()
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
                 
+                
+    def setup_user_session(self):
+        self.tree.get_widget("user").set_text(self.username)
+        self.options = Options(self.username, self.usersDB)
+        if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
+            self.write_info("User db doesn't exist, creating.")
+                create_new = True
+            else:
+                create_new = False
+        self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
+        self.show_main_window()
+        
     #this section deals with the OPTIONS WINDOW
     def on_cancel_options_clicked(self, widget):
         self.options_window.hide()
