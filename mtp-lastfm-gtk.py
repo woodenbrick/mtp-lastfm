@@ -122,7 +122,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -130,14 +130,20 @@ class MTPLastfmGTK:
             self.write_info("Done. It is now safe to remove your MTP device\n\
                             Cross checking song data with local database...")
             song_obj = songDataClass.songData()
+            new_song_counter = 0
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
+                    new_song_counter += 1
                     self.song_db.addNewData(song_obj)
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-    
+            new_count = self.song_db.returnScrobbleCount + new_song_counter
+            self.song_db.updateScrobbleCount(new_count)
+            self.tree.get_widget("cache_label").set_text("(" + str(new_count) + ")")
+
+   
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
         self.tree.get_widget("login_error").set_text("Authenticating...")
@@ -167,6 +173,7 @@ class MTPLastfmGTK:
         else:
             self.song_db.deleteScrobbles(self.scrobbler.deletionIds)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobbleCount) +" Tracks")
+        self.tree.get_widget("cache_label").set_text(self.song_db.returnScrobbleCount())
     
     def show_scrobble_dialog(self):
         self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))

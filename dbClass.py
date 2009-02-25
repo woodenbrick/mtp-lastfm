@@ -131,7 +131,13 @@ class lastfmDb:
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
         `rating` varchar(1),
-        PRIMARY KEY  (`trackid`))''']
+        PRIMARY KEY  (`trackid`))''',
+        
+        '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
+        `count` int(5) NOT NULL)''',
+        
+        '''update scrobble_counter set count=0''']
+        
         self.log.logger.info('Creating Tables')
         for q in query:
             self.cursor.execute(q)
@@ -149,6 +155,14 @@ class lastfmDb:
                             songs.trackid=scrobble.trackid""")
         return self.cursor
     
+    def returnScrobbleCount(self):
+        self.cursor.execute("""SELECT count from scrobble_counter""")
+        return self.cursor.fetchone()
+        
+    def updateScrobbleCount(self, new_value):
+        self.cursor.execute("""update scrobble_counter set count=?""", (new_value,))
+        self.db.commit()
+    
     def execute(self, query):
         """wrapper for executing arbitrary queries"""
         self.cursor.execute(query)
@@ -159,11 +173,15 @@ class lastfmDb:
         self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ''.join(str(idList)))
         if idList == 'all':
             self.cursor.execute('delete from scrobble')
+            self.cursor.execute('update scrobble_counter set count=0')
             self.db.commit()
         else:
+            count = self.returnScrobbleCount
             for id in idList:
                 self.cursor.execute('delete from scrobble where trackid=?', (id,))
                 self.db.commit()
+                count -= 1
+            self.cursor.execute('update scrobble_count set count=?', (count,))
     
     def commit(self):
         """commit wrapper"""

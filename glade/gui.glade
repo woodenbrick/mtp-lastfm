@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Feb 24 13:58:22 2009 -->
+<!--Generated with glade3 3.4.5 on Wed Feb 25 11:38:21 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -96,19 +96,36 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkButton" id="cache">
+              <widget class="GtkVBox" id="vbox7">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="tooltip_text">A cache of songs waiting to be scrobbled</property>
-                <property name="image_position">GTK_POS_TOP</property>
-                <property name="response_id">0</property>
-                <signal name="clicked" handler="on_cache_clicked"/>
                 <child>
-                  <widget class="GtkImage" id="image4">
+                  <widget class="GtkButton" id="cache">
                     <property name="visible">True</property>
-                    <property name="stock">gtk-index</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="tooltip_text">A cache of songs waiting to be scrobbled</property>
+                    <property name="image_position">GTK_POS_TOP</property>
+                    <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_cache_clicked"/>
+                    <child>
+                      <widget class="GtkImage" id="image4">
+                        <property name="visible">True</property>
+                        <property name="stock">gtk-index</property>
+                      </widget>
+                    </child>
                   </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="cache_label">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
