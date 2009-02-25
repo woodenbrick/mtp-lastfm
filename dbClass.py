@@ -155,6 +155,13 @@ class lastfmDb:
                             songs.trackid=scrobble.trackid""")
         return self.cursor
     
+    def returnUniqueTracks(self):
+        self.cursor.execute("""SELECT songs.artist, songs.song,
+                            songs.album, songs.rating FROM songs INNER JOIN
+                            scrobble ON songs.trackid=scrobble.trackid
+                            WHERE scrobble.trackid DISTINCT"""
+        return self.cursor
+    
     def returnScrobbleCount(self):
         self.cursor.execute("""SELECT count from scrobble_counter""")
         return self.cursor.fetchone()[0]
@@ -218,8 +225,9 @@ class lastfmDb:
                                 where trackid=?""", (songObj.usecount,
                                                     songObj.trackid))
             self.db.commit()
+        count = numScrobbles
         while numScrobbles > 0:
             self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                values (?, ?)""", (songObj.trackid, numScrobbles))
+                                values (?, ?)""", (songObj.trackid, count))
             numScrobbles -= 1
         self.db.commit()
