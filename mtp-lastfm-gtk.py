@@ -31,14 +31,12 @@ import songDataClass
 import scrobbler
 
 __author__ = "Daniel Woodhouse"
-__version__ = "0.2-dev"
+__version__ = "0.2"
 
 def get_path():
     if "dev" in __version__:
         print 'Development version'
-        return os.path.dirname(__file__)
-    else:
-        return "/usr/local/applications/mtp-lastfm/"
+    return os.path.dirname(__file__)
 
 class MTPLastfmGTK:
     def __init__(self):
