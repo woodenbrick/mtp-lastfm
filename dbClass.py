@@ -67,6 +67,12 @@ class lastfmDb_Users:
         else:
             return self.cursor.fetchall()
         
+    def get_users_like(self, name):
+        """Returns users who have a name starting with the give string"""
+        name = name + "%"
+        self.cursor.execute("SELECT username FROM users WHERE username LIKE ?", (name,))
+        return self.cursor.fetchall()
+        
     def user_exists(self, username):
         self.cursor.execute("SELECT * FROM users WHERE username=?", (username,))
         row = self.cursor.fetchone()

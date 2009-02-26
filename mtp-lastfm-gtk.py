@@ -56,6 +56,7 @@ class MTPLastfmGTK:
             "on_login_clicked" : self.on_login_clicked,
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
+            #"on_username_entry_insert_text" : self.on_username_entry_insert_text,
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
@@ -70,19 +71,13 @@ class MTPLastfmGTK:
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
-        #banned_window = self.tree.get_widget("banned_window")
-        #cache_window = self.tree.get_widget("cache_window")
-        
-        #if a user was set to be logged in automatically, open the main window
-        #otherwise show our login screen
+
         self.usersDB = dbClass.lastfmDb_Users(self.HOME_DIR)
         current_user = self.usersDB.get_users()
-        #always show login window at startup
         self.show_login_window()
         if current_user is not None:
             self.username = current_user[0]
             self.password = current_user[1]
-            #authenticate user with lastfm
             if self.authenticate_user():
                 self.setup_user_session()
             else:
@@ -98,6 +93,7 @@ class MTPLastfmGTK:
         
     def show_login_window(self):
         self.main_window.hide()
+        self.login_auto_completer()
         self.login_window.show()
         
     
@@ -252,6 +248,33 @@ class MTPLastfmGTK:
         self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
         self.show_main_window()
         
+        
+    def on_username_entry_insert_text(self, widget):
+        """Check the user database on keypress to see if we have a match"""
+        entry = self.tree.get_widget("username_entry").get_text()
+        print entry
+        users = self.usersDB.get_users_like(entry)
+        print users
+        if len(users) is 1:
+            self.tree.get_widget("username_entry").set_text(users[0][0])
+            #we need to select the text after the cursor so the user can continue
+            #writing without mistakes
+            
+    def login_auto_completer(self):
+        self.completion = gtk.EntryCompletion()
+        self.completion.set_inline_completion(True)
+        self.completion.set_popup_completion(False)
+        self.tree.get_widget("username_entry").set_completion(self.completion)
+        liststore = gtk.ListStore(str)
+        self.completion.set_model(liststore)
+        pixbufcell = gtk.CellRendererPixbuf()
+        self.completion.pack_start(pixbufcell)
+        self.completion.add_attribute(pixbufcell, 'pixbuf', 3)
+        self.completion.set_text_column(0)
+        users = self.usersDB.get_users(all=True)
+        for user in users:
+            liststore.append([user[0]])
+    
     #this section deals with the OPTIONS WINDOW
     def on_cancel_options_clicked(self, widget):
         self.options_window.hide()
