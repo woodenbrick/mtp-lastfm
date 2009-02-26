@@ -77,9 +77,9 @@ class MTPLastfmGTK:
         #otherwise show our login screen
         self.usersDB = dbClass.lastfmDb_Users(self.HOME_DIR)
         current_user = self.usersDB.get_users()
-        if current_user is None:
-            self.show_login_window()
-        else:
+        #always show login window at startup
+        self.show_login_window()
+        if current_user is not None:
             self.username = current_user[0]
             self.password = current_user[1]
             #authenticate user with lastfm
@@ -87,7 +87,6 @@ class MTPLastfmGTK:
                 self.setup_user_session()
             else:
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
-                self.show_login_window()
             
     def show_main_window(self):
         self.login_window.hide()
@@ -130,13 +129,19 @@ class MTPLastfmGTK:
             self.song_db.updateScrobbleCount()
             self.tree.get_widget("cache_label").set_text("(" +str(self.song_db.scrobble_counter) + ")")
    
+   
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
+        #disable all buttons etc
+        self.tree.get_widget("login_window").set_sensitive(False)
+        self.tree.get_widget("username_entry").set_text(self.username)
+        self.tree.get_widget("password_entry").set_text(self.password)
         self.tree.get_widget("login_error").set_text("Authenticating...")
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
         server_response, msg = self.scrobbler.handshake()
+        self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
             return True
         else:
