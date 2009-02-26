@@ -1,7 +1,5 @@
 The purpose of this program is to scrobble tracks from mtp devices
 (such as the Creative Zen, or the Zune) to last.fm. 
-
-
 Dependencies:
 On an ubuntu system, most of these will be installed by default.
 <ul>
