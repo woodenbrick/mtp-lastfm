@@ -14,6 +14,5 @@ On an ubuntu system, most of these will be installed by default.
 <li>gtk-glade</li>
 </ul>
 
-The source code can be run by: python mtp-lastfm-gtk.py
+To run: python mtp-lastfm-gtk.py
 
-If you would like an installable version in .deb format, see <a href="http://github.com/woodenbrick/mtp-lastfm/downloads">the downloads section</a> 
