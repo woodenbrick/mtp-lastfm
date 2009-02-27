@@ -13,4 +13,4 @@ On an ubuntu system, most of these will be installed by default.
 </ul>
 
 To run: python mtp-lastfm-gtk.py
-Report bugs to at <a href="http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview">lighthouse</a>
+You can track the projects milestones and submit bug/feature requests at <a href="http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview">lighthouse</a>
