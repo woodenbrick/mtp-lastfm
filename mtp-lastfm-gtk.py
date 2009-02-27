@@ -174,6 +174,8 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))
         (self.options.return_option("scrobble_time"))
         self.tree.get_widget("scrobble_dialog").run()
+        while gtk.events_pending():
+            gtk.main_iteration(False)
         
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
