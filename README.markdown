@@ -1,7 +1,7 @@
 The purpose of this program is to scrobble tracks from mtp devices
 (such as the Creative Zen, or the Zune) to last.fm. 
-Dependencies:
-On an ubuntu system, most of these will be installed by default.
+<p>Dependencies:
+<p>On an ubuntu system, most of these will be installed by default.
 <ul>
 <li>Python</li>
 <li>python-sqlite</li>
@@ -13,4 +13,4 @@ On an ubuntu system, most of these will be installed by default.
 </ul>
 
 To run: python mtp-lastfm-gtk.py
-You can track the projects milestones and submit bug/feature requests at <a href="http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview">lighthouse</a>
+<p>You can track the projects milestones and submit bug/feature requests at <a href="http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview">lighthouse</a>
