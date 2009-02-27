@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Feb 26 16:11:35 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Feb 27 14:36:25 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
+    <property name="title" translatable="yes">mtp-lastfm</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_main_window_destroy"/>
     <child>
       <widget class="GtkVBox" id="vbox1">
@@ -14,6 +16,7 @@
             <property name="visible">True</property>
             <child>
               <widget class="GtkButton" id="check_device">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -36,6 +39,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="scrobble">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -56,6 +60,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="options">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -77,6 +82,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="banned_tracks">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -97,6 +103,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="cache">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -132,6 +139,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="about">
+                <property name="width_request">60</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -393,7 +401,9 @@
     </child>
   </widget>
   <widget class="GtkWindow" id="login_window">
+    <property name="title" translatable="yes">Login</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_login_window_destroy"/>
     <child>
       <widget class="GtkVBox" id="vbox4">
@@ -407,6 +417,7 @@
         <child>
           <widget class="GtkLabel" id="login_error">
             <property name="visible">True</property>
+            <property name="label" translatable="yes">Please login to your last.fm account</property>
             <property name="justify">GTK_JUSTIFY_CENTER</property>
           </widget>
           <packing>
@@ -414,79 +425,93 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox5">
+          <widget class="GtkVBox" id="vbox7">
+            <property name="width_request">300</property>
             <property name="visible">True</property>
+            <property name="border_width">10</property>
             <child>
-              <widget class="GtkLabel" id="label5">
+              <widget class="GtkHBox" id="hbox5">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">username:</property>
+                <child>
+                  <widget class="GtkLabel" id="label5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">username:</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkEntry" id="username_entry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="has_focus">True</property>
+                    <signal name="focus_out_event" handler="on_username_entry_focus_out_event"/>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </widget>
             </child>
             <child>
-              <widget class="GtkEntry" id="username_entry">
+              <widget class="GtkHBox" id="hbox6">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <signal name="focus_out_event" handler="on_username_entry_focus_out_event"/>
+                <child>
+                  <widget class="GtkLabel" id="label6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">password:</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkEntry" id="password_entry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="visibility">False</property>
+                    <property name="activates_default">True</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <widget class="GtkVBox" id="vbox8">
+                <property name="visible">True</property>
+                <property name="border_width">17</property>
+                <child>
+                  <widget class="GtkCheckButton" id="remember_password">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Remember me?</property>
+                    <property name="response_id">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="login">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="label" translatable="yes">Login</property>
+                    <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_login_clicked"/>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </widget>
           <packing>
+            <property name="fill">False</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkHBox" id="hbox6">
-            <property name="visible">True</property>
-            <child>
-              <widget class="GtkLabel" id="label6">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">password:</property>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkEntry" id="password_entry">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="visibility">False</property>
-                <property name="activates_default">True</property>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkCheckButton" id="remember_password">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="label" translatable="yes">Remember me?</property>
-            <property name="response_id">0</property>
-            <property name="active">True</property>
-            <property name="draw_indicator">True</property>
-          </widget>
-          <packing>
-            <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkButton" id="login">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="label" translatable="yes">Login</property>
-            <property name="response_id">0</property>
-            <signal name="clicked" handler="on_login_clicked"/>
-          </widget>
-          <packing>
-            <property name="position">5</property>
           </packing>
         </child>
       </widget>
