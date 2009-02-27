@@ -49,7 +49,8 @@ class lastfmDb_Users:
         `auto_scrobble` boolean DEFAULT 0,
         `scrobble_time` integer(3) DEFAULT 8.5,
         `always_use_scrobble_time` boolean DEFAULT 0
-        )''']
+        )''',
+        ]
         
         cursor = connection.cursor()
         for q in query:
@@ -99,6 +100,7 @@ class lastfmDb_Users:
         self.db.commit()
         
     def update_options(self, username, *args):
+        print 'updating', username, args
         query = """update options set scrobble_order_random=%d, scrobble_order_alpha=%d,
         connect_on_startup=%d, auto_scrobble=%d, scrobble_time=%d,
         always_use_scrobble_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
@@ -111,6 +113,14 @@ class lastfmDb_Users:
                         auto_scrobble, scrobble_time, always_use_scrobble_time from
         options where username=?""", (username,))
         return self.cursor.fetchone()
+    
+    def reset_default_user(self):
+        '''reset default user when program closes'''
+        self.cursor.execute("""delete from options where username='default'""")
+        self.cursor.execute("""insert into options (username) values ('default')""")
+        self.db.commit()
+
+
     
 class lastfmDb:
     def __init__(self, database, create=False):

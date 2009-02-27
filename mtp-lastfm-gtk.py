@@ -287,10 +287,9 @@ class MTPLastfmGTK:
         auto_scrobble = self.tree.get_widget("auto_scrobble").get_active()
         scrobble_time = self.tree.get_widget("scrobble_time").get_value()
         use_default_time = self.tree.get_widget("use_default_time").get_active()
-        self.usersDB.update_options(self.username, random, alpha,
+        self.options.update_options(random, alpha,
                                     startup_check, auto_scrobble,
                                     scrobble_time, use_default_time)
-        self.options = self.options.reset_options(self.username, self.usersDB)
         self.options_window.hide()
         
     
@@ -305,11 +304,24 @@ class Options:
     def __init__(self, username, db):
         self.options_list = ("random", "alphabetical", "startup_check",
                         "auto_scrobble", "scrobble_time", "use_default_time")
-        self.reset_options(username, db)
-        
-    def reset_options(self, username, db):
-        options = db.retrieve_options(username)
+        self.db = db
+        self.username = username
+        self.reset_default()
+        self.reset_options()
+    
+    def update_options(self, *args):
+        self.db.update_options(self.username, *args)
+        self.reset_options()
+    
+    def reset_options(self):
+        options = self.db.retrieve_options(self.username)
+        if options is None:
+            self.username = "default"
+            options = self.db.retrieve_options(self.username)
         self.dic_options = self.create_option_dic(options)
+        
+    def reset_default(self):
+        self.db.reset_default_user()
         
     def create_option_dic(self, options):
         dic = {}
