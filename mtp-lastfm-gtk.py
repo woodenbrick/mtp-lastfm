@@ -84,7 +84,8 @@ class MTPLastfmGTK:
             
     def show_main_window(self):
         self.login_window.hide()
-        self.write_info("User authenticated.")
+        self.write_info("User authenticated.", clear_buffer=True)
+        self.tree.get_widget("banned_tracks").set_sensitive(False)
         self.main_window.show()
         
     def show_options_window(self):
@@ -122,6 +123,14 @@ class MTPLastfmGTK:
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
             self.song_db.updateScrobbleCount()
+            self.set_cache_button()
+            
+    def set_cache_button(self):
+        """Checks if we should set a value for the cache button or disable it"""
+        if self.song_db.scrobble_counter is 0:
+            self.tree.get_widget("cache_label").set_text("")
+            self.tree.get_widget("cache").set_sensitive(False)
+        else:
             self.tree.get_widget("cache_label").set_text("(" +str(self.song_db.scrobble_counter) + ")")
    
    
@@ -236,8 +245,7 @@ class MTPLastfmGTK:
             else:
                 self.show_login_window()
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
-                
-                
+    
     def setup_user_session(self):
         self.tree.get_widget("user").set_text(self.username)
         self.options = Options(self.username, self.usersDB)
@@ -247,7 +255,7 @@ class MTPLastfmGTK:
         else:
             create_new = False
         self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
-        self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
+        self.set_cache_button()
         self.show_main_window()
         
         

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Feb 27 17:13:36 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Feb 27 17:18:28 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -86,7 +86,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text">List of tracks that will not be scrobbled</property>
+                <property name="tooltip_text">This button is not currently used</property>
                 <property name="response_id">0</property>
                 <child>
                   <widget class="GtkImage" id="image2">
