@@ -56,7 +56,6 @@ class MTPLastfmGTK:
             "on_login_clicked" : self.on_login_clicked,
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
-            #"on_username_entry_insert_text" : self.on_username_entry_insert_text,
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
@@ -177,8 +176,11 @@ class MTPLastfmGTK:
             listing.append( row[1]+ " - " + row[2] + " " + row[3] + " " + row[4])
         listing = "\n".join(listing)
         self.write_info(listing, buffer_name="cache_buffer", clear_buffer=True)
-        self.tree.get_widget("cache_window").show()
-    
+        response = self.tree.get_widget("cache_window").run()
+        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
+            self.tree.get_widget("cache_window").hide()
+
+
     def write_info(self, new_info, buffer_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
         buffer = self.tree.get_widget(buffer_name).get_buffer()
