@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Feb 27 14:36:25 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Feb 27 15:43:09 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -207,7 +207,7 @@
             <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
             <child>
               <widget class="GtkTextView" id="info">
-                <property name="height_request">200</property>
+                <property name="height_request">210</property>
                 <property name="visible">True</property>
                 <property name="editable">False</property>
                 <property name="wrap_mode">GTK_WRAP_WORD</property>
