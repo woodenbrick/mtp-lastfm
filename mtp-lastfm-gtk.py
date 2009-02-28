@@ -127,12 +127,14 @@ class MTPLastfmGTK:
             
     def set_cache_button(self):
         """Checks if we should set a value for the cache button or disable it"""
-        if self.song_db.scrobble_counter is 0:
-            self.tree.get_widget("cache_label").set_text("")
-            self.tree.get_widget("cache").set_sensitive(False)
-        else:
-            self.tree.get_widget("cache_label").set_text("(" +str(self.song_db.scrobble_counter) + ")")
-   
+        text = ""
+        sensitivity = False
+        if self.song.db.scrobble_counter is not 0:
+            text = "(" + str(self.song_db.scrobble_counter) + ")"
+            sensitivity = True
+        self.tree.get_widget("cache_label").set_text(text)
+        self.tree.get_widget("cache").set_sensitive(sensitivity)
+
    
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
