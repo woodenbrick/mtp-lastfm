@@ -276,7 +276,8 @@ class MTPLastfmGTK:
             #writing without mistakes
     
     def on_password_entry_key_press_event(self, widget, key):
-        print key
+        if key.keyval == 65293:
+            self.on_login_clicked(widget)
             
     def login_auto_completer(self):
         self.completion = gtk.EntryCompletion()
