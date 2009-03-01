@@ -172,7 +172,7 @@ class lastfmDb:
         return self.cursor
     
     def returnUniqueScrobbles(self):
-        self.cursor.execute("""SELECT DISTINCT scrobble.trackid,
+        self.cursor.execute("""SELECT DISTINCT scrobble.trackid, scrobble.scrobble_count,
                             songs.artist, songs.song,
                             songs.album, songs.rating
                             FROM songs INNER JOIN

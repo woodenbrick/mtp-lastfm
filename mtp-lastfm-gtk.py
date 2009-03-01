@@ -30,6 +30,8 @@ import dbClass
 import songDataClass
 import scrobbler
 
+import cache
+
 __author__ = "Daniel Woodhouse"
 __version__ = "0.2"
 
@@ -185,19 +187,11 @@ class MTPLastfmGTK:
         
     def on_cache_clicked(self, widget):
         data_set = self.song_db.returnUniqueScrobbles()
-        listing = []
-        for row in data_set:
-            listing.append( row[1]+ " - " + row[2] + " " + row[3] + " " + row[4])
-        listing = "\n".join(listing)
-        self.write_info(listing, buffer_name="cache_buffer", clear_buffer=True)
-        response = self.tree.get_widget("cache_window").run()
-        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
-            self.tree.get_widget("cache_window").hide()
+        cache_window = cache.CacheWindow(self.MAIN_PATH + "glade/cache.glade", data_set)
 
-
-    def write_info(self, new_info, buffer_name="info", new_line='\n', clear_buffer=False):
+    def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
-        buffer = self.tree.get_widget(buffer_name).get_buffer()
+        buffer = self.tree.get_widget(window_name).get_buffer()
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
