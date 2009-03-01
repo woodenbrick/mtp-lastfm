@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Feb 27 17:18:28 2009 -->
+<!--Generated with glade3 3.4.5 on Sat Feb 28 22:30:26 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -466,6 +466,7 @@
                     <property name="can_focus">True</property>
                     <property name="visibility">False</property>
                     <property name="activates_default">True</property>
+                    <signal name="key_press_event" handler="on_password_entry_key_press_event"/>
                   </widget>
                   <packing>
                     <property name="position">1</property>

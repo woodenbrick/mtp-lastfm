@@ -56,6 +56,7 @@ class MTPLastfmGTK:
             "on_login_clicked" : self.on_login_clicked,
             "on_logout_clicked" : self.on_logout_clicked,
             "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
+            "on_password_entry_key_press_event" : self.on_password_entry_key_press_event,
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
@@ -129,7 +130,7 @@ class MTPLastfmGTK:
         """Checks if we should set a value for the cache button or disable it"""
         text = ""
         sensitivity = False
-        if self.song.db.scrobble_counter is not 0:
+        if self.song_db.scrobble_counter is not 0:
             text = "(" + str(self.song_db.scrobble_counter) + ")"
             sensitivity = True
         self.tree.get_widget("cache_label").set_text(text)
@@ -273,6 +274,9 @@ class MTPLastfmGTK:
             self.tree.get_widget("username_entry").set_text(users[0][0])
             #we need to select the text after the cursor so the user can continue
             #writing without mistakes
+    
+    def on_password_entry_key_press_event(self, widget, key):
+        print key
             
     def login_auto_completer(self):
         self.completion = gtk.EntryCompletion()
