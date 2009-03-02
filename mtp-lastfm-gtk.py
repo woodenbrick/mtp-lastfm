@@ -45,13 +45,16 @@ class MTPLastfmGTK:
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
+        self.MAIN_GLADE = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
+        self.CACHE_GLADE = os.path.join(self.MAIN_PATH, "glade", "cache.glade")
+        
         try:
             os.mkdir(self.HOME_DIR)
         except OSError:
             pass
         
-        self.gladefile = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
-        self.tree = gtk.glade.XML(self.gladefile)
+        
+        self.tree = gtk.glade.XML(self.MAIN_GLADE)
         event_handlers = {
             "on_main_window_destroy" : gtk.main_quit,
             "on_login_window_destroy" : gtk.main_quit,
@@ -186,8 +189,8 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_dialog").hide()
         
     def on_cache_clicked(self, widget):
-        data_set = self.song_db.returnUniqueScrobbles()
-        cache_window = cache.CacheWindow(self.MAIN_PATH + "glade/cache.glade", data_set)
+        cache_window = cache.CacheWindow(self.CACHE_GLADE, self.song_db, self)
+        
 
     def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
