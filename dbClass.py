@@ -194,9 +194,11 @@ class lastfmDb:
     
     def mark_songs_as_loved(self, idList):
         """Takes a list of ids and marks them as loved"""
-        for id in idList:
-            self.cursor.execute("""update songs set rating='L' where trackid=?""", (id,))
-        self.db.commit()
+        self.cursor.execute("update songs set rating='L' where trackid IN (%s)"%','.join(['?']*len(idList)), idList)
+        #old solution
+        #for id in idList:
+        #    self.cursor.execute("""update songs set rating='L' where trackid=?""", (id,))
+        #self.db.commit()
         
     def mark_songs_as_banned_or_no_scrobble(self, idList, marking=None):
         new_scrobble_count = self.scrobble_counter - len(idList)
@@ -206,6 +208,17 @@ class lastfmDb:
                 self.cursor.execute("""update songs set rating=? where trackid=?""", (marking, id))
         self.cursor.execute("""update scrobble_counter set count=?""", (new_scrobble_count,))
         self.scrobble_counter = self.returnScrobbleCount()
+        self.db.commit()
+    
+    def return_banned_tracks(self):
+        self.cursor.execute("""select trackid, artist, song, album from songs
+                                     where rating='B'""")
+        return self.cursor
+    
+    def remove_ban(self, idList):
+        for id in idList:
+            self.cursor.execute("""update songs set rating='' where trackid=?""", (id,))
+        self.db.commit()
     
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""

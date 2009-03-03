@@ -31,6 +31,7 @@ import songDataClass
 import scrobbler
 
 import cache
+import banned
 
 __author__ = "Daniel Woodhouse"
 __version__ = "0.2"
@@ -47,6 +48,7 @@ class MTPLastfmGTK:
         self.MAIN_PATH = get_path()
         self.MAIN_GLADE = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.CACHE_GLADE = os.path.join(self.MAIN_PATH, "glade", "cache.glade")
+        self.BANNED_GLADE = os.path.join(self.MAIN_PATH, "glade", "ban.glade")
         
         try:
             os.mkdir(self.HOME_DIR)
@@ -69,6 +71,7 @@ class MTPLastfmGTK:
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
             "on_cache_clicked" : self.on_cache_clicked,
+            "on_banned_tracks_clicked" : self.on_banned_tracks_clicked,
             "on_about_clicked" : self.on_about_clicked,
         }
         self.tree.signal_autoconnect(event_handlers)
@@ -91,7 +94,6 @@ class MTPLastfmGTK:
     def show_main_window(self):
         self.login_window.hide()
         self.write_info("User authenticated.", clear_buffer=True)
-        self.tree.get_widget("banned_tracks").set_sensitive(False)
         self.main_window.show()
         
     def show_options_window(self):
@@ -132,7 +134,10 @@ class MTPLastfmGTK:
             self.set_cache_button()
             
     def set_cache_button(self):
-        """Checks if we should set a value for the cache button or disable it"""
+        """Checks if we should set a value for the cache button or disable it
+        Also checks ban button, since cache will sometimes change this too"""
+        
+        #cache
         text = ""
         sensitivity = False
         if self.song_db.scrobble_counter is not 0:
@@ -140,7 +145,19 @@ class MTPLastfmGTK:
             sensitivity = True
         self.tree.get_widget("cache_label").set_text(text)
         self.tree.get_widget("cache").set_sensitive(sensitivity)
-
+        #bans
+        #incremental temp solution, keep a seperate table instead
+        banned = self.song_db.return_banned_tracks()
+        count = 0
+        for b in banned:
+            count +=1
+        text = ""
+        sensitivity = False
+        if count is not 0:
+            text = "(" + str(count) + ")"
+            sensitivity = True
+        self.tree.get_widget("banned_label").set_text(text)
+        self.tree.get_widget("banned_tracks").set_sensitive(sensitivity)
    
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
@@ -190,7 +207,9 @@ class MTPLastfmGTK:
         
     def on_cache_clicked(self, widget):
         cache_window = cache.CacheWindow(self.CACHE_GLADE, self.song_db, self)
-        
+    
+    def on_banned_tracks_clicked(self, widget):
+        banned_window = banned.BannedWindow(self.BANNED_GLADE, self.song_db, self)
 
     def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
@@ -311,7 +330,6 @@ class MTPLastfmGTK:
     
     #About Window
     def on_about_clicked(self, widget):
-        self.tree.get_widget("about_dialog").set_website("http://www.google.com")
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Mar  2 14:59:38 2009 -->
+<!--Generated with glade3 3.4.5 on Tue Mar  3 20:06:32 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -82,16 +82,30 @@
             </child>
             <child>
               <widget class="GtkButton" id="banned_tracks">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text">This button is not currently used</property>
+                <property name="tooltip_text">Tracks banned from scrobbling</property>
                 <property name="response_id">0</property>
+                <signal name="clicked" handler="on_banned_tracks_clicked"/>
                 <child>
-                  <widget class="GtkImage" id="image2">
+                  <widget class="GtkHBox" id="hbox7">
                     <property name="visible">True</property>
-                    <property name="pixbuf">banned.png</property>
+                    <child>
+                      <widget class="GtkImage" id="image2">
+                        <property name="visible">True</property>
+                        <property name="pixbuf">banned.png</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="banned_label">
+                        <property name="visible">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -525,7 +539,7 @@
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
     <property name="program_name">mtp-lastfm</property>
-    <property name="version">0.1</property>
+    <property name="version">0.4</property>
     <property name="comments" translatable="yes">mtp-lastfm tracks your listening habits on your mtp device and uploads them to last.fm</property>
     <property name="website">http://github.com/woodenbrick/mtp-lastfm/tree/master</property>
     <property name="website_label" translatable="yes">Source Repository</property>
