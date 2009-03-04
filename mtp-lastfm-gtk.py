@@ -32,6 +32,7 @@ import scrobbler
 
 import cache
 import banned
+import loved
 
 __author__ = "Daniel Woodhouse"
 __version__ = "0.2"
@@ -49,6 +50,7 @@ class MTPLastfmGTK:
         self.MAIN_GLADE = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.CACHE_GLADE = os.path.join(self.MAIN_PATH, "glade", "cache.glade")
         self.BANNED_GLADE = os.path.join(self.MAIN_PATH, "glade", "ban.glade")
+        self.LOVED_GLADE = os.path.join(self.MAIN_PATH, "glade", "loved.glade")
         
         try:
             os.mkdir(self.HOME_DIR)
@@ -72,6 +74,7 @@ class MTPLastfmGTK:
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
             "on_cache_clicked" : self.on_cache_clicked,
             "on_banned_tracks_clicked" : self.on_banned_tracks_clicked,
+            "on_loved_tracks_clicked" : self.on_loved_tracks_clicked,
             "on_about_clicked" : self.on_about_clicked,
         }
         self.tree.signal_autoconnect(event_handlers)
@@ -147,7 +150,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("cache").set_sensitive(sensitivity)
         #bans
         #incremental temp solution, keep a seperate table instead
-        banned = self.song_db.return_banned_tracks()
+        banned = self.song_db.return_tracks("B")
         count = 0
         for b in banned:
             count +=1
@@ -210,6 +213,9 @@ class MTPLastfmGTK:
     
     def on_banned_tracks_clicked(self, widget):
         banned_window = banned.BannedWindow(self.BANNED_GLADE, self.song_db, self)
+        
+    def on_loved_tracks_clicked(self, widget):
+        loved_window = loved.LovedWindow(self.LOVED_GLADE, self.song_db, self)
 
     def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""

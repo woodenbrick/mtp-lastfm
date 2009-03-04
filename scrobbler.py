@@ -95,37 +95,35 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                 #b[0]=<album>   The album title, or an empty string if not known.
                 #n[0]=<tracknumber>The position of the track on the album, or empty.
                 #m[0]=music brainz identifier, leave blank
-                fullList = [[], [], [], [], [], []]
+                fullList = [[], [], [], [], [], [], []]
                 size = len(cache)
                 for track in cache:
                     for index in range(0, len(fullList)):
-                        x = track[index]
+                        song_data_item = track[index]
                         try:
                             #this is to avoid a unicode to ascii error,
                             #which occours when we try to urlencode accented characters
                             #(umlauts etc.)
-                            x = x.encode('UTF-8')
+                            song_data_item = song_data_item.encode('UTF-8')
                         except AttributeError:
                             #cannot encode integers
                             pass
                         
-                        fullList[index].append(x)
+                        fullList[index].append(song_data_item)
                 #remove row ID's which will track which items in scrobble
                 #list require deletions
                 self.delIds = fullList.pop(0)
-                #append extra data to fullList, time, source, musicbrainz
-                #tags ad rating
+                #append extra data to fullList, time, source, musicbrainz tags
                 while len(fullList) < 9:
                     fullList.append([])
                 for extra in range(0, len(cache)):
                     #append time, use l to work out
                     length = fullList[2][extra]
                     pastTime += int(length)
-                    fullList[5].append(pastTime)
+                    fullList[6].append(pastTime)
                     #append source (always P)
-                    fullList[6].append(u"P")
-                    #empty strings for music brain tags and rating
-                    fullList[7].append(u"")
+                    fullList[7].append(u"P")
+                    #empty strings for music brain tag
                     fullList[8].append(u"")
                     
                 postValues = { "s" : self.sessionID }
@@ -141,7 +139,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         return True   
     def getDicValue(self, i):
         """Returns a list of dictionary keys for a specified index"""
-        values = "atlbniorm"
+        values = "atlbnriom"
         list = []
         for v in values:
             list.append("%s[%d]" % (v, i))

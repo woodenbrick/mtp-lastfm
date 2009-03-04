@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Mar  3 20:06:32 2009 -->
+<!--Generated with glade3 3.4.5 on Wed Mar  4 14:50:49 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -81,6 +81,24 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkButton" id="loved_tracks">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="on_loved_tracks_clicked"/>
+                <child>
+                  <widget class="GtkImage" id="image7">
+                    <property name="visible">True</property>
+                    <property name="pixbuf">heart.jpg</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkButton" id="banned_tracks">
                 <property name="width_request">80</property>
                 <property name="visible">True</property>
@@ -112,7 +130,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -148,7 +166,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
@@ -170,7 +188,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">5</property>
+                <property name="position">6</property>
               </packing>
             </child>
           </widget>
