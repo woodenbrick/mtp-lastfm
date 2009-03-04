@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--Generated with glade3 3.4.5 on Tue Mar  3 19:57:50 2009 -->
+<glade-interface>
+  <widget class="GtkWindow" id="ban_window">
+    <property name="width_request">800</property>
+    <property name="height_request">500</property>
+    <property name="visible">True</property>
+    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <signal name="destroy" handler="on_cache_window_destroy"/>
+    <child>
+      <widget class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <child>
+          <widget class="GtkScrolledWindow" id="scrolledwindow1">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <child>
+              <widget class="GtkTreeView" id="tree_view">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="enable_grid_lines">GTK_TREE_VIEW_GRID_LINES_VERTICAL</property>
+                <property name="enable_tree_lines">True</property>
+                <signal name="button_press_event" handler="on_tree_view_button_press_event"/>
+              </widget>
+            </child>
+          </widget>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <child>
+              <widget class="GtkButton" id="remove_ban">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">gtk-remove</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="on_remove_ban_clicked"/>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="close_ban">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">gtk-close</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="on_close_ban_clicked"/>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>
