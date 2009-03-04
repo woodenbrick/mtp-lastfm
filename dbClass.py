@@ -213,12 +213,11 @@ class lastfmDb:
         return self.cursor
     
     def change_markings(self, idList, marking):
-        if marking == "":
-            marking = "''"
-        new_list = idList
-        new_list.insert(0, marking)
-        self.cursor.execute("""update songs set rating=? where trackid
-                                IN (%s)"""%','.join(['?']*len(idList)), (marking, idList))
+        marking = "%s" % marking
+        query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(idList))
+        idList.insert(0, marking)
+        data = tuple(idList)
+        self.cursor.execute(query, idList)
         self.db.commit()
     
     def deleteScrobbles(self, idList):
