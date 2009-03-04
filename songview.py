@@ -4,7 +4,7 @@ import pygtk
 pygtk.require("2.0")
 import gtk.glade
 
-class SongView(object):
+class Songview(object):
     """An abstract class for creating windows showing song data in a textview"""
     def __init__(self, glade_file, db, parent):
         
@@ -18,8 +18,9 @@ class SongView(object):
         self.tree_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.right_click_menu = self.wTree.get_widget("right_click_menu")
         self.handlers = {
-            "on_window_destroy" : self.on_cache_window_destroy,
+            "on_window_destroy" : self.on_window_destroy,
             "on_tree_view_button_press_event" : self.on_tree_view_button_press_event,
+            "on_change_marking_activate" : self.on_change_marking_activate
             }
     
     def fill_liststore(self, data):
@@ -34,7 +35,7 @@ class SongView(object):
         
     def append_columns(self, column_headers):
         i = 0
-        for column in columns:
+        for column in column_headers:
             cell = gtk.CellRendererText()
             col = gtk.TreeViewColumn(column)
             col.pack_start(cell, False)
@@ -69,12 +70,43 @@ class SongView(object):
             #returning True prevents the selection from being lost
             return True
    
-    def get_selection(self, marking):
-        """Looks at the treeview and returns the id numbers of the selected songs"""
+    def get_selection(self, marking=None):
+        """Looks at the treeview and returns the id numbers of the selected songs
+        marking is the optional value you want to set the affected rows to"""
         ids = []
         model, rows = self.tree_view.get_selection().get_selected_rows()
         for row in rows:
             iter = model.get_iter(row)
-            model.set_value(iter, 4, marking)
+            if marking is not None:
+                model.set_value(iter, 4, marking)
             ids.append(model.get_value(iter, 0))
         return ids
+    
+    def on_change_marking_activate(self, widget):
+        marking = self.get_marking(widget.name)
+        id_list = self.get_selection(marking)
+        self.db.change_markings(id_list, marking)
+    
+    def get_marking(self, widget_name):
+        """Returns the appropriate marking to give to this item
+        Possibilities are Loved, Banned, Don't Scrobble or Blank"""
+        markings = {"remove_love" : "",
+                    "remove_ban" : "",
+                    "no_scrobble" : "D",
+                    "love" : "L",
+                    "ban" : "B"}
+        return markings[widget_name]
+    
+class LovedWindow(Songview):
+    def __init__(self, glade_file, db, parent):
+        Songview.__init__(self, glade_file, db, parent)
+        data = self.db.return_tracks("L").fetchall()
+        self.fill_liststore(data)
+        columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
+        self.append_columns(columns)
+        new_handlers = {
+            
+            }
+        self.handlers.update(new_handlers)
+        self.wTree.signal_autoconnect(self.handlers)
+        

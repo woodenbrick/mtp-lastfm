@@ -212,9 +212,13 @@ class lastfmDb:
                             from songs where rating=?""", (rating,))
         return self.cursor
     
-    def remove_ban(self, idList):
-        for id in idList:
-            self.cursor.execute("""update songs set rating='' where trackid=?""", (id,))
+    def change_markings(self, idList, marking):
+        if marking == "":
+            marking = "''"
+        new_list = idList
+        new_list.insert(0, marking)
+        self.cursor.execute("""update songs set rating=? where trackid
+                                IN (%s)"""%','.join(['?']*len(idList)), (marking, idList))
         self.db.commit()
     
     def deleteScrobbles(self, idList):

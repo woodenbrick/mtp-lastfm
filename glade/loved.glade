@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Mar  4 14:42:25 2009 -->
+<!--Generated with glade3 3.4.5 on Wed Mar  4 17:08:08 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="window">
     <property name="width_request">800</property>
@@ -29,27 +29,11 @@
   <widget class="GtkMenu" id="right_click_menu">
     <property name="visible">True</property>
     <child>
-      <widget class="GtkMenuItem" id="love">
+      <widget class="GtkMenuItem" id="remove_love">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Love</property>
+        <property name="label" translatable="yes">Remove Love</property>
         <property name="use_underline">True</property>
-        <signal name="activate" handler="on_love_activate"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="ban">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Banned</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_ban_activate"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="no_scrobble">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Don't Scrobble</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="on_no_scrobble_activate"/>
+        <signal name="activate" handler="on_change_marking_activate"/>
       </widget>
     </child>
   </widget>

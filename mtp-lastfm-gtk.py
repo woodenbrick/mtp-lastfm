@@ -32,7 +32,8 @@ import scrobbler
 
 import cache
 import banned
-import loved
+#import loved
+import songview
 
 __author__ = "Daniel Woodhouse"
 __version__ = "0.2"
@@ -215,7 +216,7 @@ class MTPLastfmGTK:
         banned_window = banned.BannedWindow(self.BANNED_GLADE, self.song_db, self)
         
     def on_loved_tracks_clicked(self, widget):
-        loved_window = loved.LovedWindow(self.LOVED_GLADE, self.song_db, self)
+        loved_window = songview.LovedWindow(self.LOVED_GLADE, self.song_db, self)
 
     def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
