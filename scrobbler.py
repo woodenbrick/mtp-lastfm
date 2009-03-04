@@ -57,8 +57,11 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
         self.timestamp = self.createTimestamp()
         self.authenticationCode = self.createAuthenticationCode()
         self.url += r"/?" +self.encodeUrl()
-        conn = urllib2.urlopen(self.url)
-        self.serverResponse = conn.readline().strip()
+        try:
+            conn = urllib2.urlopen(self.url)
+            self.serverResponse = conn.readline().strip()
+        except urllib2.URLError:
+            return 'NO INTERNET', "Couldn't find Last.fm server"
         if self.serverResponse == 'OK':
             msg = 'User authenticated.'
             self.sessionID = conn.readline()[:-1]
