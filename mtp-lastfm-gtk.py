@@ -31,8 +31,6 @@ import songDataClass
 import scrobbler
 
 import cache
-import banned
-#import loved
 import songview
 
 __author__ = "Daniel Woodhouse"
@@ -213,7 +211,7 @@ class MTPLastfmGTK:
         cache_window = cache.CacheWindow(self.CACHE_GLADE, self.song_db, self)
     
     def on_banned_tracks_clicked(self, widget):
-        banned_window = banned.BannedWindow(self.BANNED_GLADE, self.song_db, self)
+        banned_window = songview.BannedWindow(self.BANNED_GLADE, self.song_db, self)
         
     def on_loved_tracks_clicked(self, widget):
         loved_window = songview.LovedWindow(self.LOVED_GLADE, self.song_db, self)

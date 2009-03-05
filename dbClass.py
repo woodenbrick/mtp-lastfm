@@ -238,13 +238,7 @@ class lastfmDb:
         """commit wrapper"""
         self.db.commit()
     
-    def returnUserDetails(self):
-        self.cursor.execute("""SELECT username, password FROM users""")
-        row = self.cursor.fetchone()
-        if row == None:
-            row = self.createAccount()
-        return row[0], row[1]
-    
+   
     def addNewData(self, songObj):
         """recieves a list of a songs data, checks it against what is in
         the counter table already.  Updates the playcount if it already

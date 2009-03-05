@@ -64,7 +64,7 @@ class CacheWindow:
 
     def on_love_activate(self, menuitem):
         current_selection = self.get_selection("Loved")
-        self.db.mark_songs_as_loved(current_selection)
+        self.db.change_markings(current_selection, "L")
 
 
     def on_ban_activate(self, menuitem):

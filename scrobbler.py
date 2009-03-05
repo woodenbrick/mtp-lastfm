@@ -40,7 +40,7 @@ class Scrobbler:
         
     
     def handshake(self):
-        self.timestamp = sef.create_timestamp()
+        self.timestamp = self.create_timestamp()
         self.authentication_code = self.create_authentication_code()
         self.url += r"/?" + self.encode_url()
         try:

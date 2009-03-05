@@ -97,6 +97,9 @@ class Songview(object):
                     "ban" : "B"}
         return markings[widget_name]
     
+    
+    
+    
 class LovedWindow(Songview):
     def __init__(self, glade_file, db, parent):
         Songview.__init__(self, glade_file, db, parent)
@@ -110,3 +113,21 @@ class LovedWindow(Songview):
         self.handlers.update(new_handlers)
         self.wTree.signal_autoconnect(self.handlers)
         
+        
+
+
+class BannedWindow(Songview):
+    def __init__(self, glade_file, db, parent):
+        Songview.__init__(self, glade_file, db, parent)
+        data = self.db.return_tracks("B").fetchall()
+        self.fill_liststore(data)
+        columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
+        self.append_columns(columns)
+        
+        handlers = {
+            }
+        self.wTree.signal_autoconnect(handlers)
+        
+
+
+  
