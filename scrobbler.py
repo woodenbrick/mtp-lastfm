@@ -31,64 +31,54 @@ class Scrobbler:
         self.client = 'tst'
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
-        self.deletionIds = []
-        self.scrobbleCount = 0
+        self.deletion_ids = []
+        self.scrobble_count = 0
         self.log = Logger(name='scrobbling', stream_log_level=2)
         
-    def setScrobbleTime(self, time):
-        self.scrobbleTime = int(time * 3600)
+    def set_scrobble_time(self, time):
+        self.scrobble_time = int(time * 3600)
         
-    def _setScrobbleTime(self):
-        #depreciated
-        """A manual way for setting the time to start scrobbling"""
-        print 'Please set the time that the scrobbling was started in hours \
-eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
-        while True:
-            s = raw_input('>>> ') 
-            try:
-                s = int(float(s) * 3600)
-                break
-            except:
-                print 'You didn\'t enter a valid hour value.\n'
-        self.log.logger.info('User started listening to current scrobbles %d seconds ago' % s)
-        return s
     
     def handshake(self):
-        self.timestamp = self.createTimestamp()
-        self.authenticationCode = self.createAuthenticationCode()
-        self.url += r"/?" +self.encodeUrl()
+        self.timestamp = sef.create_timestamp()
+        self.authentication_code = self.create_authentication_code()
+        self.url += r"/?" + self.encode_url()
         try:
             conn = urllib2.urlopen(self.url)
-            self.serverResponse = conn.readline().strip()
+            self.server_response = conn.readline().strip()
         except urllib2.URLError:
             return 'NO INTERNET', "Couldn't find Last.fm server"
-        if self.serverResponse == 'OK':
-            msg = 'User authenticated.'
-            self.sessionID = conn.readline()[:-1]
-            self.nowPlayingUrl = conn.readline().strip #not used at this time
-            self.submissionUrl = conn.readline()[:-1]
-        elif self.serverResponse == 'BADAUTH':
-            msg = 'Username or password incorrect, please reset'
-        elif self.serverResponse == 'BANNED':
-            msg = 'This scrobbling client has been banned from submission,\
-                  please notify the developer'
-        elif self.serverResponse == 'BADTIME':
-            msg = 'Timestamp is incorrect, please check your clock settings'
-        elif self.serverResponse.startswith('FAILED'):
-            msg = 'Connection to server failed:', string.split(response, ' ')[1:]
-        return self.serverResponse, msg
         
-    def submitTracks(self, c):
+        responses = {
+            "OK" : "User authenticated",
+            "BADAUTH" : "Username or password incorrect, please reset",
+            "BANNED" : """This scrobbling client has been banned from submission,
+                  please notify the developer""",
+            "BADTIME" : "Timestamp is incorrect, please check your clock settings",
+            "FAILED" : "Failed"
+        }
+           
+        if self.server_response == 'OK':
+            msg = 'User authenticated.'
+            self.session_id = conn.readline()[:-1]
+            self.now_playing_url = conn.readline().strip #not used at this time
+            self.submission_url = conn.readline()[:-1]
+        if self.server_response.startswith("FAILED"):
+            responses['FAILED'] = string.split(self.server_response, ' ')[1:]
+        
+        return self.server_response, responses[self.server_response]
+
+    def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
 
-        pastTime = int(time.time() - self.scrobbleTime)
+        past_time = int(time.time() - self.scrobble_time)
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
                 break
             else:
-                self.scrobbleCount += len(cache)
-                #s=<sessionID>  The Session ID returned by the handshake. Required.
+                self.scrobble_count += len(cache)
+                #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
                 #t[0]=<track>   The track title. Required.
                 #i[0]=<time>    The time the track started playing, UNIX timestamp.
@@ -98,10 +88,10 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                 #b[0]=<album>   The album title, or an empty string if not known.
                 #n[0]=<tracknumber>The position of the track on the album, or empty.
                 #m[0]=music brainz identifier, leave blank
-                fullList = [[], [], [], [], [], [], []]
+                full_list = [[], [], [], [], [], [], []]
                 size = len(cache)
                 for track in cache:
-                    for index in range(0, len(fullList)):
+                    for index in range(0, len(full_list)):
                         song_data_item = track[index]
                         try:
                             #this is to avoid a unicode to ascii error,
@@ -112,35 +102,35 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
                             #cannot encode integers
                             pass
                         
-                        fullList[index].append(song_data_item)
+                        full_list[index].append(song_data_item)
                 #remove row ID's which will track which items in scrobble
                 #list require deletions
-                self.delIds = fullList.pop(0)
-                #append extra data to fullList, time, source, musicbrainz tags
-                while len(fullList) < 9:
-                    fullList.append([])
+                self.del_ids = full_list.pop(0)
+                #append extra data to full_list, time, source, musicbrainz tags
+                while len(full_list) < 9:
+                    full_list.append([])
                 for extra in range(0, len(cache)):
                     #append time, use l to work out
-                    length = fullList[2][extra]
-                    pastTime += int(length)
-                    fullList[6].append(pastTime)
+                    length = full_list[2][extra]
+                    past_time += int(length)
+                    full_list[6].append(past_time)
                     #append source (always P)
-                    fullList[7].append(u"P")
+                    full_list[7].append(u"P")
                     #empty strings for music brain tag
-                    fullList[8].append(u"")
+                    full_list[8].append(u"")
                     
-                postValues = { "s" : self.sessionID }
+                post_values = { "s" : self.session_id }
                 for i in range(0, size):
-                    dic = self.getDicValue(i)
+                    dic = self.get_dic_value(i)
                     for j in range (0, len(dic)): #haha!
-                        postValues[dic[j]] = fullList[j][i]
-                postValues = urllib.urlencode(postValues)
-                if not self._sendPost(postValues):
+                        post_values[dic[j]] = full_list[j][i]
+                post_values = urllib.urlencode(post_values)
+                if not self._send_post(post_values):
                     self.log.logger.critical('Error posting to last.fm')
                     return False
         #if all songs are scrobbled with ok response: 
         return True   
-    def getDicValue(self, i):
+    def get_dic_value(self, i):
         """Returns a list of dictionary keys for a specified index"""
         values = "atlbnriom"
         list = []
@@ -148,8 +138,8 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             list.append("%s[%d]" % (v, i))
         return list
         
-    def _sendPost(self, postValues):
-        req = urllib2.Request(url=self.submissionUrl, data=postValues)
+    def _send_post(self, post_values):
+        req = urllib2.Request(url=self.submission_url, data=post_values)
         try:
             url_handle = urllib2.urlopen(req)
             response = url_handle.readline().strip()
@@ -157,8 +147,8 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             response = 'Connection Refused, please try again'
         
         if response == 'OK':
-            self.log.logger.info('Scrobbled %d songs' % self.scrobbleCount)
-            self.deletionIds.extend(self.delIds)    
+            self.log.logger.info('Scrobbled %d songs' % self.scrobble_count)
+            self.deletion_ids.extend(self.del_ids)    
             return True
         elif response == 'BADSESSION':
             self.log.logger.critical('Bad session')
@@ -172,7 +162,7 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             self.log.logger.critical(response)
             return False
    
-    def encodeUrl(self):
+    def encode_url(self):
         u = urllib.urlencode({
             "hs":"true",
             "p":"1.2",
@@ -180,14 +170,14 @@ eg. Enter 8.5 if you started listening to the songs 8 and a half hours ago'
             "v":self.version,
             "u":self.user,
             "t":self.timestamp,
-            "a":self.authenticationCode})
+            "a":self.authentication_code})
         return u
     
-    def createAuthenticationCode(self):
+    def create_authentication_code(self):
         code = md5.new(self.password + self.timestamp).hexdigest()
         return code
     
-    def createTimestamp(self):
+    def create_timestamp(self):
         stamp = str(int(time.time()))
         return stamp
 
