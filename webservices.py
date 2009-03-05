@@ -59,7 +59,9 @@ class LastfmWebService(object):
         key = self.parse_xml(conn, "key")
         return key
             
-            
+    def love_tracks(self, tracks):
+        """Love a set of tracks"""
+        pass
 
 if __name__ == '__main__':
     webservice = LastfmWebService()

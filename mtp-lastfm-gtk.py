@@ -191,7 +191,7 @@ class MTPLastfmGTK:
         if self.scrobbler.submit_tracks(scrobble_list):
                 self.song_db.deleteScrobbles('all')
         else:
-            self.song_db.deleteScrobbles(self.scrobbler.deletionIds)                
+            self.song_db.deleteScrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
     

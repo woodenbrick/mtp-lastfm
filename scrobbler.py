@@ -154,21 +154,13 @@ class Scrobbler:
             response = url_handle.readline().strip()
         except urllib2.URLError:
             response = 'Connection Refused, please try again'
-        
+        except httplib.BadStatusLine:
+            response = 'Bad Status Line'
         if response == 'OK':
             self.log.logger.info('Scrobbled %d songs' % self.scrobble_count)
             self.deletion_ids.extend(self.del_ids)    
             return True
-        elif response == 'BADSESSION':
-            self.log.logger.critical('Bad session')
-            pass
-            #handshake again dont delete cache
-            return False
-        elif response.startswith('FAILED'):
-            self.log.logger.critical('Scrobbling Failure:', response)
-            return False
-        elif response.__contains__('Connection refused'):
-            self.log.logger.critical(response)
+        else:
             return False
    
     def encode_url(self):

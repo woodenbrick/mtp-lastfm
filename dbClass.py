@@ -34,7 +34,8 @@ class lastfmDb_Users:
         query = ['''CREATE TABLE IF NOT EXISTS `users` (
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `time` integer(20) NOT NULL
+        `time` integer(20) NOT NULL,
+        `sessionkey` varchar(255) DEFAULT ""
         )''',
         '''CREATE TABLE IF NOT EXISTS `devices` (
         `username` varchar(100) NOT NULL,
@@ -81,7 +82,11 @@ class lastfmDb_Users:
             return False
         else:
             return row
-        
+    
+    def add_session_key(self, key, username):
+        self.cursor.execute("update users set sessionkey=? where username=?", (key, username))
+        self.db.commit()
+    
     def update_user(self, username, password):
         import time
         current_time = time.time()
