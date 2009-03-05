@@ -60,8 +60,9 @@ class songData:
         
     def _cleanData(self, data):
         """Strips unneeded info"""
-        cleanedData = string.split(data, ': ')
-        return cleanedData[1][:-1]
+        index = data.find(":")
+        clean_data = data[index+2:-1]
+        return clean_data
     
     def _getKey(self, data):
         """returns the key (eg. Album) for a string"""
