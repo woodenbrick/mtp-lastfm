@@ -66,6 +66,7 @@ class MTPLastfmGTK:
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
+            "on_scrobble_time_cancel_clicked" : self.on_scrobble_time_cancel_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
@@ -181,11 +182,14 @@ class MTPLastfmGTK:
     def on_scrobble_clicked(self, widget):
         """Scrobbles tracks to last.fm"""
         #show scrobble dialog, if user has indicated in preferences
-        if self.options.return_option("use_default_time") is True:
+        if self.options.return_option("use_default_time") == True:
             scr_time = self.options.return_option("scrobble_time")
+            self.scrobble(scr_time)
         else:
             self.show_scrobble_dialog()
             scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
+        
+    def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.returnScrobbleList()
         if self.scrobbler.submit_tracks(scrobble_list):
@@ -195,16 +199,21 @@ class MTPLastfmGTK:
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
     
+    
     def show_scrobble_dialog(self):
         self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))
-        (self.options.return_option("scrobble_time"))
-        self.tree.get_widget("scrobble_dialog").run()
+        response = self.tree.get_widget("scrobble_dialog").run()
         while gtk.events_pending():
             gtk.main_iteration(False)
+        print response
         
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
         
+    def on_scrobble_time_cancel_clicked(self, widget):
+        self.tree.get_widget("scrobble_dialog").hide()
+    
+    
     def on_cache_clicked(self, widget):
         cache_window = songview.CacheWindow(self.CACHE_GLADE, self.song_db, self)
     

@@ -49,7 +49,7 @@ class lastfmDb_Users:
         `connect_on_startup` boolean DEFAULT 0,
         `auto_scrobble` boolean DEFAULT 0,
         `scrobble_time` integer(3) DEFAULT 8.5,
-        `always_use_scrobble_time` boolean DEFAULT 0
+        `use_default_time` boolean DEFAULT 0
         )''',
         ]
         
@@ -108,14 +108,14 @@ class lastfmDb_Users:
         print 'updating', username, args
         query = """update options set scrobble_order_random=%d, scrobble_order_alpha=%d,
         connect_on_startup=%d, auto_scrobble=%d, scrobble_time=%d,
-        always_use_scrobble_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
+        use_default_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
         self.cursor.execute(query)
         self.db.commit()
     
     def retrieve_options(self, username):
         self.cursor.execute("""select scrobble_order_random,
                             scrobble_order_alpha, connect_on_startup, 
-                        auto_scrobble, scrobble_time, always_use_scrobble_time from
+                        auto_scrobble, scrobble_time, use_default_time from
         options where username=?""", (username,))
         return self.cursor.fetchone()
     
