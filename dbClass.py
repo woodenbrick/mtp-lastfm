@@ -184,6 +184,19 @@ class lastfmDb:
         self.scrobble_counter = self.cursor.fetchone()[0]
         return self.scrobble_counter
         
+    def resetScrobbleCounter(self):
+        """This function goes through and counts each individual
+        scrobble, may be inefficent. Returns the count, resets the table counter
+        and sets self.scrobble_counter"""
+        self.cursor.execute("select scrobble_count from scrobble")
+        rows = self.cursor.fetchall()
+        total = 0
+        for r in rows:
+            total += 1
+        self.scrobble_counter = total
+        self.updateScrobbleCount()
+        return self.scrobble_counter
+    
     def updateScrobbleCount(self):
         self.cursor.execute("""update scrobble_counter set count=?""", (self.scrobble_counter,))
         self.db.commit()
@@ -194,11 +207,13 @@ class lastfmDb:
         return self.cursor
     
     def mark_songs_as_loved(self, idList):
+        #depreciated
         """Takes a list of ids and marks them as loved"""
         self.cursor.execute("update songs set rating='L' where trackid IN (%s)"%','.join(['?']*len(idList)), idList)
         self.db.commit()
         
     def mark_songs_as_banned_or_no_scrobble(self, idList, marking=None):
+        #depreciated
         new_scrobble_count = self.scrobble_counter - len(idList)
         self.cursor.execute("""delete from scrobble where trackid IN (%s)"""%','.join(['?']*len(idList)), idList)
         if marking is "B":
@@ -213,12 +228,16 @@ class lastfmDb:
         return self.cursor
     
     def change_markings(self, idList, marking):
-        marking = "%s" % marking
+        _marking = "%s" % marking
         query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(idList))
-        idList.insert(0, marking)
+        idList.insert(0, _marking)
         data = tuple(idList)
         self.cursor.execute(query, idList)
         self.db.commit()
+        #banning or dont scrobble means deleting from scrobble list also
+        if marking == "B" or marking == "D":
+            self.deleteScrobbles(idList)
+            
     
     def deleteScrobbles(self, idList):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
@@ -231,8 +250,7 @@ class lastfmDb:
         else:
             self.cursor.execute('delete from scrobble where trackid IN (%s)'%','.join(['?']*len(idList)), idList)
             self.db.commit()
-            self.scrobble_counter -= len(idList)
-            self.updateScrobbleCount()
+            self.resetScrobbleCounter()
     
     def commit(self):
         """commit wrapper"""

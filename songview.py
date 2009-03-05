@@ -12,7 +12,7 @@ class Songview(object):
         self.db = db
         self.wTree = gtk.glade.XML(glade_file)
         self.liststore = gtk.ListStore(int, str, str, str, str, int)
-        self.cache_window = self.wTree.get_widget("window")
+        self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
         self.tree_view = self.wTree.get_widget("tree_view")
         self.tree_view.set_model(self.liststore)
         self.tree_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
@@ -33,9 +33,9 @@ class Songview(object):
             row5 = self.friendly_rating(row[5])
             self.liststore.append([row[0], row[2], row[3], row[4], row5, row[1]])
         
-    def append_columns(self, column_headers):
+    def append_columns(self):
         i = 0
-        for column in column_headers:
+        for column in self.columns:
             cell = gtk.CellRendererText()
             col = gtk.TreeViewColumn(column)
             col.pack_start(cell, False)
@@ -97,7 +97,20 @@ class Songview(object):
                     "ban" : "B"}
         return markings[widget_name]
     
-    
+
+
+class CacheWindow(Songview):
+    def __init__(self, glade_file, db, parent):
+        Songview.__init__(self, glade_file, db, parent)
+        
+        data = self.db.returnUniqueScrobbles().fetchall()
+        self.fill_liststore(data)
+        self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Count"]
+        self.append_columns()    
+        new_handlers = {
+            }
+        self.handlers.update(new_handlers)
+        self.wTree.signal_autoconnect(self.handlers)
     
     
 class LovedWindow(Songview):
@@ -105,8 +118,7 @@ class LovedWindow(Songview):
         Songview.__init__(self, glade_file, db, parent)
         data = self.db.return_tracks("L").fetchall()
         self.fill_liststore(data)
-        columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
-        self.append_columns(columns)
+        self.append_columns()
         new_handlers = {
             
             }
@@ -121,12 +133,12 @@ class BannedWindow(Songview):
         Songview.__init__(self, glade_file, db, parent)
         data = self.db.return_tracks("B").fetchall()
         self.fill_liststore(data)
-        columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
-        self.append_columns(columns)
+        self.append_columns()
         
-        handlers = {
+        new_handlers = {
             }
-        self.wTree.signal_autoconnect(handlers)
+        self.handlers.update(new_handlers)
+        self.wTree.signal_autoconnect(self.handlers)
         
 
 

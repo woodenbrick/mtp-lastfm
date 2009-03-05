@@ -29,8 +29,6 @@ pygtk.require("2.0")
 import dbClass
 import songDataClass
 import scrobbler
-
-import cache
 import songview
 
 __author__ = "Daniel Woodhouse"
@@ -208,7 +206,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_dialog").hide()
         
     def on_cache_clicked(self, widget):
-        cache_window = cache.CacheWindow(self.CACHE_GLADE, self.song_db, self)
+        cache_window = songview.CacheWindow(self.CACHE_GLADE, self.song_db, self)
     
     def on_banned_tracks_clicked(self, widget):
         banned_window = songview.BannedWindow(self.BANNED_GLADE, self.song_db, self)

@@ -43,7 +43,7 @@ class CacheWindow:
         handlers = {
             "on_cache_window_destroy" : self.on_cache_window_destroy,
             "on_tree_view_button_press_event" : self.on_tree_view_button_press_event,
-            "on_love_activate" : self.on_love_activate,
+            "on_change_marking_activate" : self.on_love_activate,
             "on_ban_activate" : self.on_ban_activate,
             "on_no_scrobble_activate" : self.on_no_scrobble_activate,
             }
