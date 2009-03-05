@@ -186,13 +186,13 @@ class MTPLastfmGTK:
         else:
             self.show_scrobble_dialog()
             scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
-        self.scrobbler.setScrobbleTime(scr_time)
+        self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.returnScrobbleList()
-        if self.scrobbler.submitTracks(scrobble_list):
+        if self.scrobbler.submit_tracks(scrobble_list):
                 self.song_db.deleteScrobbles('all')
         else:
             self.song_db.deleteScrobbles(self.scrobbler.deletionIds)                
-        self.write_info("Scrobbled " + str(self.scrobbler.scrobbleCount) +" Tracks")
+        self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
     
     def show_scrobble_dialog(self):

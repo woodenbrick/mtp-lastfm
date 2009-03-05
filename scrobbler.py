@@ -19,8 +19,12 @@ import md5
 import time
 import urllib
 import urllib2
+
+import xml.etree.ElementTree as ET
+
 import string
 import dbClass
+import webbrowser
 from logger import Logger
 
 class Scrobbler:
@@ -69,6 +73,9 @@ class Scrobbler:
             responses['FAILED'] = string.split(self.server_response, ' ')[1:]
         
         return self.server_response, responses[self.server_response]
+    
+    
+
 
     def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
@@ -182,5 +189,4 @@ class Scrobbler:
     def create_timestamp(self):
         stamp = str(int(time.time()))
         return stamp
-
 
