@@ -66,7 +66,6 @@ class MTPLastfmGTK:
             "on_check_device_clicked" : self.on_check_device_clicked,
             "on_scrobble_clicked" : self.on_scrobble_clicked,
             "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
-            "on_scrobble_time_cancel_clicked" : self.on_scrobble_time_cancel_clicked,
             "on_options_clicked" : self.on_options_clicked,
             "on_apply_options_clicked" : self.on_apply_options_clicked,
             "on_cancel_options_clicked" : self.on_cancel_options_clicked,
@@ -186,9 +185,12 @@ class MTPLastfmGTK:
             scr_time = self.options.return_option("scrobble_time")
             self.scrobble(scr_time)
         else:
+            self.continue_scrobbling = True
             self.show_scrobble_dialog()
-            scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
-        
+            if self.continue_scrobbling is True:
+                scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
+                self.scrobble(scr_time)
+                
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.returnScrobbleList()
@@ -205,15 +207,15 @@ class MTPLastfmGTK:
         response = self.tree.get_widget("scrobble_dialog").run()
         while gtk.events_pending():
             gtk.main_iteration(False)
+        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
+            self.tree.get_widget("scrobble_dialog").hide()
+            self.continue_scrobbling = False
         print response
-        
+    
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
         
-    def on_scrobble_time_cancel_clicked(self, widget):
-        self.tree.get_widget("scrobble_dialog").hide()
-    
-    
+   
     def on_cache_clicked(self, widget):
         cache_window = songview.CacheWindow(self.CACHE_GLADE, self.song_db, self)
     
