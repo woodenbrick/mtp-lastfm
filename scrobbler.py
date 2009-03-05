@@ -48,6 +48,8 @@ class Scrobbler:
             self.server_response = conn.readline().strip()
         except urllib2.URLError:
             return 'NO INTERNET', "Couldn't find Last.fm server"
+        except httplib.BadStatusLine, msg:
+            return 'No Server Response', msg
         
         responses = {
             "OK" : "User authenticated",
