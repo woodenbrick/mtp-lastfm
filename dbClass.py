@@ -233,7 +233,10 @@ class lastfmDb:
         return self.cursor
     
     def change_markings(self, idList, marking):
-        _marking = "%s" % marking
+        if marking == "D":
+            _marking = "''"
+        else:
+            _marking = "%s" % marking
         query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(idList))
         idList.insert(0, _marking)
         data = tuple(idList)
@@ -241,6 +244,7 @@ class lastfmDb:
         self.db.commit()
         #banning or dont scrobble means deleting from scrobble list also
         if marking == "B" or marking == "D":
+            idList.pop(0)
             self.deleteScrobbles(idList)
             
     

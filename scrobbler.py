@@ -135,7 +135,6 @@ class Scrobbler:
                         post_values[dic[j]] = full_list[j][i]
                 post_values = urllib.urlencode(post_values)
                 if not self._send_post(post_values):
-                    self.log.logger.critical('Error posting to last.fm')
                     return False
         #if all songs are scrobbled with ok response: 
         return True   
@@ -161,6 +160,8 @@ class Scrobbler:
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
+            #this should be written to the user panel
+            self.log.logger.critical(response)
             return False
    
     def encode_url(self):
