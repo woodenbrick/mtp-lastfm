@@ -168,12 +168,12 @@ class lastfmDb:
         self.db.commit()
         self.db.close()
     
-    def returnScrobbleList(self):
+    def returnScrobbleList(self, order):
         self.cursor.execute("""SELECT scrobble.ROWID, 
                             songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,
                             songs.rating FROM songs INNER JOIN scrobble ON
-                            songs.trackid=scrobble.trackid""")
+                            songs.trackid=scrobble.trackid ORDER BY ?""", (order,))
         return self.cursor
     
     def returnUniqueScrobbles(self):

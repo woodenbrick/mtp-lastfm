@@ -95,6 +95,8 @@ class MTPLastfmGTK:
         self.login_window.hide()
         self.write_info("User authenticated.", clear_buffer=True)
         self.main_window.show()
+        while gtk.events_pending():
+            gtk.main_iteration(False)
         
     def show_options_window(self):
         self.options_window.show()
@@ -193,13 +195,13 @@ class MTPLastfmGTK:
                 
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
-        scrobble_list = self.song_db.returnScrobbleList()
+        scrobble_list = self.song_db.returnScrobbleList(self.options.return_scrobble_ordering())
         if self.scrobbler.submit_tracks(scrobble_list):
                 self.song_db.deleteScrobbles('all')
         else:
             self.song_db.deleteScrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
-        self.tree.get_widget("cache_label").set_text(str(self.song_db.scrobble_counter))
+        self.set_cache_button()
     
     
     def show_scrobble_dialog(self):
@@ -292,6 +294,10 @@ class MTPLastfmGTK:
         self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
         self.set_cache_button()
         self.show_main_window()
+        if self.options.return_option("startup_check") == True:
+            self.on_check_device_clicked("x")
+        if self.options.return_option("auto_scrobble") == True:
+            self.on_scrobble_clicked("x")
         
         
     def on_username_entry_insert_text(self, widget):
@@ -368,6 +374,13 @@ class Options:
             options = self.db.retrieve_options(self.username)
         self.dic_options = self.create_option_dic(options)
         
+    def return_scrobble_ordering(self):
+        if self.return_option("random") == True:
+            return "RANDOM()"
+        else:
+            return "songs.artist"
+    
+    
     def reset_default(self):
         self.db.reset_default_user()
         
