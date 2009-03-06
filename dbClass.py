@@ -133,10 +133,10 @@ class lastfmDb:
         self.cursor = self.db.cursor()
         self.log = Logger(name='sqliteDb Log')
         if create is True:
-            self.initialCreation()
-        self.returnScrobbleCount()
+            self.initial_creation()
+        self.return_scrobble_count()
             
-    def initialCreation(self):
+    def initial_creation(self):
         query = ['''
         CREATE TABLE IF NOT EXISTS `scrobble` (
         `trackid` int(8) NOT NULL,
@@ -164,11 +164,11 @@ class lastfmDb:
             self.cursor.execute(q)
             self.db.commit()
     
-    def closeConnection(self):
+    def close_connection(self):
         self.db.commit()
         self.db.close()
     
-    def returnScrobbleList(self, order):
+    def return_scrobble_list(self, order):
         self.cursor.execute("""SELECT scrobble.ROWID, 
                             songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,
@@ -176,7 +176,7 @@ class lastfmDb:
                             songs.trackid=scrobble.trackid ORDER BY ?""", (order,))
         return self.cursor
     
-    def returnUniqueScrobbles(self):
+    def return_unique_scrobbles(self):
         self.cursor.execute("""SELECT DISTINCT scrobble.trackid, scrobble.scrobble_count,
                             songs.artist, songs.song,
                             songs.album, songs.rating
@@ -184,12 +184,12 @@ class lastfmDb:
                             scrobble ON songs.trackid=scrobble.trackid""")
         return self.cursor
     
-    def returnScrobbleCount(self):
+    def return_scrobble_count(self):
         self.cursor.execute("""SELECT count from scrobble_counter""")
         self.scrobble_counter = self.cursor.fetchone()[0]
         return self.scrobble_counter
         
-    def resetScrobbleCounter(self):
+    def reset_scrobble_counter(self):
         """This function goes through and counts each individual
         scrobble, may be inefficent. Returns the count, resets the table counter
         and sets self.scrobble_counter"""
@@ -199,10 +199,10 @@ class lastfmDb:
         for r in rows:
             total += 1
         self.scrobble_counter = total
-        self.updateScrobbleCount()
+        self.update_scrobble_count()
         return self.scrobble_counter
     
-    def updateScrobbleCount(self):
+    def update_scrobble_count(self):
         self.cursor.execute("""update scrobble_counter set count=?""", (self.scrobble_counter,))
         self.db.commit()
     
@@ -211,20 +211,20 @@ class lastfmDb:
         self.cursor.execute(query)
         return self.cursor
     
-    def mark_songs_as_loved(self, idList):
+    def mark_songs_as_loved(self, id_list):
         #depreciated
         """Takes a list of ids and marks them as loved"""
-        self.cursor.execute("update songs set rating='L' where trackid IN (%s)"%','.join(['?']*len(idList)), idList)
+        self.cursor.execute("update songs set rating='L' where trackid IN (%s)"%','.join(['?']*len(id_list)), id_list)
         self.db.commit()
         
-    def mark_songs_as_banned_or_no_scrobble(self, idList, marking=None):
+    def mark_songs_as_banned_or_no_scrobble(self, id_list, marking=None):
         #depreciated
-        new_scrobble_count = self.scrobble_counter - len(idList)
-        self.cursor.execute("""delete from scrobble where trackid IN (%s)"""%','.join(['?']*len(idList)), idList)
+        new_scrobble_count = self.scrobble_counter - len(id_list)
+        self.cursor.execute("""delete from scrobble where trackid IN (%s)"""%','.join(['?']*len(id_list)), id_list)
         if marking is "B":
-            self.cursor.execute("""update songs set rating='B' where trackid IN (%s)"""%','.join(['?']*len(idList)), idList)
+            self.cursor.execute("""update songs set rating='B' where trackid IN (%s)"""%','.join(['?']*len(id_list)), id_list)
             self.cursor.execute("""update scrobble_counter set count=?""", (new_scrobble_count,))
-        self.scrobble_counter = self.returnScrobbleCount()
+        self.scrobble_counter = self.return_scrobble_count()
         self.db.commit()
     
     def return_tracks(self, rating):
@@ -232,68 +232,68 @@ class lastfmDb:
                             from songs where rating=?""", (rating,))
         return self.cursor
     
-    def change_markings(self, idList, marking):
+    def change_markings(self, id_list, marking):
         if marking == "D":
             _marking = "''"
         else:
             _marking = "%s" % marking
-        query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(idList))
-        idList.insert(0, _marking)
-        data = tuple(idList)
-        self.cursor.execute(query, idList)
+        query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
+        id_list.insert(0, _marking)
+        data = tuple(id_list)
+        self.cursor.execute(query, id_list)
         self.db.commit()
         #banning or dont scrobble means deleting from scrobble list also
         if marking == "B" or marking == "D":
-            idList.pop(0)
-            self.deleteScrobbles(idList)
+            id_list.pop(0)
+            self.delete_scrobbles(id_list)
             
     
-    def deleteScrobbles(self, idList):
+    def delete_scrobbles(self, id_list):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
-        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ''.join(str(idList)))
-        if idList == 'all':
+        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ''.join(str(id_list)))
+        if id_list == 'all':
             self.cursor.execute('delete from scrobble')
             self.cursor.execute('update scrobble_counter set count=0')
             self.db.commit()
             self.scrobble_counter = 0
         else:
-            self.cursor.execute('delete from scrobble where trackid IN (%s)'%','.join(['?']*len(idList)), idList)
+            self.cursor.execute('delete from scrobble where trackid IN (%s)'%','.join(['?']*len(id_list)), id_list)
             self.db.commit()
-            self.resetScrobbleCounter()
+            self.reset_scrobble_counter()
     
     def commit(self):
         """commit wrapper"""
         self.db.commit()
     
    
-    def addNewData(self, songObj):
+    def add_new_data(self, song_object):
         """recieves a list of a songs data, checks it against what is in
         the counter table already.  Updates the playcount if it already
         exists, or creates a new row. In both cases the scrobble table
         is added to as well."""
-        self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (songObj.trackid,))
+        self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
         row = self.cursor.fetchone()
         if row == None:
-            numScrobbles = songObj.usecount
+            num_scrobbles = song_object.usecount
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
                                 usecount, rating) values (?, ?, ?, ?, ?, ?, ?, '')""",
-                                (songObj.trackid, songObj.artist, songObj.title,
-                                 songObj.album, songObj.tracknumber,
-                                 songObj.duration, songObj.usecount))
+                                (song_object.trackid, song_object.artist, song_object.title,
+                                 song_object.album, song_object.tracknumber,
+                                 song_object.duration, song_object.usecount))
             self.db.commit()
         else:
             #song has row in db
-            numScrobbles = songObj.usecount - row[1]
-        if numScrobbles > 0:
+            num_scrobbles = song_object.usecount - row[1]
+        if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?
-                                where trackid=?""", (songObj.usecount,
-                                                    songObj.trackid))
+                                where trackid=?""", (song_object.usecount,
+                                                    song_object.trackid))
             self.db.commit()
-        self.scrobble_counter += numScrobbles
-        count = numScrobbles
-        while numScrobbles > 0:
+        self.scrobble_counter += num_scrobbles
+        count = num_scrobbles
+        while num_scrobbles > 0:
             self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                values (?, ?)""", (songObj.trackid, count))
-            numScrobbles -= 1
+                                values (?, ?)""", (song_object.trackid, count))
+            num_scrobbles -= 1
         self.db.commit()

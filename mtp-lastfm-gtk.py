@@ -128,11 +128,11 @@ class MTPLastfmGTK:
             for line in f:
                 song_obj.newData(line)
                 if song_obj.readyForExport:
-                    self.song_db.addNewData(song_obj)
+                    self.song_db.add_new_data(song_obj)
                     song_obj.resetValues()
                     song_obj.newData(line)
             self.write_info("Done.", new_line='')
-            self.song_db.updateScrobbleCount()
+            self.song_db.update_scrobble_count()
             self.set_cache_button()
             
     def set_cache_button(self):
@@ -195,11 +195,11 @@ class MTPLastfmGTK:
                 
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
-        scrobble_list = self.song_db.returnScrobbleList(self.options.return_scrobble_ordering())
+        scrobble_list = self.song_db.return_scrobble_list(self.options.return_scrobble_ordering())
         if self.scrobbler.submit_tracks(scrobble_list):
-                self.song_db.deleteScrobbles('all')
+                self.song_db.delete_scrobbles('all')
         else:
-            self.song_db.deleteScrobbles(self.scrobbler.deletion_ids)                
+            self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.set_cache_button()
     

@@ -17,7 +17,7 @@ class CacheWindow:
         self.tree_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.right_click_menu = self.wTree.get_widget("right_click_menu")
         
-        data = self.db.returnUniqueScrobbles().fetchall()
+        data = self.db.return_unique_scrobbles().fetchall()
         for row in data:
             if row[5] == "L":
                 row5 = "Loved"

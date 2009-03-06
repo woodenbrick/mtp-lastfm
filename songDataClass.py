@@ -16,114 +16,108 @@
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
 import string
-import dbClass
 import time
 from logger import Logger
-class songData:
+
+class song_data:
     def __init__(self):
-        self.songData = []
         self.max = 7 #count of all possible song data
-        self.requiredData = ['Track ID', 'Title', 'Artist', 'Album', 'Track number', 
+        self.required_data = ['Track ID', 'Title', 'Artist', 'Album', 'Track number', 
                              'Duration', 'Use Count']
-        self.acceptedDataTypes = ('ISO MPEG-1 Audio Layer 3',)
-        self.filetypeReached = False
-        self.isSong = False
-        self.readyForExport = False
+        self.accepted_data_types = ('ISO MPEG-1 Audio Layer 3',)
+        self.reset_values()
         self.log = Logger(name='Not added to scrobbling db', stream_log=False)
 
         
-    def resetValues(self):
-        self.songData = []
-        self.filetypeReached = False
-        self.isSong = False
-        self.readyForExport = False
+    def reset_values(self):
+        self.song_data = []
+        self.filetype_reached = False
+        self.is_song = False
+        self.ready_for_export = False
         
-    def _isSong(self, data):
-        for item in self.acceptedDataTypes:
+    def _is_song(self, data):
+        for item in self.accepted_data_types:
             if data.__contains__(item):
-                self.isSong = True
+                self.is_song = True
         
-    def _isData(self, data):
+    def _is_data(self, data):
         """Returns true if the data submitted is data we want"""
-        for item in self.requiredData:
+        for item in self.required_data:
             if data.__contains__(item + ':'):
                 return True
         if data.__contains__('Filetype:'):
-            self.filetypeReached = True
-            self._isSong(data)
+            self.filetype_reached = True
+            self._is_song(data)
         return False
         
-    def _isUsecount(self, data):
+    def _is_usecount(self, data):
         if data.__contains__('Use count'):
             return True
         return False
         
-    def _cleanData(self, data):
+    def _clean_data(self, data):
         """Strips unneeded info"""
         index = data.find(":")
         clean_data = data[index+2:-1]
         return clean_data
     
-    def _getKey(self, data):
+    def _get_key(self, data):
         """returns the key (eg. Album) for a string"""
         key = string.split(data, ':')[0][:-1]
         return key
         
-    def newData(self, newData):
+    def new_data(self, new_data):
         """Needs to find out what data it is and assign 
         it to the correct variable"""
-        if self.filetypeReached == True:
+        if self.filetype_reached == True:
             #check if this line is usecount if not we need to append
-            if self._isUsecount(newData):
-                self.songData.append(self._cleanData(newData))
+            if self._is_usecount(new_data):
+                self.song_data.append(self._clean_data(new_data))
             else:
-                self.songData.append('0 times')
-            self.exportData()
-            if self.readyForExport == False:
-                self.newData(newData)
+                self.song_data.append('0 times')
+            self.export_data()
+            if self.ready_for_export == False:
+                self.new_data(new_data)
                 
-        elif self._isData(newData):
-            clean = self._cleanData(newData)
-            self.songData.append(clean)
+        elif self._is_data(new_data):
+            clean = self._clean_data(new_data)
+            self.song_data.append(clean)
         else:
             pass
             
         
-    def checkIfFull(self):
+    def check_if_full(self):
         """Returns true if all songdata is available. Note that Use Count wont exist
         if the song has never been played"""
-        if len(self.songData) == self.max:
+        if len(self.song_data) == self.max:
             return True
-        else:
-            return False
+        return False
         
-    def checkSongDataCount(self):
-        return len(self.songData)
         
-    def exportData(self):
+    def export_data(self):
         """Sends song data to database"""
         #trim seconds and usecount before export
-        if self.isSong == True and self.checkIfFull() and self.songData[5] > 30:
-            self._trimExportData()
-            self.userFriendlyNames()
-            self.readyForExport = True
+        if self.is_song == True and self.check_if_full() and self.song_data[5] > 30:
+            self._trim_export_data()
+            self.user_friendly_names()
+            self.ready_for_export = True
         else:
-            data = '\n'.join(self.songData) 
+            data = '\n'.join(self.song_data) 
             self.log.logger.warn(data)
-            self.resetValues()
+            self.reset_values()
         
     
-    def _trimExportData(self):
-        self.songData[0] = int(self.songData[0])
-        self.songData[4] = int(self.songData[4])
-        self.songData[5] = int(string.split(self.songData[5], ' ')[0]) / 1000
-        self.songData[6] = int(string.split(self.songData[6], ' ')[0])
+    def _trim_export_data(self):
+        self.song_data[0] = int(self.song_data[0])
+        self.song_data[4] = int(self.song_data[4])
+        self.song_data[5] = int(string.split(self.song_data[5], ' ')[0]) / 1000
+        self.song_data[6] = int(string.split(self.song_data[6], ' ')[0])
         
-    def userFriendlyNames(self):
-        self.trackid = self.songData[0]
-        self.title = self.songData[1]
-        self.artist = self.songData[2]
-        self.album = self.songData[3]
-        self.tracknumber = self.songData[4]
-        self.duration = self.songData[5]
-        self.usecount = self.songData[6]
+    def user_friendly_names(self):
+        self.trackid = self.song_data[0]
+        self.title = self.song_data[1]
+        self.artist = self.song_data[2]
+        self.album = self.song_data[3]
+        self.tracknumber = self.song_data[4]
+        self.duration = self.song_data[5]
+        self.usecount = self.song_data[6]

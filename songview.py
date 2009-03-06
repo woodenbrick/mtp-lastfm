@@ -103,7 +103,7 @@ class CacheWindow(Songview):
     def __init__(self, glade_file, db, parent):
         Songview.__init__(self, glade_file, db, parent)
         
-        data = self.db.returnUniqueScrobbles().fetchall()
+        data = self.db.return_unique_scrobbles().fetchall()
         self.fill_liststore(data)
         self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Count"]
         self.append_columns()    
