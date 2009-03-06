@@ -117,7 +117,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")

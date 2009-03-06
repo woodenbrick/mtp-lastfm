@@ -46,7 +46,7 @@ class songData:
     def _isData(self, data):
         """Returns true if the data submitted is data we want"""
         for item in self.requiredData:
-            if data.__contains__(item):
+            if data.__contains__(item + ':'):
                 return True
         if data.__contains__('Filetype:'):
             self.filetypeReached = True
