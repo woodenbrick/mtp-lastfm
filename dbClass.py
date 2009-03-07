@@ -95,7 +95,6 @@ class lastfmDb_Users:
         else:
             query = "insert into users (username, password, time) values ('%s', '%s', %d)" % (username, password, current_time)
             self.cursor.execute("insert into options (username) values (?)", (username,))
-        print query
         self.cursor.execute(query)
         self.db.commit()
 
@@ -105,7 +104,6 @@ class lastfmDb_Users:
         self.db.commit()
         
     def update_options(self, username, *args):
-        print 'updating', username, args
         query = """update options set scrobble_order_random=%d, scrobble_order_alpha=%d,
         connect_on_startup=%d, auto_scrobble=%d, scrobble_time=%d,
         use_default_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
@@ -151,7 +149,7 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
-        `rating` varchar(1),
+        `rating` varchar(1) DEFAULT "''",
         PRIMARY KEY  (`trackid`))''',
         
         '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
@@ -159,7 +157,6 @@ class lastfmDb:
         
         '''insert into scrobble_counter (count) values (0)''']
         
-        print 'Creating Tables'
         for q in query:
             self.cursor.execute(q)
             self.db.commit()
@@ -169,11 +166,12 @@ class lastfmDb:
         self.db.close()
     
     def return_scrobble_list(self, order):
-        self.cursor.execute("""SELECT scrobble.ROWID, 
+        query = """SELECT scrobble.ROWID, 
                             songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,
                             songs.rating FROM songs INNER JOIN scrobble ON
-                            songs.trackid=scrobble.trackid ORDER BY ?""", (order,))
+                            songs.trackid=scrobble.trackid ORDER BY %s""" % order
+        self.cursor.execute(query)
         return self.cursor
     
     def return_unique_scrobbles(self):
@@ -273,7 +271,7 @@ class lastfmDb:
         is added to as well."""
         self.cursor.execute("""SELECT rating, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
         row = self.cursor.fetchone()
-        rating = row[0]
+        rating, usecount = row
         if row == None:
             num_scrobbles = song_object.usecount
             self.cursor.execute("""insert into songs (trackid, artist,
@@ -285,7 +283,7 @@ class lastfmDb:
             self.db.commit()
         else:
             #song has row in db
-            num_scrobbles = song_object.usecount - row[1]
+            num_scrobbles = song_object.usecount - usecount
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?
                                 where trackid=?""", (song_object.usecount,
