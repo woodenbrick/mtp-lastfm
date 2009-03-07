@@ -278,37 +278,43 @@ class lastfmDb:
         self.db.commit()
     
    
-    def add_new_data(self, song_object):
+    def add_new_data(self, song_dic):
         """recieves a list of a songs data, checks it against what is in
         the counter table already.  Updates the playcount if it already
         exists, or creates a new row. In both cases the scrobble table
         is added to as well."""
-        self.cursor.execute("""SELECT rating, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
+        self.cursor.execute("""SELECT rating, usecount FROM
+                            songs WHERE trackid = ?""", (song_dic['Track ID'],))
         row = self.cursor.fetchone()
         try:
             rating, usecount = row
         except TypeError:
-            rating, usecount = song_object.rating, song_object.usecount
+            rating, usecount = song_dic['User rating:'], song_dic['Usecount:']
         if row == None:
-            num_scrobbles = song_object.usecount
+            num_scrobbles = song_dic['Usecount:']
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
                                 usecount, rating) values (?, ?, ?, ?, ?, ?, ?, ?)""",
-                                (song_object.trackid, song_object.artist, song_object.title,
-                                 song_object.album, song_object.tracknumber,
-                                 song_object.duration, usecount, rating))
+                                (song_dic['Track ID:'], song_dic['Artist:'],
+                                 song_dic['Title:'], song_dic['Album:'],
+                                 song_dic['Track number:'], song_dic['Duration:'],
+                                 usecount, rating))
             self.db.commit()
         else:
             
             #song has row in db
-            num_scrobbles = song_object.usecount - usecount
-            if rating != song_object.rating:
-                rating = song_object.rating
+            num_scrobbles = song_dic['Usecount:'] - usecount
+            #If the current rating saved in the db is different from the device
+            #what should we do? We currently have no way to change the rating
+            #on the device so we will give priority to a 5 or 1 star on the device
+            #and leave any other ratings alone
+            if not song_dic['rating:'] == "''":
+                rating = song_dic['rating:']
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?, rating=?
-                                where trackid=?""", (song_object.usecount,
+                                where trackid=?""", (song_dic['Use count:'],
                                                      rating,
-                                                    song_object.trackid))
+                                                    song_dic['Track ID:']))
             self.db.commit()
             
         if rating != 'B':
@@ -316,6 +322,6 @@ class lastfmDb:
             count = num_scrobbles
             while num_scrobbles > 0:
                 self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                    values (?, ?)""", (song_object.trackid, count))
+                                    values (?, ?)""", (song_dic['Track ID:'], count))
                 num_scrobbles -= 1
             self.db.commit()

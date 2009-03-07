@@ -27,7 +27,7 @@ import gtk.glade
 pygtk.require("2.0")
 
 import dbClass
-from songDataClass import SongData
+from songdata import SongData
 import scrobbler
 import songview
 __author__ = "Daniel Woodhouse"
@@ -125,11 +125,7 @@ class MTPLastfmGTK:
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
             song_obj = SongData()
             for line in f:
-                song_obj.new_data(line)
-                if song_obj.ready_for_export:
-                    self.song_db.add_new_data(song_obj)
-                    song_obj.reset_values()
-                    song_obj.new_data(line)
+                song_obj.check_new_data(line)
             self.write_info("Done.", new_line='')
             self.song_db.update_scrobble_count()
             self.set_cache_button()
