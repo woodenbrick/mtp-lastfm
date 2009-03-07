@@ -271,8 +271,9 @@ class lastfmDb:
         the counter table already.  Updates the playcount if it already
         exists, or creates a new row. In both cases the scrobble table
         is added to as well."""
-        self.cursor.execute("""SELECT trackid, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
+        self.cursor.execute("""SELECT rating, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
         row = self.cursor.fetchone()
+        rating = row[0]
         if row == None:
             num_scrobbles = song_object.usecount
             self.cursor.execute("""insert into songs (trackid, artist,
@@ -290,10 +291,12 @@ class lastfmDb:
                                 where trackid=?""", (song_object.usecount,
                                                     song_object.trackid))
             self.db.commit()
-        self.scrobble_counter += num_scrobbles
-        count = num_scrobbles
-        while num_scrobbles > 0:
-            self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                values (?, ?)""", (song_object.trackid, count))
-            num_scrobbles -= 1
-        self.db.commit()
+            
+        if rating != 'B':
+            self.scrobble_counter += num_scrobbles
+            count = num_scrobbles
+            while num_scrobbles > 0:
+                self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
+                                    values (?, ?)""", (song_object.trackid, count))
+                num_scrobbles -= 1
+            self.db.commit()

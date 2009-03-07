@@ -27,10 +27,9 @@ import gtk.glade
 pygtk.require("2.0")
 
 import dbClass
-import songDataClass
+from songDataClass import SongData
 import scrobbler
 import songview
-
 __author__ = "Daniel Woodhouse"
 __version__ = "0.2"
 
@@ -117,20 +116,20 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
         else:
             self.write_info("Done.", new_line=" ")
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
-            song_obj = songDataClass.songData()
+            song_obj = SongData()
             for line in f:
-                song_obj.newData(line)
-                if song_obj.readyForExport:
+                song_obj.new_data(line)
+                if song_obj.ready_for_export:
                     self.song_db.add_new_data(song_obj)
-                    song_obj.resetValues()
-                    song_obj.newData(line)
+                    song_obj.reset_values()
+                    song_obj.new_data(line)
             self.write_info("Done.", new_line='')
             self.song_db.update_scrobble_count()
             self.set_cache_button()

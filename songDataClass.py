@@ -19,7 +19,7 @@ import string
 import time
 from logger import Logger
 
-class song_data:
+class SongData:
     def __init__(self):
         self.max = 7 #count of all possible song data
         self.required_data = ['Track ID', 'Title', 'Artist', 'Album', 'Track number', 
