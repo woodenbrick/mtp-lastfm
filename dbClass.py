@@ -34,13 +34,11 @@ class lastfmDb_Users:
         query = ['''CREATE TABLE IF NOT EXISTS `users` (
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `time` integer(20) NOT NULL,
-        `sessionkey` varchar(255) DEFAULT ""
+        `time` integer(20) NOT NULL
         )''',
-        '''CREATE TABLE IF NOT EXISTS `devices` (
+        '''CREATE TABLE IF NOT EXISTS `sessionkeys` (
         `username` varchar(100) NOT NULL,
-        `serial_number` varchar(255) NOT NULL,
-        `friendly_name` varchar(100) NOT NULL
+        `sessionkey` varchar(255) DEFAULT NULL
         )''',
         '''CREATE TABLE IF NOT EXISTS `options` (
         `username` varchar(100) NOT NULL,
@@ -68,7 +66,23 @@ class lastfmDb_Users:
             return current_user
         else:
             return self.cursor.fetchall()
+    
+    def get_session_key(self, user):
+        """Return the session key for user, or False if no key exists
+        This is user to love submissions"""
+        self.cursor.execute("SELECT sessionkey from sessionkeys WHERE username=?", (user,))
+        key = self.cursor.fetchone()
+        if key is None:
+            return False
+        else:
+            return key[0]
         
+    def add_key(self, user, key):
+        self.cursor.execute("INSERT into sessionkeys (username, sessionkey) VALUES (?, ?)"
+                            , (user, key))
+        self.db.commit()
+    
+    
     def get_users_like(self, name):
         """Returns users who have a name starting with the give string"""
         name = name + "%"
@@ -271,22 +285,29 @@ class lastfmDb:
         is added to as well."""
         self.cursor.execute("""SELECT rating, usecount FROM songs WHERE trackid = ?""", (song_object.trackid,))
         row = self.cursor.fetchone()
-        rating, usecount = row
+        try:
+            rating, usecount = row
+        except TypeError:
+            rating, usecount = song_object.rating, song_object.usecount
         if row == None:
             num_scrobbles = song_object.usecount
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
-                                usecount, rating) values (?, ?, ?, ?, ?, ?, ?, '')""",
+                                usecount, rating) values (?, ?, ?, ?, ?, ?, ?, ?)""",
                                 (song_object.trackid, song_object.artist, song_object.title,
                                  song_object.album, song_object.tracknumber,
-                                 song_object.duration, song_object.usecount))
+                                 song_object.duration, usecount, rating))
             self.db.commit()
         else:
+            
             #song has row in db
             num_scrobbles = song_object.usecount - usecount
+            if rating != song_object.rating:
+                rating = song_object.rating
         if num_scrobbles > 0:
-            self.cursor.execute("""update songs set usecount=?
+            self.cursor.execute("""update songs set usecount=?, rating=?
                                 where trackid=?""", (song_object.usecount,
+                                                     rating,
                                                     song_object.trackid))
             self.db.commit()
             

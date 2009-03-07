@@ -138,25 +138,23 @@ class MTPLastfmGTK:
         """Checks if we should set a value for the cache button or disable it
         Also checks ban button, since cache will sometimes change this too"""
         
-        #cache
-        text = ""
-        sensitivity = False
         if self.song_db.scrobble_counter is not 0:
             text = "(" + str(self.song_db.scrobble_counter) + ")"
             sensitivity = True
+        else:
+            text = ""
+            sensitivity = False
         self.tree.get_widget("cache_label").set_text(text)
         self.tree.get_widget("cache").set_sensitive(sensitivity)
-        #bans
-        #incremental temp solution, keep a seperate table instead
+
         banned = self.song_db.return_tracks("B")
-        count = 0
-        for b in banned:
-            count +=1
-        text = ""
-        sensitivity = False
+        count = len(banned.fetchall())
         if count is not 0:
             text = "(" + str(count) + ")"
             sensitivity = True
+        else:
+            text = ""
+            sensitivity = False
         self.tree.get_widget("banned_label").set_text(text)
         self.tree.get_widget("banned_tracks").set_sensitive(sensitivity)
    
@@ -173,6 +171,7 @@ class MTPLastfmGTK:
         server_response, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
+            self.session_key = self.usersDB.get_session_key(self.username)
             return True
         else:
             self.authentication_error = msg

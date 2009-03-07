@@ -21,9 +21,9 @@ from logger import Logger
 
 class SongData:
     def __init__(self):
-        self.max = 7 #count of all possible song data
+        self.max = 8 #count of all possible song data
         self.required_data = ['Track ID', 'Title', 'Artist', 'Album', 'Track number', 
-                             'Duration', 'Use Count']
+                             'Duration', 'Use Count', 'User rating']
         self.accepted_data_types = ('ISO MPEG-1 Audio Layer 3',)
         self.reset_values()
         self.log = Logger(name='Not added to scrobbling db', stream_log=False)
@@ -51,14 +51,29 @@ class SongData:
         return False
         
     def _is_usecount(self, data):
-        if data.__contains__('Use count'):
+        if data.__contains__('Use count:'):
             return True
         return False
         
+    def _is_rating(self, data):
+        if data.__contains__('User rating:'):
+            return True
+        return False
+    
+    
     def _clean_data(self, data):
         """Strips unneeded info"""
         index = data.find(":")
         clean_data = data[index+2:-1]
+        if self._is_rating(data):
+            index = clean_data.find(' ')
+            clean_data = clean_data[:index]
+            if clean_data == '1':
+                clean_data = 'B'
+            elif clean_data == '99':
+                clean_data = 'L'
+            else:
+                clean_data = ''
         return clean_data
     
     def _get_key(self, data):
@@ -71,6 +86,10 @@ class SongData:
         it to the correct variable"""
         if self.filetype_reached == True:
             #check if this line is usecount if not we need to append
+            if self._is_rating(new_data):
+                self.song_data.append(self._clean_data(new_data))
+            else:
+                self.song_data.append("''")
             if self._is_usecount(new_data):
                 self.song_data.append(self._clean_data(new_data))
             else:
@@ -99,7 +118,6 @@ class SongData:
         #trim seconds and usecount before export
         if self.is_song == True and self.check_if_full() and self.song_data[5] > 30:
             self._trim_export_data()
-            self.user_friendly_names()
             self.ready_for_export = True
         else:
             data = '\n'.join(self.song_data) 
@@ -108,16 +126,11 @@ class SongData:
         
     
     def _trim_export_data(self):
-        self.song_data[0] = int(self.song_data[0])
-        self.song_data[4] = int(self.song_data[4])
-        self.song_data[5] = int(string.split(self.song_data[5], ' ')[0]) / 1000
-        self.song_data[6] = int(string.split(self.song_data[6], ' ')[0])
-        
-    def user_friendly_names(self):
-        self.trackid = self.song_data[0]
+        self.trackid = int(self.song_data[0])
         self.title = self.song_data[1]
         self.artist = self.song_data[2]
         self.album = self.song_data[3]
-        self.tracknumber = self.song_data[4]
-        self.duration = self.song_data[5]
-        self.usecount = self.song_data[6]
+        self.tracknumber = int(self.song_data[4])
+        self.duration = int(string.split(self.song_data[5], ' ')[0]) / 1000
+        self.rating = self.song_data[6]
+        self.usecount = int(string.split(self.song_data[7], ' ')[0])

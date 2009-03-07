@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+import md5
+import urllib2
+import urllib
+import webbrowser
+import xml.etree.ElementTree as ET
 
 class LastfmWebService(object):
     
@@ -55,14 +60,18 @@ class LastfmWebService(object):
             ("api_sig", api_sig))
         encode_values = urllib.urlencode(data)
         url = "http://ws.audioscrobbler.com/2.0/?" + encode_values
-        conn = urllib2.urlopen(url)
-        key = self.parse_xml(conn, "key")
-        return key
-            
-    def love_tracks(self, tracks):
-        """Love a set of tracks"""
+        try:
+            conn = urllib2.urlopen(url)
+            self.key = self.parse_xml(conn, "key")
+            return True, self.key
+        except urllib2.HTTPError:
+            return False, "A problem occurred during authentication"
+        
+    def love_track(self, track):
         pass
-
+        
+        
+        
 if __name__ == '__main__':
     webservice = LastfmWebService()
     token = webservice.request_session_token()
