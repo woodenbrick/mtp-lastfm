@@ -89,11 +89,13 @@ class SongData:
             if self._is_rating(new_data):
                 self.song_data.append(self._clean_data(new_data))
             else:
-                self.song_data.append("''")
+                if len(self.song_data) == 6:
+                    self.song_data.append("''")
             if self._is_usecount(new_data):
                 self.song_data.append(self._clean_data(new_data))
             else:
-                self.song_data.append('0 times')
+                if len(self.song_data) == 7:
+                    self.song_data.append('0 times')
             self.export_data()
             if self.ready_for_export == False:
                 self.new_data(new_data)
