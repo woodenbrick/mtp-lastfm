@@ -28,7 +28,7 @@ class SongData(object):
                               'Track number:' : False, 'Duration:' : False,
                               'User rating:' : False, 'Use count:' :False}
         self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
-                         'Duration', 'User rating:')
+                         'Duration:', 'User rating:')
         self.log = Logger(name='Not added to scrobbling db', stream_log=False)
         
     def create_clean_dataset(self):
@@ -69,7 +69,7 @@ class SongData(object):
         """Check that all required songdata is accounted for"""
         for key, value in self.required_data.items():
             if value is False:
-                if key == "Use Count:" or key == "User rating:":
+                if key == "Use count:" or key == "User rating:":
                     continue
                 else:
                     return False

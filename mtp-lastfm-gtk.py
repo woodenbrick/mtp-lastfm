@@ -123,7 +123,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -171,7 +171,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
-        server_response, msg = self.scrobbler.handshake()
+        server_response = "OK"#, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
             self.session_key = self.usersDB.get_session_key(self.username)
