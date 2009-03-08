@@ -31,8 +31,8 @@ from songdata import SongData
 import scrobbler
 import songview
 __author__ = ("Daniel Woodhouse",)
-__version__ = "0.5-dev"
-__test_mode__ = True
+__version__ = "0.5"
+__test_mode__ = False
 
 def get_path():
     if "dev" in __version__:
