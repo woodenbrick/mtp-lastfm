@@ -127,7 +127,6 @@ class Scrobbler:
                     full_list[7].append(u"P")
                     #empty strings for music brain tag
                     full_list[8].append(u"")
-                    
                 post_values = { "s" : self.session_id }
                 for i in range(0, size):
                     dic = self.get_dic_value(i)

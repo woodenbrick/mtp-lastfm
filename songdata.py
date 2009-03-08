@@ -85,11 +85,11 @@ class SongData(object):
 
     def set_rating(self):
         """Set the rating to a last.fm friendly value"""
-        values = { "''" : "''", 99 : 'L', 1 : 'B' }
+        values = { "''" : u"", 99 : 'L', 1 : 'B' }
         try:
             new_rating = values[self.required_data['User rating:']]
         except KeyError:
-            new_rating = "''"
+            new_rating = ""
         self.required_data['User rating:'] = new_rating
   
     def append_missing_data(self):

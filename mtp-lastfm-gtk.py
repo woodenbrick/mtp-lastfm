@@ -30,6 +30,7 @@ import dbClass
 from songdata import SongData
 import scrobbler
 import songview
+
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.5"
 __test_mode__ = False
@@ -220,7 +221,6 @@ class MTPLastfmGTK:
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("scrobble_dialog").hide()
             self.continue_scrobbling = False
-        print response
     
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
@@ -311,9 +311,7 @@ class MTPLastfmGTK:
     def on_username_entry_insert_text(self, widget):
         """Check the user database on keypress to see if we have a match"""
         entry = self.tree.get_widget("username_entry").get_text()
-        print entry
         users = self.usersDB.get_users_like(entry)
-        print users
         if len(users) is 1:
             self.tree.get_widget("username_entry").set_text(users[0][0])
             #we need to select the text after the cursor so the user can continue
