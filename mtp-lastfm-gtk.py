@@ -116,7 +116,7 @@ class MTPLastfmGTK:
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        #os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
+        os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
         f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
@@ -157,7 +157,6 @@ class MTPLastfmGTK:
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
         #disable all buttons etc
-        return True
         self.tree.get_widget("login_window").set_sensitive(False)
         self.tree.get_widget("username_entry").set_text(self.username)
         self.tree.get_widget("password_entry").set_text(self.password)
