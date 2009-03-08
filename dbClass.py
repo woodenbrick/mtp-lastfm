@@ -199,6 +199,10 @@ class lastfmDb:
     def return_scrobble_count(self):
         self.cursor.execute("""SELECT count from scrobble_counter""")
         self.scrobble_counter = self.cursor.fetchone()[0]
+        if self.scrobble_counter > 0:
+            self.had_pending_scrobbles = True
+        else:
+            self.had_pending_scrobbles = False
         return self.scrobble_counter
         
     def reset_scrobble_counter(self):
@@ -283,8 +287,8 @@ class lastfmDb:
             #what should we do? We currently have no way to change the rating
             #on the device so we will give priority to a 5 or 1 star on the device
             #and leave any other ratings alone
-            if not song_dic['rating:'] == "''":
-                rating = song_dic['rating:']
+            if song_dic['User rating:'] != "''":
+                rating = song_dic['User rating:']
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?, rating=?
                                 where trackid=?""", (song_dic['Use count:'],
@@ -295,8 +299,37 @@ class lastfmDb:
         if rating != 'B':
             self.scrobble_counter += num_scrobbles
             count = num_scrobbles
+            if self.had_pending_scrobbles:
+                if self.pending_scrobble_list is None:
+                    self.fill_pending_scrobble_list()
+                count = self.return_new_count(count, song_dic['Track ID:'])
+                
             while num_scrobbles > 0:
                 self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
                                     values (?, ?)""", (song_dic['Track ID:'], count))
                 num_scrobbles -= 1
             self.db.commit()
+            
+    def fill_pending_scrobble_list(self):
+        #we need to check if previous scrobbles were pending
+        #so we can grab the old count and update it
+        #this section is not necessary unless there were some pending scrobbles
+        self.cursor.execute("""select DISTINCT trackid, scrobble_count from scrobble""")
+        rows = self.cursor.fetchall()
+        self.pending_scrobble_list = {}
+        for row in rows:
+            self.pending_scrobble_list[row[0]] = row[1]
+
+    def return_new_count(self, count, trackid):
+        """Takes the scrobble count of a trackid and checks if there are pending scrobbles
+        which are added"""
+        try:
+            old_count = self.pending_scrobble_list[trackid]
+            count += old_count
+            self.cursor.execute("""update scrobble set scrobble_count=? where
+                                trackid=?""", (count, trackid))
+            return count
+        except KeyError:
+            return count
+
+        

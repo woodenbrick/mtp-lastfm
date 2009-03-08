@@ -20,7 +20,7 @@ from logger import Logger
 
 
 class SongData(object):
-    def __init__(self, db):
+    def __init__(self, db, path):
         self.db = db
         self.ready_for_export = False
         self.required_data = {'Track ID:' : False, 'Title:' : False,
@@ -29,7 +29,8 @@ class SongData(object):
                               'User rating:' : False, 'Use count:' :False}
         self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
                          'Duration:', 'User rating:')
-        self.log = Logger(name='Not added to scrobbling db', stream_log=False)
+        self.log = Logger(name='Not added to local db', stream_log=False,
+                          file_log_name = path + 'db.log')
         
     def create_clean_dataset(self):
         for value in self.required_data:
@@ -48,12 +49,18 @@ class SongData(object):
                     self.db.add_new_data(self.required_data)
                     self.create_clean_dataset()
                 else:
-                    self.log.logger.warn(self.required_data)
+                    self.log.logger.warn(self.log_data())
                     self.create_clean_dataset()
             self.required_data[key] = self.add_new_data(key, value)
         except KeyError:
             pass
-        
+    
+    def log_data(self):
+        log_data = "\n"
+        for item in self.required_data.iteritems():
+            log_data += str(item[0]) + " " + str(item[1]) + "\n"
+        return log_data
+    
     def add_new_data(self, key, value):
         if key in self.integer_types:
             i = value.find(' ')

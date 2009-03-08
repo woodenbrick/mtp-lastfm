@@ -132,9 +132,11 @@ class MTPLastfmGTK:
         else:
             self.write_info("Done.", new_line=" ")
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
-            song_obj = SongData(self.song_db)
+            self.song_db.pending_scrobble_list = None
+            song_obj = SongData(self.song_db, self.HOME_DIR)
             for line in f:
                 song_obj.check_new_data(line)
+            self.song_db.pending_scrobble_list = None
             self.write_info("Done.", new_line='')
             self.song_db.update_scrobble_count()
             self.set_cache_button()
