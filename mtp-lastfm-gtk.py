@@ -30,8 +30,8 @@ import dbClass
 from songdata import SongData
 import scrobbler
 import songview
-__author__ = "Daniel Woodhouse"
-__version__ = "0.2"
+__author__ = ("Daniel Woodhouse",)
+__version__ = "0.5-dev"
 
 def get_path():
     if "dev" in __version__:
@@ -78,6 +78,10 @@ class MTPLastfmGTK:
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
+        
+        about_dialog = self.tree.get_widget("about_dialog")
+        about_dialog.set_version(__version__)
+        about_dialog.set_authors(__author__)
 
         self.usersDB = dbClass.lastfmDb_Users(self.HOME_DIR)
         current_user = self.usersDB.get_users()
@@ -89,7 +93,10 @@ class MTPLastfmGTK:
                 self.setup_user_session()
             else:
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
-            
+    
+    def links(dialog, link, user_data):
+        print link, user_data
+      
     def show_main_window(self):
         self.login_window.hide()
         self.write_info("User authenticated.", clear_buffer=True)
@@ -164,7 +171,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
-        server_response = 'OK'#, msg = self.scrobbler.handshake()
+        server_response, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
             self.session_key = self.usersDB.get_session_key(self.username)
