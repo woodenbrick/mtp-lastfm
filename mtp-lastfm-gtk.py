@@ -123,7 +123,7 @@ class MTPLastfmGTK:
         else:
             self.write_info("Done.", new_line=" ")
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
-            song_obj = SongData()
+            song_obj = SongData(self.song_db)
             for line in f:
                 song_obj.check_new_data(line)
             self.write_info("Done.", new_line='')
@@ -157,6 +157,7 @@ class MTPLastfmGTK:
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
         #disable all buttons etc
+        return True
         self.tree.get_widget("login_window").set_sensitive(False)
         self.tree.get_widget("username_entry").set_text(self.username)
         self.tree.get_widget("password_entry").set_text(self.password)

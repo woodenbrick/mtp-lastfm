@@ -284,14 +284,14 @@ class lastfmDb:
         exists, or creates a new row. In both cases the scrobble table
         is added to as well."""
         self.cursor.execute("""SELECT rating, usecount FROM
-                            songs WHERE trackid = ?""", (song_dic['Track ID'],))
+                            songs WHERE trackid = ?""", (song_dic['Track ID:'],))
         row = self.cursor.fetchone()
         try:
             rating, usecount = row
         except TypeError:
-            rating, usecount = song_dic['User rating:'], song_dic['Usecount:']
+            rating, usecount = song_dic['User rating:'], song_dic['Use count:']
         if row == None:
-            num_scrobbles = song_dic['Usecount:']
+            num_scrobbles = song_dic['Use count:']
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
                                 usecount, rating) values (?, ?, ?, ?, ?, ?, ?, ?)""",
@@ -303,7 +303,7 @@ class lastfmDb:
         else:
             
             #song has row in db
-            num_scrobbles = song_dic['Usecount:'] - usecount
+            num_scrobbles = song_dic['Use count:'] - usecount
             #If the current rating saved in the db is different from the device
             #what should we do? We currently have no way to change the rating
             #on the device so we will give priority to a 5 or 1 star on the device

@@ -22,45 +22,59 @@ from logger import Logger
 class SongData(object):
     def __init__(self, db):
         self.db = db
-        self.create_clean_dataset()
         self.ready_for_export = False
-        integer_types = ('Track ID:', 'Track number:', 'Use Count:',
-                         'Duration', 'User rating:')
-        self.log = Logger(name='Not added to scrobbling db', stream_log=False,
-                          file_log_name='~/.mtp-lastfm/import_errors.log')
-        
-    def create_clean_dataset(self):
         self.required_data = {'Track ID:' : False, 'Title:' : False,
                               'Artist:' : False, 'Album:' : False,
                               'Track number:' : False, 'Duration:' : False,
-                              'User rating:' : False, 'Use Count:' :False}
+                              'User rating:' : False, 'Use count:' :False}
+        self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
+                         'Duration', 'User rating:')
+        self.log = Logger(name='Not added to scrobbling db', stream_log=False)
+        
+    def create_clean_dataset(self):
+        for value in self.required_data:
+            self.required_data[value] = False
 
     def check_new_data(self, data):
-        key, value = self._split_data(data)
+        key, value = self.split_data(data)
         #required data should be reset after each song
         #so if we have a non False value we should
         #append any missing data and export
-        if self.required_data[key] is not False:
-            if self.is_song():
-                self.append_missing_data()
-                self.set_rating()
-                self.db.add_new_data(self.required_data)
-            else:
-                self.log.logger.warn(self.required_data)
-            self.create_clean_dataset()
-        #we can now create the new dataset
-        self.required_data[key] = add_new_data(key, value)
+        try:
+            if self.required_data[key] is not False:
+                if self.is_song():
+                    self.append_missing_data()
+                    self.set_rating()
+                    self.db.add_new_data(self.required_data)
+                    self.create_clean_dataset()
+                else:
+                    self.log.logger.warn(self.required_data)
+                    self.create_clean_dataset()
+            self.required_data[key] = self.add_new_data(key, value)
+        except KeyError:
+            pass
         
     def add_new_data(self, key, value):
         if key in self.integer_types:
             i = value.find(' ')
-            if i is not 0:
+            if i > 0:
                 value = value[:i]
             value = int(value)
             if key == 'Duration:':
                 value = value / 1000
             return value
         return value
+
+    def is_song(self):
+        """Check that all required songdata is accounted for"""
+        for key, value in self.required_data.items():
+            if value is False:
+                if key == "Use Count:" or key == "User rating:":
+                    continue
+                else:
+                    return False
+        return True
+                
 
     def set_rating(self):
         """Set the rating to a last.fm friendly value"""
@@ -76,12 +90,12 @@ class SongData(object):
         them before export"""
         if self.required_data['User rating:'] is False:
             self.required_data['User rating:'] = "''"
-        if self.required_data['Use Count:'] is False:
-            self.required_data['Use Count:'] = 0
+        if self.required_data['Use count:'] is False:
+            self.required_data['Use count:'] = 0
         
     def split_data(self, data):
         """Splits the data into key, value"""
         i = data.find(":")
-        key = data[0:i]
+        key = data[0:i+1]
         value = data[i+2:-1]
-        return key, value
+        return key.strip(), value
