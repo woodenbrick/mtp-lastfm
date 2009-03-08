@@ -218,27 +218,6 @@ class lastfmDb:
         self.cursor.execute("""update scrobble_counter set count=?""", (self.scrobble_counter,))
         self.db.commit()
     
-    def execute(self, query):
-        """wrapper for executing arbitrary queries"""
-        self.cursor.execute(query)
-        return self.cursor
-    
-    def mark_songs_as_loved(self, id_list):
-        #depreciated
-        """Takes a list of ids and marks them as loved"""
-        self.cursor.execute("update songs set rating='L' where trackid IN (%s)"%','.join(['?']*len(id_list)), id_list)
-        self.db.commit()
-        
-    def mark_songs_as_banned_or_no_scrobble(self, id_list, marking=None):
-        #depreciated
-        new_scrobble_count = self.scrobble_counter - len(id_list)
-        self.cursor.execute("""delete from scrobble where trackid IN (%s)"""%','.join(['?']*len(id_list)), id_list)
-        if marking is "B":
-            self.cursor.execute("""update songs set rating='B' where trackid IN (%s)"""%','.join(['?']*len(id_list)), id_list)
-            self.cursor.execute("""update scrobble_counter set count=?""", (new_scrobble_count,))
-        self.scrobble_counter = self.return_scrobble_count()
-        self.db.commit()
-    
     def return_tracks(self, rating):
         self.cursor.execute("""select trackid, usecount, artist, song, album, rating
                             from songs where rating=?""", (rating,))
@@ -272,10 +251,6 @@ class lastfmDb:
             self.cursor.execute('delete from scrobble where trackid IN (%s)'%','.join(['?']*len(id_list)), id_list)
             self.db.commit()
             self.reset_scrobble_counter()
-    
-    def commit(self):
-        """commit wrapper"""
-        self.db.commit()
     
    
     def add_new_data(self, song_dic):
