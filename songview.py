@@ -13,6 +13,7 @@ class Songview(object):
         self.parent = parent
         self.db = db
         self.wTree = gtk.glade.XML(glade_file)
+        self.wTree.get_widget("window").set_icon_from_file("glade/mtp-lastfm.png")
         self.liststore = gtk.ListStore(int, str, str, str, str, int)
         self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
         self.tree_view = self.wTree.get_widget("tree_view")

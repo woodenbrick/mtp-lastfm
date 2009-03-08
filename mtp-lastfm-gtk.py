@@ -164,7 +164,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
-        server_response, msg = self.scrobbler.handshake()
+        server_response = 'OK'#, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
             self.session_key = self.usersDB.get_session_key(self.username)
