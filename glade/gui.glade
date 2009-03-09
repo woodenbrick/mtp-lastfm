@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Mar  8 15:00:33 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Mar  9 13:41:50 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
+    <property name="height_request">400</property>
     <property name="visible">True</property>
     <property name="title" translatable="yes">mtp-lastfm</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
@@ -13,10 +14,11 @@
         <property name="visible">True</property>
         <child>
           <widget class="GtkHBox" id="hbox1">
+            <property name="height_request">46</property>
             <property name="visible">True</property>
             <child>
               <widget class="GtkButton" id="check_device">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -28,6 +30,7 @@
                 <child>
                   <widget class="GtkImage" id="image3">
                     <property name="visible">True</property>
+                    <property name="pixbuf">cache.png</property>
                     <property name="stock">gtk-connect</property>
                   </widget>
                 </child>
@@ -39,16 +42,17 @@
             </child>
             <child>
               <widget class="GtkButton" id="scrobble">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_text">Scrobbles tracks in your cache to last.fm</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_scrobble_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image1">
                     <property name="visible">True</property>
-                    <property name="pixbuf">audioscrobbler.png</property>
+                    <property name="pixbuf">mtp-lastfm.png</property>
                   </widget>
                 </child>
               </widget>
@@ -60,10 +64,11 @@
             </child>
             <child>
               <widget class="GtkButton" id="options">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_text">Preferences</property>
                 <property name="image_position">GTK_POS_TOP</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_options_clicked"/>
@@ -82,15 +87,17 @@
             </child>
             <child>
               <widget class="GtkButton" id="loved_tracks">
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_text">Tracks you have loved</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_loved_tracks_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image7">
                     <property name="visible">True</property>
-                    <property name="pixbuf">heart.jpg</property>
+                    <property name="pixbuf">heart.png</property>
                   </widget>
                 </child>
               </widget>
@@ -135,7 +142,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="cache">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -149,7 +156,7 @@
                     <child>
                       <widget class="GtkImage" id="image4">
                         <property name="visible">True</property>
-                        <property name="stock">gtk-index</property>
+                        <property name="pixbuf">cache.png</property>
                       </widget>
                     </child>
                     <child>
@@ -171,7 +178,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="about">
-                <property name="width_request">60</property>
+                <property name="width_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -192,24 +199,38 @@
               </packing>
             </child>
           </widget>
+          <packing>
+            <property name="expand">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkScrolledWindow" id="scrolledwindow1">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <child>
+              <widget class="GtkTextView" id="info">
+                <property name="height_request">210</property>
+                <property name="visible">True</property>
+                <property name="pixels_above_lines">10</property>
+                <property name="editable">False</property>
+                <property name="wrap_mode">GTK_WRAP_WORD</property>
+                <property name="left_margin">10</property>
+                <property name="right_margin">10</property>
+                <property name="cursor_visible">False</property>
+                <property name="text" translatable="yes">Welcome to mtp-scrobbler 0.1!</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">2</property>
+          </packing>
         </child>
         <child>
           <widget class="GtkHBox" id="hbox2">
+            <property name="height_request">31</property>
             <property name="visible">True</property>
-            <child>
-              <widget class="GtkLabel" id="label2">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">Logged in as:</property>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="user">
-                <property name="visible">True</property>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
             <child>
               <widget class="GtkLinkButton" id="logout">
                 <property name="visible">True</property>
@@ -223,35 +244,28 @@
                 <signal name="clicked" handler="on_logout_clicked"/>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="expand">False</property>
+                <property name="padding">5</property>
+                <property name="pack_type">GTK_PACK_END</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="user">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">5</property>
+                <property name="pack_type">GTK_PACK_END</property>
               </packing>
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
+            <property name="padding">5</property>
+            <property name="pack_type">GTK_PACK_END</property>
             <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkScrolledWindow" id="scrolledwindow1">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-            <child>
-              <widget class="GtkTextView" id="info">
-                <property name="height_request">210</property>
-                <property name="visible">True</property>
-                <property name="editable">False</property>
-                <property name="wrap_mode">GTK_WRAP_WORD</property>
-                <property name="left_margin">5</property>
-                <property name="right_margin">5</property>
-                <property name="cursor_visible">False</property>
-                <property name="text" translatable="yes">Welcome to mtp-scrobbler 0.1!</property>
-              </widget>
-            </child>
-          </widget>
-          <packing>
-            <property name="position">2</property>
           </packing>
         </child>
       </widget>
