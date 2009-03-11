@@ -33,7 +33,9 @@ import songview
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.5"
-__test_mode__ = False
+__test_mode__ = True #disables the authentication and scrobbling section for offline work
+__std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
+
 
 def get_path():
     if "dev" in __version__:
@@ -55,6 +57,8 @@ class MTPLastfmGTK:
         except OSError:
             pass
         
+        if __std_err_log__:
+            sys.stderr = open(os.path.join(self.HOME_DIR, "error.log"), 'a')
         
         self.tree = gtk.glade.XML(self.MAIN_GLADE)
         event_handlers = {
@@ -134,11 +138,23 @@ class MTPLastfmGTK:
             self.write_info("Done.", new_line=" ")
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
             self.song_db.pending_scrobble_list = None
-            song_obj = SongData(self.song_db, self.HOME_DIR)
+            song_obj = SongData(self.song_db, self.HOME_DIR, self)
             for line in f:
                 song_obj.check_new_data(line)
             self.song_db.pending_scrobble_list = None
-            self.write_info("Done.", new_line='')
+            if song_obj.song_count % 100 != 0:
+                self.write_info("%d tracks checked" % song_obj.song_count)
+            self.write_info("Complete.")
+            if song_obj.error_count > 0:
+                self.write_info("%d items were not added to your song database." % song_obj.error_count)
+                
+                buffer = self.tree.get_widget("info").get_buffer()
+                iter = buffer.get_end_iter()
+                anchor = buffer.create_child_anchor(iter)
+                button = gtk.Button(label="Details")
+                button.show()
+                self.tree.get_widget("info").add_child_at_anchor(button, anchor)
+                
             self.song_db.update_scrobble_count()
             self.set_cache_button()
             
@@ -175,7 +191,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("login_error").set_text("Authenticating...")
         while gtk.events_pending():
             gtk.main_iteration(False)
-        self.scrobbler = scrobbler.Scrobbler(self.username, self.password)
+        self.scrobbler = scrobbler.Scrobbler(self)
         if __test_mode__:
             server_response = "OK"
         else:

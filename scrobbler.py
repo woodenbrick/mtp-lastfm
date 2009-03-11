@@ -14,7 +14,6 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
-
 import md5
 import time
 import urllib
@@ -29,9 +28,10 @@ from logger import Logger
 
 class Scrobbler:
     
-    def __init__(self, user, password):
-        self.user = user
-        self.password = password
+    def __init__(self, parent):
+        self.user = parent.username
+        self.password = parent.password
+        self.parent = parent
         self.client = 'tst'
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
@@ -71,7 +71,7 @@ class Scrobbler:
             self.submission_url = conn.readline()[:-1]
         if self.server_response.startswith("FAILED"):
             responses['FAILED'] = string.split(self.server_response, ' ')[1:]
-        
+        self.parent.write_info(responses[self.server_response])
         return self.server_response, responses[self.server_response]
     
     
@@ -79,13 +79,13 @@ class Scrobbler:
 
     def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
-
         past_time = int(time.time() - self.scrobble_time)
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
                 break
             else:
+                self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
                 self.scrobble_count += len(cache)
                 #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
@@ -154,13 +154,11 @@ class Scrobbler:
             response = 'Connection Refused, please try again'
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
+        self.parent.write_info(response)
         if response == 'OK':
-            self.log.logger.info('Scrobbled %d songs' % self.scrobble_count)
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
-            #this should be written to the user panel
-            self.log.logger.critical(response)
             return False
    
     def encode_url(self):

@@ -20,8 +20,9 @@ from logger import Logger
 
 
 class SongData(object):
-    def __init__(self, db, path):
+    def __init__(self, db, path, parent):
         self.db = db
+        self.parent = parent
         self.ready_for_export = False
         self.required_data = {'Track ID:' : False, 'Title:' : False,
                               'Artist:' : False, 'Album:' : False,
@@ -31,6 +32,8 @@ class SongData(object):
                          'Duration:', 'User rating:')
         self.log = Logger(name='Not added to local db', stream_log=False,
                           file_log_name = path + 'db.log')
+        self.song_count = 0
+        self.error_count = 0
         
     def create_clean_dataset(self):
         for value in self.required_data:
@@ -48,8 +51,12 @@ class SongData(object):
                     self.set_rating()
                     self.db.add_new_data(self.required_data)
                     self.create_clean_dataset()
+                    self.song_count += 1
+                    if self.song_count % 100 == 0:
+                        self.parent.write_info("%d tracks checked" % self.song_count)
                 else:
                     self.log.logger.warn(self.log_data())
+                    self.error_count += 1
                     self.create_clean_dataset()
             self.required_data[key] = self.add_new_data(key, value)
         except KeyError:
