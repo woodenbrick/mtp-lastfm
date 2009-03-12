@@ -93,8 +93,11 @@ class LastfmWebService(object):
             url_handle = urllib2.urlopen(req)
             response = url_handle.readline().strip()
         except urllib2.URLError:
-            response = 'Connection Refused due to URLError \
-                       (Incorrect session_key, track or artist)'
+            response = """Connection Refused due to URLError 
+                       (Incorrect session_key, track or artist)
+                       Artist: %s
+                       Track: %s
+                       Session Key: %s""" % (artist, track, sk)
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
         print response
