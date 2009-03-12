@@ -91,16 +91,12 @@ class LastfmWebService(object):
         req = urllib2.Request(url=self.url, data=post_values)
         try:
             url_handle = urllib2.urlopen(req)
-            print self.parse_xml(url_handle, "lfm")
-            response = url_handle.read()
+            response = url_handle.readline().strip()
         except urllib2.URLError:
-            response = 'Connection Refused, please try again'
+            response = 'Connection Refused due to URLError \
+                       (Incorrect session_key, track or artist)'
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
         print response
-       
-        
-if __name__ == '__main__':
-    webservice = LastfmWebService()
-    webservice.love_track("Lights and Music", "Cut Copy", "1ba337c6af916a772804c9e1693cbf20")
+
     
