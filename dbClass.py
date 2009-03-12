@@ -169,6 +169,11 @@ class lastfmDb:
         '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
         `count` int(5) NOT NULL)''',
         
+        '''CREATE TABLE IF NOT EXISTS `love_cache` (
+        `trackid` int(8) NOT NULL,
+        `love_sent` boolean DEFAULT 0,
+        PRIMARY KEY (`trackid`))'''
+        
         '''insert into scrobble_counter (count) values (0)''']
         
         for q in query:

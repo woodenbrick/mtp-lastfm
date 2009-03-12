@@ -30,6 +30,7 @@ import dbClass
 from songdata import SongData
 import scrobbler
 import songview
+import webservices
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.5"
@@ -227,6 +228,7 @@ class MTPLastfmGTK:
             if self.continue_scrobbling is True:
                 scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
                 self.scrobble(scr_time)
+                self.love_tracks()
                 
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
@@ -237,6 +239,15 @@ class MTPLastfmGTK:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.set_cache_button()
+        
+    def love_tracks(self):
+        """This should be called after scrobbling in order to love pending tracks
+        I'm not sure if this is the best place for it since it may be time consuming
+        if there is a whole lotta love... den den da da da da den"""
+        love_cache = self.song_db.return_love_cache()
+        webservice = webservices.lastfmWebService()
+        for item in love_cache:
+            webservice.love_track(item[0], item[1], self.session_key)            
     
     
     def show_scrobble_dialog(self):
