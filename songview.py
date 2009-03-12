@@ -5,6 +5,7 @@ pygtk.require("2.0")
 import gtk.glade
 import time
 import webservices
+import gobject
 
 class Songview(object):
     """An abstract class for creating windows showing song data in a textview"""
@@ -13,7 +14,7 @@ class Songview(object):
         self.parent = parent
         self.db = db
         self.wTree = gtk.glade.XML(glade_file)
-        self.liststore = gtk.ListStore(int, str, str, str, str, int)
+        self.liststore = gtk.ListStore(int, str, str, str, str, int) #gtk.gdk.Pixbuf, int)
         self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
         self.tree_view = self.wTree.get_widget("tree_view")
         self.tree_view.set_model(self.liststore)
@@ -38,10 +39,11 @@ class Songview(object):
     def append_columns(self):
         i = 0
         for column in self.columns:
-            cell = gtk.CellRendererText()
             col = gtk.TreeViewColumn(column)
+            cell = gtk.CellRendererText()
             col.pack_start(cell, False)
             col.set_attributes(cell, text=i)
+            
             col.set_sizing(gtk.TREE_VIEW_COLUMN_GROW_ONLY)
             col.set_min_width(30)
             col.set_max_width(300)
@@ -58,10 +60,12 @@ class Songview(object):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
         if rating == "L":
-            return "Loved"
-        if rating == "B":
-            return "Banned"
-        return ""
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+        elif rating == "B":
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+        else:
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
+        return rating
     
     def on_tree_view_button_press_event(self, widget, event):
         """Show context menu on right click"""
