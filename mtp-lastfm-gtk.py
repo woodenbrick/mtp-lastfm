@@ -47,10 +47,12 @@ class MTPLastfmGTK:
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
+        
         self.MAIN_GLADE = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
         self.CACHE_GLADE = os.path.join(self.MAIN_PATH, "glade", "cache.glade")
         self.BANNED_GLADE = os.path.join(self.MAIN_PATH, "glade", "ban.glade")
         self.LOVED_GLADE = os.path.join(self.MAIN_PATH, "glade", "loved.glade")
+        self.LOG_GLADE = os.path.join(self.MAIN_PATH, "glade", "log.glade")
         
         try:
             os.mkdir(self.HOME_DIR)
@@ -151,13 +153,21 @@ class MTPLastfmGTK:
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
                 anchor = buffer.create_child_anchor(iter)
-                button = gtk.Button(label="Details")
+                button = gtk.Button(label=None, stock="gtk-info")
                 button.show()
                 self.tree.get_widget("info").add_child_at_anchor(button, anchor)
-                
+                button.connect("clicked", self.show_error_details, "songdata")
             self.song_db.update_scrobble_count()
             self.set_cache_button()
-            
+    
+    def show_error_details(self, widget, data):
+        if data is "songdata":
+            tree = gtk.glade.XML(self.LOG_GLADE)
+            f = open(self.HOME_DIR + "db.log", "r").read()
+            self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
+                            clear_buffer=True)
+            tree.get_widget("window").show()
+    
     def set_cache_button(self):
         """Checks if we should set a value for the cache button or disable it
         Also checks ban button, since cache will sometimes change this too"""
@@ -251,9 +261,12 @@ class MTPLastfmGTK:
     def on_loved_tracks_clicked(self, widget):
         loved_window = songview.LovedWindow(self.LOVED_GLADE, self.song_db, self)
 
-    def write_info(self, new_info, window_name="info", new_line='\n', clear_buffer=False):
+    def write_info(self, new_info, text_widget="Default",
+                   new_line='\n', clear_buffer=False):
         """Writes data to the main window to let the user know what is going on"""
-        buffer = self.tree.get_widget(window_name).get_buffer()
+        if text_widget is "Default":
+            text_widget = self.tree.get_widget("info")
+        buffer = text_widget.get_buffer()
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
