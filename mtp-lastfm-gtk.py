@@ -239,7 +239,6 @@ class MTPLastfmGTK:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.set_cache_button()
-        self.love_tracks()
         
     def love_tracks(self):
         """This should be called after scrobbling in order to love pending tracks
