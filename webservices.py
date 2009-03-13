@@ -3,6 +3,7 @@ import md5
 import urllib2
 import urllib
 import webbrowser
+import httplib
 import xml.etree.ElementTree as ET
 
 class LastfmWebService(object):
@@ -72,7 +73,7 @@ class LastfmWebService(object):
             return False, "A problem occurred during authentication"
     
     
-    def love_track(self, track, artist, sk):
+    def love_track(self, artist, track, sk):
         #Params
         #track (Required) : A track name (utf8 encoded)
         #artist (Required) : An artist name (utf8 encoded)
@@ -91,15 +92,18 @@ class LastfmWebService(object):
         req = urllib2.Request(url=self.url, data=post_values)
         try:
             url_handle = urllib2.urlopen(req)
-            response = url_handle.readline().strip()
-        except urllib2.URLError:
-            response = """Connection Refused due to URLError 
-                       (Incorrect session_key, track or artist)
-                       Artist: %s
-                       Track: %s
-                       Session Key: %s""" % (artist, track, sk)
+            response = url_handle.readlines()
+            print response    
+            return True
+        #except urllib2.URLError:
+        #    response = """Connection Refused due to URLError 
+        #               (Incorrect session_key, track or artist)
+        #               Artist: %s
+        #               Track: %s
+        #               Session Key: %s""" % (artist, track, sk)
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
         print response
+        return False
 
     

@@ -239,15 +239,23 @@ class MTPLastfmGTK:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.set_cache_button()
+        self.love_tracks()
         
     def love_tracks(self):
         """This should be called after scrobbling in order to love pending tracks
         I'm not sure if this is the best place for it since it may be time consuming
         if there is a whole lotta love... den den da da da da den"""
+        if not self.session_key:
+            return False
         love_cache = self.song_db.return_love_cache()
-        webservice = webservices.lastfmWebService()
+        webservice = webservices.LastfmWebService()
+        self.write_info("Sending love...")
+        loved = []
         for item in love_cache:
-            webservice.love_track(item[0], item[1], self.session_key)            
+            if webservice.love_track(item[1], item[2], self.session_key):
+                self.write_info(item[1] + " - " + item[2])
+                loved.append(item[0])
+        self.song_db.mark_as_love_sent(loved)
     
     
     def show_scrobble_dialog(self):

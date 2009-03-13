@@ -165,7 +165,11 @@ class LovedWindow(Songview):
         self.handlers.update(new_handlers)
         self.wTree.signal_autoconnect(self.handlers)
         
-        
+    def on_change_marking_activate(self, widget):
+        #this is overridden so we can remove anything that was in the love_cache
+        marking = self.get_marking(widget.name)
+        id_list = self.get_selection(marking)
+        self.db.change_markings(id_list, marking, was_love=True)
 
 
 class BannedWindow(Songview):
