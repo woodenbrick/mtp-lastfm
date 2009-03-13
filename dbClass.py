@@ -186,14 +186,18 @@ class lastfmDb:
     
     def return_love_cache(self, internal=False):
         if internal:
-            query = """SELECT trackid FROM love_cache"""
+            self.cursor.execute("""SELECT trackid FROM love_cache""")
+            tuples = self.cursor.fetchall()
+            self.love_cache = []
+            for t in tuples:
+                self.love_cache.append(t[0])
+            return self.love_cache
         else:
-            query = """SELECT love_cache.trackid, songs.artist, songs.song
-            FROM songs INNER JOIN love_cache ON songs.trackid=love_cache.trackid
-            WHERE love_cache.love_sent=0"""
-        self.cursor.execute(query)
-        self.love_cache = self.cursor.fetchall()
-        return self.love_cache
+            self.cursor.execute("""SELECT love_cache.trackid, songs.artist,
+                                        songs.song FROM songs INNER JOIN love_cache
+                                        ON songs.trackid=love_cache.trackid WHERE
+                                        love_cache.love_sent=0""")
+            return self.cursor.fetchall()
     
     def mark_as_love_sent(self, id_list):
         self.cursor.execute('update love_cache set love_sent=1 where trackid IN (%s)'%','.join(['?']*len(id_list)), id_list)
@@ -275,7 +279,6 @@ class lastfmDb:
             self.love_cache
         except AttributeError:
             self.love_cache = self.return_love_cache(internal=True)
-
         for id in id_list:
             if id not in self.love_cache:
                 self.cursor.execute("insert into love_cache (trackid) values (?)", (id,))

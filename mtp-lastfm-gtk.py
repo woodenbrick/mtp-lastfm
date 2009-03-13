@@ -33,7 +33,7 @@ import songview
 import webservices
 
 __author__ = ("Daniel Woodhouse",)
-__version__ = "0.5"
+__version__ = "0.6"
 __test_mode__ = False #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
@@ -133,8 +133,8 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
         if not __test_mode__:
-            os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
-        f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
+            os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
+        f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
         else:

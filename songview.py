@@ -60,11 +60,11 @@ class Songview(object):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
         if rating == "L":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+            pixbuf = 1 # gtk.gdk.pixbuf_new_from_file("glade/heart.png")
         elif rating == "B":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/banned.png")
         else:
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
+            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
         return rating
     
     def on_tree_view_button_press_event(self, widget, event):
