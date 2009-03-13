@@ -3,7 +3,7 @@ h2. MTP-Lastfm
 The purpose of this program is to scrobble tracks from mtp devices
 (such as the Creative Zen, or the Zune) to last.fm. 
 
-You can download a deb file "here":http://cloud.github.com/downloads/woodenbrick/mtp-lastfm
+You can download a deb file "here":http://cloud.github.com/woodenbrick/mtp-lastfm/downloads
 
 h3. Dependencies:
 * Python
