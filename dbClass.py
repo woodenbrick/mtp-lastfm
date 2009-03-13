@@ -163,7 +163,7 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
-        `rating` varchar(1) DEFAULT "''",
+        `rating` varchar(1) DEFAULT "",
         PRIMARY KEY  (`trackid`))''',
         
         '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
@@ -254,7 +254,7 @@ class lastfmDb:
     
     def change_markings(self, id_list, marking, was_love=False):
         if marking == "D":
-            _marking = "''"
+            _marking = u""
         else:
             _marking = marking
         query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
@@ -340,7 +340,7 @@ class lastfmDb:
             #what should we do? We currently have no way to change the rating
             #on the device so we will give priority to a 5 or 1 star on the device
             #and leave any other ratings alone
-            if song_dic['User rating:'] != "''":
+            if song_dic['User rating:'] != "":
                 rating = song_dic['User rating:']
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?, rating=?
