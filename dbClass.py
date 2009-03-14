@@ -257,13 +257,15 @@ class lastfmDb:
             _marking = u""
         else:
             _marking = marking
-        query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
-        id_list.insert(0, _marking)
-        data = tuple(id_list)
-        self.cursor.execute(query, id_list)
-        self.db.commit()
+        #A listing of dont scrobble shouldnt affect previously loved submissions
+        if marking != "D": 
+            query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
+            id_list.insert(0, _marking)
+            data = tuple(id_list)
+            self.cursor.execute(query, id_list)
+            self.db.commit()
+            id_list.pop(0)
         #banning or dont scrobble means deleting from scrobble list also
-        id_list.pop(0)
         if marking == "B" or marking == "D":
             self.delete_scrobbles(id_list)
         #send to love cache
