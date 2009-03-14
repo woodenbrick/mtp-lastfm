@@ -163,11 +163,16 @@ class lastfmDb:
         `tracknumber` int(2) NOT NULL,
         `duration` int(6) NOT NULL,
         `usecount` int(6) NOT NULL,
-        `rating` varchar(1) DEFAULT "''",
+        `rating` varchar(1) DEFAULT "",
         PRIMARY KEY  (`trackid`))''',
         
         '''CREATE TABLE IF NOT EXISTS `scrobble_counter` (
         `count` int(5) NOT NULL)''',
+        
+        '''CREATE TABLE IF NOT EXISTS `love_cache` (
+        `trackid` int(8) NOT NULL,
+        `love_sent` boolean DEFAULT 0,
+        PRIMARY KEY (`trackid`))''',
         
         '''insert into scrobble_counter (count) values (0)''']
         
@@ -178,6 +183,26 @@ class lastfmDb:
     def close_connection(self):
         self.db.commit()
         self.db.close()
+    
+    def return_love_cache(self, internal=False):
+        if internal:
+            self.cursor.execute("""SELECT trackid FROM love_cache""")
+            tuples = self.cursor.fetchall()
+            self.love_cache = []
+            for t in tuples:
+                self.love_cache.append(t[0])
+            return self.love_cache
+        else:
+            self.cursor.execute("""SELECT love_cache.trackid, songs.artist,
+                                        songs.song FROM songs INNER JOIN love_cache
+                                        ON songs.trackid=love_cache.trackid WHERE
+                                        love_cache.love_sent=0""")
+            return self.cursor.fetchall()
+    
+    def mark_as_love_sent(self, id_list):
+        self.cursor.execute('update love_cache set love_sent=1 where trackid IN (%s)'%','.join(['?']*len(id_list)), id_list)
+        self.db.commit() 
+        
     
     def return_scrobble_list(self, order):
         query = """SELECT scrobble.ROWID, 
@@ -227,21 +252,50 @@ class lastfmDb:
                             from songs where rating=?""", (rating,))
         return self.cursor
     
-    def change_markings(self, id_list, marking):
+    def change_markings(self, id_list, marking, was_love=False):
         if marking == "D":
-            _marking = "''"
+            _marking = u""
         else:
-            _marking = "%s" % marking
-        query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
-        id_list.insert(0, _marking)
-        data = tuple(id_list)
-        self.cursor.execute(query, id_list)
-        self.db.commit()
+            _marking = marking
+        #A listing of dont scrobble shouldnt affect previously loved submissions
+        if marking != "D": 
+            query = "update songs set rating=? where trackid IN (%s)" % ','.join(['?']*len(id_list))
+            id_list.insert(0, _marking)
+            data = tuple(id_list)
+            self.cursor.execute(query, id_list)
+            self.db.commit()
+            id_list.pop(0)
         #banning or dont scrobble means deleting from scrobble list also
         if marking == "B" or marking == "D":
-            id_list.pop(0)
             self.delete_scrobbles(id_list)
+        #send to love cache
+        if marking == "L":
+            self.add_to_love_cache(id_list)
+        if was_love:
+            self.remove_from_love_cache(id_list)
             
+    def add_to_love_cache(self, id_list):
+        """Takes a list of ids and checks them against the love cache, adding them if
+        they dont exist"""
+        try:
+            self.love_cache
+        except AttributeError:
+            self.love_cache = self.return_love_cache(internal=True)
+        for id in id_list:
+            if id not in self.love_cache:
+                self.cursor.execute("insert into love_cache (trackid) values (?)", (id,))
+                #add new values to self.love_cache so we dont need to access db again
+                self.love_cache.append(id)
+        self.db.commit()
+        
+    def remove_from_love_cache(self, id_list):
+        """Called when a user removes love from an item.
+        Wont remove things that have sent love"""
+        for id in id_list:
+            self.cursor.execute("delete from love_sent where trackid=? and love_cache=0", (id,))
+        self.db.commit()
+  
+ 
     
     def delete_scrobbles(self, id_list):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
@@ -269,6 +323,7 @@ class lastfmDb:
             rating, usecount = row
         except TypeError:
             rating, usecount = song_dic['User rating:'], song_dic['Use count:']
+        
         if row == None:
             num_scrobbles = song_dic['Use count:']
             self.cursor.execute("""insert into songs (trackid, artist,
@@ -287,7 +342,7 @@ class lastfmDb:
             #what should we do? We currently have no way to change the rating
             #on the device so we will give priority to a 5 or 1 star on the device
             #and leave any other ratings alone
-            if song_dic['User rating:'] != "''":
+            if song_dic['User rating:'] != "":
                 rating = song_dic['User rating:']
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?, rating=?
@@ -295,6 +350,9 @@ class lastfmDb:
                                                      rating,
                                                     song_dic['Track ID:']))
             self.db.commit()
+        
+        if rating == 'L':
+            self.add_to_love_cache([song_dic['Track ID:']])
             
         if rating != 'B':
             self.scrobble_counter += num_scrobbles

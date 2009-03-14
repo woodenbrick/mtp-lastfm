@@ -30,10 +30,11 @@ import dbClass
 from songdata import SongData
 import scrobbler
 import songview
+import webservices
 
 __author__ = ("Daniel Woodhouse",)
-__version__ = "0.5"
-__test_mode__ = True #disables the authentication and scrobbling section for offline work
+__version__ = "0.6"
+__test_mode__ = False #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
 
@@ -132,8 +133,8 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
         if not __test_mode__:
-            os.system("mtp-tracks > " + self.HOME_DIR + self.username + "tracklisting")
-        f = file(self.HOME_DIR + self.username + "tracklisting", 'r').readlines()
+            os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
+        f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
             self.write_info("MTP Device not found, please connect")
         else:
@@ -227,6 +228,7 @@ class MTPLastfmGTK:
             if self.continue_scrobbling is True:
                 scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
                 self.scrobble(scr_time)
+                self.love_tracks()
                 
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
@@ -237,6 +239,24 @@ class MTPLastfmGTK:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
         self.set_cache_button()
+        
+    def love_tracks(self):
+        """This should be called after scrobbling in order to love pending tracks
+        I'm not sure if this is the best place for it since it may be time consuming
+        if there is a whole lotta love... den den da da da da den"""
+        if not self.session_key:
+            return False
+        love_cache = self.song_db.return_love_cache()
+        webservice = webservices.LastfmWebService()
+        loved = []
+        if love_cache is not None:
+            self.write_info("Sending love...")
+            for item in love_cache:
+                if webservice.love_track(item[1], item[2], self.session_key):
+                    self.write_info(item[1] + " - " + item[2])
+                    loved.append(item[0])
+            self.song_db.mark_as_love_sent(loved)
+            self.write_info("Done.")
     
     
     def show_scrobble_dialog(self):

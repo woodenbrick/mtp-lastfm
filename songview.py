@@ -60,11 +60,11 @@ class Songview(object):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
         if rating == "L":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+            pixbuf = 1 # gtk.gdk.pixbuf_new_from_file("glade/heart.png")
         elif rating == "B":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/banned.png")
         else:
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
+            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
         return rating
     
     def on_tree_view_button_press_event(self, widget, event):
@@ -121,13 +121,15 @@ class CacheWindow(Songview):
         self.wTree.signal_autoconnect(self.handlers)
     
     def set_love_auth_state(self):
-        if self.parent.session_key != "":
+        if self.parent.session_key:
             self.wTree.get_widget("main_container").remove(self.wTree.get_widget("auth_area"))
         else:
             new_handlers = {
                 "on_love_auth_button_clicked" : self.on_love_auth_button_clicked
             }
             self.handlers.update(new_handlers)
+            
+            
     
     def on_love_auth_button_clicked(self, widget):
         auth_dialog = self.wTree.get_widget("auth_dialog")
@@ -144,6 +146,7 @@ class CacheWindow(Songview):
                 self.parent.usersDB.add_key(self.parent.username, session_key)
                 self.wTree.get_widget("love_auth_state").set_text("Authentication complete")
                 self.wTree.get_widget("love_auth_button").hide()
+                self.parent.session_key = session_key
             else:
                 self.wTree.get_widget("love_auth_state").set_text(session_key)
             auth_dialog.hide()
@@ -162,7 +165,11 @@ class LovedWindow(Songview):
         self.handlers.update(new_handlers)
         self.wTree.signal_autoconnect(self.handlers)
         
-        
+    def on_change_marking_activate(self, widget):
+        #this is overridden so we can remove anything that was in the love_cache
+        marking = self.get_marking(widget.name)
+        id_list = self.get_selection(marking)
+        self.db.change_markings(id_list, marking, was_love=True)
 
 
 class BannedWindow(Songview):

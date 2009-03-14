@@ -37,7 +37,6 @@ class Scrobbler:
         self.url = "http://post.audioscrobbler.com:80"
         self.deletion_ids = []
         self.scrobble_count = 0
-        self.log = Logger(name='scrobbling', stream_log_level=2)
         
     def set_scrobble_time(self, time):
         self.scrobble_time = int(time * 3600)
@@ -65,7 +64,6 @@ class Scrobbler:
         }
            
         if self.server_response == 'OK':
-            msg = 'User authenticated.'
             self.session_id = conn.readline()[:-1]
             self.now_playing_url = conn.readline().strip #not used at this time
             self.submission_url = conn.readline()[:-1]
@@ -133,6 +131,7 @@ class Scrobbler:
                     for j in range (0, len(dic)): #haha!
                         post_values[dic[j]] = full_list[j][i]
                 post_values = urllib.urlencode(post_values)
+                self.parent.write_info("Sending tracks, waiting for reply...")
                 if not self._send_post(post_values):
                     return False
         #if all songs are scrobbled with ok response: 
@@ -154,7 +153,7 @@ class Scrobbler:
             response = 'Connection Refused, please try again'
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
-        self.parent.write_info(response)
+        self.parent.write_info(response, new_line=' ')
         if response == 'OK':
             self.deletion_ids.extend(self.del_ids)    
             return True

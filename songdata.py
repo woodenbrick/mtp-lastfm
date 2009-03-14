@@ -77,7 +77,7 @@ class SongData(object):
             if key == 'Duration:':
                 value = value / 1000
             return value
-        return value
+        return value.encode('UTF-8')
 
     def is_song(self):
         """Check that all required songdata is accounted for"""
@@ -92,7 +92,7 @@ class SongData(object):
 
     def set_rating(self):
         """Set the rating to a last.fm friendly value"""
-        values = { "''" : u"", 99 : 'L', 1 : 'B' }
+        values = { "" : u"", 99 : 'L', 1 : 'B' }
         try:
             new_rating = values[self.required_data['User rating:']]
         except KeyError:
@@ -103,7 +103,7 @@ class SongData(object):
         """The User rating and Use count may be missing.  If so, append
         them before export"""
         if self.required_data['User rating:'] is False:
-            self.required_data['User rating:'] = "''"
+            self.required_data['User rating:'] = ""
         if self.required_data['Use count:'] is False:
             self.required_data['Use count:'] = 0
         
