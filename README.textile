@@ -21,4 +21,3 @@ To run: python mtp-lastfm-gtk.py
 
 You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
 
-At the moment, sending love to last.fm is not fully setup, this will be implemented in the next version. 
