@@ -248,13 +248,15 @@ class MTPLastfmGTK:
             return False
         love_cache = self.song_db.return_love_cache()
         webservice = webservices.LastfmWebService()
-        self.write_info("Sending love...")
         loved = []
-        for item in love_cache:
-            if webservice.love_track(item[1], item[2], self.session_key):
-                self.write_info(item[1] + " - " + item[2])
-                loved.append(item[0])
-        self.song_db.mark_as_love_sent(loved)
+        if love_cache is not None:
+            self.write_info("Sending love...")
+            for item in love_cache:
+                if webservice.love_track(item[1], item[2], self.session_key):
+                    self.write_info(item[1] + " - " + item[2])
+                    loved.append(item[0])
+            self.song_db.mark_as_love_sent(loved)
+            self.write_info("Done.")
     
     
     def show_scrobble_dialog(self):
