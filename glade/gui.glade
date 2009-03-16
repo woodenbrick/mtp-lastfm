@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Mar 16 12:40:15 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Mar 16 12:58:09 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -45,7 +45,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text">Scrobbles tracks in your cache to last.fm</property>
+                <property name="tooltip_text">Scrobble tracks and send love to last.fm</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_scrobble_clicked"/>
                 <child>
@@ -90,7 +90,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="tooltip_text">Tracks you have loved</property>
+                <property name="tooltip_text">Your pending love</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_loved_tracks_clicked"/>
                 <child>
