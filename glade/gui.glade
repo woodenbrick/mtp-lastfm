@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Mar 12 15:51:28 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Mar 16 12:40:15 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -94,9 +94,22 @@
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_loved_tracks_clicked"/>
                 <child>
-                  <widget class="GtkImage" id="image7">
+                  <widget class="GtkHBox" id="hbox9">
                     <property name="visible">True</property>
-                    <property name="pixbuf">heart.png</property>
+                    <child>
+                      <widget class="GtkImage" id="image7">
+                        <property name="visible">True</property>
+                        <property name="pixbuf">heart.png</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="loved_label">
+                        <property name="visible">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                 </child>
               </widget>

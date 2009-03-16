@@ -60,7 +60,7 @@ class Songview(object):
 
         
     def on_window_destroy(self, widget):
-        self.parent.set_cache_button()
+        self.parent.set_button_count()
     
     def friendly_rating(self, rating):
         """Parses the rating of an item and returns a user friendly value

@@ -159,7 +159,7 @@ class MTPLastfmGTK:
                 self.tree.get_widget("info").add_child_at_anchor(button, anchor)
                 button.connect("clicked", self.show_error_details, "songdata")
             self.song_db.update_scrobble_count()
-            self.set_cache_button()
+            self.set_button_count()
     
     def show_error_details(self, widget, data):
         if data is "songdata":
@@ -169,29 +169,31 @@ class MTPLastfmGTK:
                             clear_buffer=True)
             tree.get_widget("window").show()
     
-    def set_cache_button(self):
-        """Checks if we should set a value for the cache button or disable it
-        Also checks ban button, since cache will sometimes change this too"""
+    def set_button_count(self):
+        """Checks if we should set a value for a button or disable it"""
+        buttons = {
+            "loved_tracks" :
+                [len(self.song_db.return_pending_love().fetchall()),
+                "loved_label"],
+            
+            "banned_tracks" :
+                [len(self.song_db.return_tracks("B").fetchall()),
+                "banned_label"],
+                
+            "cache" :
+                [self.song_db.scrobble_counter,
+                "cache_label"]}
         
-        if self.song_db.scrobble_counter is not 0:
-            text = "(" + str(self.song_db.scrobble_counter) + ")"
-            sensitivity = True
-        else:
-            text = ""
-            sensitivity = False
-        self.tree.get_widget("cache_label").set_text(text)
-        self.tree.get_widget("cache").set_sensitive(sensitivity)
-
-        banned = self.song_db.return_tracks("B")
-        count = len(banned.fetchall())
-        if count is not 0:
-            text = "(" + str(count) + ")"
-            sensitivity = True
-        else:
-            text = ""
-            sensitivity = False
-        self.tree.get_widget("banned_label").set_text(text)
-        self.tree.get_widget("banned_tracks").set_sensitive(sensitivity)
+        for key, value in buttons.items():
+            if value[0] is 0:
+                sensitivity = False
+                text = ""
+            else:
+                sensitivity = True
+                text = "(" + str(value[0]) + ")"
+            
+            self.tree.get_widget(value[1]).set_text(text)
+            self.tree.get_widget(key).set_sensitive(sensitivity)
    
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
@@ -238,7 +240,6 @@ class MTPLastfmGTK:
         else:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
         self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
-        self.set_cache_button()
         
     def love_tracks(self):
         """This should be called after scrobbling in order to love pending tracks
@@ -257,6 +258,7 @@ class MTPLastfmGTK:
                     loved.append(item[0])
             self.song_db.mark_as_love_sent(loved)
             self.write_info("Done.")
+        self.set_button_count()
     
     
     def show_scrobble_dialog(self):
@@ -349,7 +351,7 @@ class MTPLastfmGTK:
         else:
             create_new = False
         self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
-        self.set_cache_button()
+        self.set_button_count()
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
             self.on_check_device_clicked("x")
