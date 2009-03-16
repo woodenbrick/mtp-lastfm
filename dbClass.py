@@ -292,7 +292,7 @@ class lastfmDb:
         """Called when a user removes love from an item.
         Wont remove things that have sent love"""
         for id in id_list:
-            self.cursor.execute("delete from love_sent where trackid=? and love_cache=0", (id,))
+            self.cursor.execute("delete from love_cache where trackid=? and love_sent=0", (id,))
         self.db.commit()
   
  

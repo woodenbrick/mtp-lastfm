@@ -14,7 +14,7 @@ class Songview(object):
         self.parent = parent
         self.db = db
         self.wTree = gtk.glade.XML(glade_file)
-        self.liststore = gtk.ListStore(int, str, str, str, str, int) #gtk.gdk.Pixbuf, int)
+        self.liststore = gtk.ListStore(int, str, str, str, gtk.gdk.Pixbuf, int)
         self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
         self.tree_view = self.wTree.get_widget("tree_view")
         self.tree_view.set_model(self.liststore)
@@ -40,9 +40,15 @@ class Songview(object):
         i = 0
         for column in self.columns:
             col = gtk.TreeViewColumn(column)
-            cell = gtk.CellRendererText()
+            if i == 4:
+                cell = gtk.CellRendererPixbuf()
+            else:
+                cell = gtk.CellRendererText()
             col.pack_start(cell, False)
-            col.set_attributes(cell, text=i)
+            if i == 4:
+                col.set_attributes(cell, pixbuf=i)
+            else:
+                col.set_attributes(cell, text=i)
             
             col.set_sizing(gtk.TREE_VIEW_COLUMN_GROW_ONLY)
             col.set_min_width(30)
@@ -60,12 +66,14 @@ class Songview(object):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
         if rating == "L":
-            pixbuf = 1 # gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
         elif rating == "B":
-            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+        elif rating == "D":
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/dont-scrobble.png")
         else:
-            pixbuf = 1 #gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
-        return rating
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
+        return pixbuf
     
     def on_tree_view_button_press_event(self, widget, event):
         """Show context menu on right click"""
@@ -84,7 +92,7 @@ class Songview(object):
         for row in rows:
             iter = model.get_iter(row)
             if marking is not None:
-                model.set_value(iter, 4, marking)
+                model.set_value(iter, 4, self.friendly_rating(marking))
             ids.append(model.get_value(iter, 0))
         return ids
     
@@ -171,6 +179,14 @@ class LovedWindow(Songview):
         id_list = self.get_selection(marking)
         self.db.change_markings(id_list, marking, was_love=True)
 
+    def friendly_rating(self, rating):
+        """Parses the rating of an item and returns a user friendly value
+        in the future this will be an image"""
+        if rating == "L":
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+        else:
+            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/love-remove.png")
+        return pixbuf
 
 class BannedWindow(Songview):
     def __init__(self, glade_file, db, parent):
