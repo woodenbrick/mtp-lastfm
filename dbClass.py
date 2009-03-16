@@ -143,7 +143,6 @@ class lastfmDb:
     def __init__(self, database, create=False):
         self.db = sqlite3.Connection(database)
         self.cursor = self.db.cursor()
-        self.log = Logger(name='sqliteDb Log')
         if create is True:
             self.initial_creation()
         self.return_scrobble_count()
@@ -308,7 +307,6 @@ class lastfmDb:
     
     def delete_scrobbles(self, id_list):
         """Given a list of ROWIDs, will delete items from the scrobble list"""
-        self.log.logger.info('The following ids will be deleted from the scrobble list: ' + ''.join(str(id_list)))
         if id_list == 'all':
             self.cursor.execute('delete from scrobble')
             self.cursor.execute('update scrobble_counter set count=0')

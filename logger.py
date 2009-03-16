@@ -19,8 +19,7 @@ import logging
 import sys
 class Logger:
     def __init__(self, name = 'log', file_log = True, stream_log = True,
-                 logger_level = logging.DEBUG, file_log_name = 'error.log',
-                 file_log_level = 2, stream_log_level = 3, stdout=True, stderr=True):
+                 logger_level = logging.DEBUG, file_log_name = '~/.mtp-lastfm/error.log', file_log_level = 2, stream_log_level = 3, stdout=True, stderr=True):
         if not os.path.exists(file_log_name):
             os.system("touch %s" % file_log_name)
         self.logger = logging.getLogger(name)
