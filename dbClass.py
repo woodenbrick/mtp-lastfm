@@ -252,6 +252,15 @@ class lastfmDb:
                             from songs where rating=?""", (rating,))
         return self.cursor
     
+    def return_pending_love(self):
+        self.cursor.execute("""select songs.trackid, songs.usecount, songs.artist,
+                            songs.song, songs.album, songs.rating from songs
+                            inner join love_cache on songs.trackid=love_cache.trackid
+                            where love_cache.love_sent=0""")
+        return self.cursor
+
+                            
+                            
     def change_markings(self, id_list, marking, was_love=False):
         if marking == "D":
             _marking = u""
@@ -271,7 +280,7 @@ class lastfmDb:
         #send to love cache
         if marking == "L":
             self.add_to_love_cache(id_list)
-        if was_love:
+        if was_love or marking == "B":
             self.remove_from_love_cache(id_list)
             
     def add_to_love_cache(self, id_list):

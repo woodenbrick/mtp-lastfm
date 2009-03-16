@@ -137,7 +137,7 @@ class CacheWindow(Songview):
             }
             self.handlers.update(new_handlers)
             
-            
+
     
     def on_love_auth_button_clicked(self, widget):
         auth_dialog = self.wTree.get_widget("auth_dialog")
@@ -164,7 +164,7 @@ class CacheWindow(Songview):
 class LovedWindow(Songview):
     def __init__(self, glade_file, db, parent):
         Songview.__init__(self, glade_file, db, parent)
-        data = self.db.return_tracks("L").fetchall()
+        data = self.db.return_pending_love().fetchall()
         self.fill_liststore(data)
         self.append_columns()
         new_handlers = {
@@ -188,6 +188,7 @@ class LovedWindow(Songview):
             pixbuf = gtk.gdk.pixbuf_new_from_file("glade/love-remove.png")
         return pixbuf
 
+
 class BannedWindow(Songview):
     def __init__(self, glade_file, db, parent):
         Songview.__init__(self, glade_file, db, parent)
@@ -199,7 +200,3 @@ class BannedWindow(Songview):
             }
         self.handlers.update(new_handlers)
         self.wTree.signal_autoconnect(self.handlers)
-        
-
-
-  
