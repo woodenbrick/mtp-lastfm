@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import gtk
 import pygtk
 pygtk.require("2.0")
@@ -65,14 +66,15 @@ class Songview(object):
     def friendly_rating(self, rating):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
+        path = os.path.join(self.parent.MAIN_PATH, "glade") + os.sep
         if rating == "L":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "heart.png")
         elif rating == "B":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/banned.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "banned.png")
         elif rating == "D":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/dont-scrobble.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "dont-scrobble.png")
         else:
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/ban-remove.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "ban-remove.png")
         return pixbuf
     
     def on_tree_view_button_press_event(self, widget, event):
@@ -182,10 +184,11 @@ class LovedWindow(Songview):
     def friendly_rating(self, rating):
         """Parses the rating of an item and returns a user friendly value
         in the future this will be an image"""
+        path = os.path.join(self.parent.MAIN_PATH, "glade") + os.sep
         if rating == "L":
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/heart.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "heart.png")
         else:
-            pixbuf = gtk.gdk.pixbuf_new_from_file("glade/love-remove.png")
+            pixbuf = gtk.gdk.pixbuf_new_from_file(path + "love-remove.png")
         return pixbuf
 
 
