@@ -5,6 +5,8 @@ The purpose of this program is to scrobble tracks from mtp devices
 
 You can download a deb file "here":http://github.com/woodenbrick/mtp-lastfm/downloads
 
+If you use Ubuntu, you can add my "PPA repository":https://launchpad.net/~wodemoneke/+archive/ppa to your sources.
+
 h3. Dependencies:
 * Python
 * python-sqlite
