@@ -1,4 +1,19 @@
-#!/usr/bin/env python
+# Copyright 2009 Daniel Woodhouse
+#
+#This file is part of mtp-lastfm.
+#
+#mtp-lastfm is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#mtp-lastfm is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 import md5
 import urllib2
 import urllib
@@ -95,12 +110,12 @@ class LastfmWebService(object):
             response = url_handle.readlines()
             print response    
             return True
-        #except urllib2.URLError:
-        #    response = """Connection Refused due to URLError 
-        #               (Incorrect session_key, track or artist)
-        #               Artist: %s
-        #               Track: %s
-        #               Session Key: %s""" % (artist, track, sk)
+        except urllib2.URLError:
+            response = """Connection Refused due to URLError 
+                       (Incorrect session_key, track or artist)
+                       Artist: %s
+                       Track: %s
+                       Session Key: %s""" % (artist, track, sk)
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
         print response
