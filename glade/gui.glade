@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Mar 17 11:57:24 2009 -->
+<!--Generated with glade3 3.4.5 on Tue Mar 17 16:02:56 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -216,7 +216,7 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkScrolledWindow" id="scrolledwindow1">
+          <widget class="GtkScrolledWindow" id="scrolledwindow">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
@@ -252,6 +252,17 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkLabel" id="user">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">5</property>
+                <property name="pack_type">GTK_PACK_END</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkLinkButton" id="logout">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -268,16 +279,6 @@
                 <property name="padding">5</property>
                 <property name="pack_type">GTK_PACK_END</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="user">
-                <property name="visible">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="padding">5</property>
-                <property name="pack_type">GTK_PACK_END</property>
               </packing>
             </child>
           </widget>

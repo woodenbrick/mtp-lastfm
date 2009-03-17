@@ -36,7 +36,7 @@ from progressbar import ProgressBar
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.6"
-__test_mode__ = False #disables the authentication and scrobbling section for offline work
+__test_mode__ = True #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
 
@@ -331,6 +331,12 @@ class MTPLastfmGTK:
                 buffer.set_text(new_info)
             else:
                 buffer.set_text(info + new_line + new_info)
+        
+        #scroll window to the end
+        scroller = self.tree.get_widget("scrolledwindow")
+        vadj = scroller.get_vadjustment()
+        vadj.set_value(vadj.upper)
+        vadj.emit("changed")
         while gtk.events_pending():
             gtk.main_iteration(False)
 
