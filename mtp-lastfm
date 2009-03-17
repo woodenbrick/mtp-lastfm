@@ -1,0 +1,5 @@
+#! /bin/bash
+
+python /usr/share/mtp-lastfm/mtp-lastfm-gtk.py
+
+
