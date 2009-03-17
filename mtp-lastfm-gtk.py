@@ -223,14 +223,14 @@ class MTPLastfmGTK:
         #show scrobble dialog, if user has indicated in preferences
         if self.options.return_option("use_default_time") == True:
             scr_time = self.options.return_option("scrobble_time")
-            self.scrobble(scr_time)
+            self.continue_scrobbling = True
         else:
             self.continue_scrobbling = True
             self.show_scrobble_dialog()
-            if self.continue_scrobbling is True:
-                scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
-                self.scrobble(scr_time)
-                self.love_tracks()
+        if self.continue_scrobbling is True:
+            scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
+            self.scrobble(scr_time)
+            self.love_tracks()
                 
     def scrobble(self, scr_time):
         self.scrobbler.set_scrobble_time(scr_time)
