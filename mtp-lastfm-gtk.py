@@ -24,6 +24,7 @@ import md5
 import gtk
 import pygtk
 import gtk.glade
+import gobject
 pygtk.require("2.0")
 
 import dbClass
@@ -31,10 +32,11 @@ from songdata import SongData
 import scrobbler
 import songview
 import webservices
+from progressbar import ProgressBar
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.6"
-__test_mode__ = False #disables the authentication and scrobbling section for offline work
+__test_mode__ = True #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
 
@@ -129,6 +131,23 @@ class MTPLastfmGTK:
         self.tree.get_widget("password_entry").set_text("")
         self.tree.get_widget("login_error").set_text("")
         self.show_login_window()
+        
+        
+    #def run_timer(self, finished=False):
+    #    """Updates the progress bar"""
+    #    if finished:
+    #        self.tree.get_widget("progressbar").hide()
+    #    fraction = self.current_progress / float(self.total_progress)
+    #    if fraction >= 0 and fraction <= 1:
+    #        self.tree.get_widget("progressbar").set_fraction(fraction)
+    #    return True
+    #
+    #def set_progress_values(self, total, current):
+    #    self.total_progress = total
+    #    self.current_progress = current
+    #    
+    #def hide_progress(self):
+    #    self.tree.get_widget("progressbar").hide()
     
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
@@ -142,8 +161,20 @@ class MTPLastfmGTK:
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
+            
+            progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(f), 0)
+            
+
             for line in f:
+                while gtk.events_pending():
+                    gtk.main_iteration()
                 song_obj.check_new_data(line)
+                progress_bar.current_progress += 1
+
+            progress_bar.run_timer(finished=True)
+
+
+            
             self.song_db.pending_scrobble_list = None
             if song_obj.song_count % 100 != 0:
                 self.write_info("%d tracks checked" % song_obj.song_count)
