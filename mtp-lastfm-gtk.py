@@ -36,7 +36,7 @@ from progressbar import ProgressBar
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.6"
-__test_mode__ = True #disables the authentication and scrobbling section for offline work
+__test_mode__ = False #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
 

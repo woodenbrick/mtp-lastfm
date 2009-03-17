@@ -90,6 +90,7 @@ class Scrobbler:
                 self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
                 self.scrobble_count += len(cache)
                 progress_bar.current_progress = self.scrobble_count
+                
                 #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
                 #t[0]=<track>   The track title. Required.
@@ -100,55 +101,37 @@ class Scrobbler:
                 #b[0]=<album>   The album title, or an empty string if not known.
                 #n[0]=<tracknumber>The position of the track on the album, or empty.
                 #m[0]=music brainz identifier, leave blank
-                full_list = [[], [], [], [], [], [], []]
-                size = len(cache)
+                
+                #create dictionary the size of the cache and fill in defaults
+                param = "a t l b n r".split(' ')
+                post_values = {}
+                
+                index = 0
                 for track in cache:
-                    for index in range(0, len(full_list)):
-                        song_data_item = track[index]
-                        try:
-                            #this is to avoid a unicode to ascii error,
-                            #which occours when we try to urlencode accented characters
-                            #(umlauts etc.)
-                            song_data_item = song_data_item.encode('UTF-8')
-                        except AttributeError:
-                            #cannot encode integers
-                            pass
+                    str_index = "[" + str(index) + "]"
+                    for i in range(0, len(param)):
+                        str_param = str(param[i]) + str_index
+                        post_values[str_param] = track[i+1]
+                        #work out play time based on track length
+                        if param[i] == "l":
+                            past_time += track[i+1]
+                            post_values["i" + str_index] = past_time
+                            
+                    post_values["m" + str_index] = u""
+                    post_values["o" + str_index] = u"P"
+                    
+                    self.del_ids.append(track[0])
+                    index += 1
                         
-                        full_list[index].append(song_data_item)
-                #remove row ID's which will track which items in scrobble
-                #list require deletions
-                self.del_ids = full_list.pop(0)
-                #append extra data to full_list, time, source, musicbrainz tags
-                while len(full_list) < 9:
-                    full_list.append([])
-                for extra in range(0, len(cache)):
-                    #append time, use l to work out
-                    length = full_list[2][extra]
-                    past_time += int(length)
-                    full_list[6].append(past_time)
-                    #append source (always P)
-                    full_list[7].append(u"P")
-                    #empty strings for music brain tag
-                    full_list[8].append(u"")
-                post_values = { "s" : self.session_id }
-                for i in range(0, size):
-                    dic = self.get_dic_value(i)
-                    for j in range (0, len(dic)): #haha!
-                        post_values[dic[j]] = full_list[j][i]
+                post_values["s"] = self.session_id
                 post_values = urllib.urlencode(post_values)
                 self.parent.write_info("Sending tracks, waiting for reply...")
                 if not self._send_post(post_values):
                     return False
         #if all songs are scrobbled with ok response: 
-        return True   
-    def get_dic_value(self, i):
-        """Returns a list of dictionary keys for a specified index"""
-        values = "atlbnriom"
-        list = []
-        for v in values:
-            list.append("%s[%d]" % (v, i))
-        return list
-        
+        return True
+
+  
     def _send_post(self, post_values):
         req = urllib2.Request(url=self.submission_url, data=post_values)
         try:
