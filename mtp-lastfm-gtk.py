@@ -36,7 +36,7 @@ from progressbar import ProgressBar
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.6"
-__test_mode__ = True #disables the authentication and scrobbling section for offline work
+__test_mode__ = False #disables the authentication and scrobbling section for offline work
 __std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
 
 
@@ -252,11 +252,10 @@ class MTPLastfmGTK:
     def on_scrobble_clicked(self, widget):
         """Scrobbles tracks to last.fm"""
         #show scrobble dialog, if user has indicated in preferences
+        self.continue_scrobbling = True
         if self.options.return_option("use_default_time") == True:
             scr_time = self.options.return_option("scrobble_time")
-            self.continue_scrobbling = True
         else:
-            self.continue_scrobbling = True
             self.show_scrobble_dialog()
         if self.continue_scrobbling is True:
             scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
@@ -283,10 +282,13 @@ class MTPLastfmGTK:
         loved = []
         if love_cache is not None:
             self.write_info("Sending love...")
+            progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(love_cache), 0)
             for item in love_cache:
                 if webservice.love_track(item[1], item[2], self.session_key):
                     self.write_info(item[1] + " - " + item[2])
                     loved.append(item[0])
+                    progress_bar.current_progress = len(loved)
+            progress_bar.run_timer(finished=True)
             self.song_db.mark_as_love_sent(loved)
             self.write_info("Done.")
         self.set_button_count()

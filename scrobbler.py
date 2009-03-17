@@ -25,6 +25,7 @@ import string
 import dbClass
 import webbrowser
 from logger import Logger
+from progressbar import ProgressBar
 
 class Scrobbler:
     
@@ -78,13 +79,17 @@ class Scrobbler:
     def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
         past_time = int(time.time() - self.scrobble_time)
+        progress_bar = ProgressBar(self.parent.tree.get_widget("progressbar"),
+                                   self.parent.song_db.scrobble_counter, 0)
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
+                progress_bar.run_timer(finished=True)
                 break
             else:
                 self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
                 self.scrobble_count += len(cache)
+                progress_bar.current_progress = self.scrobble_count
                 #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
                 #t[0]=<track>   The track title. Required.

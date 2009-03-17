@@ -52,8 +52,6 @@ class SongData(object):
                     self.db.add_new_data(self.required_data)
                     self.create_clean_dataset()
                     self.song_count += 1
-                    if self.song_count % 100 == 0:
-                        self.parent.write_info("%d tracks checked" % self.song_count)
                 else:
                     self.log.logger.warn(self.log_data())
                     self.error_count += 1
