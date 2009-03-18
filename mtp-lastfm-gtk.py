@@ -33,6 +33,7 @@ import scrobbler
 import songview
 import webservices
 from progressbar import ProgressBar
+from options import Options
 
 __author__ = ("Daniel Woodhouse",)
 __version__ = "0.6"
@@ -50,13 +51,11 @@ class MTPLastfmGTK:
         
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
-        
-        self.MAIN_GLADE = os.path.join(self.MAIN_PATH, "glade", "gui.glade")
-        self.CACHE_GLADE = os.path.join(self.MAIN_PATH, "glade", "cache.glade")
-        self.BANNED_GLADE = os.path.join(self.MAIN_PATH, "glade", "ban.glade")
-        self.LOVED_GLADE = os.path.join(self.MAIN_PATH, "glade", "loved.glade")
-        self.LOG_GLADE = os.path.join(self.MAIN_PATH, "glade", "log.glade")
-        
+
+        self.GLADE = {}
+        for file in "gui cache ban love log".split(" "):
+            self.GLADE[file] = os.path.join(self.MAIN_PATH, "glade", file + ".glade")
+            
         try:
             os.mkdir(self.HOME_DIR)
         except OSError:
@@ -65,26 +64,8 @@ class MTPLastfmGTK:
         if __std_err_log__:
             sys.stderr = open(os.path.join(self.HOME_DIR, "error.log"), 'a')
         
-        self.tree = gtk.glade.XML(self.MAIN_GLADE)
-        event_handlers = {
-            "on_main_window_destroy" : gtk.main_quit,
-            "on_login_window_destroy" : gtk.main_quit,
-            "on_login_clicked" : self.on_login_clicked,
-            "on_logout_clicked" : self.on_logout_clicked,
-            "on_username_entry_focus_out_event" : self.on_username_entry_focus_out_event,
-            "on_password_entry_key_press_event" : self.on_password_entry_key_press_event,
-            "on_check_device_clicked" : self.on_check_device_clicked,
-            "on_scrobble_clicked" : self.on_scrobble_clicked,
-            "on_scrobble_time_entered_clicked" : self.on_scrobble_time_entered_clicked,
-            "on_options_clicked" : self.on_options_clicked,
-            "on_apply_options_clicked" : self.on_apply_options_clicked,
-            "on_cancel_options_clicked" : self.on_cancel_options_clicked,
-            "on_cache_clicked" : self.on_cache_clicked,
-            "on_banned_tracks_clicked" : self.on_banned_tracks_clicked,
-            "on_loved_tracks_clicked" : self.on_loved_tracks_clicked,
-            "on_about_clicked" : self.on_about_clicked,
-        }
-        self.tree.signal_autoconnect(event_handlers)
+        self.tree = gtk.glade.XML(self.GLADE['gui'])
+        self.tree.signal_autoconnect(self)
         
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
@@ -105,9 +86,7 @@ class MTPLastfmGTK:
             else:
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
     
-    def links(dialog, link, user_data):
-        print link, user_data
-      
+  
     def show_main_window(self):
         self.login_window.hide()
         self.write_info("User authenticated.", clear_buffer=True)
@@ -123,32 +102,17 @@ class MTPLastfmGTK:
         self.login_auto_completer()
         self.login_window.show()
         
+    def on_main_window_destroy(self, widget):
+        gtk.main_quit()
     
-    # This section deals with the MAIN WINDOW
-        
+ 
     def on_logout_clicked(self, widget):
         self.tree.get_widget("username_entry").set_text("")
         self.tree.get_widget("password_entry").set_text("")
         self.tree.get_widget("login_error").set_text("")
         self.show_login_window()
         
-        
-    #def run_timer(self, finished=False):
-    #    """Updates the progress bar"""
-    #    if finished:
-    #        self.tree.get_widget("progressbar").hide()
-    #    fraction = self.current_progress / float(self.total_progress)
-    #    if fraction >= 0 and fraction <= 1:
-    #        self.tree.get_widget("progressbar").set_fraction(fraction)
-    #    return True
-    #
-    #def set_progress_values(self, total, current):
-    #    self.total_progress = total
-    #    self.current_progress = current
-    #    
-    #def hide_progress(self):
-    #    self.tree.get_widget("progressbar").hide()
-    
+  
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
         if not __test_mode__:
@@ -194,7 +158,7 @@ class MTPLastfmGTK:
     
     def show_error_details(self, widget, data):
         if data is "songdata":
-            tree = gtk.glade.XML(self.LOG_GLADE)
+            tree = gtk.glade.XML(self.GLADE['log'])
             f = open(self.HOME_DIR + "db.log", "r").read()
             self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
                             clear_buffer=True)
@@ -203,11 +167,11 @@ class MTPLastfmGTK:
     def set_button_count(self):
         """Checks if we should set a value for a button or disable it"""
         buttons = {
-            "loved_tracks" :
+            "love" :
                 [len(self.song_db.return_pending_love().fetchall()),
                 "loved_label"],
             
-            "banned_tracks" :
+            "ban" :
                 [len(self.song_db.return_tracks("B").fetchall()),
                 "banned_label"],
                 
@@ -307,14 +271,12 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_dialog").hide()
         
    
-    def on_cache_clicked(self, widget):
-        cache_window = songview.CacheWindow(self.CACHE_GLADE, self.song_db, self)
-    
-    def on_banned_tracks_clicked(self, widget):
-        banned_window = songview.BannedWindow(self.BANNED_GLADE, self.song_db, self)
-        
-    def on_loved_tracks_clicked(self, widget):
-        loved_window = songview.LovedWindow(self.LOVED_GLADE, self.song_db, self)
+    def on_tracks_button_clicked(self, widget):
+        classes = {"love" : songview.LovedWindow,
+                   "ban" : songview.BannedWindow,
+                   "cache" : songview.CacheWindow}
+        new_window = classes[widget.name](self.GLADE[widget.name], self.song_db, self)
+
 
     def write_info(self, new_info, text_widget="Default",
                    new_line='\n', clear_buffer=False):
@@ -450,45 +412,7 @@ class MTPLastfmGTK:
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
         
-class Options:
-    def __init__(self, username, db):
-        self.options_list = ("random", "alphabetical", "startup_check",
-                        "auto_scrobble", "scrobble_time", "use_default_time")
-        self.db = db
-        self.username = username
-        self.reset_default()
-        self.reset_options()
-    
-    def update_options(self, *args):
-        self.db.update_options(self.username, *args)
-        self.reset_options()
-    
-    def reset_options(self):
-        options = self.db.retrieve_options(self.username)
-        if options is None:
-            self.username = "default"
-            options = self.db.retrieve_options(self.username)
-        self.dic_options = self.create_option_dic(options)
-        
-    def return_scrobble_ordering(self):
-        if self.return_option("random") == True:
-            return "RANDOM()"
-        else:
-            return "songs.artist"
-    
-    
-    def reset_default(self):
-        self.db.reset_default_user()
-        
-    def create_option_dic(self, options):
-        dic = {}
-        for o in range(0, len(self.options_list)):
-            dic[self.options_list[o]] = options[o]
-        return dic
-    
-    def return_option(self, option_name):
-        return self.dic_options[option_name]
-        
+
         
 if __name__ == "__main__":
     mtp = MTPLastfmGTK()
