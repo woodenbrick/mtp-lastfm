@@ -105,6 +105,7 @@ class Scrobbler:
                 #create dictionary the size of the cache and fill in defaults
                 param = "a t l b n r".split(' ')
                 post_values = {}
+                self.del_ids = []
                 
                 index = 0
                 for track in cache:
@@ -119,7 +120,6 @@ class Scrobbler:
                             
                     post_values["m" + str_index] = u""
                     post_values["o" + str_index] = u"P"
-                    
                     self.del_ids.append(track[0])
                     index += 1
                         
