@@ -45,8 +45,10 @@ class LastfmWebService(object):
             if child.tag == tag:
                 token = child.text
                 break
-        return token
-        
+        try:
+            return token
+        except:
+            return False
         
     def create_api_sig(self, dict):
         """dict is a dictionary of param_name : value sorted into the correct order"""
@@ -108,8 +110,13 @@ class LastfmWebService(object):
         try:
             url_handle = urllib2.urlopen(req)
             response = url_handle.readlines()
-            print response    
-            return True
+            l = response.find('"') + 1
+            r = response.rfind('"')
+            response = response[l:r]
+            if response == "ok":   
+                return True
+            else:
+                print response
         except urllib2.URLError:
             response = """Connection Refused due to URLError 
                        (Incorrect session_key, track or artist)
