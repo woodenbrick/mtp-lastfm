@@ -22,6 +22,8 @@ To run: @ python mtp-lastfm-gtk.py @
 You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
 
 Screenshots:
+
+
 !http://cloud.github.com/downloads/woodenbrick/mtp-lastfm/mtp-lastfm1.png!
 
 !http://cloud.github.com/downloads/woodenbrick/mtp-lastfm/mtp-lastfm2.png!
