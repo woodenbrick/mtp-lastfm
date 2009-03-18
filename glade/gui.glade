@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Mar 18 10:13:00 2009 -->
+<!--Generated with glade3 3.4.5 on Wed Mar 18 16:30:06 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -293,7 +293,6 @@
     </child>
   </widget>
   <widget class="GtkWindow" id="options_window">
-    <property name="type">GTK_WINDOW_POPUP</property>
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="skip_taskbar_hint">True</property>
@@ -301,11 +300,13 @@
     <child>
       <widget class="GtkFrame" id="frame1">
         <property name="visible">True</property>
+        <property name="border_width">17</property>
         <property name="label_xalign">0</property>
         <property name="shadow_type">GTK_SHADOW_NONE</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
+            <property name="spacing">10</property>
             <child>
               <widget class="GtkFrame" id="scrobble_order">
                 <property name="visible">True</property>
@@ -441,7 +442,6 @@
                     <property name="label" translatable="yes">gtk-cancel</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
-                    <signal name="clicked" handler="on_cancel_options_clicked"/>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -457,8 +457,11 @@
         <child>
           <widget class="GtkLabel" id="label">
             <property name="visible">True</property>
+            <property name="xalign">1</property>
             <property name="label" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
             <property name="use_markup">True</property>
+            <property name="use_underline">True</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
           </widget>
           <packing>
             <property name="type">label_item</property>

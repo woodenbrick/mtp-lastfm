@@ -109,7 +109,7 @@ class LastfmWebService(object):
         req = urllib2.Request(url=self.url, data=post_values)
         try:
             url_handle = urllib2.urlopen(req)
-            response = url_handle.readlines()
+            response = url_handle.readlines()[1]
             l = response.find('"') + 1
             r = response.rfind('"')
             response = response[l:r]
