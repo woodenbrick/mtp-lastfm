@@ -36,9 +36,19 @@ from progressbar import ProgressBar
 from options import Options
 
 __author__ = ("Daniel Woodhouse",)
-__version__ = "0.6"
-__test_mode__ = False #disables the authentication and scrobbling section for offline work
-__std_err_log__ = False #Log stderr messages to ~/.mtp-lastfm/error.log
+__version__ = "0.6.5"
+
+try:
+    #t is test mode, disable auth and scrobble section for offline work
+    #e logs stderr to ~/.mtp-lastfm/error.log
+    _modes = {"t" : False,
+             "e" : False}
+    
+    for arg in range(1, len(sys.argv)):
+        if sys.argv[arg] in _modes:
+            _modes[arg] = True
+except IndexError:
+    pass
 
 
 def get_path():
@@ -61,7 +71,7 @@ class MTPLastfmGTK:
         except OSError:
             pass
         
-        if __std_err_log__:
+        if _modes["e"]:
             sys.stderr = open(os.path.join(self.HOME_DIR, "error.log"), 'a')
         
         self.tree = gtk.glade.XML(self.GLADE['gui'])
@@ -115,7 +125,7 @@ class MTPLastfmGTK:
   
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        if not __test_mode__:
+        if not _modes["t"]:
             os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
@@ -200,7 +210,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self)
-        if __test_mode__:
+        if _modes["t"]:
             server_response = "OK"
         else:
             server_response, msg = self.scrobbler.handshake()
