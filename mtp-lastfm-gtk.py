@@ -126,6 +126,7 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
         if not _modes["t"]:
+            #we should thread this in case we have a libmtp panic
             os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
@@ -252,9 +253,9 @@ class MTPLastfmGTK:
         if not self.session_key:
             return False
         love_cache = self.song_db.return_love_cache()
-        webservice = webservices.LastfmWebService()
         loved = []
-        if love_cache is not None:
+        if love_cache != []:
+            webservice = webservices.LastfmWebService()
             self.write_info("Sending love...")
             progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(love_cache), 0)
             for item in love_cache:

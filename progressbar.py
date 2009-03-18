@@ -35,7 +35,8 @@ class ProgressBar(object):
         if finished:
             self.timer2 = gobject.timeout_add(1000, self.hide_progress)
             return
-        
+        if self.max_value == 0:
+            return
         fraction = self.current_progress / float(self.max_value)
         if fraction >= 0 and fraction <= 1:
             self.progress_bar.set_fraction(fraction)
