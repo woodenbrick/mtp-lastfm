@@ -409,11 +409,3 @@ class MTPLastfmGTK:
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
-        
-
-        
-if __name__ == "__main__":
-    mtp = MTPLastfmGTK()
-    gtk.main()
-
-

@@ -5,6 +5,8 @@ The purpose of this program is to scrobble tracks from mtp devices
 
 If you use Ubuntu, you can add my "PPA repository":https://launchpad.net/~wodemoneke/+archive/ppa to your sources for the latest stable build and to take care of any dependencies.
 
+You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
+
 h3. Dependencies:
 * python >= 2.5.2
 * python-sqlite
@@ -17,9 +19,8 @@ h3. Dependencies:
 
 Apart from mtp-tools and python-elementtree these should be installed by default on Ubuntu/Debian.
 
-To run: @ python mtp-lastfm-gtk.py @
+To run, type: @ mtp-lastfm @
 
-You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
 
 Screenshots:
 
