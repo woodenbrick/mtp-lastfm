@@ -2,8 +2,8 @@
 [Desktop Entry]
 Type=Application
 Name=mtp-lastfm
-Exec=/usr/bin/mtp-lastfm
+Exec=/usr/bin/mtp-lastfm -e
 Terminal=false
 Categories=AudioVideo;Audio;
 StartupNotify=false
-Icon=/usr/share/mtp-lastfm/mtp-lastfm.png
+Icon=/usr/share/mtp-lastfm/glade/mtp-lastfm.png

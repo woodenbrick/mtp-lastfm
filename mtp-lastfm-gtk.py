@@ -25,6 +25,7 @@ import gtk
 import pygtk
 import gtk.glade
 import gobject
+import optparse
 pygtk.require("2.0")
 
 import dbClass
@@ -36,20 +37,17 @@ from progressbar import ProgressBar
 from options import Options
 
 __author__ = ("Daniel Woodhouse",)
-__version__ = "0.6.5"
+__version__ = "0.69"
 
-try:
-    #t is test mode, disable auth and scrobble section for offline work
-    #e logs stderr to ~/.mtp-lastfm/error.log
-    _modes = {"t" : False,
-             "e" : False}
+parser = optparse.OptionParser(version="mtp-lastfm %s" % __version__)
+parser.add_option('--error-log', '-e', action="store_true") 
+parser.add_option('--test-mode', '-t', action="store_true")
+options, args = parser.parse_args()
+print options
+
+#t is test mode, disable auth and scrobble section for offline work
+#e logs stderr to ~/.mtp-lastfm/error.log
     
-    for arg in range(1, len(sys.argv)):
-        if sys.argv[arg] in _modes:
-            _modes[arg] = True
-except IndexError:
-    pass
-
 
 def get_path():
     if "dev" in __version__:
@@ -71,7 +69,7 @@ class MTPLastfmGTK:
         except OSError:
             pass
         
-        if _modes["e"]:
+        if options.error_log:
             sys.stderr = open(os.path.join(self.HOME_DIR, "error.log"), 'a')
         
         self.tree = gtk.glade.XML(self.GLADE['gui'])
@@ -125,7 +123,7 @@ class MTPLastfmGTK:
   
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        if not _modes["t"]:
+        if not options.test_mode:
             #we should thread this in case we have a libmtp panic
             os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
@@ -211,7 +209,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self)
-        if _modes["t"]:
+        if options.test_mode:
             server_response = "OK"
         else:
             server_response, msg = self.scrobbler.handshake()
