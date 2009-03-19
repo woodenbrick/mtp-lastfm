@@ -1,5 +1,22 @@
-#! /bin/bash
+#! /usr/bin/env python
 
-python /usr/share/mtp-lastfm/mtp-lastfm-gtk.py
+import sys
+import optparse
+import gtk
+import pygtk
+sys.path.append("/home/wode/programming/current/mtp-lastfm")#:w/usr/share/mtp-lastfm")
+
+from mtplastfm import MTPLastfmGTK
+
+__author__ = ("Daniel Woodhouse",)
+__version__ = "0.69"
+
+parser = optparse.OptionParser(version="mtp-lastfm %s" % __version__)
+parser.add_option('--error-log', '-e', action="store_true") 
+parser.add_option('--test-mode', '-t', action="store_true")
+options, args = parser.parse_args()
+
+mtp = MTPLastfmGTK(author=__author__, version=__version__,error_log=options.error_log, test_mode=options.test_mode) 
+gtk.main()
 
 

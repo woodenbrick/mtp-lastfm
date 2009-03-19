@@ -25,7 +25,6 @@ import gtk
 import pygtk
 import gtk.glade
 import gobject
-import optparse
 pygtk.require("2.0")
 
 import dbClass
@@ -36,27 +35,16 @@ import webservices
 from progressbar import ProgressBar
 from options import Options
 
-__author__ = ("Daniel Woodhouse",)
-__version__ = "0.69"
-
-parser = optparse.OptionParser(version="mtp-lastfm %s" % __version__)
-parser.add_option('--error-log', '-e', action="store_true") 
-parser.add_option('--test-mode', '-t', action="store_true")
-options, args = parser.parse_args()
-print options
-
-#t is test mode, disable auth and scrobble section for offline work
-#e logs stderr to ~/.mtp-lastfm/error.log
-    
 
 def get_path():
-    if "dev" in __version__:
-        print 'Development version'
     return os.path.dirname(__file__)
 
 class MTPLastfmGTK:
-    def __init__(self):
-        
+    def __init__(self, author, version, error_log=False, test_mode=False):
+        self.test_mode = test_mode
+        self.error_log = error_log
+        self.author = author
+        self.version = version
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
 
@@ -69,9 +57,10 @@ class MTPLastfmGTK:
         except OSError:
             pass
         
-        if options.error_log:
-            sys.stderr = open(os.path.join(self.HOME_DIR, "error.log"), 'a')
-        
+        if self.error_log:
+            log_file = self.HOME_DIR + "errors.log"
+            sys.stderr = open(log_file, 'a')
+            print 'Error messages will be logged in %s' % log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
         
@@ -80,8 +69,8 @@ class MTPLastfmGTK:
         self.login_window = self.tree.get_widget("login_window")
         
         about_dialog = self.tree.get_widget("about_dialog")
-        about_dialog.set_version(__version__)
-        about_dialog.set_authors(__author__)
+        about_dialog.set_version(self.version)
+        about_dialog.set_authors(self.author)
 
         self.usersDB = dbClass.lastfmDb_Users(self.HOME_DIR)
         current_user = self.usersDB.get_users()
@@ -112,7 +101,7 @@ class MTPLastfmGTK:
         
     def on_main_window_destroy(self, widget):
         gtk.main_quit()
-    
+
  
     def on_logout_clicked(self, widget):
         self.tree.get_widget("username_entry").set_text("")
@@ -123,7 +112,7 @@ class MTPLastfmGTK:
   
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device...")
-        if not options.test_mode:
+        if not self.test_mode:
             #we should thread this in case we have a libmtp panic
             os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
@@ -209,7 +198,7 @@ class MTPLastfmGTK:
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self)
-        if options.test_mode:
+        if self.test_mode:
             server_response = "OK"
         else:
             server_response, msg = self.scrobbler.handshake()
