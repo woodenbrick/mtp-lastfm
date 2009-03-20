@@ -18,7 +18,7 @@
 class Options:
     def __init__(self, username, db):
         self.options_list = ("random", "alphabetical", "startup_check",
-                        "auto_scrobble", "scrobble_time", "use_default_time")
+                        "auto_scrobble", "auto_time", "scrobble_time", "use_default_time")
         self.db = db
         self.username = username
         self.reset_default()

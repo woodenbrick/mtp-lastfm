@@ -46,6 +46,7 @@ class lastfmDb_Users:
         `scrobble_order_alpha` boolean DEFAULT 0,
         `connect_on_startup` boolean DEFAULT 0,
         `auto_scrobble` boolean DEFAULT 0,
+        `auto_time` boolean DEFAULT 1,
         `scrobble_time` integer(3) DEFAULT 8.5,
         `use_default_time` boolean DEFAULT 0
         )''',
@@ -119,15 +120,15 @@ class lastfmDb_Users:
         
     def update_options(self, username, *args):
         query = """update options set scrobble_order_random=%d, scrobble_order_alpha=%d,
-        connect_on_startup=%d, auto_scrobble=%d, scrobble_time=%d,
-        use_default_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], username)
+        connect_on_startup=%d, auto_scrobble=%d, auto_time=%d, scrobble_time=%d,
+        use_default_time=%d WHERE username='%s'""" % (args[0], args[1], args[2], args[3], args[4], args[5], args[6], username)
         self.cursor.execute(query)
         self.db.commit()
     
     def retrieve_options(self, username):
         self.cursor.execute("""select scrobble_order_random,
                             scrobble_order_alpha, connect_on_startup, 
-                        auto_scrobble, scrobble_time, use_default_time from
+                        auto_scrobble, auto_time, scrobble_time, use_default_time from
         options where username=?""", (username,))
         return self.cursor.fetchone()
     
@@ -203,7 +204,7 @@ class lastfmDb:
         self.db.commit() 
         
     
-    def return_scrobble_list(self, order):
+    def return_scrobble_list(self, order="RANDOM()"):
         query = """SELECT scrobble.ROWID, 
                             songs.artist, songs.song,
                             songs.duration, songs.album, songs.tracknumber,

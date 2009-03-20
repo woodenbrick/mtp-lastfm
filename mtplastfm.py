@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Copyright 2009 Daniel Woodhouse
 #
 #This file is part of mtp-lastfm.
@@ -214,17 +212,22 @@ class MTPLastfmGTK:
     def on_scrobble_clicked(self, widget):
         """Scrobbles tracks to last.fm"""
         #show scrobble dialog, if user has indicated in preferences
-        self.continue_scrobbling = True
-        if self.options.return_option("use_default_time") == True:
+        if self.options.return_option("auto_time"):
+            scr_time = self.scrobbler.return_total_time()
+        elif self.options.return_option("use_default_time") == True:
             scr_time = self.options.return_option("scrobble_time")
         else:
-            self.show_scrobble_dialog()
-        if self.continue_scrobbling is True:
-            scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
-            self.scrobble(scr_time)
-            self.love_tracks()
+            response = self.show_scrobble_dialog()
+            if response is True:
+                scr_time = self.tree.get_widget("scrobble_time_manual").get_value()
+            else:
+                return
+        self.scrobble(scr_time)
+        self.love_tracks()
+        self.set_button_count()
                 
     def scrobble(self, scr_time):
+        self.write_info("Scrobbling started %s hours ago" % scr_time)
         self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.return_scrobble_list(self.options.return_scrobble_ordering())
         if self.scrobbler.submit_tracks(scrobble_list):
@@ -253,7 +256,6 @@ class MTPLastfmGTK:
             progress_bar.run_timer(finished=True)
             self.song_db.mark_as_love_sent(loved)
             self.write_info("Done.")
-        self.set_button_count()
     
     
     def show_scrobble_dialog(self):
@@ -263,7 +265,9 @@ class MTPLastfmGTK:
             gtk.main_iteration(False)
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("scrobble_dialog").hide()
-            self.continue_scrobbling = False
+            return False
+        else:
+            return True
     
     def on_scrobble_time_entered_clicked(self, widget):
         self.tree.get_widget("scrobble_dialog").hide()
@@ -310,6 +314,7 @@ class MTPLastfmGTK:
                 self.tree.get_widget(o).set_active(self.options.return_option(o))
             except AttributeError:
                 self.tree.get_widget(o).set_value(self.options.return_option(o))
+        self.on_auto_time_toggled(None)
         self.options_window.show()
     
     
@@ -396,12 +401,21 @@ class MTPLastfmGTK:
         alpha = self.tree.get_widget("alphabetical").get_active()
         startup_check = self.tree.get_widget("startup_check").get_active()
         auto_scrobble = self.tree.get_widget("auto_scrobble").get_active()
+        auto_time = self.tree.get_widget("auto_time").get_active()
         scrobble_time = self.tree.get_widget("scrobble_time").get_value()
         use_default_time = self.tree.get_widget("use_default_time").get_active()
         self.options.update_options(random, alpha,
-                                    startup_check, auto_scrobble,
+                                    startup_check, auto_scrobble, auto_time,
                                     scrobble_time, use_default_time)
         self.options_window.hide()
+        
+    def on_auto_time_toggled(self, widget):
+        if self.tree.get_widget("auto_time").get_active():
+            auto_active = False
+        else:
+            auto_active = True
+        self.tree.get_widget("use_default_time").set_sensitive(auto_active)
+        self.tree.get_widget("scrobble_time").set_sensitive(auto_active)
         
     
     #About Window
@@ -409,3 +423,7 @@ class MTPLastfmGTK:
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
+
+if __name__ == "__main__":
+    mtp = MTPLastfmGTK(("Daniel",), "dev")
+    gtk.main()

@@ -42,7 +42,14 @@ class Scrobbler:
     def set_scrobble_time(self, time):
         self.scrobble_time = int(time * 3600)
         
-    
+    def return_total_time(self):
+        """Gets the total amount of time for all songs to be scrobbled"""
+        list = self.parent.song_db.return_scrobble_list()
+        total_dur = 0
+        for duration in list:
+            total_dur += duration[3]
+        return round(total_dur / 3600.0, 2)
+        
     def handshake(self):
         self.timestamp = self.create_timestamp()
         self.authentication_code = self.create_authentication_code()
