@@ -6,7 +6,7 @@ import gtk
 import pygtk
 #decide if we have been distributed in a deb or sitting in the source dir
 if not os.path.isfile("mtplastfm.py"):
-    sys.path.append("/home/wode/programming/current/mtp-lastfm")
+    sys.path.append("/usr/share/mtp-lastfm")
 
 from mtplastfm import MTPLastfmGTK
 
