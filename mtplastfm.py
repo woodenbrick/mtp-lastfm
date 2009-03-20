@@ -311,9 +311,13 @@ class MTPLastfmGTK:
     def on_options_clicked(self, widget):
         for o in self.options.options_list:
             try:
+                x = self.options.return_option(o)
                 self.tree.get_widget(o).set_active(self.options.return_option(o))
             except AttributeError:
                 self.tree.get_widget(o).set_value(self.options.return_option(o))
+        #not sure why, but setting a value of 0 to a radio button doesnt seem to work
+        #x = self.options.return_option("auto_time")
+        #self.tree.get_widget("manual_time").set_active(not x)
         self.on_auto_time_toggled(None)
         self.options_window.show()
     
@@ -358,9 +362,9 @@ class MTPLastfmGTK:
         self.set_button_count()
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
-            self.on_check_device_clicked("x")
+            self.on_check_device_clicked(None)
         if self.options.return_option("auto_scrobble") == True:
-            self.on_scrobble_clicked("x")
+            self.on_scrobble_clicked(None)
         
         
     def on_username_entry_insert_text(self, widget):
@@ -410,7 +414,8 @@ class MTPLastfmGTK:
         self.options_window.hide()
         
     def on_auto_time_toggled(self, widget):
-        if self.tree.get_widget("auto_time").get_active():
+        active = self.tree.get_widget("auto_time").get_active()
+        if active:    
             auto_active = False
         else:
             auto_active = True

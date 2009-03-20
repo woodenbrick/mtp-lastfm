@@ -18,7 +18,8 @@
 class Options:
     def __init__(self, username, db):
         self.options_list = ("random", "alphabetical", "startup_check",
-                        "auto_scrobble", "auto_time", "scrobble_time", "use_default_time")
+                        "auto_scrobble", "auto_time",
+                        "scrobble_time", "use_default_time", "manual_time")
         self.db = db
         self.username = username
         self.reset_default()
@@ -47,8 +48,9 @@ class Options:
         
     def create_option_dic(self, options):
         dic = {}
-        for o in range(0, len(self.options_list)):
+        for o in range(0, len(self.options_list) - 1):
             dic[self.options_list[o]] = options[o]
+        dic['manual_time'] = not dic['auto_time']
         return dic
     
     def return_option(self, option_name):
