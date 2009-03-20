@@ -3,7 +3,7 @@ h2. MTP-Lastfm
 The purpose of this program is to scrobble tracks from mtp devices
 (such as the Creative Zen, or the Zune) to last.fm.  You can Love/Ban tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
 
-h3. Download the "0.7 Deb package":http://github.com/woodenbrick/mtp-lastfm/downloads/mtp-lsatfm_0.70-1_all.deb or add my "PPA repository":https://launchpad.net/~wodemoneke/+archive/ppa
+h3. Download the "0.7 Deb package":http://github.com/woodenbrick/mtp-lastfm/downloads/mtp-lastfm_0.70-1_all.deb or add my "PPA repository":https://launchpad.net/~wodemoneke/+archive/ppa
 
 h3. You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
 
