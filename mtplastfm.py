@@ -88,9 +88,7 @@ class MTPLastfmGTK:
         self.main_window.show()
         while gtk.events_pending():
             gtk.main_iteration(False)
-        
-    def show_options_window(self):
-        self.options_window.show()
+
         
     def show_login_window(self):
         self.main_window.hide()
@@ -319,8 +317,22 @@ class MTPLastfmGTK:
         #x = self.options.return_option("auto_time")
         #self.tree.get_widget("manual_time").set_active(not x)
         self.on_auto_time_toggled(None)
-        self.options_window.show()
-    
+        response = self.options_window.show()
+        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
+            self.options_window.hide()
+        
+    def on_reset_db_clicked(self, widget):
+        response = self.tree.get_widget("db_clear_dialog").run()
+        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
+            self.tree.get_widget("db_clear_dialog").hide()
+
+    def db_clear_activate(self, widget):
+        if widget.name == "apply_db_clear":
+            os.remove(self.HOME_DIR + self.username + "DB")
+            self.write_info("Database cleared")
+            self.setup_user_session()
+            self.tree.get_widget("options_window").hide()
+        self.tree.get_widget("db_clear_dialog").hide()
     
     #This section deals with the LOGIN WINDOW
     def on_username_entry_focus_out_event(self, widget, key):
@@ -363,8 +375,8 @@ class MTPLastfmGTK:
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
             self.on_check_device_clicked(None)
-        if self.options.return_option("auto_scrobble") == True:
-            self.on_scrobble_clicked(None)
+            if self.options.return_option("auto_scrobble") == True:
+                self.on_scrobble_clicked(None)
         
         
     def on_username_entry_insert_text(self, widget):
@@ -396,8 +408,9 @@ class MTPLastfmGTK:
             liststore.append([user[0]])
     
     #this section deals with the OPTIONS WINDOW
-    def on_cancel_options_clicked(self, widget):
+    def on_options_window_destroy(self, widget, event=False):
         self.options_window.hide()
+        return True
         
     
     def on_apply_options_clicked(self, widget):
