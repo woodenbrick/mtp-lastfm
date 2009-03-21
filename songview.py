@@ -56,6 +56,8 @@ class Songview(object):
             col.set_max_width(300)
             col.set_resizable(True)
             col.set_spacing(10)
+            if i == 0:
+                col.set_visible(False)
             self.tree_view.append_column(col)
             i +=1
 
