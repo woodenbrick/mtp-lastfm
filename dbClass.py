@@ -46,7 +46,7 @@ class lastfmDb_Users:
         `scrobble_order_alpha` boolean DEFAULT 0,
         `connect_on_startup` boolean DEFAULT 0,
         `auto_scrobble` boolean DEFAULT 0,
-        `auto_time` boolean DEFAULT 1,
+        `auto_time` boolean DEFAULT 0,
         `scrobble_time` integer(3) DEFAULT 8,
         `use_default_time` boolean DEFAULT 0
         )''',
