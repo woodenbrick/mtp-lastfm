@@ -74,7 +74,7 @@ class SongData(object):
             value = int(value)
             if key == 'Duration:':
                 value = value / 1000
-            return value
+            return int(value)
         return value.encode('UTF-8')
 
     def is_song(self):
