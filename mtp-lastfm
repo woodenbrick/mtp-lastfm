@@ -10,8 +10,8 @@ if not os.path.isfile("mtplastfm.py"):
 
 from mtplastfm import MTPLastfmGTK
 
-__author__ = ("Daniel Woodhouse",)
-__version__ = "0.69"
+__author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>",)
+__version__ = "0.70.2-dev"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (__version__, ', '.join(__author__)))
 parser.add_option('--error-log', '-e', action="store_true", help="logs all stderr messages to ~/.mtp-lastfm/error.log") 
