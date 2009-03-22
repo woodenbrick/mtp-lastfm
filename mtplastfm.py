@@ -119,20 +119,15 @@ class MTPLastfmGTK:
             self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
-            
+    
             progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(f), 0)
-            
-
             for line in f:
                 while gtk.events_pending():
                     gtk.main_iteration()
                 song_obj.check_new_data(line)
                 progress_bar.current_progress += 1
-
             progress_bar.run_timer(finished=True)
 
-
-            
             self.song_db.pending_scrobble_list = None
             if song_obj.song_count % 100 != 0:
                 self.write_info("%d tracks checked" % song_obj.song_count)
@@ -149,6 +144,9 @@ class MTPLastfmGTK:
                 button.connect("clicked", self.show_error_details, "songdata")
             self.song_db.update_scrobble_count()
             self.set_button_count()
+            
+            if self.options.return_option("auto_scrobble") == True:
+                self.on_scrobble_clicked(None)
     
     def show_error_details(self, widget, data):
         if data is "songdata":
@@ -375,8 +373,7 @@ class MTPLastfmGTK:
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
             self.on_check_device_clicked(None)
-            if self.options.return_option("auto_scrobble") == True:
-                self.on_scrobble_clicked(None)
+
         
         
     def on_username_entry_insert_text(self, widget):
