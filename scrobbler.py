@@ -33,7 +33,7 @@ class Scrobbler:
         self.user = parent.username
         self.password = parent.password
         self.parent = parent
-        self.client = 'tst'
+        self.client = 'mtl'
         self.version = '1.0'
         self.url = "http://post.audioscrobbler.com:80"
         self.deletion_ids = []
