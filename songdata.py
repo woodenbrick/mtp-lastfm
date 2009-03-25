@@ -16,10 +16,11 @@
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
+
 from logger import Logger
 
-
 class SongData(object):
+    
     def __init__(self, db, path, parent):
         self.db = db
         self.parent = parent

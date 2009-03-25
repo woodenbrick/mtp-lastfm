@@ -142,7 +142,11 @@ class MTPLastfmGTK:
             except NameError:
                 msg = "It is now safe to remove your device"
             self.write_info("Done.", new_line=" ")
-            self.write_info(msg + "\nCross checking song data with local database...")
+            self.write_info(msg)
+            if self.first_run:
+                self.write_info("Populating database for first time (may take a while)")
+            else:
+                self.write_info("Cross checking song data with local database...")
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
     
@@ -397,10 +401,10 @@ class MTPLastfmGTK:
         self.options = Options(self.username, self.usersDB)
         if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
             self.write_info("User db doesn't exist, creating.")
-            create_new = True
+            self.first_run = True
         else:
-            create_new = False
-        self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", create_new)
+            self.first_run = False
+        self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", self.first_run)
         self.set_button_count()
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
