@@ -178,11 +178,6 @@ class MTPLastfmGTK:
             if self.options.return_option("auto_scrobble") == True:
                 self.on_scrobble_clicked(None)
                 
-    def check_time(self):
-        """Called during the connection to the mtp device regularly to make sure
-        the damn thing isnt panicking like a little bitch"""
-        self.panic_counter += 1
-        print self.panic_counter
     
     def show_error_details(self, widget, data):
         if data is "songdata":
