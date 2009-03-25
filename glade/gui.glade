@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Mar 21 21:00:28 2009 -->
+<!--Generated with glade3 3.4.5 on Wed Mar 25 22:37:11 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -388,7 +388,6 @@
                         <property name="response_id">0</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">auto_time</property>
                       </widget>
                       <packing>
                         <property name="position">1</property>
@@ -401,7 +400,7 @@
                           <widget class="GtkSpinButton" id="scrobble_time">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="adjustment">6 1 100 1 10 10</property>
+                            <property name="adjustment">7 1 100 0.5 10 0</property>
                             <property name="digits">1</property>
                           </widget>
                         </child>
@@ -790,7 +789,7 @@
               <widget class="GtkSpinButton" id="scrobble_time_manual">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">0 0 100 1 10 10</property>
+                <property name="adjustment">0 0 100 1 10 0</property>
               </widget>
               <packing>
                 <property name="position">1</property>
