@@ -23,6 +23,8 @@ import gtk
 import pygtk
 import gtk.glade
 import gobject
+import threading
+import time
 pygtk.require("2.0")
 
 import dbClass
@@ -36,6 +38,17 @@ from options import Options
 
 def get_path():
     return os.path.dirname(__file__)
+
+class MTP_Connection(threading.Thread):
+    """Run the mtp-tracks command in a seperate thread in case we have a libmtp panic"""
+    def __init__(self, HOME_DIR, username):
+        self.filename = HOME_DIR + "mtp-dump_" + username
+        threading.Thread.__init__(self)
+        
+    def run(self):
+        os.system("mtp-tracks > " + self.filename)
+
+
 
 class MTPLastfmGTK:
     def __init__(self, author, version, error_log=False, test_mode=False):
@@ -107,16 +120,29 @@ class MTPLastfmGTK:
         
   
     def on_check_device_clicked(self, widget):
-        self.write_info("Connecting to MTP device...")
+        self.write_info("Connecting to MTP device")
         if not self.test_mode:
             #we should thread this in case we have a libmtp panic
-            os.system("mtp-tracks > " + self.HOME_DIR + "mtp-dump_" + self.username)
+            conn = MTP_Connection(self.HOME_DIR, self.username)
+            conn.start()
+            panic_counter = 0
+            while conn.isAlive():
+                panic_counter += 1
+                if panic_counter > 15:
+                    msg = "libmtp seems to be having trouble closing the session with your device."
+                    break
+                self.write_info(".", new_line="")
+                time.sleep(1)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
-            self.write_info("MTP Device not found, please connect")
+            self.write_info("Device not found.")
         else:
+            try:
+                msg
+            except NameError:
+                msg = "It is now safe to remove your device"
             self.write_info("Done.", new_line=" ")
-            self.write_info("It is now safe to remove your MTP device\nCross checking song data with local database...")
+            self.write_info(msg + "\nCross checking song data with local database...")
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
     
@@ -147,6 +173,12 @@ class MTPLastfmGTK:
             
             if self.options.return_option("auto_scrobble") == True:
                 self.on_scrobble_clicked(None)
+                
+    def check_time(self):
+        """Called during the connection to the mtp device regularly to make sure
+        the damn thing isnt panicking like a little bitch"""
+        self.panic_counter += 1
+        print self.panic_counter
     
     def show_error_details(self, widget, data):
         if data is "songdata":
