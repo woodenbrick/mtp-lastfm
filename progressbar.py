@@ -30,10 +30,10 @@ class ProgressBar(object):
         self.pulse_mode = pulse_mode
         if self.pulse_mode:
             self.progress_bar.set_text("")
+        self.timer = gobject.timeout_add(update_speed, self.run_timer)
         self.progress_bar.set_fraction(start_value)
         self.progress_bar.set_pulse_step(0.03)
         self.progress_bar.show()
-        self.timer = gobject.timeout_add(update_speed, self.run_timer)
         
     def run_timer(self, finished=False):
         """Updates the progress bar"""

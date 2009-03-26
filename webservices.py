@@ -116,8 +116,6 @@ class LastfmWebService(object):
             response = response[l:r]
             if response == "ok":   
                 return True
-            else:
-                print response
         except urllib2.URLError:
             response = """Connection Refused due to URLError 
                        (Incorrect session_key, track or artist)
@@ -126,7 +124,7 @@ class LastfmWebService(object):
                        Session Key: %s""" % (artist, track, sk)
         except httplib.BadStatusLine:
             response = 'Bad Status Line'
-        print response
+        self.parent.write_info(response)
         return False
 
     

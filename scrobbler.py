@@ -56,7 +56,7 @@ class Scrobbler:
         self.authentication_code = self.create_authentication_code()
         self.url += r"/?" + self.encode_url()
         
-        req = HttpRequest(url=self.url, timeout=1)
+        req = HttpRequest(url=self.url, timeout=10)
         success, response = req.connect()
            
         if success:
