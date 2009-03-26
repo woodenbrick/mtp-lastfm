@@ -14,11 +14,11 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
+
 import md5
 import time
 import urllib
-import urllib2
-import socket
+
 import xml.etree.ElementTree as ET
 
 import string
@@ -26,28 +26,8 @@ import dbClass
 import webbrowser
 from logger import Logger
 from progressbar import ProgressBar
+from httprequest import HttpRequest
 
-class HttpRequest(object):
-    """Timeout a request to last.fm if its taking too long python<2.5 doesnt have
-    a param for this in the urlopen method"""
-    def __init__(self, url, data, timeout=15):
-        self.request = urllib2.Request(url, data)
-        socket.setdefaulttimeout(timeout)
-
-    def connect(self):
-        """Connects to last.fm returns a tuple (bool connection_success, str msg)"""
-        try:
-            conn = urllib2.urlopen(self.request)
-            response = conn.readline().strip()
-        except urllib2.URLError, error:
-             response =  "error:" + error
-        except httplib.BadStatusLine:
-             response = "bad status line"
-        if response == "OK":
-             return True, "OK"
-        else:
-             return False, response
-         
 
 class Scrobbler:
     
@@ -76,31 +56,17 @@ class Scrobbler:
         self.timestamp = self.create_timestamp()
         self.authentication_code = self.create_authentication_code()
         self.url += r"/?" + self.encode_url()
-        try:
-            conn = urllib2.urlopen(self.url)
-            self.server_response = conn.readline().strip()
-        except urllib2.URLError:
-            return 'NO INTERNET', "Couldn't find Last.fm server"
-        except httplib.BadStatusLine, msg:
-            return 'No Server Response', msg
         
-        responses = {
-            "OK" : "User authenticated",
-            "BADAUTH" : "Username or password incorrect, please reset",
-            "BANNED" : """This scrobbling client has been banned from submission,
-                  please notify the developer""",
-            "BADTIME" : "Timestamp is incorrect, please check your clock settings",
-            "FAILED" : "Failed"
-        }
+        req = HttpRequest(url=self.url, timeout=5)
+        success, response = req.connect()
            
-        if self.server_response == 'OK':
-            self.session_id = conn.readline()[:-1]
-            self.now_playing_url = conn.readline().strip #not used at this time
-            self.submission_url = conn.readline()[:-1]
-        if self.server_response.startswith("FAILED"):
-            responses['FAILED'] = string.split(self.server_response, ' ')[1:]
-        self.parent.write_info(responses[self.server_response])
-        return self.server_response, responses[self.server_response]
+        if success:
+            self.session_id = response[1]
+            self.submission_url = response[3]
+            
+        msg = req.handshake_response(response[0])
+        self.parent.write_info(msg)
+        return response[0], msg
     
     
 
@@ -157,18 +123,22 @@ class Scrobbler:
                 self.parent.write_info("Sending tracks, waiting for reply...")
                 if not self._send_post(post_values):
                     return False
-        #if all songs are scrobbled with ok response: 
+        #if all songs are scrobbled with ok response:
+        if self.scrobble_count is not 0:
+            self.parent.write_info("Scrobbled " + str(self.scrobble_count) +" Tracks")
+        else:
+            self.parent.write_info("Nothing to scrobble.")
         return True
 
   
     def _send_post(self, post_values):
         req = HttpRequest(url=self.submission_url, data=post_values, timeout=1)
-        response = req.connect()
-
-        if response == 'OK':
+        success, msg = req.connect()
+        if success:
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
+            self.parent.write_info("There was an error sending data to last.fm:\n" + msg)
             return False
    
     def encode_url(self):

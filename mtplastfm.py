@@ -40,7 +40,7 @@ def get_path():
     return os.path.dirname(__file__)
 
 class MTP_Connection(threading.Thread):
-    """Run the mtp-tracks command in a seperate thread in case we have a libmtp panic"""
+    """Run the mtp-tracks command in a seperate thread in case we cant close the session"""
     def __init__(self, HOME_DIR, username):
         self.filename = HOME_DIR + "mtp-dump_" + username
         threading.Thread.__init__(self)
@@ -122,27 +122,25 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device")
         if not self.test_mode:
-            #we should thread this in case we have a libmtp panic
+            #threaded in case libmtp stops responding
             conn = MTP_Connection(self.HOME_DIR, self.username)
+            start_time = time.time()
             conn.start()
-            panic_counter = 0
+            progress_bar = ProgressBar(self.tree.get_widget("progressbar"),
+                                       update_speed=100, pulse_mode=True)
             while conn.isAlive():
-                panic_counter += 1
-                if panic_counter > 15:
-                    msg = "libmtp seems to be having trouble closing the session with your device."
+                while gtk.events_pending():
+                    gtk.main_iteration()
+                if time.time() - start_time > 5:
+                    self.write_info("libmtp seems to be having trouble closing the session with your device.")
                     break
-                self.write_info(".", new_line="")
-                time.sleep(1)
+        progress_bar.run_timer(finished=True)
         f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
         if len(f) < 3:
-            self.write_info("Device not found.")
+            self.write_info("Device not found, no tracklisting to check.")
         else:
-            try:
-                msg
-            except NameError:
-                msg = "It is now safe to remove your device"
             self.write_info("Done.", new_line=" ")
-            self.write_info(msg)
+            self.write_info("It is now safe to remove your device")
             if self.first_run:
                 self.write_info("Populating database for first time (may take a while)")
             else:
@@ -260,8 +258,8 @@ class MTPLastfmGTK:
         if self.scrobbler.submit_tracks(scrobble_list):
                 self.song_db.delete_scrobbles('all')
         else:
-            self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)                
-        self.write_info("Scrobbled " + str(self.scrobbler.scrobble_count) +" Tracks")
+            self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)
+        
         
     def love_tracks(self):
         """This should be called after scrobbling in order to love pending tracks

@@ -22,11 +22,16 @@ import pygtk
 import gobject
 
 class ProgressBar(object):
-    def __init__(self, progress_bar, max_value, start_value, update_speed=300):
+    def __init__(self, progress_bar, max_value=100, start_value=0,
+                 update_speed=300, pulse_mode=False):
         self.progress_bar = progress_bar
         self.current_progress = start_value
         self.max_value = max_value
+        self.pulse_mode = pulse_mode
+        if self.pulse_mode:
+            self.progress_bar.set_text("")
         self.progress_bar.set_fraction(start_value)
+        self.progress_bar.set_pulse_step(0.03)
         self.progress_bar.show()
         self.timer = gobject.timeout_add(update_speed, self.run_timer)
         
@@ -37,6 +42,9 @@ class ProgressBar(object):
             return
         if self.max_value == 0:
             return
+        if self.pulse_mode:
+            self.progress_bar.pulse()
+            return True
         fraction = self.current_progress / float(self.max_value)
         if fraction >= 0 and fraction <= 1:
             self.progress_bar.set_fraction(fraction)

@@ -20,6 +20,7 @@ import urllib
 import webbrowser
 import httplib
 import xml.etree.ElementTree as ET
+from httprequest import HttpRequest
 
 class LastfmWebService(object):
     
@@ -29,7 +30,7 @@ class LastfmWebService(object):
         self.url = "http://ws.audioscrobbler.com/2.0/"
     
     def request_session_token(self):
-        """opens a browser window to request permission from user to love their tracks"""
+        """returns a token which is used authenticate mtp-lastfm with the users account"""
         data = {"api_key" : self.api_key, "method" : "auth.gettoken"}
         data['api_sig'] = self.create_api_sig(data)
         encoded_data = urllib.urlencode(data)
