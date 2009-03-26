@@ -78,6 +78,8 @@ class MTPLastfmGTK:
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
+        self.tree.get_widget("info").get_window(gtk.TEXT_WINDOW_TEXT).set_cursor(
+            gtk.gdk.Cursor(gtk.gdk.ARROW))
         
         about_dialog = self.tree.get_widget("about_dialog")
         about_dialog.set_version(self.version)
@@ -161,7 +163,7 @@ class MTPLastfmGTK:
                 self.write_info("%d tracks checked" % song_obj.song_count)
             self.write_info("Complete.")
             if song_obj.error_count > 0:
-                self.write_info("%d items were not added to your song database." % song_obj.error_count)
+                self.write_info("%d items were not added to your song database." % song_obj.error_count + "\n")
                 
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
@@ -314,12 +316,8 @@ class MTPLastfmGTK:
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
-            start, end = buffer.get_bounds()
-            info = buffer.get_text(start, end)
-            if info is None:
-                buffer.set_text(new_info)
-            else:
-                buffer.set_text(info + new_line + new_info)
+            #end = buffer.get_end_iter()
+            buffer.insert_at_cursor(new_line + new_info)
         
         #scroll window to the end
         scroller = self.tree.get_widget("scrolledwindow")

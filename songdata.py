@@ -16,7 +16,8 @@
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
-
+import os
+import time
 
 class SongData(object):
     
@@ -30,8 +31,17 @@ class SongData(object):
                               'User rating:' : False, 'Use count:' :False}
         self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
                          'Duration:', 'User rating:')
-        self.log = open(path + 'db.log', "w")
-        self.log.write("Tracks that failed validity check this session:\n")
+        #we will clear this log once per day
+        try:
+            mod_time = os.path.getmtime(path + "db.log")
+        except OSError:
+            mod_time = 86401
+        if time.time() - mod_time > 86400:
+            self.log = open(path + "db.log", "w")
+            self.log.write("Tracks that recently failed a validity check:\n")
+        else:
+            self.log = open(path + 'db.log', "a")
+
         self.song_count = 0
         self.error_count = 0
         
