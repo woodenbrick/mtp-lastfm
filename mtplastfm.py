@@ -121,13 +121,13 @@ class MTPLastfmGTK:
   
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device")
+        progress_bar = ProgressBar(self.tree.get_widget("progressbar"),
+                                       update_speed=100, pulse_mode=True)
         if not self.test_mode:
             #threaded in case libmtp stops responding
             conn = MTP_Connection(self.HOME_DIR, self.username)
             start_time = time.time()
             conn.start()
-            progress_bar = ProgressBar(self.tree.get_widget("progressbar"),
-                                       update_speed=100, pulse_mode=True)
             while conn.isAlive():
                 while gtk.events_pending():
                     gtk.main_iteration()

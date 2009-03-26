@@ -29,17 +29,17 @@ class HttpRequest(object):
 
     def connect(self):
         """Connects to last.fm returns a tuple (bool connection_success, str msg)"""
+        response = []
         try:
             conn = urllib2.urlopen(self.request)
-            response = []
             for line in conn.readlines():
                 response.append(line.strip())
             if response[0] == "OK":
                 return True, response
         except urllib2.URLError, error:
-             response = error
+             response.append(error.reason[1])
         except httplib.BadStatusLine:
-             response = "Bad status line"
+             response = response.append("Bad status line")
         return False, response
 
     def handshake_response(self, response):
@@ -54,5 +54,5 @@ class HttpRequest(object):
         try:
             return responses[response]
         except KeyError:
-            return "An Unknown error occurred."
+            return response
 

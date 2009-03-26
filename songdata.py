@@ -17,7 +17,6 @@
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
 
-from logger import Logger
 
 class SongData(object):
     
@@ -31,8 +30,8 @@ class SongData(object):
                               'User rating:' : False, 'Use count:' :False}
         self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
                          'Duration:', 'User rating:')
-        self.log = Logger(name='Not added to local db', stream_log=False,
-                          file_log_name = path + 'db.log')
+        self.log = open(path + 'db.log', "w")
+        self.log.write("Tracks that failed validity check this session:\n")
         self.song_count = 0
         self.error_count = 0
         
@@ -54,7 +53,7 @@ class SongData(object):
                     self.create_clean_dataset()
                     self.song_count += 1
                 else:
-                    self.log.logger.warn(self.log_data())
+                    self.log_data()
                     self.error_count += 1
                     self.create_clean_dataset()
             self.required_data[key] = self.add_new_data(key, value)
@@ -65,7 +64,8 @@ class SongData(object):
         log_data = "\n"
         for item in self.required_data.iteritems():
             log_data += str(item[0]) + " " + str(item[1]) + "\n"
-        return log_data
+        self.log.write(log_data)
+
     
     def add_new_data(self, key, value):
         if key in self.integer_types:

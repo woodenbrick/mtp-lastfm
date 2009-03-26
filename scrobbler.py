@@ -57,7 +57,7 @@ class Scrobbler:
         self.authentication_code = self.create_authentication_code()
         self.url += r"/?" + self.encode_url()
         
-        req = HttpRequest(url=self.url, timeout=5)
+        req = HttpRequest(url=self.url, timeout=1)
         success, response = req.connect()
            
         if success:
@@ -132,7 +132,7 @@ class Scrobbler:
 
   
     def _send_post(self, post_values):
-        req = HttpRequest(url=self.submission_url, data=post_values, timeout=1)
+        req = HttpRequest(url=self.submission_url, data=post_values, timeout=10)
         success, msg = req.connect()
         if success:
             self.deletion_ids.extend(self.del_ids)    
