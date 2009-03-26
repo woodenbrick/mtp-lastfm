@@ -27,7 +27,6 @@ import threading
 gtk.gdk.threads_init()
 import time
 pygtk.require("2.0")
-
 import dbClass
 from songdata import SongData
 import scrobbler
@@ -40,17 +39,15 @@ from options import Options
 def get_path():
     return os.path.dirname(__file__)
 
-class MTP_Connection(threading.Thread):
-    """Run the mtp-tracks command in a seperate thread in case we cant close the session"""
-    def __init__(self, HOME_DIR, username):
-        self.filename = HOME_DIR + "mtp-dump_" + username
-        threading.Thread.__init__(self)
+#class MTP_Connection(threading.Thread):
+#    """Run the mtp-tracks command in a seperate thread in case we cant close the session"""
+#    def __init__(self, HOME_DIR, username):
+#        self.filename = HOME_DIR + "mtp-dump_" + username
+#        threading.Thread.__init__(self)
         
-    def run(self):
-        os.system("mtp-tracks > " + self.filename)
-        for i in range(1, 20):
-            print i
-            time.sleep(1)
+def connect_to_mtp_device(filename):
+    """Run in a seperate thread"""
+    os.system("mtp-tracks > " + filename)
 
 
 
@@ -127,11 +124,13 @@ class MTPLastfmGTK:
   
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device")
+        dump_file = self.HOME_DIR + "mtp-dump_" + self.username
         progress_bar = ProgressBar(self.tree.get_widget("progressbar"),
                                        update_speed=100, pulse_mode=True)
         if not self.test_mode:
             #threaded in case libmtp stops responding
-            conn = MTP_Connection(self.HOME_DIR, self.username)
+            conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
+            
             start_time = time.time()
             conn.start()
             while conn.isAlive():
@@ -141,7 +140,7 @@ class MTPLastfmGTK:
                     self.write_info("libmtp seems to be having trouble closing the session with your device.")
                     break
         progress_bar.run_timer(finished=True)
-        f = file(self.HOME_DIR + "mtp-dump_" + self.username, 'r').readlines()
+        f = file(dump_file, 'r').readlines()
         if len(f) < 3:
             self.write_info("Device not found, no tracklisting to check.")
         else:
