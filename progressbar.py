@@ -22,24 +22,21 @@ import pygtk
 import gobject
 
 class ProgressBar(object):
-    def __init__(self, progress_bar, max_value=100, start_value=0,
-                 update_speed=300, pulse_mode=False):
+    def __init__(self, progress_bar):
         self.progress_bar = progress_bar
+        self.progress_bar.set_pulse_step(0.03)
+        self.progress_bar.set_text("")
+    
+    def set_vars(self, max_value=100, start_value=0, update=100, pulse_mode=False):
+        self.update_speed = update
         self.current_progress = start_value
         self.max_value = max_value
         self.pulse_mode = pulse_mode
-        if self.pulse_mode:
-            self.progress_bar.set_text("")
-        self.timer = gobject.timeout_add(update_speed, self.run_timer)
         self.progress_bar.set_fraction(start_value)
-        self.progress_bar.set_pulse_step(0.03)
-        self.progress_bar.show()
+
         
-    def run_timer(self, finished=False):
+    def run_timer(self):
         """Updates the progress bar"""
-        if finished:
-            self.timer2 = gobject.timeout_add(1000, self.hide_progress)
-            return
         if self.max_value == 0:
             return
         if self.pulse_mode:
@@ -50,9 +47,20 @@ class ProgressBar(object):
             self.progress_bar.set_fraction(fraction)
         return True
     
-    def hide_progress(self):
+    
+    def start(self):
+        self.progress_bar.show()
+        self.timer = gobject.timeout_add(self.update_speed, self.run_timer)
+        
+    
+    def delayed_stop(self, delay):
+        """For those times when we want the progress bar to hang around a lil bit longer"""
+        gobject.source_remove(self.timer)
+        self.progress_bar.set_fraction(1)
+        self.timer = gobject.timeout_add(delay, self.stop)
+    
+        
+    def stop(self):
         self.progress_bar.hide()
         gobject.source_remove(self.timer)
-        gobject.source_remove(self.timer2)
-        self.timer = 0
-        self.timer2 = 0
+

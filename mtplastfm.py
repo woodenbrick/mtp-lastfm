@@ -47,6 +47,7 @@ def connect_to_mtp_device(filename):
 
 
 
+
 class MTPLastfmGTK:
     def __init__(self, author, version, error_log=False, test_mode=False):
         self.test_mode = test_mode
@@ -121,8 +122,10 @@ class MTPLastfmGTK:
     def on_check_device_clicked(self, widget):
         self.write_info("Connecting to MTP device")
         dump_file = self.HOME_DIR + "mtp-dump_" + self.username
-        progress_bar = ProgressBar(self.tree.get_widget("progressbar"),
-                                       update_speed=100, pulse_mode=True)
+        progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
+        progress_bar.set_vars(pulse_mode=True)
+        progress_bar.start()
+
         if not self.test_mode:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
@@ -130,13 +133,15 @@ class MTPLastfmGTK:
             conn.daemon = True
             conn.start()
             while conn.isAlive():
+                while gtk.events_pending():
+                    gtk.main_iteration()
                 if time.time() - start_time > 15:
                     self.write_info("libmtp seems to be having trouble closing the session with your device.")
                     break
-        progress_bar.run_timer(finished=True)
         f = file(dump_file, 'r').readlines()
         if len(f) < 3:
             self.write_info("Device not found, no tracklisting to check.")
+            progress_bar.stop()
         else:
             self.write_info("Done.", new_line=" ")
             self.write_info("It is now safe to remove your device")
@@ -144,16 +149,16 @@ class MTPLastfmGTK:
                 self.write_info("Populating database for first time (may take a while)")
             else:
                 self.write_info("Cross checking song data with local database...")
+            progress_bar.set_vars(max_value=len(f), start_value=1)
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
-    
-            progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(f), 0)
+
             for line in f:
                 while gtk.events_pending():
                     gtk.main_iteration()
                 song_obj.check_new_data(line)
                 progress_bar.current_progress += 1
-            progress_bar.run_timer(finished=True)
+            progress_bar.delayed_stop(300)
 
             self.song_db.pending_scrobble_list = None
             if song_obj.song_count % 100 != 0:

@@ -73,17 +73,18 @@ class Scrobbler:
     def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
         past_time = int(time.time() - self.scrobble_time)
-        progress_bar = ProgressBar(self.parent.tree.get_widget("progressbar"),
-                                   self.parent.song_db.scrobble_counter, 0)
+        progress_bar = ProgressBar(self.parent.tree.get_widget("progressbar"))
+        progress_bar.set_vars(self.parent.song_db.scrobble_counter, 0)
+        progress_bar.start()
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
-                progress_bar.run_timer(finished=True)
+                progress_bar.delayed_stop(1000)
                 break
             else:
                 self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
                 self.scrobble_count += len(cache)
-                progress_bar.current_progress = self.scrobble_count
+                progress_bar.current_progress += len(cache)
                 
                 #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.
@@ -137,7 +138,7 @@ class Scrobbler:
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
-            self.parent.write_info("There was an error sending data to last.fm:\n" + msg)
+            self.parent.write_info("There was an error sending data to last.fm:\n" + '\n'.join(msg))
             return False
    
     def encode_url(self):
