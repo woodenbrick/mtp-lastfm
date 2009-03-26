@@ -18,7 +18,7 @@ import md5
 import time
 import urllib
 import urllib2
-
+import socket
 import xml.etree.ElementTree as ET
 
 import string
@@ -26,6 +26,28 @@ import dbClass
 import webbrowser
 from logger import Logger
 from progressbar import ProgressBar
+
+class HttpRequest(object):
+    """Timeout a request to last.fm if its taking too long python<2.5 doesnt have
+    a param for this in the urlopen method"""
+    def __init__(self, url, data, timeout=15):
+        self.request = urllib2.Request(url, data)
+        socket.setdefaulttimeout(timeout)
+
+    def connect(self):
+        """Connects to last.fm returns a tuple (bool connection_success, str msg)"""
+        try:
+            conn = urllib2.urlopen(self.request)
+            response = conn.readline().strip()
+        except urllib2.URLError, error:
+             response =  "error:" + error
+        except httplib.BadStatusLine:
+             response = "bad status line"
+        if response == "OK":
+             return True, "OK"
+        else:
+             return False, response
+         
 
 class Scrobbler:
     
@@ -140,15 +162,9 @@ class Scrobbler:
 
   
     def _send_post(self, post_values):
-        req = urllib2.Request(url=self.submission_url, data=post_values)
-        try:
-            url_handle = urllib2.urlopen(req)
-            response = url_handle.readline().strip()
-        except urllib2.URLError:
-            response = 'Connection Refused, please try again'
-        except httplib.BadStatusLine:
-            response = 'Bad Status Line'
-        self.parent.write_info(response, new_line=' ')
+        req = HttpRequest(url=self.submission_url, data=post_values, timeout=1)
+        response = req.connect()
+
         if response == 'OK':
             self.deletion_ids.extend(self.del_ids)    
             return True
