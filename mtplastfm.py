@@ -24,6 +24,7 @@ import pygtk
 import gtk.glade
 import gobject
 import threading
+gtk.gdk.threads_init()
 import time
 pygtk.require("2.0")
 
@@ -47,6 +48,9 @@ class MTP_Connection(threading.Thread):
         
     def run(self):
         os.system("mtp-tracks > " + self.filename)
+        for i in range(1, 20):
+            print i
+            time.sleep(1)
 
 
 

@@ -19,7 +19,7 @@ import os
 import sqlite3
 import md5
 import getpass
-from logger import Logger
+
 
 class lastfmDb_Users:
     def __init__(self, path):

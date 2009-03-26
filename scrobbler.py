@@ -24,7 +24,6 @@ import xml.etree.ElementTree as ET
 import string
 import dbClass
 import webbrowser
-from logger import Logger
 from progressbar import ProgressBar
 from httprequest import HttpRequest
 
