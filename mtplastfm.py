@@ -127,6 +127,7 @@ class MTPLastfmGTK:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
             start_time = time.time()
+            conn.daemon = True
             conn.start()
             while conn.isAlive():
                 if time.time() - start_time > 15:
