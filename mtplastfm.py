@@ -137,7 +137,7 @@ class MTPLastfmGTK:
                 while gtk.events_pending():
                     gtk.main_iteration()
                 if time.time() - start_time > 15:
-                    self.write_info("libmtp seems to be having trouble closing the session with your device.")
+                    self.write_info("libmtp seems to be having trouble closing the session with your device and may need to be reset manually")
                     libmtp_error = True    
                     break
         f = file(dump_file, 'r').readlines()
@@ -164,9 +164,7 @@ class MTPLastfmGTK:
             progress_bar.delayed_stop(300)
 
             self.song_db.pending_scrobble_list = None
-            if song_obj.song_count % 100 != 0:
-                self.write_info("%d tracks checked" % song_obj.song_count)
-            self.write_info("Complete.")
+            self.write_info("%d tracks checked" % song_obj.song_count)
             if song_obj.error_count > 0:
                 self.write_info("%d items were not added to your song database." % song_obj.error_count + "\n")
                 

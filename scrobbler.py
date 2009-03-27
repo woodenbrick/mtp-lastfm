@@ -127,6 +127,8 @@ class Scrobbler:
                 self.parent.write_info("Sending tracks, waiting for reply...")
                 if not self._send_post(post_values):
                     return False
+                else:
+                    self.parent.write_info("OK", new_line=" ")
         #if all songs are scrobbled with ok response:
         if self.scrobble_count is not 0:
             self.parent.write_info("Scrobbled " + str(self.scrobble_count) +" Tracks")
