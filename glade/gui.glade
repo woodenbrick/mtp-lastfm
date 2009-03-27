@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Mar 25 22:49:55 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Mar 27 18:41:36 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -293,6 +293,7 @@
     </child>
   </widget>
   <widget class="GtkWindow" id="options_window">
+    <property name="title" translatable="yes">Options</property>
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="skip_taskbar_hint">True</property>
@@ -589,7 +590,7 @@
     </child>
   </widget>
   <widget class="GtkWindow" id="login_window">
-    <property name="title" translatable="yes">Login mtp-lastfm</property>
+    <property name="title" translatable="yes">Login</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_main_window_destroy"/>
@@ -779,6 +780,7 @@
   </widget>
   <widget class="GtkDialog" id="scrobble_dialog">
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">Scrobble time</property>
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_MOUSE</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
@@ -843,6 +845,7 @@
   </widget>
   <widget class="GtkDialog" id="db_clear_dialog">
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">Remove database</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>

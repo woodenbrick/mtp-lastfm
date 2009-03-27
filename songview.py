@@ -8,6 +8,8 @@ import time
 import webservices
 import gobject
 
+
+
 class Songview(object):
     """An abstract class for creating windows showing song data in a textview"""
     def __init__(self, glade_file, db, parent):
@@ -16,7 +18,7 @@ class Songview(object):
         self.db = db
         self.wTree = gtk.glade.XML(glade_file)
         self.liststore = gtk.ListStore(int, str, str, str, gtk.gdk.Pixbuf, int)
-        self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Plays"]
+        self.columns = ["Id", _("Artist"), _("Song"), _("Album"), _("Rating"), _("Playcount")]
         self.tree_view = self.wTree.get_widget("tree_view")
         self.tree_view.set_model(self.liststore)
         self.tree_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
@@ -122,7 +124,6 @@ class CacheWindow(Songview):
         Songview.__init__(self, glade_file, db, parent)
         data = self.db.return_unique_scrobbles().fetchall()
         self.fill_liststore(data)
-        self.columns = ["Id", "Artist", "Song", "Album", "Rating", "Count"]
         self.append_columns()
         self.wTree.get_widget("window").show()
         new_handlers = {
@@ -181,7 +182,7 @@ class LovedWindow(Songview):
             valid, session_key = webservice.create_web_service_session(token)
             if valid is True:
                 self.parent.usersDB.add_key(self.parent.username, session_key)
-                self.wTree.get_widget("love_auth_state").set_text("Authentication complete")
+                self.wTree.get_widget("love_auth_state").set_text(_("Authentication complete"))
                 self.wTree.get_widget("love_auth_button").hide()
                 self.parent.session_key = session_key
             else:

@@ -88,7 +88,7 @@ class LastfmWebService(object):
             self.key = self.parse_xml(conn, "key")
             return True, self.key
         except urllib2.HTTPError:
-            return False, "A problem occurred during authentication"
+            return False, _("A problem occurred during authentication")
     
     
     def love_track(self, artist, track, sk):

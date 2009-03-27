@@ -43,12 +43,12 @@ class HttpRequest(object):
 
     def handshake_response(self, response):
         responses = {
-            "OK" : "User authenticated",
-            "BADAUTH" : "Username or password incorrect, please reset",
-            "BANNED" : """This scrobbling client has been banned from submission,
-                  please notify the developer""",
-            "BADTIME" : "Timestamp is incorrect, please check your clock settings",
-            "FAILED" : response,
+            "OK" : _("User authenticated"),
+            "BADAUTH" : _("Username or password incorrect, please reset"),
+            "BANNED" : _("""This scrobbling client has been banned from submission,
+                  please notify the developer"""),
+            "BADTIME" : _("Timestamp is incorrect, please check your clock settings"),
+            "FAILED" : response
         }
         try:
             return responses[response]

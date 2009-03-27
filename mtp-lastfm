@@ -14,8 +14,8 @@ __author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>",)
 __version__ = "0.75"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (__version__, ', '.join(__author__)))
-parser.add_option('--error-log', '-e', action="store_true", help="logs all stderr messages to ~/.mtp-lastfm/error.log") 
-parser.add_option('--test-mode', '-t', action="store_true", help="disables connections to last.fm for offline debugging")
+parser.add_option('--error-log', '-e', action="store_true", help=_("logs all stderr messages to ~/.mtp-lastfm/error.log")) 
+parser.add_option('--test-mode', '-t', action="store_true", help=_("disables connections to last.fm for offline debugging"))
 options, args = parser.parse_args()
 
 mtp = MTPLastfmGTK(author=__author__, version=__version__,error_log=options.error_log, test_mode=options.test_mode) 

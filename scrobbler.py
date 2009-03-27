@@ -66,7 +66,6 @@ class Scrobbler:
             self.submission_url = response[3]
             
         msg = req.handshake_response(response[0])
-        self.parent.write_info(msg)
         return response[0], msg
     
     
@@ -84,7 +83,7 @@ class Scrobbler:
                 progress_bar.stop()
                 break
             else:
-                self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
+                self.parent.write_info(_('Preparing %d tracks for scrobbling') % len(cache))
                 self.scrobble_count += len(cache)
                 progress_bar.current_progress += len(cache)
                 while gtk.events_pending():
@@ -124,16 +123,17 @@ class Scrobbler:
                         
                 post_values["s"] = self.session_id
                 post_values = urllib.urlencode(post_values)
-                self.parent.write_info("Sending tracks, waiting for reply...")
+                self.parent.write_info(_("Sending tracks, waiting for reply..."))
                 if not self._send_post(post_values):
                     return False
                 else:
-                    self.parent.write_info("OK", new_line=" ")
+                    self.parent.write_info(_("OK"), new_line=" ")
         #if all songs are scrobbled with ok response:
         if self.scrobble_count is not 0:
-            self.parent.write_info("Scrobbled " + str(self.scrobble_count) +" Tracks")
+            self.parent.write_info(_("Scrobbled") + " " + str(self.scrobble_count)
+                                   + " " + _("Tracks"))
         else:
-            self.parent.write_info("Nothing to scrobble.")
+            self.parent.write_info(_("Nothing to scrobble."))
         return True
 
   
@@ -144,7 +144,8 @@ class Scrobbler:
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
-            self.parent.write_info("There was an error sending data to last.fm:\n" + '\n'.join(msg))
+            self.parent.write_info(_("There was an error sending data to last.fm:") +
+                                   "\n" + "\n".join(msg))
             return False
    
     def encode_url(self):
