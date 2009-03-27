@@ -5,13 +5,13 @@ import optparse
 import gtk
 import pygtk
 #decide if we have been distributed in a deb or sitting in the source dir
-if not os.path.isfile("mtplastfm.py"):
+if os.path.abspath(__file__) == "/usr/bin/mtp-lastfm":
     sys.path.append("/usr/share/mtp-lastfm")
 
 from mtplastfm import MTPLastfmGTK
 
 __author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>",)
-__version__ = "0.70.2-dev"
+__version__ = "0.75"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (__version__, ', '.join(__author__)))
 parser.add_option('--error-log', '-e', action="store_true", help="logs all stderr messages to ~/.mtp-lastfm/error.log") 
