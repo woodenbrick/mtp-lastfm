@@ -18,6 +18,8 @@
 import md5
 import time
 import urllib
+import gtk
+import pygtk
 
 import xml.etree.ElementTree as ET
 
@@ -79,12 +81,14 @@ class Scrobbler:
         while True:
             cache = c.fetchmany(50)
             if len(cache) == 0:
-                progress_bar.delayed_stop(1000)
+                progress_bar.stop()
                 break
             else:
                 self.parent.write_info('Preparing %d tracks for scrobbling' % len(cache))
                 self.scrobble_count += len(cache)
                 progress_bar.current_progress += len(cache)
+                while gtk.events_pending():
+                    gtk.main_iteration()
                 
                 #s=<session_id>  The Session ID returned by the handshake. Required.
                 #a[0]=<artist>  The artist name. Required.

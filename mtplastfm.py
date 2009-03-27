@@ -130,6 +130,7 @@ class MTPLastfmGTK:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
             start_time = time.time()
+            libmtp_error = False
             conn.daemon = True
             conn.start()
             while conn.isAlive():
@@ -137,14 +138,16 @@ class MTPLastfmGTK:
                     gtk.main_iteration()
                 if time.time() - start_time > 15:
                     self.write_info("libmtp seems to be having trouble closing the session with your device.")
+                    libmtp_error = True    
                     break
         f = file(dump_file, 'r').readlines()
         if len(f) < 3:
             self.write_info("Device not found, no tracklisting to check.")
             progress_bar.stop()
         else:
-            self.write_info("Done.", new_line=" ")
-            self.write_info("It is now safe to remove your device")
+            if not libmtp_error:
+                self.write_info("Done.", new_line=" ")
+                self.write_info("It is now safe to remove your device")
             if self.first_run:
                 self.write_info("Populating database for first time (may take a while)")
             else:
@@ -276,13 +279,21 @@ class MTPLastfmGTK:
         if love_cache != []:
             webservice = webservices.LastfmWebService()
             self.write_info("Sending love...")
-            progress_bar = ProgressBar(self.tree.get_widget("progressbar"), len(love_cache), 0)
+            progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
+            progress_bar.set_vars(len(love_cache), 0)
+            progress_bar.start()
             for item in love_cache:
-                if webservice.love_track(item[1], item[2], self.session_key):
-                    self.write_info(item[1] + " - " + item[2])
+                self.write_info(item[1] + " - " + item[2])
+                response = webservice.love_track(item[1], item[2], self.session_key)
+                if response == "ok":
+                    self.write_info("OK", new_line=" ")
                     loved.append(item[0])
                     progress_bar.current_progress = len(loved)
-            progress_bar.run_timer(finished=True)
+                    while gtk.events_pending():
+                        gtk.main_iteration()
+                else:
+                    self.write_info(response)
+            progress_bar.delayed_stop(300)
             self.song_db.mark_as_love_sent(loved)
             self.write_info("Done.")
     
