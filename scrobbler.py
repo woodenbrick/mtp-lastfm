@@ -29,6 +29,8 @@ import webbrowser
 from progressbar import ProgressBar
 from httprequest import HttpRequest
 
+import localisation
+_ = localisation.set_get_text()
 
 class Scrobbler:
     

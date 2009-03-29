@@ -36,6 +36,9 @@ import webservices
 from progressbar import ProgressBar
 from options import Options
 
+import localisation
+_ = localisation.set_get_text()
+
 
 def get_path():
     return os.path.dirname(__file__)
@@ -54,6 +57,7 @@ class MTPLastfmGTK:
         self.error_log = error_log
         self.author = author
         self.version = version
+
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
 
@@ -72,7 +76,7 @@ class MTPLastfmGTK:
             print _('Error messages will be logged in'), log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
-        
+
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")

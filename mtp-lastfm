@@ -4,6 +4,10 @@ import sys
 import optparse
 import gtk
 import pygtk
+
+import localisation
+_ = localisation.set_get_text()
+
 #decide if we have been distributed in a deb or sitting in the source dir
 if os.path.abspath(__file__) == "/usr/bin/mtp-lastfm":
     sys.path.append("/usr/share/mtp-lastfm")
@@ -18,7 +22,9 @@ parser.add_option('--error-log', '-e', action="store_true", help=_("logs all std
 parser.add_option('--test-mode', '-t', action="store_true", help=_("disables connections to last.fm for offline debugging"))
 options, args = parser.parse_args()
 
-mtp = MTPLastfmGTK(author=__author__, version=__version__,error_log=options.error_log, test_mode=options.test_mode) 
+mtp = MTPLastfmGTK(author=__author__,
+                   version=__version__, error_log=options.error_log,
+                   test_mode=options.test_mode)
 gtk.main()
 
 

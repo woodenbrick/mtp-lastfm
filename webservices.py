@@ -22,6 +22,9 @@ import httplib
 import xml.etree.ElementTree as ET
 from httprequest import HttpRequest
 
+import localisation
+_ = localisation.set_get_text()
+
 class LastfmWebService(object):
     
     def __init__(self):

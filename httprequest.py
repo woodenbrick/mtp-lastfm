@@ -19,6 +19,9 @@ import urllib2
 import socket
 import httplib
 
+import localisation
+_ = localisation.set_get_text()
+
 class HttpRequest(object):
     """Timeout a request to last.fm if its taking too long python<2.5 doesnt have
     a param for this in the urlopen method"""

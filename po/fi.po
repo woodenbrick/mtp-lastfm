@@ -1,0 +1,416 @@
+# Finnish translation for MTP-lastfm-scrobbler
+# Copyright (C) 2009
+# https://launchpad.net/~ubuntu-l10n-fi
+#
+# This file is distributed under the same license as the MTP-Lastfm package.
+# Saku Laukkanen <saku.laukkanen@jakelupaketti.net>, 2009
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.76\n"
+"Report-Msgid-Bugs-To: Daniel Woodhouse <wodemoneke@gmail.com>\n"
+"POT-Creation-Date: 2009-03-27 20:20+0200\n"
+"PO-Revision-Date: 2009-03-28 12:00+0100\n"
+"Last-Translator: Saku Laukkanen <saku.laukkanen@jakelupaketti.net>\n"
+"Language-Team: Ubuntu Finnish Translators <ubuntu-l10n-fin@lists.ubuntu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: httprequest.py:46
+msgid "User authenticated"
+msgstr "Käyttäjä tunnistettu"
+
+#: httprequest.py:47
+msgid "Username or password incorrect, please reset"
+msgstr "Käyttäjänimi tai salasana on virheellinen, yritä uudelleen"
+
+#: httprequest.py:48
+msgid ""
+"This scrobbling client has been banned from submission, please notify the "
+"developer"
+msgstr "Last.fm on estänyt tämän siirto-ohjelman toiminnan."
+"Olkaa hyvä ja ilmoittakaa tästä kehittäjälle"
+
+#: httprequest.py:49
+msgid "Timestamp is incorrect, please check your clock settings"
+msgstr "Aikaleima on virheellinen, tarkista kelloasetuksesi"
+
+#: mtplastfm.py:72
+#, python-format
+msgid "Error messages will be logged in %s"
+msgstr "Virheet lokitetaan %s :n"
+
+#: mtplastfm.py:122
+msgid "Connecting to MTP device"
+msgstr "Yhdistetään MTP-laitteeseen"
+
+#: mtplastfm.py:139
+msgid ""
+"libmtp seems to be having trouble closing the session with your device and "
+"may need to be reset manually."
+msgstr "Libmtp-kirjasto ei saanut suljettua yhteyttä laitteeseen."
+"Sinun täytyy ehkä sulkea yhteys käsin."
+
+#: mtplastfm.py:144
+msgid "Device not found."
+msgstr "Laitetta ei löytynyt"
+
+#: mtplastfm.py:148 mtplastfm.py:296
+msgid "Done."
+msgstr "Valmis."
+
+#: mtplastfm.py:149
+msgid "It is now safe to remove your device."
+msgstr "Laitteen irrottaminen on nyt turvallista"
+
+#: mtplastfm.py:151
+msgid "Populating database for first time, may take a while..."
+msgstr "Luodaan uutta tietokantaa, tämä saattaa kestää kauan..."
+
+#: mtplastfm.py:153
+msgid "Cross checking song data with local database..."
+msgstr "Verrataan kappaletietoja paikalliseen tietokantaan..."
+
+#: mtplastfm.py:166
+#, python-format
+msgid "%s tracks checked"
+msgstr "%s kappaletta tarkistettu"
+
+#: mtplastfm.py:168
+#, python-format
+msgid "%s items were not added to your song database.\n"
+msgstr "%s kohdetta ei voitu lisätä tietokanttaan. \n"
+
+#: mtplastfm.py:224
+msgid "Authenticating..."
+msgstr "Tunnistaudutaan..."
+
+#: mtplastfm.py:260
+#, python-format
+msgid "Scrobbling started %s hours ago"
+msgstr "Tietojen lähettäminen aloitettiin %s tuntia sitten"
+
+#: mtplastfm.py:279
+msgid "Sending love..."
+msgstr "Lähetetään tietoja Ihana-merkityistä kappaleista"
+
+#: mtplastfm.py:287
+msgid "Ok."
+msgstr "Ok."
+
+#: mtplastfm.py:368
+msgid "Database cleared"
+msgstr "Tietokanta tyhjennetty"
+
+#: mtplastfm.py:387
+msgid "Error: Please enter a username and password"
+msgstr "Virhe: Kirjoita käyttäjätunnus ja salasana"
+
+#: mtplastfm.py:405
+msgid "User database doesn't exist, creating."
+msgstr "Luodaan puuttuvaa käyttäjätietokantaa"
+
+#: scrobbler.py:86
+#, python-format
+msgid "Preparing %d tracks for scrobbling"
+msgstr "Valmistellaan %d kappaletta lähetykseen"
+
+#: scrobbler.py:126
+msgid "Sending tracks, waiting for reply..."
+msgstr "Lähetetään kappaletietoja, odotetaan vastausta..."
+
+#: scrobbler.py:130
+msgid "OK"
+msgstr "OK"
+
+#: scrobbler.py:133
+msgid "Scrobbled"
+msgstr "Tiedot lähetetty"
+
+#: scrobbler.py:134
+msgid "Tracks"
+msgstr "Kappaleet"
+
+#: scrobbler.py:136
+msgid "Nothing to scrobble."
+msgstr "Ei lähetettäviä tietoja"
+
+#: scrobbler.py:147
+msgid "There was an error sending data to last.fm:"
+msgstr "Virhe lähetettäessä tietoja last.fm-palveluun"
+
+#: songdata.py:36
+msgid "Track ID"
+msgstr "Kappaleen tunnus"
+
+#: songdata.py:36
+msgid "Title"
+msgstr "Nimi"
+
+#: songdata.py:37 songview.py:21
+msgid "Artist"
+msgstr "Esittäjä"
+
+#: songdata.py:37 songview.py:21
+msgid "Album"
+msgstr "Levy"
+
+#: songdata.py:38
+msgid "Track number"
+msgstr "Kappaleen numero"
+
+#: songdata.py:39
+msgid "Duration"
+msgstr "Kesto"
+
+#: songdata.py:40
+msgid "User rating"
+msgstr "Arvostelu"
+
+#: songdata.py:41 songview.py:21
+msgid "Playcount"
+msgstr "Toistot"
+
+#: songdata.py:50
+msgid "Tracks that recently failed a validity check:\n"
+msgstr "Kappaleet jotka eivät läpäisseet tarkistusta:\n"
+
+#: songdata.py:86
+msgid "None"
+msgstr "(tuntematon)"
+
+#: songview.py:21
+msgid "Song"
+msgstr "Kappale"
+
+#: songview.py:21
+msgid "Rating"
+msgstr "Arvostelu"
+
+#: songview.py:185
+msgid "Authentication complete"
+msgstr "Tunnistautuminen valmis"
+
+#: webservices.py:91
+msgid "A problem occurred during authentication"
+msgstr "Tunnistautumisessa tapahtui virhe"
+
+#: glade/ban.glade.h:1
+msgid "Banned tracks"
+msgstr "Estetyt kappaleet"
+
+#: glade/ban.glade.h:2
+msgid "Remove Ban"
+msgstr "Poista esto"
+
+#: glade/cache.glade.h:1
+msgid "Banned"
+msgstr "Estetty"
+
+#: glade/cache.glade.h:2
+msgid "Don't Scrobble"
+msgstr "Älä lähetä"
+
+#: glade/cache.glade.h:3
+msgid "Love"
+msgstr "Ihana"
+
+#: glade/gui.glade.h:1
+msgid ""
+"    \n"
+"    mtp-lastfm is free software: you can redistribute it and/or modify\n"
+"    it under the terms of the GNU General Public License as published by\n"
+"    the Free Software Foundation, either version 3 of the License, or\n"
+"    (at your option) any later version.\n"
+"\n"
+"    mtp-lastfm is distributed in the hope that it will be useful,\n"
+"    but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"    GNU General Public License for more details.\n"
+"\n"
+"    You should have received a copy of the GNU General Public License\n"
+"    along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/"
+msgstr ""
+"MTP-Lastfm on vapaa ohjelma; sitä on sallittu levittää edelleen ja muuttaa GNU "
+"yleisen lisenssin (GPL lisenssin) ehtojen mukaan  sellaisina kuin Free "
+"Software Foundation on ne julkaissut; joko lisenssin version 3, tai "
+"(valinnan mukaan) minkä tahansa myöhemmän version mukaisesti."
+
+#: glade/gui.glade.h:14
+msgid "<b>Automation</b>"
+msgstr "<b>Automatisointi</b>"
+
+#: glade/gui.glade.h:15
+msgid "<b>Database</b>"
+msgstr "<b>Tietokanta</b>"
+
+#: glade/gui.glade.h:16
+msgid "<b>MTP-Lastfm</b>"
+msgstr "<b>MTP-Lastfm</b>"
+
+#: glade/gui.glade.h:17
+msgid "<b>Options</b>"
+msgstr "<b>Asetukset</b>"
+
+#: glade/gui.glade.h:18
+msgid "<b>Scrobble ordering</b>"
+msgstr "<b>Lähetysjärjestys</b>"
+
+#: glade/gui.glade.h:19
+msgid "<b>Scrobble timing</b>"
+msgstr "<b>Lähetysaika</b>"
+
+#: glade/gui.glade.h:20
+msgid "About mtp-lastfm"
+msgstr "Tietoja ohjelmasta MTP-Lastfm"
+
+#: glade/gui.glade.h:21
+msgid "Alphabetical"
+msgstr "Aakkosellinen"
+
+#: glade/gui.glade.h:22
+msgid "Always use default time"
+msgstr "Muista asetettu aika aina"
+
+#: glade/gui.glade.h:23
+msgid "Calculate scrobble time to finish \"Now\""
+msgstr "Määritä lähetysajan loppuvan välittömästi"
+
+#: glade/gui.glade.h:24
+msgid "Clears your locally stored song data"
+msgstr "Poistaa paikallisen kappaletietokannan"
+
+#: glade/gui.glade.h:25
+msgid "Connect to device on startup"
+msgstr "Yhdistä laitteeseen käynnistettäessä"
+
+#: glade/gui.glade.h:26
+msgid "Default scrobble start time (Hours)"
+msgstr "Lähetyksen kesto tunneissa"
+
+#: glade/gui.glade.h:27
+msgid "Enter the time (in hours) that you wish to start scrobbling from:"
+msgstr "Valitse aika jolloin haluat siirron alkavan:"
+
+#: glade/gui.glade.h:28
+msgid ""
+"If you continue everything will be cleared from your local database.  "
+"Usually you only want to do this if you have formatted your device."
+msgstr ""
+"Jos jatkat, kaikki tieto pyyhitään paikallisesta tietokannasta.  "
+"Yleensä näin tehdään vain jos käytettävä laite on alustettu."
+
+#: glade/gui.glade.h:29
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+#: glade/gui.glade.h:30
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+#: glade/gui.glade.h:31
+msgid "Options"
+msgstr "Asetukset"
+
+#: glade/gui.glade.h:32
+msgid "Please login to your last.fm account"
+msgstr "Kirjaudu sisään last.fm-tilillesi"
+
+#: glade/gui.glade.h:33
+msgid "Random"
+msgstr "Satunnainen"
+
+#: glade/gui.glade.h:34
+msgid "Remember me?"
+msgstr "Muista minut"
+
+#: glade/gui.glade.h:35
+msgid "Remove database"
+msgstr "Poista tietokanta"
+
+#: glade/gui.glade.h:36
+msgid "Reset Database"
+msgstr "Tyhjennä tietokanta"
+
+#: glade/gui.glade.h:37
+msgid ""
+"Scrobble automatically after device check (Leave unchecked to love/ban "
+"tracks)"
+msgstr ""
+"Siirrä automaattisesti laitetunnistuken jälkeen"
+"(jätä tyhjäksi jos haluat merkitä kappaleita)"
+
+#: glade/gui.glade.h:38
+msgid "Scrobble time"
+msgstr "Siirtoaika"
+
+#: glade/gui.glade.h:39
+msgid "Set time manually"
+msgstr "Aseta aika käsin"
+
+#: glade/gui.glade.h:40
+msgid "Source Repository"
+msgstr "Pakettivarasto"
+
+#: glade/gui.glade.h:41
+msgid "Welcome to mtp-scrobbler 0.1!"
+msgstr "Tervetuloa käyttämään MTP-Lastfm-ohjelmaa!"
+
+#: glade/gui.glade.h:42
+msgid "gtk-apply"
+msgstr "gtk-apply"
+
+#: glade/gui.glade.h:43 glade/love.glade.h:5
+msgid "gtk-cancel"
+msgstr "gtk-cancel"
+
+#: glade/gui.glade.h:44 glade/love.glade.h:6
+msgid "gtk-ok"
+msgstr "gtk-ok"
+
+#: glade/gui.glade.h:45
+msgid "mtp-lastfm"
+msgstr "MTP-Lastfm"
+
+#: glade/gui.glade.h:46
+msgid ""
+"mtp-lastfm tracks your listening habits on your mtp device and uploads them "
+"to last.fm"
+msgstr ""
+"MTP-Lastfm tarkistaa kuunetelmasi kappaleet MTP-laitteeltasi ja lähettää "
+"tiedot last.fm-palveluun"
+
+#: glade/gui.glade.h:47
+msgid "password:"
+msgstr "Salasana:"
+
+#: glade/gui.glade.h:48
+msgid "username:"
+msgstr "Käyttäjätunnus:"
+
+#: glade/love.glade.h:1
+msgid "Authenticate now"
+msgstr "Tunnistaudu heti"
+
+#: glade/love.glade.h:2
+msgid "Loved tracks"
+msgstr "Ihanat kappaleet"
+
+#: glade/love.glade.h:3
+msgid ""
+"Please authenticate mtp-lastfm in your web browser.  This is required if you "
+"wish to love tracks.  After the authentication is complete click OK."
+msgstr "Hyväksytä MTP-Lastfm last.fm-palvelussa. Tämä vaaditaan jos haluat "
+"merkitä kappaleita. Tunnistautumisen jälkeen paina OK."
+
+#: glade/love.glade.h:4
+msgid "Remove Love"
+msgstr "Poista Ihana-merkintä"
+
+#: glade/love.glade.h:7
+msgid ""
+"mtp-lastfm must be authenticated by last.fm before you can love submissions"
+msgstr "MTP-Lastfm tulee olla hyväksytty Last.fm-palvelussa ennen kuin voit "
+"lähettää Ihana-merkintöjä."

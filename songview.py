@@ -8,7 +8,8 @@ import time
 import webservices
 import gobject
 
-
+import localisation
+_ = localisation.set_get_text()
 
 class Songview(object):
     """An abstract class for creating windows showing song data in a textview"""

@@ -19,6 +19,9 @@
 import os
 import time
 
+import localisation
+_ = localisation.set_get_text()
+
 class SongData(object):
     
     def __init__(self, db, path, parent):
