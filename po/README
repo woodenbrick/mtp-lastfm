@@ -1,0 +1,5 @@
+To localise MTP-Lastfm in your language:
+
+1. Download the mtp-lastfm.pot file
+2. run this command: msginit --input=mtp-lastfm.pot --locale=<your locale> where your locale is in the form of en_US, fi_FI, de_AT etc.
+3. edit the resulting .po file in a text editor or some tool like Poedit.
