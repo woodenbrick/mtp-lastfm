@@ -5,13 +5,13 @@ import optparse
 import gtk
 import pygtk
 
-import localisation
-_ = localisation.set_get_text()
 
 #decide if we have been distributed in a deb or sitting in the source dir
 if os.path.abspath(__file__) == "/usr/bin/mtp-lastfm":
     sys.path.append("/usr/share/mtp-lastfm")
 
+import localisation
+_ = localisation.set_get_text()
 from mtplastfm import MTPLastfmGTK
 
 __author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>",)
