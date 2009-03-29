@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-28 15:00+0200\n"
+"POT-Creation-Date: 2009-03-29 14:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,97 +105,89 @@ msgstr ""
 msgid "User database doesn't exist, creating."
 msgstr ""
 
-#: scrobbler.py:86
+#: scrobbler.py:88
 #, python-format
 msgid "Preparing %d tracks for scrobbling"
 msgstr ""
 
-#: scrobbler.py:126
+#: scrobbler.py:128
 msgid "Sending tracks, waiting for reply..."
 msgstr ""
 
-#: scrobbler.py:130
+#: scrobbler.py:132
 msgid "OK"
 msgstr ""
 
-#: scrobbler.py:133
+#: scrobbler.py:135
 msgid "Scrobbled"
 msgstr ""
 
-#: scrobbler.py:134
+#: scrobbler.py:136
 msgid "Tracks"
 msgstr ""
 
-#: scrobbler.py:136
+#: scrobbler.py:138
 msgid "Nothing to scrobble."
 msgstr ""
 
-#: scrobbler.py:147
+#: scrobbler.py:149
 msgid "There was an error sending data to last.fm:"
 msgstr ""
 
-#: songdata.py:36
+#: songdata.py:39
 msgid "Track ID"
 msgstr ""
 
-#: songdata.py:36
+#: songdata.py:39
 msgid "Title"
 msgstr ""
 
-#: songdata.py:37 songview.py:21
+#: songdata.py:40 songview.py:22
 msgid "Artist"
 msgstr ""
 
-#: songdata.py:37 songview.py:21
+#: songdata.py:40 songview.py:22
 msgid "Album"
 msgstr ""
 
-#: songdata.py:38
+#: songdata.py:41
 msgid "Track number"
 msgstr ""
 
-#: songdata.py:39
+#: songdata.py:42
 msgid "Duration"
 msgstr ""
 
-#: songdata.py:40
+#: songdata.py:43
 msgid "User rating"
 msgstr ""
 
-#: songdata.py:41 songview.py:21
+#: songdata.py:44 songview.py:22
 msgid "Playcount"
 msgstr ""
 
-#: songdata.py:50
+#: songdata.py:53
 msgid "Tracks that recently failed a validity check:\n"
 msgstr ""
 
-#: songdata.py:86
+#: songdata.py:89
 msgid "None"
 msgstr ""
 
-#: songview.py:21
+#: songview.py:22
 msgid "Song"
 msgstr ""
 
-#: songview.py:21
+#: songview.py:22
 msgid "Rating"
 msgstr ""
 
-#: songview.py:185
+#: songview.py:186
 msgid "Authentication complete"
 msgstr ""
 
-#: webservices.py:91
+#: webservices.py:94
 msgid "A problem occurred during authentication"
-msgstr ""
-
-#: mtp-lastfm:22
-msgid "logs all stderr messages to ~/.mtp-lastfm/error.log"
-msgstr ""
-
-#: mtp-lastfm:23
-msgid "disables connections to last.fm for offline debugging"
 msgstr ""
 
 #: glade/ban.glade.h:1
