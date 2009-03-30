@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Mar 28 23:48:30 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Mar 30 13:31:02 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
     <property name="visible">True</property>
-    <property name="title" translatable="yes">mtp-lastfm</property>
+    <property name="title" translatable="yes">MTP-Lastfm</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_main_window_destroy"/>
@@ -114,6 +114,8 @@
                 </child>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">3</property>
               </packing>
             </child>
@@ -231,7 +233,6 @@
                 <property name="left_margin">10</property>
                 <property name="right_margin">10</property>
                 <property name="cursor_visible">False</property>
-                <property name="text" translatable="yes">Welcome to mtp-scrobbler 0.1!</property>
               </widget>
             </child>
           </widget>
@@ -738,26 +739,19 @@
     <property name="icon">mtp-lastfm.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
-    <property name="program_name">mtp-lastfm</property>
+    <property name="program_name">MTP-Lastfm</property>
     <property name="comments" translatable="yes">mtp-lastfm tracks your listening habits on your mtp device and uploads them to last.fm</property>
     <property name="website">http://github.com/woodenbrick/mtp-lastfm/tree/master</property>
     <property name="website_label" translatable="yes">Source Repository</property>
-    <property name="license" translatable="yes">    
-    mtp-lastfm is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    <property name="license" translatable="yes">MTP-Lastfm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-    mtp-lastfm is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+MTP-Lastfm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/</property>
+You should have received a copy of the GNU General Public License along with MTP-Lastfm.  If not, see http://www.gnu.org/licenses/</property>
     <property name="authors">Daniel Woodhouse</property>
     <property name="documenters"></property>
     <property name="logo">mtp-lastfm.png</property>
+    <property name="wrap_license">True</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
