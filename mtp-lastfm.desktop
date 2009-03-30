@@ -2,6 +2,8 @@
 [Desktop Entry]
 Type=Application
 Name=MTP-Lastfm
+Comment=Scrobble tracks from yout MTP device to Last.fm
+Comment[fi]=Finnish description
 Exec=/usr/bin/mtp-lastfm -e
 Terminal=false
 Categories=AudioVideo;Audio;
