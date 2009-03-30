@@ -291,7 +291,6 @@
   </widget>
   <widget class="GtkWindow" id="options_window">
     <property name="title" translatable="yes">mtp-lastfm - Settings</property>
-    <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
@@ -771,7 +770,8 @@
 MTP-Lastfm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with MTP-Lastfm.  If not, see http://www.gnu.org/licenses/</property>
-    <property name="authors">Daniel Woodhouse</property>
+    <property name="authors">Daniel Woodhouse
+Saku Laukkanen</property>
     <property name="documenters"></property>
     <property name="translator_credits">Saku Laukkanen (fi)</property>
     <property name="logo">mtp-lastfm.png</property>
@@ -872,6 +872,7 @@ You should have received a copy of the GNU General Public License along with MTP
     <property name="title" translatable="yes">mtp-lastfm - Clear Database</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">notification</property>
+    <property name="urgency_hint">True</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
