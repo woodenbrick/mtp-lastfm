@@ -10,7 +10,7 @@ if os.path.abspath(__file__) == "/usr/bin/mtp-lastfm":
 
 from mtplastfm import MTPLastfmGTK
 
-__author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>",)
+__author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>","Saku Laukkanen <saku.laukkanen@jakelupaketti.net>")
 __version__ = "0.75"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (__version__, ', '.join(__author__)))
