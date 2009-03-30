@@ -132,8 +132,7 @@ class Scrobbler:
                     self.parent.write_info(_("OK"), new_line=" ")
         #if all songs are scrobbled with ok response:
         if self.scrobble_count is not 0:
-            self.parent.write_info(_("Scrobbled") + " " + str(self.scrobble_count)
-                                   + " " + _("Tracks"))
+            self.parent.write_info(_("Scrobbled %d tracks" % self.scrobble_count))
         else:
             self.parent.write_info(_("Nothing to scrobble."))
         return True

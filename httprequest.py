@@ -39,7 +39,7 @@ class HttpRequest(object):
             if response[0] == "OK":
                 return True, response
         except urllib2.URLError, error:
-             response.append(error.reason[1])
+             response.append(error)
         except httplib.BadStatusLine:
              response = response.append("Bad status line")
         return False, response
@@ -48,8 +48,7 @@ class HttpRequest(object):
         responses = {
             "OK" : _("User authenticated"),
             "BADAUTH" : _("Username or password incorrect, please reset"),
-            "BANNED" : _("""This scrobbling client has been banned from submission,
-                  please notify the developer"""),
+            "BANNED" : _("""This scrobbling client has been banned from submission, please notify the developer"""),
             "BADTIME" : _("Timestamp is incorrect, please check your clock settings"),
             "FAILED" : response
         }

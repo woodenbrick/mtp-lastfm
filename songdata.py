@@ -89,7 +89,7 @@ class SongData(object):
                 val = _("None")
             else:
                 val = value
-            log_data += self.required_data_locale[key] + ": " + val + "\n"
+            log_data += self.required_data_locale[key] + ": " + str(val) + "\n"
         self.log.write(log_data)
 
     
