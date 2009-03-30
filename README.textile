@@ -7,6 +7,8 @@ h3.  "Download a deb package":http://github.com/woodenbrick/mtp-lastfm/downloads
 
 h3. You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
 
+You can translate mtp-lastfm into your language at "launchpad":https://translations.launchpad.net/mtp-lastfm/
+
 h3. Dependencies:
 * python
 * python-sqlite

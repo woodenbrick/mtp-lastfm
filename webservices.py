@@ -22,6 +22,9 @@ import httplib
 import xml.etree.ElementTree as ET
 from httprequest import HttpRequest
 
+import localisation
+_ = localisation.set_get_text()
+
 class LastfmWebService(object):
     
     def __init__(self):
@@ -88,7 +91,7 @@ class LastfmWebService(object):
             self.key = self.parse_xml(conn, "key")
             return True, self.key
         except urllib2.HTTPError:
-            return False, "A problem occurred during authentication"
+            return False, _("A problem occurred during authentication")
     
     
     def love_track(self, artist, track, sk):

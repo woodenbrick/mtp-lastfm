@@ -19,6 +19,9 @@ import urllib2
 import socket
 import httplib
 
+import localisation
+_ = localisation.set_get_text()
+
 class HttpRequest(object):
     """Timeout a request to last.fm if its taking too long python<2.5 doesnt have
     a param for this in the urlopen method"""
@@ -36,19 +39,18 @@ class HttpRequest(object):
             if response[0] == "OK":
                 return True, response
         except urllib2.URLError, error:
-             response.append(error.reason[1])
+             response.append(error)
         except httplib.BadStatusLine:
              response = response.append("Bad status line")
         return False, response
 
     def handshake_response(self, response):
         responses = {
-            "OK" : "User authenticated",
-            "BADAUTH" : "Username or password incorrect, please reset",
-            "BANNED" : """This scrobbling client has been banned from submission,
-                  please notify the developer""",
-            "BADTIME" : "Timestamp is incorrect, please check your clock settings",
-            "FAILED" : response,
+            "OK" : _("User authenticated"),
+            "BADAUTH" : _("Username or password incorrect, please reset"),
+            "BANNED" : _("""This scrobbling client has been banned from submission, please notify the developer"""),
+            "BADTIME" : _("Timestamp is incorrect, please check your clock settings"),
+            "FAILED" : response
         }
         try:
             return responses[response]

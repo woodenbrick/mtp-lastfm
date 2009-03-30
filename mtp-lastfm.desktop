@@ -1,7 +1,7 @@
 
 [Desktop Entry]
 Type=Application
-Name=mtp-lastfm
+Name=MTP-Lastfm
 Exec=/usr/bin/mtp-lastfm -e
 Terminal=false
 Categories=AudioVideo;Audio;

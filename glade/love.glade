@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Mar 26 17:40:51 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Mar 27 18:40:48 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="window">
     <property name="width_request">800</property>
     <property name="height_request">500</property>
     <property name="visible">True</property>
+    <property name="title" translatable="yes">Loved tracks</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon">heart.png</property>
     <signal name="destroy" handler="on_window_destroy"/>

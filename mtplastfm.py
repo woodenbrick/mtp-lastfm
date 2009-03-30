@@ -36,6 +36,9 @@ import webservices
 from progressbar import ProgressBar
 from options import Options
 
+import localisation
+_ = localisation.set_get_text()
+
 
 def get_path():
     return os.path.dirname(__file__)
@@ -54,6 +57,7 @@ class MTPLastfmGTK:
         self.error_log = error_log
         self.author = author
         self.version = version
+
         self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
         self.MAIN_PATH = get_path()
 
@@ -69,10 +73,10 @@ class MTPLastfmGTK:
         if self.error_log:
             log_file = self.HOME_DIR + "errors.log"
             sys.stderr = open(log_file, 'a')
-            print 'Error messages will be logged in %s' % log_file 
+            print _('Error messages will be logged in %s') % log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
-        
+
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
@@ -97,7 +101,6 @@ class MTPLastfmGTK:
   
     def show_main_window(self):
         self.login_window.hide()
-        self.write_info("User authenticated.", clear_buffer=True)
         self.main_window.show()
         while gtk.events_pending():
             gtk.main_iteration(False)
@@ -120,7 +123,7 @@ class MTPLastfmGTK:
         
   
     def on_check_device_clicked(self, widget):
-        self.write_info("Connecting to MTP device")
+        self.write_info(_("Connecting to MTP device"))
         dump_file = self.HOME_DIR + "mtp-dump_" + self.username
         progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
         progress_bar.set_vars(pulse_mode=True)
@@ -137,21 +140,21 @@ class MTPLastfmGTK:
                 while gtk.events_pending():
                     gtk.main_iteration()
                 if time.time() - start_time > 15:
-                    self.write_info("libmtp seems to be having trouble closing the session with your device and may need to be reset manually")
+                    self.write_info(_("libmtp seems to be having trouble closing the session with your device and may need to be reset manually."))
                     libmtp_error = True    
                     break
         f = file(dump_file, 'r').readlines()
         if len(f) < 3:
-            self.write_info("Device not found, no tracklisting to check.")
+            self.write_info(_("Device not found."))
             progress_bar.stop()
         else:
             if not libmtp_error:
-                self.write_info("Done.", new_line=" ")
-                self.write_info("It is now safe to remove your device")
+                self.write_info(_("Done."), new_line=" ")
+                self.write_info(_("It is now safe to remove your device."))
             if self.first_run:
-                self.write_info("Populating database for first time (may take a while)")
+                self.write_info(_("Populating database for first time, may take a while..."))
             else:
-                self.write_info("Cross checking song data with local database...")
+                self.write_info(_("Cross checking song data with local database..."))
             progress_bar.set_vars(max_value=len(f), start_value=1)
             self.song_db.pending_scrobble_list = None
             song_obj = SongData(self.song_db, self.HOME_DIR, self)
@@ -164,17 +167,16 @@ class MTPLastfmGTK:
             progress_bar.delayed_stop(300)
 
             self.song_db.pending_scrobble_list = None
-            self.write_info("%d tracks checked" % song_obj.song_count)
+            self.write_info(_("%s tracks checked") % song_obj.song_count)
             if song_obj.error_count > 0:
-                self.write_info("%d items were not added to your song database." % song_obj.error_count + "\n")
-                
+                self.write_info(_("%s items were not added to your song database.\n") % song_obj.error_count)
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
                 anchor = buffer.create_child_anchor(iter)
                 button = gtk.Button(label=None, stock="gtk-info")
                 button.show()
                 self.tree.get_widget("info").add_child_at_anchor(button, anchor)
-                button.connect("clicked", self.show_error_details, "songdata")
+                button.connect("clicked", self.show_error_details, None)
             self.song_db.update_scrobble_count()
             self.set_button_count()
             
@@ -183,12 +185,11 @@ class MTPLastfmGTK:
                 
     
     def show_error_details(self, widget, data):
-        if data is "songdata":
-            tree = gtk.glade.XML(self.GLADE['log'])
-            f = open(self.HOME_DIR + "db.log", "r").read()
-            self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
-                            clear_buffer=True)
-            tree.get_widget("window").show()
+        tree = gtk.glade.XML(self.GLADE['log'])
+        f = open(self.HOME_DIR + "db.log", "r").read()
+        self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
+                        clear_buffer=True)
+        tree.get_widget("window").show()
     
     def set_button_count(self):
         """Checks if we should set a value for a button or disable it"""
@@ -222,7 +223,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("login_window").set_sensitive(False)
         self.tree.get_widget("username_entry").set_text(self.username)
         self.tree.get_widget("password_entry").set_text(self.password)
-        self.tree.get_widget("login_error").set_text("Authenticating...")
+        self.tree.get_widget("login_error").set_text(_("Authenticating..."))
         while gtk.events_pending():
             gtk.main_iteration(False)
         self.scrobbler = scrobbler.Scrobbler(self)
@@ -232,6 +233,7 @@ class MTPLastfmGTK:
             server_response, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
         if server_response == "OK":
+            self.write_info(msg, clear_buffer=True)
             self.session_key = self.usersDB.get_session_key(self.username)
             return True
         else:
@@ -257,7 +259,7 @@ class MTPLastfmGTK:
         self.set_button_count()
                 
     def scrobble(self, scr_time):
-        self.write_info("Scrobbling started %s hours ago" % scr_time)
+        self.write_info(_("Scrobbling started %s hours ago") % scr_time)
         self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.return_scrobble_list(self.options.return_scrobble_ordering())
         if self.scrobbler.submit_tracks(scrobble_list):
@@ -276,7 +278,7 @@ class MTPLastfmGTK:
         loved = []
         if love_cache != []:
             webservice = webservices.LastfmWebService()
-            self.write_info("Sending love...")
+            self.write_info(_("Sending love..."))
             progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
             progress_bar.set_vars(len(love_cache), 0)
             progress_bar.start()
@@ -284,7 +286,7 @@ class MTPLastfmGTK:
                 self.write_info(item[1] + " - " + item[2])
                 response = webservice.love_track(item[1], item[2], self.session_key)
                 if response == "ok":
-                    self.write_info("OK", new_line=" ")
+                    self.write_info(_("Ok."), new_line=" ")
                     loved.append(item[0])
                     progress_bar.current_progress = len(loved)
                     while gtk.events_pending():
@@ -293,7 +295,7 @@ class MTPLastfmGTK:
                     self.write_info(response)
             progress_bar.delayed_stop(300)
             self.song_db.mark_as_love_sent(loved)
-            self.write_info("Done.")
+            self.write_info(_("Done."))
     
     
     def show_scrobble_dialog(self):
@@ -365,7 +367,7 @@ class MTPLastfmGTK:
     def db_clear_activate(self, widget):
         if widget.name == "apply_db_clear":
             os.remove(self.HOME_DIR + self.username + "DB")
-            self.write_info("Database cleared")
+            self.write_info(_("Database cleared"))
             self.setup_user_session()
             self.tree.get_widget("options_window").hide()
         self.tree.get_widget("db_clear_dialog").hide()
@@ -384,7 +386,7 @@ class MTPLastfmGTK:
         
         if self.username == '' or self.password == '':
             login_error = self.tree.get_widget("login_error")
-            login_error.set_text("Error: Please enter a username and password")
+            login_error.set_text(_("Error: Please enter a username and password"))
         else:
             if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
                 self.password = md5.new(self.password).hexdigest()
@@ -402,7 +404,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("user").set_text(self.username)
         self.options = Options(self.username, self.usersDB)
         if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
-            self.write_info("User db doesn't exist, creating.")
+            self.write_info(_("User database doesn't exist, creating."))
             self.first_run = True
         else:
             self.first_run = False
@@ -420,10 +422,10 @@ class MTPLastfmGTK:
         users = self.usersDB.get_users_like(entry)
         if len(users) is 1:
             self.tree.get_widget("username_entry").set_text(users[0][0])
-            #we need to select the text after the cursor so the user can continue
-            #writing without mistakes
+
     
     def on_password_entry_key_press_event(self, widget, key):
+        #this logs in the user if they press Enter from the password box
         if key.keyval == 65293:
             self.on_login_clicked(widget)
             

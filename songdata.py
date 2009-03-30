@@ -19,6 +19,9 @@
 import os
 import time
 
+import localisation
+_ = localisation.set_get_text()
+
 class SongData(object):
     
     def __init__(self, db, path, parent):
@@ -31,6 +34,15 @@ class SongData(object):
                               'User rating:' : False, 'Use count:' :False}
         self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
                          'Duration:', 'User rating:')
+        #for localisation we will have a separate list of required data
+        #as it is used in other areas of the program
+        self.required_data_locale = {'Track ID:' : _('Track ID'), 'Title:' : _('Title'),
+                                     'Artist:' : _('Artist'), 'Album:' : _('Album'),
+                                     'Track number:' : _('Track number'),
+                                     'Duration:' : _('Duration'),
+                                     'User rating:' : _('User rating'),
+                                     'Use count:' : _('Playcount')}
+        
         #we will clear this log once per day
         try:
             mod_time = os.path.getmtime(path + "db.log")
@@ -38,7 +50,7 @@ class SongData(object):
             mod_time = 86401
         if time.time() - mod_time > 86400:
             self.log = open(path + "db.log", "w")
-            self.log.write("Tracks that recently failed a validity check:\n")
+            self.log.write(_("Tracks that recently failed a validity check:\n"))
         else:
             self.log = open(path + 'db.log', "a")
 
@@ -72,8 +84,12 @@ class SongData(object):
     
     def log_data(self):
         log_data = "\n"
-        for item in self.required_data.iteritems():
-            log_data += str(item[0]) + " " + str(item[1]) + "\n"
+        for key, value in self.required_data.iteritems():
+            if value == False:
+                val = _("None")
+            else:
+                val = value
+            log_data += self.required_data_locale[key] + ": " + str(val) + "\n"
         self.log.write(log_data)
 
     
