@@ -291,7 +291,6 @@
   </widget>
   <widget class="GtkWindow" id="options_window">
     <property name="title" translatable="yes">mtp-lastfm - Settings</property>
-    <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
