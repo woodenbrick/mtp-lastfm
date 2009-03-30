@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Mar 30 13:31:02 2009 -->
+<!--Generated with glade3 3.4.5 on Mon Mar 30 14:24:04 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -750,6 +750,7 @@ MTP-Lastfm is distributed in the hope that it will be useful, but WITHOUT ANY WA
 You should have received a copy of the GNU General Public License along with MTP-Lastfm.  If not, see http://www.gnu.org/licenses/</property>
     <property name="authors">Daniel Woodhouse</property>
     <property name="documenters"></property>
+    <property name="translator_credits">Saku Laukkanen (fi)</property>
     <property name="logo">mtp-lastfm.png</property>
     <property name="wrap_license">True</property>
     <child internal-child="vbox">
