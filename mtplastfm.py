@@ -73,7 +73,7 @@ class MTPLastfmGTK:
         if self.error_log:
             log_file = self.HOME_DIR + "errors.log"
             sys.stderr = open(log_file, 'a')
-            print _('Error messages will be logged in'), log_file 
+            print _('Error messages will be logged in %s') % log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
 
@@ -167,10 +167,9 @@ class MTPLastfmGTK:
             progress_bar.delayed_stop(300)
 
             self.song_db.pending_scrobble_list = None
-            self.write_info(song_obj.song_count + " " + _("tracks checked"))
+            self.write_info(_("%s tracks checked") % song_obj.song_count)
             if song_obj.error_count > 0:
-                self.write_info(song_obj.error_count + _("items were not added to your song database.")  + "\n")
-                
+                self.write_info(_("%s items were not added to your song database.\n") % song_obj.error_count)
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
                 anchor = buffer.create_child_anchor(iter)
