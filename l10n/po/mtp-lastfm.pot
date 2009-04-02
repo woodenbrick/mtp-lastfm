@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-30 13:58+0300\n"
+"POT-Creation-Date: 2009-04-02 23:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Device not found."
 msgstr ""
 
-#: mtplastfm.py:152 mtplastfm.py:298
+#: mtplastfm.py:152 mtplastfm.py:301
 msgid "Done."
 msgstr ""
 
@@ -71,66 +71,66 @@ msgstr ""
 
 #: mtplastfm.py:170
 #, python-format
-msgid "%s tracks checked"
+msgid "%(num)d track checked"
 msgstr ""
 
-#: mtplastfm.py:172
+#: mtplastfm.py:173
 #, python-format
-msgid "%s items were not added to your song database.\n"
+msgid "%(num)d item was not added to your song database.\n"
 msgstr ""
 
-#: mtplastfm.py:226
+#: mtplastfm.py:229
 msgid "Authenticating..."
 msgstr ""
 
-#: mtplastfm.py:262
+#: mtplastfm.py:265
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr ""
 
-#: mtplastfm.py:281
+#: mtplastfm.py:284
 msgid "Sending love..."
 msgstr ""
 
-#: mtplastfm.py:289
+#: mtplastfm.py:292
 msgid "Ok."
 msgstr ""
 
-#: mtplastfm.py:370
+#: mtplastfm.py:373
 msgid "Database cleared"
 msgstr ""
 
-#: mtplastfm.py:389
+#: mtplastfm.py:392
 msgid "Error: Please enter a username and password"
 msgstr ""
 
-#: mtplastfm.py:407
+#: mtplastfm.py:410
 msgid "User database doesn't exist, creating."
 msgstr ""
 
-#: scrobbler.py:88
+#: scrobbler.py:89
 #, python-format
-msgid "Preparing %d tracks for scrobbling"
+msgid "Preparing %(num)d track for scrobbling"
 msgstr ""
 
-#: scrobbler.py:128
+#: scrobbler.py:131
 msgid "Sending tracks, waiting for reply..."
 msgstr ""
 
-#: scrobbler.py:132
+#: scrobbler.py:135
 msgid "OK"
 msgstr ""
 
-#: scrobbler.py:135
+#: scrobbler.py:138
 #, python-format
-msgid "Scrobbled %d tracks"
+msgid "Scrobbled %(num)d track"
 msgstr ""
 
-#: scrobbler.py:137
+#: scrobbler.py:142
 msgid "Nothing to scrobble."
 msgstr ""
 
-#: scrobbler.py:148
+#: scrobbler.py:153
 msgid "There was an error sending data to last.fm:"
 msgstr ""
 
@@ -184,6 +184,11 @@ msgstr ""
 
 #: songview.py:186
 msgid "Authentication complete"
+msgstr ""
+
+#: tester.py:26
+#, python-format
+msgid "There is %(num)d person"
 msgstr ""
 
 #: webservices.py:94

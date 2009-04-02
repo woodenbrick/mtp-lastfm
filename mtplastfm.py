@@ -38,7 +38,7 @@ from options import Options
 
 import localisation
 _ = localisation.set_get_text()
-
+_pl = localisation.set_get_text_plural()
 
 def get_path():
     return os.path.dirname(__file__)
@@ -167,9 +167,12 @@ class MTPLastfmGTK:
             progress_bar.delayed_stop(300)
 
             self.song_db.pending_scrobble_list = None
-            self.write_info(_("%s tracks checked") % song_obj.song_count)
+            self.write_info(_pl("%(num)d track checked", "%(num)d tracks checked",
+                                song_obj.song_count) % {"num" : song_obj.song_count})
             if song_obj.error_count > 0:
-                self.write_info(_("%s items were not added to your song database.\n") % song_obj.error_count)
+                self.write_info(_pl("%(num)d item was not added to your song database.\n",
+                                    "%(num)d items were not added to your song database.\n",
+                                    song_obj.error_count) % {"num" : song_obj.error_count})
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
                 anchor = buffer.create_child_anchor(iter)

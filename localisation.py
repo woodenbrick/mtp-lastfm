@@ -33,7 +33,11 @@ gettext.textdomain(APP_NAME)
 gtk.glade.bindtextdomain(APP_NAME, local_path)
 gtk.glade.textdomain(APP_NAME)
 
-def set_get_text():
-    lang = gettext.translation(APP_NAME, local_path,
+lang = gettext.translation(APP_NAME, local_path,
                                languages=langs, fallback = True)
+
+def set_get_text():
     return lang.gettext
+
+def set_get_text_plural():
+    return lang.ngettext

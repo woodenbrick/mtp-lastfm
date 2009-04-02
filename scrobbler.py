@@ -31,6 +31,7 @@ from httprequest import HttpRequest
 
 import localisation
 _ = localisation.set_get_text()
+_pl = localisation.set_get_text_plural()
 
 class Scrobbler:
     
@@ -85,7 +86,9 @@ class Scrobbler:
                 progress_bar.stop()
                 break
             else:
-                self.parent.write_info(_('Preparing %d tracks for scrobbling') % len(cache))
+                self.parent.write_info(_pl('Preparing %(num)d track for scrobbling',
+                                         'Preparing %(num)d tracks for scrobbling',
+                                         len(cache)) % {'num' : len(cache)})
                 self.scrobble_count += len(cache)
                 progress_bar.current_progress += len(cache)
                 while gtk.events_pending():
@@ -132,7 +135,9 @@ class Scrobbler:
                     self.parent.write_info(_("OK"), new_line=" ")
         #if all songs are scrobbled with ok response:
         if self.scrobble_count is not 0:
-            self.parent.write_info(_("Scrobbled %d tracks" % self.scrobble_count))
+            self.parent.write_info(_pl("Scrobbled %(num)d track",
+                                     "Scrobbled %(num)d tracks",
+                                     self.scrobble_count) % {"num" : self.scrobble_count})
         else:
             self.parent.write_info(_("Nothing to scrobble."))
         return True
