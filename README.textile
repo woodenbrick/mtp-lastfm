@@ -5,9 +5,7 @@ The purpose of this program is to scrobble tracks from mtp devices
 
 h3.  "Download a deb package":http://github.com/woodenbrick/mtp-lastfm/downloads or add my "PPA repository":https://launchpad.net/~wodemoneke/+archive/ppa
 
-h3. You can track the projects milestones and submit bug/feature requests at "Lighthouse":http://wodemoneke.lighthouseapp.com/projects/26145-mtp-lastfm/overview.
-
-h3. MTP-Lastfm now has localisation support, translate into your language at "launchpad":https://translations.launchpad.net/mtp-lastfm/
+h3. Report bugs and help translate at "Launchpad":https://launchpad.net/mtp-lastfm 
 
 h3. Dependencies:
 * python
