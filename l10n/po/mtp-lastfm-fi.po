@@ -5,19 +5,21 @@
 # This file is distributed under the same license as the MTP-Lastfm package.
 # Saku Laukkanen <saku.laukkanen@jakelupaketti.net>, 2009
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.76\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-30 13:58+0300\n"
-"PO-Revision-Date: 2009-03-28 12:00+0100\n"
-"Last-Translator: Saku Laukkanen <saku.laukkanen@jakelupaketti.net>\n"
-"Language-Team: Ubuntu Finnish Translators <ubuntu-l10n-fin@lists.ubuntu."
-"com>\n"
+"POT-Creation-Date: 2009-04-03 10:20+0300\n"
+"PO-Revision-Date: 2009-04-03 14:02+0000\n"
+"Last-Translator: Saku Laukkanen <nollapiste@nettikirje.fi>\n"
+"Language-Team: Ubuntu Finnish Translators <ubuntu-l10n-"
+"fin@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2009-04-03 15:44+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: httprequest.py:49
 msgid "User authenticated"
@@ -32,41 +34,41 @@ msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
 msgstr ""
-"Last.fm on estänyt tämän siirto-ohjelman toiminnan.Olkaa hyvä ja ilmoittakaa "
-"tästä kehittäjälle"
+"Last.fm on estänyt tämän siirto-ohjelman toiminnan. Olkaa hyvä ja "
+"ilmoittakaa tästä ohjelman kehittäjälle."
 
 #: httprequest.py:52
 msgid "Timestamp is incorrect, please check your clock settings"
-msgstr "Aikaleima on virheellinen, tarkista kelloasetuksesi"
+msgstr "Aikaleima on virheellinen, tarkista kelloasetuksesi."
 
 #: mtplastfm.py:76
-#, fuzzy, python-format
+#, python-format
 msgid "Error messages will be logged in %s"
-msgstr "Virheet lokitetaan %s :n"
+msgstr "Virheet merkitään tiedostoon %s"
 
 #: mtplastfm.py:126
 msgid "Connecting to MTP device"
-msgstr "Yhdistetään MTP-laitteeseen"
+msgstr "Yhdistetään MTP-laitteeseen..."
 
 #: mtplastfm.py:143
 msgid ""
 "libmtp seems to be having trouble closing the session with your device and "
 "may need to be reset manually."
 msgstr ""
-"Libmtp-kirjasto ei saanut suljettua yhteyttä laitteeseen.Sinun täytyy ehkä "
-"sulkea yhteys käsin."
+"Libmtp-kirjasto ei saanut suljettua yhteyttä laitteeseen. Sinun tulee sulkea "
+"yhteys käsin."
 
 #: mtplastfm.py:148
 msgid "Device not found."
-msgstr "Laitetta ei löytynyt"
+msgstr "Laitetta ei löytynyt."
 
-#: mtplastfm.py:152 mtplastfm.py:298
+#: mtplastfm.py:152 mtplastfm.py:301
 msgid "Done."
 msgstr "Valmis."
 
 #: mtplastfm.py:153
 msgid "It is now safe to remove your device."
-msgstr "Laitteen irrottaminen on nyt turvallista"
+msgstr "Laitteen irrottaminen on nyt turvallista."
 
 #: mtplastfm.py:155
 msgid "Populating database for first time, may take a while..."
@@ -78,66 +80,74 @@ msgstr "Verrataan kappaletietoja paikalliseen tietokantaan..."
 
 #: mtplastfm.py:170
 #, python-format
-msgid "%s tracks checked"
-msgstr "%s kappaletta tarkistettu"
+msgid "%(num)d track checked"
+msgid_plural "%(num)d tracks checked"
+msgstr[0] "%(num)d kappale tarkistettu"
+msgstr[1] "%(num)d kappaletta tarkistettu"
 
-#: mtplastfm.py:172
+#: mtplastfm.py:173
 #, python-format
-msgid "%s items were not added to your song database.\n"
-msgstr "%s kohdetta ei voitu lisätä tietokanttaan. \n"
+msgid "%(num)d item was not added to your song database.\n"
+msgid_plural "%(num)d items were not added to your song database.\n"
+msgstr[0] "Kohteita, joita ei lisätty paikalliseen tietokantaan: %(num)d.\n"
+msgstr[1] "Kohteita, joita ei lisätty paikalliseen tietokantaan: %(num)d.\n"
 
-#: mtplastfm.py:226
+#: mtplastfm.py:229
 msgid "Authenticating..."
 msgstr "Tunnistaudutaan..."
 
-#: mtplastfm.py:262
+#: mtplastfm.py:265
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr "Tietojen lähettäminen aloitettiin %s tuntia sitten"
 
-#: mtplastfm.py:281
+#: mtplastfm.py:284
 msgid "Sending love..."
 msgstr "Lähetetään tietoja Ihana-merkityistä kappaleista"
 
-#: mtplastfm.py:289
+#: mtplastfm.py:292
 msgid "Ok."
 msgstr "Ok."
 
-#: mtplastfm.py:370
+#: mtplastfm.py:373
 msgid "Database cleared"
 msgstr "Tietokanta tyhjennetty"
 
-#: mtplastfm.py:389
+#: mtplastfm.py:392
 msgid "Error: Please enter a username and password"
 msgstr "Virhe: Kirjoita käyttäjätunnus ja salasana"
 
-#: mtplastfm.py:407
+#: mtplastfm.py:410
 msgid "User database doesn't exist, creating."
 msgstr "Luodaan puuttuvaa käyttäjätietokantaa"
 
-#: scrobbler.py:88
+#: scrobbler.py:89
 #, python-format
-msgid "Preparing %d tracks for scrobbling"
-msgstr "Valmistellaan %d kappaletta lähetykseen"
+msgid "Preparing %(num)d track for scrobbling"
+msgid_plural "Preparing %(num)d tracks for scrobbling"
+msgstr[0] "Valmistellaan %(num)d kappale lähetykseen"
+msgstr[1] "Valmistellaan %(num)d kappaletta lähetykseen"
 
-#: scrobbler.py:128
+#: scrobbler.py:131
 msgid "Sending tracks, waiting for reply..."
 msgstr "Lähetetään kappaletietoja, odotetaan vastausta..."
 
-#: scrobbler.py:132
+#: scrobbler.py:135
 msgid "OK"
 msgstr "OK"
 
-#: scrobbler.py:135
-#, fuzzy, python-format
-msgid "Scrobbled %d tracks"
-msgstr "Ihanat kappaleet"
+#: scrobbler.py:138
+#, python-format
+msgid "Scrobbled %(num)d track"
+msgid_plural "Scrobbled %(num)d tracks"
+msgstr[0] "Lähetetty %(num)d kappale"
+msgstr[1] "Lähetetty %(num)d kappaletta"
 
-#: scrobbler.py:137
+#: scrobbler.py:142
 msgid "Nothing to scrobble."
 msgstr "Ei lähetettäviä tietoja"
 
-#: scrobbler.py:148
+#: scrobbler.py:153
 msgid "There was an error sending data to last.fm:"
 msgstr "Virhe lähetettäessä tietoja last.fm-palveluun"
 
@@ -290,7 +300,6 @@ msgid "Logout"
 msgstr "Kirjaudu ulos"
 
 #: glade/gui.glade.h:18
-#, fuzzy
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -305,10 +314,19 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "MTP-Lastfm.  If not, see http://www.gnu.org/licenses/"
 msgstr ""
-"MTP-Lastfm on vapaa ohjelma; sitä on sallittu levittää edelleen ja muuttaa "
-"GNU yleisen lisenssin (GPL lisenssin) ehtojen mukaan  sellaisina kuin Free "
-"Software Foundation on ne julkaissut; joko lisenssin version 3, tai "
-"(valinnan mukaan) minkä tahansa myöhemmän version mukaisesti."
+"MTP-Lastfm on vapaa ohjelma; voit levittää sitä edelleen ja/tai muokata sitä "
+"GNU:n GPL-lisenssin sallimilla tavoilla miten kuin Free Software Foundation "
+"on sen määritellyt; voit halutessasi käyttää lisenssin versiota 3 taikka "
+"mitä tahansa tämän jälkeen ilmestynyttä versiota.\n"
+"\n"
+"MTP-Lastfm:ää levitetään siinä toivossa, että siitä on hyötyä, mutta ILMAN "
+"MITÄÄN TAKUUTA; jopa ilman konkludenttista takuuta MYYNTIKELPOISUUDESTA TAI "
+"SOVELTUMISESTA TIETTYYN ERITYISEEN TARKOITUKSEEN. Yksityiskohtien osalta "
+"katso GNU:n GPL-lisenssiä.\n"
+"\n"
+"\"Sinun olisi pitänyt saada kopio GNU:n GPL-lisenssistä ohjelman MTP-Lastfm "
+"mukana; jos et sitä saanut, niin lähetä käy sivulla "
+"http://www.gnu.org/licenses/"
 
 #: glade/gui.glade.h:23
 msgid "Options"
@@ -388,7 +406,7 @@ msgstr "Käyttäjätunnus:"
 
 #: glade/log.glade.h:1
 msgid "Song data log"
-msgstr ""
+msgstr "Kappaleloki"
 
 #: glade/love.glade.h:1
 msgid "Authenticate now"
@@ -417,6 +435,10 @@ msgstr ""
 "MTP-Lastfm tulee olla hyväksytty Last.fm-palvelussa ennen kuin voit lähettää "
 "Ihana-merkintöjä."
 
+#, python-format
+#~ msgid "Preparing %d tracks for scrobbling"
+#~ msgstr "Valmistellaan %d kappaletta lähetykseen"
+
 #~ msgid "Scrobbled"
 #~ msgstr "Tiedot lähetetty"
 
@@ -425,3 +447,9 @@ msgstr ""
 
 #~ msgid "Welcome to mtp-scrobbler 0.1!"
 #~ msgstr "Tervetuloa käyttämään MTP-Lastfm-ohjelmaa!"
+
+#~ msgid "%s tracks checked"
+#~ msgstr "%s kappaletta tarkistettu"
+
+#~ msgid "%s items were not added to your song database.\n"
+#~ msgstr "%s kohdetta ei voitu lisätä tietokanttaan.\n"
