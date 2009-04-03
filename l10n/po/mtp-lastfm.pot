@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-02 23:20+0300\n"
+"POT-Creation-Date: 2009-04-03 10:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: httprequest.py:49
 msgid "User authenticated"
@@ -72,12 +73,16 @@ msgstr ""
 #: mtplastfm.py:170
 #, python-format
 msgid "%(num)d track checked"
-msgstr ""
+msgid_plural "%(num)d tracks checked"
+msgstr[0] ""
+msgstr[1] ""
 
 #: mtplastfm.py:173
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
-msgstr ""
+msgid_plural "%(num)d items were not added to your song database.\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: mtplastfm.py:229
 msgid "Authenticating..."
@@ -111,7 +116,9 @@ msgstr ""
 #: scrobbler.py:89
 #, python-format
 msgid "Preparing %(num)d track for scrobbling"
-msgstr ""
+msgid_plural "Preparing %(num)d tracks for scrobbling"
+msgstr[0] ""
+msgstr[1] ""
 
 #: scrobbler.py:131
 msgid "Sending tracks, waiting for reply..."
@@ -124,7 +131,9 @@ msgstr ""
 #: scrobbler.py:138
 #, python-format
 msgid "Scrobbled %(num)d track"
-msgstr ""
+msgid_plural "Scrobbled %(num)d tracks"
+msgstr[0] ""
+msgstr[1] ""
 
 #: scrobbler.py:142
 msgid "Nothing to scrobble."
