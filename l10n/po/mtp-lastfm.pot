@@ -195,11 +195,6 @@ msgstr ""
 msgid "Authentication complete"
 msgstr ""
 
-#: tester.py:26
-#, python-format
-msgid "There is %(num)d person"
-msgstr ""
-
 #: webservices.py:94
 msgid "A problem occurred during authentication"
 msgstr ""
