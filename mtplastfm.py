@@ -164,6 +164,8 @@ class MTPLastfmGTK:
                 song_obj.check_new_data(line)
                 progress_bar.current_progress += 1
             progress_bar.delayed_stop(300)
+            #feed song_obj a new Track so it checks for the last song
+            song_obj.check_new_data("Track ID: 0\n") 
 
             self.song_db.pending_scrobble_list = None
             self.write_info(_pl("%(num)d track checked", "%(num)d tracks checked",
