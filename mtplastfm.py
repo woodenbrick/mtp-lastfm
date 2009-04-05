@@ -128,12 +128,11 @@ class MTPLastfmGTK:
         progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
         progress_bar.set_vars(pulse_mode=True)
         progress_bar.start()
-
+        libmtp_error = False
         if not self.test_mode:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
             start_time = time.time()
-            libmtp_error = False
             conn.daemon = True
             conn.start()
             while conn.isAlive():
