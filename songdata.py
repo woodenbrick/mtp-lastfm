@@ -32,7 +32,7 @@ class SongData(object):
                               'Artist:' : False, 'Album:' : False,
                               'Track number:' : False, 'Duration:' : False,
                               'User rating:' : False, 'Use count:' :False}
-        self.integer_types = ('Track ID:', 'Track number:', 'Use count:',
+        self.integer_types = ('Track ID:', 'Use count:',
                          'Duration:', 'User rating:')
         #for localisation we will have a separate list of required data
         #as it is used in other areas of the program
@@ -131,10 +131,10 @@ class SongData(object):
             self.required_data['User rating:'] = ""
         if self.required_data['Use count:'] is False:
             self.required_data['Use count:'] = 0
-	if self.required_data['Track number:'] is False:
-	    self.required_data['Track number:'] = ""
-	if self.required_data['Album:'] is False:
-	    self.required_data['Album:'] = ""
+        if self.required_data['Track number:'] is False:
+            self.required_data['Track number:'] = ""
+        if self.required_data['Album:'] is False:
+            self.required_data['Album:'] = ""
         
     def split_data(self, data):
         """Splits the data into key, value"""
