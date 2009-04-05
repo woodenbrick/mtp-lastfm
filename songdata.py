@@ -108,7 +108,7 @@ class SongData(object):
         """Check that all required songdata is accounted for"""
         for key, value in self.required_data.items():
             if value is False:
-                if key == "Use count:" or key == "User rating:":
+                if key == "Use count:" or key == "User rating:" or key == "Track number:" or key == "Album:":
                     continue
                 else:
                     return False
@@ -131,6 +131,10 @@ class SongData(object):
             self.required_data['User rating:'] = ""
         if self.required_data['Use count:'] is False:
             self.required_data['Use count:'] = 0
+	if self.required_data['Track number:'] is False:
+	    self.required_data['Track number:'] = ""
+	if self.required_data['Album:'] is False:
+	    self.required_data['Album:'] = ""
         
     def split_data(self, data):
         """Splits the data into key, value"""
