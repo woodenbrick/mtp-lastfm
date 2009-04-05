@@ -332,8 +332,8 @@ class MTPLastfmGTK:
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
-            #end = buffer.get_end_iter()
-            buffer.insert_at_cursor(new_line + new_info)
+            end = buffer.get_end_iter()
+            buffer.insert(end, new_line + new_info)
         
         #scroll window to the end
         scroller = self.tree.get_widget("scrolledwindow")
