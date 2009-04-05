@@ -232,6 +232,7 @@ class MTPLastfmGTK:
         self.scrobbler = scrobbler.Scrobbler(self)
         if self.test_mode:
             server_response = "OK"
+            msg = "This is the test version, scrobbling is disabled"
         else:
             server_response, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
