@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Apr  2 19:46:50 2009 -->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
     <property name="visible">True</property>
     <property name="title" translatable="yes">MTP-Lastfm</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">center</property>
     <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_main_window_destroy"/>
     <child>
@@ -23,8 +23,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="yalign">0.4699999988079071</property>
-                <property name="image_position">GTK_POS_TOP</property>
-                <property name="response_id">0</property>
+                <property name="image_position">top</property>
                 <signal name="clicked" handler="on_check_device_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image3">
@@ -36,6 +35,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -44,7 +44,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="on_scrobble_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image1">
@@ -65,8 +64,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image_position">GTK_POS_TOP</property>
-                <property name="response_id">0</property>
+                <property name="image_position">top</property>
                 <signal name="clicked" handler="on_options_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image6">
@@ -87,7 +85,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="on_tracks_button_clicked"/>
                 <child>
                   <widget class="GtkHBox" id="hbox9">
@@ -97,6 +94,9 @@
                         <property name="visible">True</property>
                         <property name="pixbuf">heart.png</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkLabel" id="loved_label">
@@ -121,7 +121,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="on_tracks_button_clicked"/>
                 <child>
                   <widget class="GtkHBox" id="hbox7">
@@ -131,6 +130,9 @@
                         <property name="visible">True</property>
                         <property name="pixbuf">banned.png</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkLabel" id="banned_label">
@@ -155,8 +157,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image_position">GTK_POS_TOP</property>
-                <property name="response_id">0</property>
+                <property name="image_position">top</property>
                 <signal name="clicked" handler="on_tracks_button_clicked"/>
                 <child>
                   <widget class="GtkHBox" id="hbox8">
@@ -166,6 +167,9 @@
                         <property name="visible">True</property>
                         <property name="pixbuf">cache.png</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkLabel" id="cache_label">
@@ -190,8 +194,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="image_position">GTK_POS_TOP</property>
-                <property name="response_id">0</property>
+                <property name="image_position">top</property>
                 <signal name="clicked" handler="on_about_clicked"/>
                 <child>
                   <widget class="GtkImage" id="image5">
@@ -209,21 +212,22 @@
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
-            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="vscrollbar_policy">automatic</property>
             <child>
               <widget class="GtkTextView" id="info">
                 <property name="height_request">210</property>
                 <property name="visible">True</property>
                 <property name="pixels_above_lines">4</property>
                 <property name="editable">False</property>
-                <property name="wrap_mode">GTK_WRAP_WORD</property>
+                <property name="wrap_mode">word</property>
                 <property name="left_margin">10</property>
                 <property name="right_margin">10</property>
                 <property name="cursor_visible">False</property>
@@ -253,25 +257,24 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="padding">5</property>
-                <property name="pack_type">GTK_PACK_END</property>
+                <property name="pack_type">end</property>
                 <property name="position">2</property>
               </packing>
             </child>
             <child>
               <widget class="GtkLinkButton" id="logout">
+                <property name="label" translatable="yes">Logout</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="has_tooltip">True</property>
-                <property name="label" translatable="yes">Logout</property>
-                <property name="relief">GTK_RELIEF_NONE</property>
-                <property name="response_id">0</property>
+                <property name="relief">none</property>
                 <signal name="clicked" handler="on_logout_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="padding">5</property>
-                <property name="pack_type">GTK_PACK_END</property>
+                <property name="pack_type">end</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -279,7 +282,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="padding">5</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -288,7 +291,7 @@
   </widget>
   <widget class="GtkWindow" id="options_window">
     <property name="title" translatable="yes">mtp-lastfm - Settings</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">center</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <signal name="delete_event" handler="on_options_window_destroy"/>
@@ -297,7 +300,7 @@
         <property name="visible">True</property>
         <property name="border_width">17</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">GTK_SHADOW_NONE</property>
+        <property name="shadow_type">none</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
@@ -307,7 +310,7 @@
                 <property name="visible">True</property>
                 <property name="border_width">1</property>
                 <property name="label_xalign">0</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkAlignment" id="alignment1">
                     <property name="visible">True</property>
@@ -317,20 +320,23 @@
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkRadioButton" id="random">
+                            <property name="label" translatable="yes">Random</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Random</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="alphabetical">
+                            <property name="label" translatable="yes">Alphabetical</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Alphabetical</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">random</property>
                           </widget>
@@ -361,28 +367,31 @@
               <widget class="GtkFrame" id="frame2">
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkVBox" id="vbox9">
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkRadioButton" id="auto_time">
+                        <property name="label" translatable="yes">Calculate scrobble time to finish "Now"</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Calculate scrobble time to finish "Now"</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">manual_time</property>
                         <signal name="toggled" handler="on_auto_time_toggled"/>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="manual_time">
+                        <property name="label" translatable="yes">Set time manually</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Set time manually</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -400,6 +409,9 @@
                             <property name="adjustment">7 1 100 0.5 10 0</property>
                             <property name="digits">1</property>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkLabel" id="label3">
@@ -417,10 +429,10 @@
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="use_default_time">
+                        <property name="label" translatable="yes">Always use default time</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Always use default time</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -448,25 +460,28 @@
               <widget class="GtkFrame" id="frame3">
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkVBox" id="vbox10">
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkCheckButton" id="startup_check">
+                        <property name="label" translatable="yes">Connect to device on startup</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Connect to device on startup</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="auto_scrobble">
+                        <property name="label" translatable="yes">Scrobble automatically after device check (Leave unchecked to love/ban tracks)</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Scrobble automatically after device check (Leave unchecked to love/ban tracks)</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -494,19 +509,21 @@
               <widget class="GtkFrame" id="frame4">
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkHBox" id="hbox3">
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkButton" id="reset_db">
+                        <property name="label" translatable="yes">Reset Database</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">Reset Database</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_reset_db_clicked"/>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkLabel" id="label9">
@@ -539,23 +556,24 @@
                 <property name="visible">True</property>
                 <child>
                   <widget class="GtkButton" id="apply_options">
+                    <property name="label" translatable="yes">gtk-apply</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">gtk-apply</property>
                     <property name="use_stock">True</property>
-                    <property name="response_id">0</property>
                     <signal name="clicked" handler="on_apply_options_clicked"/>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="cancel_options">
+                    <property name="label" translatable="yes">gtk-cancel</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">gtk-cancel</property>
                     <property name="use_stock">True</property>
-                    <property name="response_id">0</property>
                     <signal name="clicked" handler="on_options_window_destroy"/>
                   </widget>
                   <packing>
@@ -576,7 +594,7 @@
             <property name="label" translatable="yes">&lt;b&gt;Options&lt;/b&gt;</property>
             <property name="use_markup">True</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
             <property name="type">label_item</property>
@@ -587,7 +605,7 @@
   </widget>
   <widget class="GtkWindow" id="login_window">
     <property name="title" translatable="yes">mtp-lastfm - Login</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">center</property>
     <property name="icon">mtp-lastfm.png</property>
     <signal name="destroy" handler="on_main_window_destroy"/>
     <child>
@@ -601,6 +619,7 @@
           </widget>
           <packing>
             <property name="padding">10</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
@@ -617,7 +636,7 @@
           <widget class="GtkLabel" id="login_error">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Please login to your last.fm account</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
             <property name="position">2</property>
@@ -638,6 +657,9 @@
                     <property name="xalign">0.43999999761581421</property>
                     <property name="label" translatable="yes">username:</property>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkEntry" id="username_entry">
@@ -653,6 +675,7 @@
               </widget>
               <packing>
                 <property name="padding">5</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -664,6 +687,9 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">password:</property>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkEntry" id="password_entry">
@@ -689,24 +715,24 @@
                 <property name="border_width">17</property>
                 <child>
                   <widget class="GtkCheckButton" id="remember_password">
+                    <property name="label" translatable="yes">Remember me?</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Remember me?</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="padding">5</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="login">
+                    <property name="label" translatable="yes">Login</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">Login</property>
-                    <property name="response_id">0</property>
                     <signal name="clicked" handler="on_login_clicked"/>
                   </widget>
                   <packing>
@@ -730,15 +756,14 @@
   <widget class="GtkAboutDialog" id="about_dialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">About mtp-lastfm</property>
-    <property name="resizable">False</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
+    <property name="window_position">center-on-parent</property>
     <property name="icon">mtp-lastfm.png</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <property name="program_name">MTP-Lastfm</property>
     <property name="comments" translatable="yes">mtp-lastfm tracks your listening habits on your mtp device and uploads them to last.fm</property>
-    <property name="website">http://github.com/woodenbrick/mtp-lastfm/tree/master</property>
-    <property name="website_label" translatable="yes">Source Repository</property>
+    <property name="website">https://launchpad.net/mtp-lastfm</property>
+    <property name="website_label" translatable="yes">Launchpad Homepage</property>
     <property name="license" translatable="yes">MTP-Lastfm is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 MTP-Lastfm is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
@@ -756,16 +781,71 @@ Oliver Weise (de)</property>
         <property name="visible">True</property>
         <property name="spacing">2</property>
         <child>
-          <placeholder/>
+          <widget class="GtkVBox" id="link-vbox1">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <widget class="GtkLinkButton" id="git-link">
+                <property name="label" translatable="yes">Git-repository for sources</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="relief">none</property>
+                <property name="uri">http://github.com/woodenbrick/mtp-lastfm/tree/master</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLinkButton" id="bug-report-link">
+                <property name="label" translatable="yes">Report a bug</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="relief">none</property>
+                <property name="uri">https://bugs.launchpad.net/mtp-lastfm/+filebug</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLinkButton" id="blueprint-link">
+                <property name="label" translatable="yes">Suggest a new feature</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="relief">none</property>
+                <property name="uri">https://blueprints.launchpad.net/mtp-lastfm</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">2</property>
+          </packing>
         </child>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -775,8 +855,8 @@ Oliver Weise (de)</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">mtp-lastfm - Scrobbling</property>
     <property name="modal">True</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ALWAYS</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
@@ -790,6 +870,9 @@ Oliver Weise (de)</property>
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Enter the time (in hours) that you wish to start scrobbling from:</property>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkSpinButton" id="scrobble_time_manual">
@@ -809,18 +892,17 @@ Oliver Weise (de)</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area2">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <placeholder/>
             </child>
             <child>
               <widget class="GtkButton" id="scrobble_time_entered">
+                <property name="label" translatable="yes">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-ok</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="on_scrobble_time_entered_clicked"/>
               </widget>
               <packing>
@@ -832,7 +914,8 @@ Oliver Weise (de)</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -841,8 +924,8 @@ Oliver Weise (de)</property>
   <widget class="GtkDialog" id="db_clear_dialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">mtp-lastfm - Clear Database</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ALWAYS</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NOTIFICATION</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">notification</property>
     <property name="urgency_hint">True</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -867,30 +950,29 @@ you have formatted your device.</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area3">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="apply_db_clear">
+                <property name="label" translatable="yes">gtk-apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-apply</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="db_clear_activate"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkButton" id="cancel_db_clear">
+                <property name="label" translatable="yes">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-cancel</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
                 <signal name="clicked" handler="db_clear_activate"/>
               </widget>
               <packing>
@@ -903,7 +985,8 @@ you have formatted your device.</property>
           <packing>
             <property name="expand">False</property>
             <property name="padding">10</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
