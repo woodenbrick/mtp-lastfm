@@ -128,12 +128,11 @@ class MTPLastfmGTK:
         progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
         progress_bar.set_vars(pulse_mode=True)
         progress_bar.start()
-
+        libmtp_error = False
         if not self.test_mode:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
             start_time = time.time()
-            libmtp_error = False
             conn.daemon = True
             conn.start()
             while conn.isAlive():
@@ -165,6 +164,8 @@ class MTPLastfmGTK:
                 song_obj.check_new_data(line)
                 progress_bar.current_progress += 1
             progress_bar.delayed_stop(300)
+            #feed song_obj a new Track so it checks for the last song
+            song_obj.check_new_data("Track ID: 0\n") 
 
             self.song_db.pending_scrobble_list = None
             self.write_info(_pl("%(num)d track checked", "%(num)d tracks checked",
@@ -232,6 +233,7 @@ class MTPLastfmGTK:
         self.scrobbler = scrobbler.Scrobbler(self)
         if self.test_mode:
             server_response = "OK"
+            msg = "This is the test version, scrobbling is disabled"
         else:
             server_response, msg = self.scrobbler.handshake()
         self.tree.get_widget("login_window").set_sensitive(True)
@@ -332,8 +334,8 @@ class MTPLastfmGTK:
         if clear_buffer is True:
             buffer.set_text(new_info)
         else:
-            #end = buffer.get_end_iter()
-            buffer.insert_at_cursor(new_line + new_info)
+            end = buffer.get_end_iter()
+            buffer.insert(end, new_line + new_info)
         
         #scroll window to the end
         scroller = self.tree.get_widget("scrolledwindow")
