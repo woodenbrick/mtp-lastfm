@@ -8,196 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-03 10:20+0300\n"
+"POT-Creation-Date: 2009-04-06 16:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: httprequest.py:49
-msgid "User authenticated"
-msgstr ""
-
-#: httprequest.py:50
-msgid "Username or password incorrect, please reset"
-msgstr ""
-
-#: httprequest.py:51
-msgid ""
-"This scrobbling client has been banned from submission, please notify the "
-"developer"
-msgstr ""
-
-#: httprequest.py:52
-msgid "Timestamp is incorrect, please check your clock settings"
-msgstr ""
-
-#: mtplastfm.py:76
-#, python-format
-msgid "Error messages will be logged in %s"
-msgstr ""
-
-#: mtplastfm.py:126
-msgid "Connecting to MTP device"
-msgstr ""
-
-#: mtplastfm.py:143
-msgid ""
-"libmtp seems to be having trouble closing the session with your device and "
-"may need to be reset manually."
-msgstr ""
-
-#: mtplastfm.py:148
-msgid "Device not found."
-msgstr ""
-
-#: mtplastfm.py:152 mtplastfm.py:301
-msgid "Done."
-msgstr ""
-
-#: mtplastfm.py:153
-msgid "It is now safe to remove your device."
-msgstr ""
-
-#: mtplastfm.py:155
-msgid "Populating database for first time, may take a while..."
-msgstr ""
-
-#: mtplastfm.py:157
-msgid "Cross checking song data with local database..."
-msgstr ""
-
-#: mtplastfm.py:170
-#, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] ""
-msgstr[1] ""
-
-#: mtplastfm.py:173
-#, python-format
-msgid "%(num)d item was not added to your song database.\n"
-msgid_plural "%(num)d items were not added to your song database.\n"
-msgstr[0] ""
-msgstr[1] ""
-
-#: mtplastfm.py:229
-msgid "Authenticating..."
-msgstr ""
-
-#: mtplastfm.py:265
-#, python-format
-msgid "Scrobbling started %s hours ago"
-msgstr ""
-
-#: mtplastfm.py:284
-msgid "Sending love..."
-msgstr ""
-
-#: mtplastfm.py:292
-msgid "Ok."
-msgstr ""
-
-#: mtplastfm.py:373
-msgid "Database cleared"
-msgstr ""
-
-#: mtplastfm.py:392
-msgid "Error: Please enter a username and password"
-msgstr ""
-
-#: mtplastfm.py:410
-msgid "User database doesn't exist, creating."
-msgstr ""
-
-#: scrobbler.py:89
-#, python-format
-msgid "Preparing %(num)d track for scrobbling"
-msgid_plural "Preparing %(num)d tracks for scrobbling"
-msgstr[0] ""
-msgstr[1] ""
-
-#: scrobbler.py:131
-msgid "Sending tracks, waiting for reply..."
-msgstr ""
-
-#: scrobbler.py:135
-msgid "OK"
-msgstr ""
-
-#: scrobbler.py:138
-#, python-format
-msgid "Scrobbled %(num)d track"
-msgid_plural "Scrobbled %(num)d tracks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: scrobbler.py:142
-msgid "Nothing to scrobble."
-msgstr ""
-
-#: scrobbler.py:153
-msgid "There was an error sending data to last.fm:"
-msgstr ""
-
-#: songdata.py:39
-msgid "Track ID"
-msgstr ""
-
-#: songdata.py:39
-msgid "Title"
-msgstr ""
-
-#: songdata.py:40 songview.py:22
-msgid "Artist"
-msgstr ""
-
-#: songdata.py:40 songview.py:22
-msgid "Album"
-msgstr ""
-
-#: songdata.py:41
-msgid "Track number"
-msgstr ""
-
-#: songdata.py:42
-msgid "Duration"
-msgstr ""
-
-#: songdata.py:43
-msgid "User rating"
-msgstr ""
-
-#: songdata.py:44 songview.py:22
-msgid "Playcount"
-msgstr ""
-
-#: songdata.py:53
-msgid "Tracks that recently failed a validity check:\n"
-msgstr ""
-
-#: songdata.py:89
-msgid "None"
-msgstr ""
-
-#: songview.py:22
-msgid "Song"
-msgstr ""
-
-#: songview.py:22
-msgid "Rating"
-msgstr ""
-
-#: songview.py:186
-msgid "Authentication complete"
-msgstr ""
-
-#: webservices.py:94
-msgid "A problem occurred during authentication"
-msgstr ""
 
 #: glade/ban.glade.h:1
 msgid "Banned tracks"
@@ -277,19 +94,24 @@ msgstr ""
 
 #: glade/gui.glade.h:15
 msgid ""
-"If you continue everything will be cleared from your local database.  "
-"Usually you only want to do this if you have formatted your device."
-msgstr ""
-
-#: glade/gui.glade.h:16
-msgid "Login"
-msgstr ""
-
-#: glade/gui.glade.h:17
-msgid "Logout"
+"If you continue everything will be cleared from your\n"
+"local database.  Usually you only want to do this if\n"
+"you have formatted your device."
 msgstr ""
 
 #: glade/gui.glade.h:18
+msgid "Login"
+msgstr ""
+
+#: glade/gui.glade.h:19
+msgid "Logout"
+msgstr ""
+
+#: glade/gui.glade.h:20
+msgid "MTP-Lastfm"
+msgstr ""
+
+#: glade/gui.glade.h:21
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -305,38 +127,26 @@ msgid ""
 "MTP-Lastfm.  If not, see http://www.gnu.org/licenses/"
 msgstr ""
 
-#: glade/gui.glade.h:23
-msgid "Options"
-msgstr ""
-
-#: glade/gui.glade.h:24
+#: glade/gui.glade.h:26
 msgid "Please login to your last.fm account"
 msgstr ""
 
-#: glade/gui.glade.h:25
+#: glade/gui.glade.h:27
 msgid "Random"
 msgstr ""
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:28
 msgid "Remember me?"
 msgstr ""
 
-#: glade/gui.glade.h:27
-msgid "Remove database"
-msgstr ""
-
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:29
 msgid "Reset Database"
 msgstr ""
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:30
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
-msgstr ""
-
-#: glade/gui.glade.h:30
-msgid "Scrobble time"
 msgstr ""
 
 #: glade/gui.glade.h:31
@@ -360,20 +170,32 @@ msgid "gtk-ok"
 msgstr ""
 
 #: glade/gui.glade.h:36
-msgid "mtp-lastfm"
+msgid "mtp-lastfm - Clear Database"
 msgstr ""
 
 #: glade/gui.glade.h:37
+msgid "mtp-lastfm - Login"
+msgstr ""
+
+#: glade/gui.glade.h:38
+msgid "mtp-lastfm - Scrobbling"
+msgstr ""
+
+#: glade/gui.glade.h:39
+msgid "mtp-lastfm - Settings"
+msgstr ""
+
+#: glade/gui.glade.h:40
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
 msgstr ""
 
-#: glade/gui.glade.h:38
+#: glade/gui.glade.h:41
 msgid "password:"
 msgstr ""
 
-#: glade/gui.glade.h:39
+#: glade/gui.glade.h:42
 msgid "username:"
 msgstr ""
 
