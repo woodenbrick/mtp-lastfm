@@ -8,13 +8,167 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-06 16:09+0300\n"
+"POT-Creation-Date: 2009-04-06 16:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: httprequest.py:49
+msgid "User authenticated"
+msgstr ""
+
+#: httprequest.py:50
+msgid "Username or password incorrect, please reset"
+msgstr ""
+
+#: httprequest.py:51
+msgid ""
+"This scrobbling client has been banned from submission, please notify the "
+"developer"
+msgstr ""
+
+#: httprequest.py:52
+msgid "Timestamp is incorrect, please check your clock settings"
+msgstr ""
+
+#: mtplastfm.py:76
+#, python-format
+msgid "Error messages will be logged in %s"
+msgstr ""
+
+#: mtplastfm.py:126
+msgid "Connecting to MTP device"
+msgstr ""
+
+#: mtplastfm.py:142
+msgid ""
+"libmtp seems to be having trouble closing the session with your device and "
+"may need to be reset manually."
+msgstr ""
+
+#: mtplastfm.py:147
+msgid "Device not found."
+msgstr ""
+
+#: mtplastfm.py:151 mtplastfm.py:303
+msgid "Done."
+msgstr ""
+
+#: mtplastfm.py:152
+msgid "It is now safe to remove your device."
+msgstr ""
+
+#: mtplastfm.py:154
+msgid "Populating database for first time, may take a while..."
+msgstr ""
+
+#: mtplastfm.py:156
+msgid "Cross checking song data with local database..."
+msgstr ""
+
+#: mtplastfm.py:230
+msgid "Authenticating..."
+msgstr ""
+
+#: mtplastfm.py:267
+#, python-format
+msgid "Scrobbling started %s hours ago"
+msgstr ""
+
+#: mtplastfm.py:286
+msgid "Sending love..."
+msgstr ""
+
+#: mtplastfm.py:294
+msgid "Ok."
+msgstr ""
+
+#: mtplastfm.py:375
+msgid "Database cleared"
+msgstr ""
+
+#: mtplastfm.py:394
+msgid "Error: Please enter a username and password"
+msgstr ""
+
+#: mtplastfm.py:412
+msgid "User database doesn't exist, creating."
+msgstr ""
+
+#: scrobbler.py:131
+msgid "Sending tracks, waiting for reply..."
+msgstr ""
+
+#: scrobbler.py:135
+msgid "OK"
+msgstr ""
+
+#: scrobbler.py:142
+msgid "Nothing to scrobble."
+msgstr ""
+
+#: scrobbler.py:153
+msgid "There was an error sending data to last.fm:"
+msgstr ""
+
+#: songdata.py:39
+msgid "Track ID"
+msgstr ""
+
+#: songdata.py:39
+msgid "Title"
+msgstr ""
+
+#: songdata.py:40 songview.py:22
+msgid "Artist"
+msgstr ""
+
+#: songdata.py:40 songview.py:22
+msgid "Album"
+msgstr ""
+
+#: songdata.py:41
+msgid "Track number"
+msgstr ""
+
+#: songdata.py:42
+msgid "Duration"
+msgstr ""
+
+#: songdata.py:43
+msgid "User rating"
+msgstr ""
+
+#: songdata.py:44 songview.py:22
+msgid "Playcount"
+msgstr ""
+
+#: songdata.py:53
+msgid "Tracks that recently failed a validity check:\n"
+msgstr ""
+
+#: songdata.py:89
+msgid "None"
+msgstr ""
+
+#: songview.py:22
+msgid "Song"
+msgstr ""
+
+#: songview.py:22
+msgid "Rating"
+msgstr ""
+
+#: songview.py:186
+msgid "Authentication complete"
+msgstr ""
+
+#: webservices.py:94
+msgid "A problem occurred during authentication"
+msgstr ""
 
 #: glade/ban.glade.h:1
 msgid "Banned tracks"
