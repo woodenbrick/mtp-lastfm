@@ -20,6 +20,15 @@ Apart from mtp-tools and python-elementtree these should be installed by default
 
 To run, type: mtp-lastfm
 
+Compatible with:
+* Creative Zen
+* Creative Zen V
+
+Incompatible with:
+* iRiver Clix2 
+
+If your device is not listed, please let me know the results so I can add it to the list. Anything that keeps track of the playcount and can be connected with libmtp should work.
+
 
 Screenshots:
 
