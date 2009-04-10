@@ -35,6 +35,7 @@ import songview
 import webservices
 from progressbar import ProgressBar
 from options import Options
+import id3tagger
 
 import localisation
 _ = localisation.set_get_text()
@@ -174,6 +175,8 @@ class MTPLastfmGTK:
                 self.write_info(_pl("%(num)d item was not added to your song database.\n",
                                     "%(num)d items were not added to your song database.\n",
                                     song_obj.error_count) % {"num" : song_obj.error_count})
+                self.song_obj_log = song_obj.log
+                
                 buffer = self.tree.get_widget("info").get_buffer()
                 iter = buffer.get_end_iter()
                 anchor = buffer.create_child_anchor(iter)
@@ -189,11 +192,8 @@ class MTPLastfmGTK:
                 
     
     def show_error_details(self, widget, data):
-        tree = gtk.glade.XML(self.GLADE['log'])
-        f = open(self.HOME_DIR + "db.log", "r").read()
-        self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
-                        clear_buffer=True)
-        tree.get_widget("window").show()
+        id3 = id3tagger.Tagger(self.GLADE['log'], self.song_obj_log)
+        
     
     def set_button_count(self):
         """Checks if we should set a value for a button or disable it"""
@@ -485,5 +485,5 @@ class MTPLastfmGTK:
             self.tree.get_widget("about_dialog").hide()
 
 if __name__ == "__main__":
-    mtp = MTPLastfmGTK(("Daniel",), "dev")
+    mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)
     gtk.main()

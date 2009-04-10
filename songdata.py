@@ -42,18 +42,7 @@ class SongData(object):
                                      'Duration:' : _('Duration'),
                                      'User rating:' : _('User rating'),
                                      'Use count:' : _('Playcount')}
-        
-        #we will clear this log once per day
-        try:
-            mod_time = os.path.getmtime(path + "db.log")
-        except OSError:
-            mod_time = 86401
-        if time.time() - mod_time > 86400:
-            self.log = open(path + "db.log", "w")
-            self.log.write(_("Tracks that recently failed a validity check:\n"))
-        else:
-            self.log = open(path + 'db.log', "a")
-
+        self.log = []
         self.song_count = 0
         self.error_count = 0
         
@@ -83,14 +72,10 @@ class SongData(object):
             pass
     
     def log_data(self):
-        log_data = "\n"
         for key, value in self.required_data.iteritems():
             if value == False:
-                val = _("None")
-            else:
-                val = value
-            log_data += self.required_data_locale[key] + ": " + str(val) + "\n"
-        self.log.write(log_data)
+                self.required_data[key] = _("")
+        self.log.append(dict(self.required_data))
 
     
     def add_new_data(self, key, value):
@@ -112,6 +97,9 @@ class SongData(object):
                     continue
                 else:
                     return False
+        if self.required_data["Artist:"] == "Unknown artist":
+            self.required_data["Artist:"] = ""
+            return False
         return True
                 
 
