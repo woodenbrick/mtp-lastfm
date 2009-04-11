@@ -62,7 +62,7 @@ class MTPLastfmGTK:
         self.MAIN_PATH = get_path()
 
         self.GLADE = {}
-        for file in "gui cache ban love log".split(" "):
+        for file in "gui cache ban love log tag".split(" "):
             self.GLADE[file] = os.path.join(self.MAIN_PATH, "glade", file + ".glade")
             
         try:
@@ -485,5 +485,5 @@ class MTPLastfmGTK:
             self.tree.get_widget("about_dialog").hide()
 
 if __name__ == "__main__":
-    mtp = MTPLastfmGTK(("Daniel",), "dev")
+    mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)
     gtk.main()

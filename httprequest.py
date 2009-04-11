@@ -29,11 +29,13 @@ class HttpRequest(object):
         self.request = urllib2.Request(url, data)
         socket.setdefaulttimeout(timeout)
 
-    def connect(self):
+    def connect(self, xml=False):
         """Connects to last.fm returns a tuple (bool connection_success, str msg)"""
         response = []
         try:
             conn = urllib2.urlopen(self.request)
+            if xml:
+                return conn
             for line in conn.readlines():
                 response.append(line.strip())
             if response[0] == "OK":
@@ -42,7 +44,10 @@ class HttpRequest(object):
              response.append(error)
         except httplib.BadStatusLine:
              response = response.append("Bad status line")
+        if xml:
+            return False
         return False, response
+
 
     def handshake_response(self, response):
         responses = {
