@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Apr 11 15:40:30 2009 -->
+<!--Generated with glade3 3.4.5 on Sat Apr 11 19:57:53 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="window">
     <property name="width_request">500</property>
@@ -58,6 +58,15 @@
           </widget>
           <packing>
             <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="tag_status">
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -122,7 +131,7 @@
             </child>
           </widget>
           <packing>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -191,11 +200,8 @@
           </widget>
           <packing>
             <property name="padding">20</property>
-            <property name="position">5</property>
+            <property name="position">6</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </widget>
     </child>
