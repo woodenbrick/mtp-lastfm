@@ -53,7 +53,6 @@ class LastfmTagger(object):
         
     def set_tag_info(self, widget):
         cur = self.combobox.get_active_text()
-        gobject.timeout_add(100, self.update_tag_status)
         if cur == "Artist":
             #Translators:
             #sentence will be on the form of:
@@ -92,17 +91,6 @@ class LastfmTagger(object):
             liststore.append([tag])
         self.wTree.get_widget("popular_treeview").set_model(liststore)
         
-        
-    def update_tag_status(self):
-        text = self.wTree.get_widget("tag_status").get_text()
-        dots = 0
-        for char in text:
-            if char == ".":
-                dots +=1
-        if dots == 3:
-            dots = 0
-        dots = "." * dots
-        self.wTree.get_widget("tag_status").set_text(_("Downloading tags from last.fm" + dots))
         
         
     def prepare_treeview(self, treeview):
