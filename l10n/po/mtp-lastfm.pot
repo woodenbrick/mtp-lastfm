@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-06 16:29+0300\n"
+"POT-Creation-Date: 2009-04-13 21:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,60 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: httprequest.py:49
+#: httprequest.py:54
 msgid "User authenticated"
 msgstr ""
 
-#: httprequest.py:50
+#: httprequest.py:55
 msgid "Username or password incorrect, please reset"
 msgstr ""
 
-#: httprequest.py:51
+#: httprequest.py:56
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
 msgstr ""
 
-#: httprequest.py:52
+#: httprequest.py:57
 msgid "Timestamp is incorrect, please check your clock settings"
+msgstr ""
+
+#: lastfmtagger.py:31
+msgid "Track"
+msgstr ""
+
+#: lastfmtagger.py:31 songdata.py:40 songview.py:39
+msgid "Artist"
+msgstr ""
+
+#: lastfmtagger.py:32 songdata.py:40 songview.py:39
+msgid "Album"
+msgstr ""
+
+#: lastfmtagger.py:68
+#, python-format
+msgid "Tagging %(type)s: %(name)s"
+msgstr ""
+
+#: lastfmtagger.py:75
+#, python-format
+msgid "Tagging %(type)s: %(name)s by %(artist)s"
+msgstr ""
+
+#: lastfmtagger.py:108
+msgid "Popular tags"
+msgstr ""
+
+#: lastfmtagger.py:110
+msgid "Your Tags"
+msgstr ""
+
+#: lastfmtagger.py:156
+msgid "Sending tags"
+msgstr ""
+
+#: lastfmtagger.py:161
+msgid "Tags sent"
 msgstr ""
 
 #: mtplastfm.py:76
@@ -122,14 +160,6 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: songdata.py:40 songview.py:22
-msgid "Artist"
-msgstr ""
-
-#: songdata.py:40 songview.py:22
-msgid "Album"
-msgstr ""
-
 #: songdata.py:41
 msgid "Track number"
 msgstr ""
@@ -142,7 +172,7 @@ msgstr ""
 msgid "User rating"
 msgstr ""
 
-#: songdata.py:44 songview.py:22
+#: songdata.py:44 songview.py:39
 msgid "Playcount"
 msgstr ""
 
@@ -154,19 +184,23 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: songview.py:22
+#: songview.py:39
 msgid "Song"
 msgstr ""
 
-#: songview.py:22
+#: songview.py:39
 msgid "Rating"
 msgstr ""
 
-#: songview.py:186
+#: songview.py:39
+msgid "Tag"
+msgstr ""
+
+#: songview.py:195
 msgid "Authentication complete"
 msgstr ""
 
-#: webservices.py:94
+#: webservices.py:104
 msgid "A problem occurred during authentication"
 msgstr ""
 
@@ -378,4 +412,16 @@ msgstr ""
 #: glade/love.glade.h:7
 msgid ""
 "mtp-lastfm must be authenticated by last.fm before you can love submissions"
+msgstr ""
+
+#: glade/tag.glade.h:1
+msgid "Enter your tags, seperated by commas:"
+msgstr ""
+
+#: glade/tag.glade.h:2
+msgid "Send Tags"
+msgstr ""
+
+#: glade/tag.glade.h:3
+msgid "gtk-close"
 msgstr ""
