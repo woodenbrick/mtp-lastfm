@@ -28,6 +28,8 @@ class LastfmTagger(object):
     
     def __init__(self, parent, artist, track, album):
         self.info = {"Track" : track, "Artist" : artist, "Album" : album }
+        self.info_tr = {"Track" : _("Track"), "Artist" : _("Artist"),
+                        "Album" : _("Album")} 
         self.username = parent.username
         self.sk = parent.session_key
         self.wTree = gtk.glade.XML(parent.GLADE['tag'])
@@ -44,7 +46,7 @@ class LastfmTagger(object):
     def fill_combo_box(self):
         holder = self.wTree.get_widget("combobox_holder")
         self.combobox = gtk.combo_box_new_text()
-        for key in self.info.keys():
+        for key in self.info_tr.keys():
             self.combobox.append_text(key)
         self.combobox.show()
         holder.pack_start(self.combobox)
@@ -53,19 +55,27 @@ class LastfmTagger(object):
         
     def set_tag_info(self, widget):
         cur = self.combobox.get_active_text()
+        #wtf, need sleep
+        for key, value in self.info_tr.items():
+            if value == cur:
+                cur = self.info[key]
+                break
+            
         if cur == "Artist":
-            #Translators:
-            #sentence will be on the form of:
-            # "Tagging Artist <name of artist>"
-            self.wTree.get_widget("tag_info").set_text(_("Tagging %s: %s") %
-                                                       (cur, self.info[cur]))
+            #. Translators:
+            #. sentence will be on the form of:
+            #. "Tagging Artist <name of artist>"
+            self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s") %
+                                                       {"type": self.info_tr[cur],
+                                                        "name" : self.info[cur]}) 
         else:
-            #Translators:
-            # "Tagging Album <name of album> by Artist"
-            # "Tagging Track <name of track> by Artist"
-            self.wTree.get_widget("tag_info").set_text(_("Tagging %s: %s by %s") %
-                                                       (cur, self.info[cur],
-                                                       self.info['Artist']))
+            #. Translators:
+            #. "Tagging Album <name of album> by Artist"
+            #. "Tagging Track <name of track> by Artist"
+            self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s by %(artist)s") %
+                                                       {"type" : self.info_tr[cur],
+                                                        "name" : self.info[cur],
+                                                        "artist" : self.info['Artist']})
         while gtk.events_pending():
             gtk.main_iteration()
         #get popular tags and tags that the user has already used
