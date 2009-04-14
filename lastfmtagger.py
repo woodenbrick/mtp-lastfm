@@ -55,16 +55,16 @@ class LastfmTagger(object):
         cur_key = self.combobox.get_active_text()
             
         if cur_key == _("Artist"):
-            #. Translators:
-            #. sentence will be on the form of:
-            #. "Tagging Artist <name of artist>"
+            #.Translators:
+            #sentence will be on the form of:
+            #"Tagging Artist <name of artist>"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s") %
                                                        {"type": cur_key,
                                                         "name" : self.info[cur_key]}) 
         else:
-            #. Translators:
-            #. "Tagging Album <name of album> by Artist"
-            #. "Tagging Track <name of track> by Artist"
+            #.Translators:
+            #"Tagging Album <name of album> by Artist"
+            #"Tagging Track <name of track> by Artist"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s by %(artist)s") %
                                                        {"type" : cur_key,
                                                         "name" : self.info[cur_key],
