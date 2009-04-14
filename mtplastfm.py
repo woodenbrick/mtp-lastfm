@@ -62,9 +62,8 @@ class MTPLastfmGTK:
         self.MAIN_PATH = get_path()
 
         self.GLADE = {}
-        for file in "gui cache ban love log tag".split(" "):
+        for file in ["gui", "log", "tag"]:
             self.GLADE[file] = os.path.join(self.MAIN_PATH, "glade", file + ".glade")
-            
         try:
             os.mkdir(self.HOME_DIR)
         except OSError:
@@ -322,7 +321,7 @@ class MTPLastfmGTK:
         classes = {"love" : songview.LovedWindow,
                    "ban" : songview.BannedWindow,
                    "cache" : songview.CacheWindow}
-        new_window = classes[widget.name](self.GLADE[widget.name], self.song_db, self)
+        new_window = classes[widget.name](self.song_db, self)
 
 
     def write_info(self, new_info, text_widget="Default",
@@ -357,12 +356,13 @@ class MTPLastfmGTK:
             except AttributeError:
                 self.tree.get_widget(o).set_value(self.options.return_option(o))
         #not sure why, but setting a value of 0 to a radio button doesnt seem to work
-        #x = self.options.return_option("auto_time")
-        #self.tree.get_widget("manual_time").set_active(not x)
         self.on_auto_time_toggled(None)
-        response = self.options_window.show()
-        if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
-            self.options_window.hide()
+        #check if authenticated
+        if self.session_key:
+            self.tree.get_widget("auth_label").set_text(_("User authenticated"))
+            self.tree.get_widget("authenticate").hide()
+        self.options_window.show()
+
         
     def on_reset_db_clicked(self, widget):
         response = self.tree.get_widget("db_clear_dialog").run()
@@ -418,7 +418,6 @@ class MTPLastfmGTK:
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
             self.on_check_device_clicked(None)
-
         
         
     def on_username_entry_insert_text(self, widget):
@@ -477,6 +476,24 @@ class MTPLastfmGTK:
         self.tree.get_widget("use_default_time").set_sensitive(auto_active)
         self.tree.get_widget("scrobble_time").set_sensitive(auto_active)
         
+    def on_authenticate_clicked(self, widget):
+        text = _("Please authenticate MTP-Lastfm in your web browser.  This is required if you wish to love/tag tracks.  After the authentication is complete click OK")
+        message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
+                                    gtk.BUTTONS_OK_CANCEL, text)
+        webservice = webservices.LastfmWebService()
+        token = webservice.request_session_token()
+        webservice.request_authorisation(token)
+        resp = message.run()
+        if resp == gtk.RESPONSE_OK:
+            valid, session_key = webservice.create_web_service_session(token)
+            if valid is True:
+                self.usersDB.add_key(self.username, session_key)
+                self.tree.get_widget("auth_label").set_text(_("Authentication complete"))
+                self.tree.get_widget("authenticate").hide()
+                self.session_key = session_key
+            else:
+                self.tree.get_widget("auth_label").set_text(session_key)
+        message.destroy()
     
     #About Window
     def on_about_clicked(self, widget):
