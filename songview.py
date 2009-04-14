@@ -19,9 +19,6 @@ import os
 import gtk
 import pygtk
 pygtk.require("2.0")
-import time
-import webservices
-import gobject
 
 import localisation
 import lastfmtagger
@@ -176,23 +173,23 @@ class Songview(object):
 class CacheWindow(Songview):
     def __init__(self, db, parent):
         Songview.__init__(self, db, parent)
+        self.window.show()
         data = self.db.return_unique_scrobbles().fetchall()
         self.fill_liststore(data)
         self.append_columns()
         self.right_click_menu = self.create_right_click_menu("love", "ban",
                                                              "dont-scrobble", "tag")
-        self.window.show()
 
     
 class LovedWindow(Songview):
     def __init__(self, db, parent):
         Songview.__init__(self, db, parent)
-        self.set_love_auth_state()
         data = self.db.return_pending_love().fetchall()
         self.fill_liststore(data)
         self.right_click_menu = self.create_right_click_menu("love-remove", "tag")
         self.append_columns()
-        
+        self.window.show()
+
     def on_change_marking_activate(self, widget):
         #this is overridden so we can remove anything that was in the love_cache
         marking = self.get_marking(widget.name)
@@ -216,3 +213,4 @@ class BannedWindow(Songview):
         self.fill_liststore(data)
         self.right_click_menu = self.create_right_click_menu("ban-remove", "tag")
         self.append_columns()
+        self.window.show()
