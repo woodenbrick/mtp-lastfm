@@ -27,9 +27,7 @@ _ = localisation.set_get_text()
 class LastfmTagger(object):
     
     def __init__(self, parent, artist, track, album):
-        self.info = {"Track" : track, "Artist" : artist, "Album" : album }
-        self.info_tr = {"Track" : _("Track"), "Artist" : _("Artist"),
-                        "Album" : _("Album")} 
+        self.info = {_("Track") : track, _("Artist") : artist, _("Album") : album }
         self.username = parent.username
         self.sk = parent.session_key
         self.wTree = gtk.glade.XML(parent.GLADE['tag'])
@@ -46,7 +44,7 @@ class LastfmTagger(object):
     def fill_combo_box(self):
         holder = self.wTree.get_widget("combobox_holder")
         self.combobox = gtk.combo_box_new_text()
-        for key in self.info_tr.keys():
+        for key in self.info.keys():
             self.combobox.append_text(key)
         self.combobox.show()
         holder.pack_start(self.combobox)
@@ -54,28 +52,23 @@ class LastfmTagger(object):
         self.combobox.connect("changed", self.set_tag_info)
         
     def set_tag_info(self, widget):
-        cur = self.combobox.get_active_text()
-        #wtf, need sleep
-        for key, value in self.info_tr.items():
-            if value == cur:
-                cur = self.info[key]
-                break
+        cur_key = self.combobox.get_active_text()
             
-        if cur == "Artist":
+        if cur_key == _("Artist"):
             #. Translators:
             #. sentence will be on the form of:
             #. "Tagging Artist <name of artist>"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s") %
-                                                       {"type": self.info_tr[cur],
-                                                        "name" : self.info[cur]}) 
+                                                       {"type": cur_key,
+                                                        "name" : self.info[cur_key]}) 
         else:
             #. Translators:
             #. "Tagging Album <name of album> by Artist"
             #. "Tagging Track <name of track> by Artist"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s by %(artist)s") %
-                                                       {"type" : self.info_tr[cur],
-                                                        "name" : self.info[cur],
-                                                        "artist" : self.info['Artist']})
+                                                       {"type" : cur_key,
+                                                        "name" : self.info[cur_key],
+                                                        "artist" : self.info[_('Artist')]})
         while gtk.events_pending():
             gtk.main_iteration()
         #get popular tags and tags that the user has already used
@@ -90,12 +83,12 @@ class LastfmTagger(object):
                 liststore.append([tag])
             self.wTree.get_widget("your_treeview").set_model(liststore)
             
-        if cur == "Album":
+        if cur_key == _("Album"):
             self.wTree.get_widget("popular_treeview").set_sensitive(False)
             return
         
         self.wTree.get_widget("popular_treeview").set_sensitive(True)
-        popular_tags = conn.get_popular_tags(cur.lower() + ".gettoptags", self.info)
+        popular_tags = conn.get_popular_tags(cur_key.lower() + ".gettoptags", self.info)
         liststore = gtk.ListStore(str)
         for tag in popular_tags:
             liststore.append([tag])
@@ -154,11 +147,12 @@ class LastfmTagger(object):
     def on_send_tags_clicked(self, widget):
         tags = self.sanitise_tags()    
         self.wTree.get_widget("tag_info").set_text(_("Sending tags"))
-        cur = self.combobox.get_active_text()
-        method = cur.lower() + ".addtags"
+        cur_key = self.combobox.get_active_text()
+        method = cur_key.lower() + ".addtags"
         conn = webservices.LastfmWebService()
         conn.send_tags(method, self.info, ",".join(tags), self.sk)
         self.wTree.get_widget("tag_info").set_text(_("Tags sent"))
+        self.buffer.set_text("")
     
     def on_window_destroy(self, widget):
         self.wTree.get_widget("window").destroy()
