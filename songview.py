@@ -171,7 +171,7 @@ class Songview(object):
 
 class CacheWindow(Songview):
     def __init__(self, db, parent):
-        self.title = _("Cached Tracks")
+        self.title = _("Cached tracks")
         self.icon = "cache.png"
         Songview.__init__(self, db, parent)
         self.window.show()
@@ -184,7 +184,7 @@ class CacheWindow(Songview):
     
 class LovedWindow(Songview):
     def __init__(self, db, parent):
-        self.title = _("Loved Tracks")
+        self.title = _("Loved tracks")
         self.icon = "love.png"
         Songview.__init__(self, db, parent)
         data = self.db.return_pending_love().fetchall()
@@ -211,7 +211,7 @@ class LovedWindow(Songview):
 
 class BannedWindow(Songview):
     def __init__(self, db, parent):
-        self.title = _("Banned Tracks")
+        self.title = _("Banned tracks")
         self.icon = "ban.png"
         Songview.__init__(self, db, parent)
         data = self.db.return_tracks("B").fetchall()
