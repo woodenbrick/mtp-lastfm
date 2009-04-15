@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-15 12:14+0300\n"
+"POT-Creation-Date: 2009-04-15 21:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,15 +235,15 @@ msgid "Rating"
 msgstr ""
 
 #: songview.py:174
-msgid "Cached Tracks"
+msgid "Cached tracks"
 msgstr ""
 
 #: songview.py:187
-msgid "Loved Tracks"
+msgid "Loved tracks"
 msgstr ""
 
 #: songview.py:214
-msgid "Banned Tracks"
+msgid "Banned tracks"
 msgstr ""
 
 #: webservices.py:104
@@ -319,7 +319,7 @@ msgid "Enter the time (in hours) that you wish to start scrobbling from:"
 msgstr ""
 
 #: glade/gui.glade.h:18
-msgid "Git-repository for sources"
+msgid "Git repository"
 msgstr ""
 
 #: glade/gui.glade.h:19
