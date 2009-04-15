@@ -37,17 +37,16 @@ class Songview(object):
             "love-remove" : _("Remove Love")}
         self.liststore = gtk.ListStore(int, str, str, str, gtk.gdk.Pixbuf, int)
         self.columns = ["Id", _("Artist"), _("Song"), _("Album"), _("Rating"), _("Playcount")]
-        self.tree_view = self.create_window("Generic Title", gtk.gdk.pixbuf_new_from_file(self.path + "cache.png"))
+        self.tree_view = self.create_window()
         self.tree_view.set_model(self.liststore)
         self.tree_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        #self.wTree.signal_autoconnect(self)
 
     
-    def create_window(self, title, icon):
+    def create_window(self):
         self.window = gtk.Window()
-        self.window.set_title(title)
+        self.window.set_title(self.title)
         self.window.set_position(gtk.WIN_POS_CENTER)
-        self.window.set_icon(icon)
+        self.window.set_icon(gtk.gdk.pixbuf_new_from_file(self.path + self.icon))
         self.window.set_default_size(1000, 600)
         self.window.connect("destroy", self.on_window_destroy)
         scroller = gtk.ScrolledWindow()
@@ -172,6 +171,8 @@ class Songview(object):
 
 class CacheWindow(Songview):
     def __init__(self, db, parent):
+        self.title = _("Cached Tracks")
+        self.icon = "cache.png"
         Songview.__init__(self, db, parent)
         self.window.show()
         data = self.db.return_unique_scrobbles().fetchall()
@@ -183,6 +184,8 @@ class CacheWindow(Songview):
     
 class LovedWindow(Songview):
     def __init__(self, db, parent):
+        self.title = _("Loved Tracks")
+        self.icon = "love.png"
         Songview.__init__(self, db, parent)
         data = self.db.return_pending_love().fetchall()
         self.fill_liststore(data)
@@ -208,6 +211,8 @@ class LovedWindow(Songview):
 
 class BannedWindow(Songview):
     def __init__(self, db, parent):
+        self.title = _("Banned Tracks")
+        self.icon = "ban.png"
         Songview.__init__(self, db, parent)
         data = self.db.return_tracks("B").fetchall()
         self.fill_liststore(data)
