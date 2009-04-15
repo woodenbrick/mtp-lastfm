@@ -42,7 +42,7 @@ class LastfmWebService(object):
         return self.parse_xml(conn, "token")
 
     def parse_xml(self, conn, tag):
-        """Searches an XML document for a tag and returns its value"""
+        """Searches an XML document for a single tag and returns its value"""
         tree = ET.parse(conn)
         iter = tree.getiterator()
         for child in iter:
@@ -53,6 +53,16 @@ class LastfmWebService(object):
             return token
         except:
             return False
+        
+    def parse_xml_doc(self, doc, tag):
+        """Search an XML doc for tags and returns them all as a list"""
+        tree = ET.parse(doc)
+        iter = tree.getiterator()
+        tags = []
+        for child in iter:
+            if child.tag == tag:
+                tags.append(child.text)
+        return tags
         
     def create_api_sig(self, dict):
         """dict is a dictionary of param_name : value sorted into the correct order"""
@@ -122,3 +132,71 @@ class LastfmWebService(object):
             return error 
         except httplib.BadStatusLine, error:
             return error
+        
+    def get_user_top_tags(self, username, limit=15):
+        #method user.getTopTags
+        #Params
+        #user (Required) : The user name
+        #limit (Optional) : Limit the number of tags returned 
+        #api_key (Required) : A Last.fm API key.
+        encoded_values = urllib.urlencode(
+            {"method" : "user.gettoptags",
+             "user" : username,
+             "limit" : limit,
+             "api_key" : self.api_key}
+            )
+        url = self.url + "?" + encoded_values
+        conn = HttpRequest(url) 
+        xml_doc = conn.connect(xml=True)
+        return self.parse_xml_doc(xml_doc, "name")
+    
+    def get_popular_tags(self, method, info_dict):
+        """method is either artist.gettoptags or track.gettoptags"""
+        #Params
+        #track (Optional) : The track name in question
+        #artist (Required) : The artist name in question
+        #api_key (Required) : A Last.fm API key.
+        dict = {"method" : method,
+             "artist" : info_dict['Artist'],
+             "api_key" : self.api_key}
+        if method == "track.gettoptags":
+            dict['track'] = info_dict['Track']
+        encoded_values = urllib.urlencode(dict)
+        url = self.url + "?" + encoded_values
+        conn = HttpRequest(url) 
+        xml_doc = conn.connect(xml=True)
+        return self.parse_xml_doc(xml_doc, "name")
+    
+    
+    def send_tags(self, method, info, tags, sk):
+        """Sends tags to last.fm. method is one of:
+        album.addtags, artist.addtags or track.addtags
+        info_dict is the artist, track and album info
+        tags is a comma delimited list of no more than 10 tags"""
+        
+        #All methods require these parameters:
+        #tags (Required) : A comma delimited list of user supplied tags to apply
+        #to this album. Accepts a maximum of 10 tags.
+        #api_key (Required) : A Last.fm API key.
+        #api_sig (Required)
+        #sk (Required)
+        #artist (Required) : The artist name in question
+
+        post_values = {
+            "method" : method,
+            "tags" : tags,
+            "api_key" : self.api_key,
+            "sk" : sk,
+            "artist" : info['Artist']}
+
+        #these methods require additional info:
+        #album.addTags -> album
+        #track.addTags -> track
+        if method == "album.addtags":
+            post_values['album'] = info['Album']
+        if method == "track.addtags":
+            post_values['track'] = info['Track']
+        post_values['api_sig'] = self.create_api_sig(post_values)
+        conn = HttpRequest(self.url, urllib.urlencode(post_values))
+        response = conn.connect()
+ 
