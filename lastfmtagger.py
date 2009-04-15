@@ -63,7 +63,8 @@ class LastfmTagger(object):
                                                         "name" : self.info[cur_key]}) 
         else:
             #.Translators:
-            #"Tagging Album <name of album> by Artist"
+            #This takes the form of either:
+            #"Tagging Album <name of album> by Artist" or
             #"Tagging Track <name of track> by Artist"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s by %(artist)s") %
                                                        {"type" : cur_key,

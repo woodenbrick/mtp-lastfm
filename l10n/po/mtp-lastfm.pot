@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-13 21:57+0300\n"
+"POT-Creation-Date: 2009-04-15 12:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: httprequest.py:54
+#: httprequest.py:54 mtplastfm.py:362
 msgid "User authenticated"
 msgstr ""
 
@@ -34,93 +34,101 @@ msgstr ""
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr ""
 
-#: lastfmtagger.py:31
+#: lastfmtagger.py:30
 msgid "Track"
 msgstr ""
 
-#: lastfmtagger.py:31 songdata.py:40 songview.py:39
+#: lastfmtagger.py:30 lastfmtagger.py:57 lastfmtagger.py:72 songdata.py:40
+#: songview.py:39
 msgid "Artist"
 msgstr ""
 
-#: lastfmtagger.py:32 songdata.py:40 songview.py:39
+#: lastfmtagger.py:30 lastfmtagger.py:87 songdata.py:40 songview.py:39
 msgid "Album"
 msgstr ""
 
-#: lastfmtagger.py:68
+#. .Translators:
+#. sentence will be on the form of:
+#. "Tagging Artist <name of artist>"
+#: lastfmtagger.py:61
 #, python-format
 msgid "Tagging %(type)s: %(name)s"
 msgstr ""
 
-#: lastfmtagger.py:75
+#. .Translators:
+#. This takes the form of either:
+#. "Tagging Album <name of album> by Artist" or
+#. "Tagging Track <name of track> by Artist"
+#: lastfmtagger.py:69
 #, python-format
 msgid "Tagging %(type)s: %(name)s by %(artist)s"
 msgstr ""
 
-#: lastfmtagger.py:108
+#: lastfmtagger.py:102
 msgid "Popular tags"
 msgstr ""
 
-#: lastfmtagger.py:110
+#: lastfmtagger.py:104
 msgid "Your Tags"
 msgstr ""
 
-#: lastfmtagger.py:156
+#: lastfmtagger.py:150
 msgid "Sending tags"
 msgstr ""
 
-#: lastfmtagger.py:161
+#: lastfmtagger.py:155
 msgid "Tags sent"
 msgstr ""
 
-#: mtplastfm.py:76
+#: mtplastfm.py:75
 #, python-format
 msgid "Error messages will be logged in %s"
 msgstr ""
 
-#: mtplastfm.py:126
+#: mtplastfm.py:125
 msgid "Connecting to MTP device"
 msgstr ""
 
-#: mtplastfm.py:142
+#: mtplastfm.py:141
 msgid ""
 "libmtp seems to be having trouble closing the session with your device and "
 "may need to be reset manually."
 msgstr ""
 
-#: mtplastfm.py:147
+#: mtplastfm.py:146
 msgid "Device not found."
 msgstr ""
 
-#: mtplastfm.py:151 mtplastfm.py:303
+#: mtplastfm.py:150 mtplastfm.py:302
 msgid "Done."
 msgstr ""
 
-#: mtplastfm.py:152
+#: mtplastfm.py:151
 msgid "It is now safe to remove your device."
 msgstr ""
 
-#: mtplastfm.py:154
+#: mtplastfm.py:153
 msgid "Populating database for first time, may take a while..."
 msgstr ""
 
-#: mtplastfm.py:156
+#: mtplastfm.py:155
 msgid "Cross checking song data with local database..."
 msgstr ""
 
-#: mtplastfm.py:230
+#: mtplastfm.py:229
 msgid "Authenticating..."
 msgstr ""
 
-#: mtplastfm.py:267
+#: mtplastfm.py:266
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr ""
 
-#: mtplastfm.py:286
+#: mtplastfm.py:285
 msgid "Sending love..."
 msgstr ""
 
-#: mtplastfm.py:294
+#: mtplastfm.py:293
 msgid "Ok."
 msgstr ""
 
@@ -134,6 +142,16 @@ msgstr ""
 
 #: mtplastfm.py:412
 msgid "User database doesn't exist, creating."
+msgstr ""
+
+#: mtplastfm.py:480
+msgid ""
+"Please authenticate MTP-Lastfm in your web browser.  This is required if you "
+"wish to love/tag tracks.  After the authentication is complete click OK"
+msgstr ""
+
+#: mtplastfm.py:491
+msgid "Authentication complete"
 msgstr ""
 
 #: scrobbler.py:131
@@ -184,6 +202,30 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+#: songview.py:34
+msgid "Love"
+msgstr ""
+
+#: songview.py:34
+msgid "Ban"
+msgstr ""
+
+#: songview.py:35
+msgid "Don't Scrobble"
+msgstr ""
+
+#: songview.py:36
+msgid "Tag"
+msgstr ""
+
+#: songview.py:36
+msgid "Remove Ban"
+msgstr ""
+
+#: songview.py:37
+msgid "Remove Love"
+msgstr ""
+
 #: songview.py:39
 msgid "Song"
 msgstr ""
@@ -192,114 +234,134 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: songview.py:39
-msgid "Tag"
+#: songview.py:174
+msgid "Cached Tracks"
 msgstr ""
 
-#: songview.py:195
-msgid "Authentication complete"
+#: songview.py:187
+msgid "Loved Tracks"
+msgstr ""
+
+#: songview.py:214
+msgid "Banned Tracks"
 msgstr ""
 
 #: webservices.py:104
 msgid "A problem occurred during authentication"
 msgstr ""
 
-#: glade/ban.glade.h:1
-msgid "Banned tracks"
-msgstr ""
-
-#: glade/ban.glade.h:2
-msgid "Remove Ban"
-msgstr ""
-
-#: glade/cache.glade.h:1
-msgid "Banned"
-msgstr ""
-
-#: glade/cache.glade.h:2
-msgid "Don't Scrobble"
-msgstr ""
-
-#: glade/cache.glade.h:3
-msgid "Love"
-msgstr ""
-
 #: glade/gui.glade.h:1
-msgid "<b>Automation</b>"
+msgid "<b>Authentication</b>"
 msgstr ""
 
 #: glade/gui.glade.h:2
-msgid "<b>Database</b>"
+msgid "<b>Automation</b>"
 msgstr ""
 
 #: glade/gui.glade.h:3
-msgid "<b>MTP-Lastfm</b>"
+msgid "<b>Database</b>"
 msgstr ""
 
 #: glade/gui.glade.h:4
-msgid "<b>Options</b>"
+msgid "<b>MTP-Lastfm</b>"
 msgstr ""
 
 #: glade/gui.glade.h:5
-msgid "<b>Scrobble ordering</b>"
+msgid "<b>Options</b>"
 msgstr ""
 
 #: glade/gui.glade.h:6
-msgid "<b>Scrobble timing</b>"
+msgid "<b>Scrobble ordering</b>"
 msgstr ""
 
 #: glade/gui.glade.h:7
-msgid "About mtp-lastfm"
+msgid "<b>Scrobble timing</b>"
 msgstr ""
 
 #: glade/gui.glade.h:8
-msgid "Alphabetical"
+msgid "About MTP-Lastfm"
 msgstr ""
 
 #: glade/gui.glade.h:9
-msgid "Always use default time"
+msgid "Alphabetical"
 msgstr ""
 
 #: glade/gui.glade.h:10
-msgid "Calculate scrobble time to finish \"Now\""
+msgid "Always use default time"
 msgstr ""
 
 #: glade/gui.glade.h:11
-msgid "Clears your locally stored song data"
+msgid "Authenticate MTP-Lastfm to love/tag tracks"
 msgstr ""
 
 #: glade/gui.glade.h:12
-msgid "Connect to device on startup"
+msgid "Authenticate now"
 msgstr ""
 
 #: glade/gui.glade.h:13
-msgid "Default scrobble start time (Hours)"
+msgid "Calculate scrobble time to finish \"Now\""
 msgstr ""
 
 #: glade/gui.glade.h:14
-msgid "Enter the time (in hours) that you wish to start scrobbling from:"
+msgid "Clears your locally stored song data"
 msgstr ""
 
 #: glade/gui.glade.h:15
+msgid "Connect to device on startup"
+msgstr ""
+
+#: glade/gui.glade.h:16
+msgid "Default scrobble start time (Hours)"
+msgstr ""
+
+#: glade/gui.glade.h:17
+msgid "Enter the time (in hours) that you wish to start scrobbling from:"
+msgstr ""
+
+#: glade/gui.glade.h:18
+msgid "Git-repository for sources"
+msgstr ""
+
+#: glade/gui.glade.h:19
 msgid ""
 "If you continue everything will be cleared from your\n"
 "local database.  Usually you only want to do this if\n"
 "you have formatted your device."
 msgstr ""
 
-#: glade/gui.glade.h:18
+#: glade/gui.glade.h:22
+msgid "Launchpad Homepage"
+msgstr ""
+
+#: glade/gui.glade.h:23
 msgid "Login"
 msgstr ""
 
-#: glade/gui.glade.h:19
+#: glade/gui.glade.h:24
 msgid "Logout"
 msgstr ""
 
-#: glade/gui.glade.h:20
+#: glade/gui.glade.h:25
 msgid "MTP-Lastfm"
 msgstr ""
 
-#: glade/gui.glade.h:21
+#: glade/gui.glade.h:26
+msgid "MTP-Lastfm - Clear Database"
+msgstr ""
+
+#: glade/gui.glade.h:27
+msgid "MTP-Lastfm - Login"
+msgstr ""
+
+#: glade/gui.glade.h:28
+msgid "MTP-Lastfm - Scrobbling"
+msgstr ""
+
+#: glade/gui.glade.h:29
+msgid "MTP-Lastfm - Settings"
+msgstr ""
+
+#: glade/gui.glade.h:30
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -315,103 +377,68 @@ msgid ""
 "MTP-Lastfm.  If not, see http://www.gnu.org/licenses/"
 msgstr ""
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:35
 msgid "Please login to your last.fm account"
 msgstr ""
 
-#: glade/gui.glade.h:27
+#: glade/gui.glade.h:36
 msgid "Random"
 msgstr ""
 
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:37
 msgid "Remember me?"
 msgstr ""
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:38
+msgid "Report a bug"
+msgstr ""
+
+#: glade/gui.glade.h:39
 msgid "Reset Database"
 msgstr ""
 
-#: glade/gui.glade.h:30
+#: glade/gui.glade.h:40
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
 msgstr ""
 
-#: glade/gui.glade.h:31
+#: glade/gui.glade.h:41
 msgid "Set time manually"
 msgstr ""
 
-#: glade/gui.glade.h:32
-msgid "Source Repository"
+#: glade/gui.glade.h:42
+msgid "Suggest a new feature"
 msgstr ""
 
-#: glade/gui.glade.h:33
+#: glade/gui.glade.h:43
 msgid "gtk-apply"
 msgstr ""
 
-#: glade/gui.glade.h:34 glade/love.glade.h:5
+#: glade/gui.glade.h:44
 msgid "gtk-cancel"
 msgstr ""
 
-#: glade/gui.glade.h:35 glade/love.glade.h:6
+#: glade/gui.glade.h:45
 msgid "gtk-ok"
 msgstr ""
 
-#: glade/gui.glade.h:36
-msgid "mtp-lastfm - Clear Database"
-msgstr ""
-
-#: glade/gui.glade.h:37
-msgid "mtp-lastfm - Login"
-msgstr ""
-
-#: glade/gui.glade.h:38
-msgid "mtp-lastfm - Scrobbling"
-msgstr ""
-
-#: glade/gui.glade.h:39
-msgid "mtp-lastfm - Settings"
-msgstr ""
-
-#: glade/gui.glade.h:40
+#: glade/gui.glade.h:46
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
 msgstr ""
 
-#: glade/gui.glade.h:41
+#: glade/gui.glade.h:47
 msgid "password:"
 msgstr ""
 
-#: glade/gui.glade.h:42
+#: glade/gui.glade.h:48
 msgid "username:"
 msgstr ""
 
 #: glade/log.glade.h:1
 msgid "Song data log"
-msgstr ""
-
-#: glade/love.glade.h:1
-msgid "Authenticate now"
-msgstr ""
-
-#: glade/love.glade.h:2
-msgid "Loved tracks"
-msgstr ""
-
-#: glade/love.glade.h:3
-msgid ""
-"Please authenticate mtp-lastfm in your web browser.  This is required if you "
-"wish to love tracks.  After the authentication is complete click OK."
-msgstr ""
-
-#: glade/love.glade.h:4
-msgid "Remove Love"
-msgstr ""
-
-#: glade/love.glade.h:7
-msgid ""
-"mtp-lastfm must be authenticated by last.fm before you can love submissions"
 msgstr ""
 
 #: glade/tag.glade.h:1
