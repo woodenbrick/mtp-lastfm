@@ -1,0 +1,26 @@
+Changelog for MTP-Lastfm
+
+Release 0.81
+  * Added tagging support
+  * Italian translation
+
+Release 0.80
+  * scrobble with empty album or track number
+  * German translation
+
+Release 0.77
+  * Added localisation support
+  * Finnish translation
+
+Release 0.75
+  * Threaded connection with MTP device
+  * Progress bar added
+  * Timeout requests to last.fm if no response
+  * Added client identifier
+
+Release 0.71
+  * Fixed python2.6 unicode error
+
+Release 0.70
+  * Initial release to the public
+
