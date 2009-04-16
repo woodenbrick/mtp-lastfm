@@ -164,9 +164,13 @@ class Songview(object):
     def on_tag_activated(self, widget):
         """tagging is only applicable on a singular basis,
         so we only take the first row selected if we have multiples we disregard them"""
-        model, rows = self.tree_view.get_selection().get_selected_rows()
-        row = model[rows[0]]
-        lastfmtagger.LastfmTagger(self.parent, row[1], row[2], row[3])
+        #if the user hasnt authenticated mtp-lastfm do this instead
+        if self.parent.session_key:
+            model, rows = self.tree_view.get_selection().get_selected_rows()
+            row = model[rows[0]]
+            lastfmtagger.LastfmTagger(self.parent, row[1], row[2], row[3])
+        else:
+            self.parent.on_authenticate_clicked(None)
 
 
 class CacheWindow(Songview):

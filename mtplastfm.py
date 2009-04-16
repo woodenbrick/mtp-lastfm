@@ -477,6 +477,7 @@ class MTPLastfmGTK:
         self.tree.get_widget("scrobble_time").set_sensitive(auto_active)
         
     def on_authenticate_clicked(self, widget):
+        """This is the button in the options menu"""
         text = _("Please authenticate MTP-Lastfm in your web browser.  This is required if you wish to love/tag tracks.  After the authentication is complete click OK")
         message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
                                     gtk.BUTTONS_OK_CANCEL, text)
@@ -484,18 +485,24 @@ class MTPLastfmGTK:
         token = webservice.request_session_token()
         webservice.request_authorisation(token)
         resp = message.run()
+        message.destroy()
         if resp == gtk.RESPONSE_OK:
             valid, session_key = webservice.create_web_service_session(token)
             if valid is True:
                 self.usersDB.add_key(self.username, session_key)
-                self.tree.get_widget("auth_label").set_text(_("Authentication complete"))
+                self.tree.get_widget("auth_label").set_text(_("User authenticated"))
                 self.tree.get_widget("authenticate").hide()
                 self.session_key = session_key
+                text = _("Authentication complete")
             else:
                 self.tree.get_widget("auth_label").set_text(session_key)
-        message.destroy()
-    
-    #About Window
+                text = session_key
+            result = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
+                                    gtk.BUTTONS_OK, text)
+            result.run()
+            result.destroy()
+              
+              
     def on_about_clicked(self, widget):
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
