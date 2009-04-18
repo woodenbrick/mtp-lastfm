@@ -27,7 +27,9 @@ _ = localisation.set_get_text()
 class LastfmTagger(object):
     
     def __init__(self, parent, artist, track, album):
-        self.info = {_("Track") : track, _("Artist") : artist, _("Album") : album }
+        self.info = {"Track" : track,"Artist" : artist, "Album" : album }
+        self.trans_info = { _("Track") : "Track", _("Artist") : "Artist",
+                           _("Album") : "Album"}
         self.username = parent.username
         self.sk = parent.session_key
         self.wTree = gtk.glade.XML(parent.GLADE['tag'])
@@ -44,7 +46,7 @@ class LastfmTagger(object):
     def fill_combo_box(self):
         holder = self.wTree.get_widget("combobox_holder")
         self.combobox = gtk.combo_box_new_text()
-        for key in self.info.keys():
+        for key in self.trans_info.keys():
             self.combobox.append_text(key)
         self.combobox.show()
         holder.pack_start(self.combobox)
@@ -53,14 +55,14 @@ class LastfmTagger(object):
         
     def set_tag_info(self, widget):
         cur_key = self.combobox.get_active_text()
-            
-        if cur_key == _("Artist"):
+        key = self.trans_info[cur_key]
+        if key == "Artist":
             #.Translators:
             #sentence will be on the form of:
             #"Tagging Artist <name of artist>"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s") %
                                                        {"type": cur_key,
-                                                        "name" : self.info[cur_key]}) 
+                                                        "name" : self.info[key]}) 
         else:
             #.Translators:
             #This takes the form of either:
@@ -68,8 +70,8 @@ class LastfmTagger(object):
             #"Tagging Track <name of track> by Artist"
             self.wTree.get_widget("tag_info").set_text(_("Tagging %(type)s: %(name)s by %(artist)s") %
                                                        {"type" : cur_key,
-                                                        "name" : self.info[cur_key],
-                                                        "artist" : self.info[_('Artist')]})
+                                                        "name" : self.info[key],
+                                                        "artist" : self.info['Artist']})
         while gtk.events_pending():
             gtk.main_iteration()
         #get popular tags and tags that the user has already used
@@ -89,7 +91,7 @@ class LastfmTagger(object):
             return
         
         self.wTree.get_widget("popular_treeview").set_sensitive(True)
-        popular_tags = conn.get_popular_tags(cur_key.lower() + ".gettoptags", self.info)
+        popular_tags = conn.get_popular_tags(key.lower() + ".gettoptags", self.info)
         liststore = gtk.ListStore(str)
         for tag in popular_tags:
             liststore.append([tag])
