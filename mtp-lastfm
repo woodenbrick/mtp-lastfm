@@ -14,8 +14,8 @@ import localisation
 _ = localisation.set_get_text()
 from mtplastfm import MTPLastfmGTK
 
-__author__ = ("Daniel Woodhouse <wodemoneke@gmail.com>","Saku Laukkanen <saku.laukkanen@jakelupaketti.net>")
-__version__ = "0.81"
+__author__ = ("Daniel Woodhouse","Saku Laukkanen")
+__version__ = "0.81.2"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (__version__, ', '.join(__author__)))
 parser.add_option('--error-log', '-e', action="store_true", help=_("logs all stderr messages to ~/.mtp-lastfm/error.log")) 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Apr 15 12:53:47 2009 -->
+<!--Generated with glade3 3.4.5 on Sat Apr 18 15:57:17 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
@@ -849,9 +849,13 @@ You should have received a copy of the GNU General Public License along with MTP
     <property name="authors">Daniel Woodhouse
 Saku Laukkanen</property>
     <property name="documenters"></property>
-    <property name="translator_credits">Saku Laukkanen (fi)
-Oliver Weise (de)
-Davide Facoetti (it)</property>
+    <property name="translator_credits">Saku Laukkanen
+Oliver Weise
+Davide Facoetti
+Sebastian Baade</property>
+    <property name="artists">Daniel Woodhouse
+Oxygen Team
+Last.fm </property>
     <property name="logo">mtp-lastfm.png</property>
     <property name="wrap_license">True</property>
     <child internal-child="vbox">
