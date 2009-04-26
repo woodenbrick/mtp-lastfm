@@ -40,39 +40,19 @@ import localisation
 _ = localisation.set_get_text()
 _pl = localisation.set_get_text_plural()
 
-def get_path():
-    return os.path.dirname(__file__)
-
-        
+   
 def connect_to_mtp_device(filename):
     """Run in a seperate thread"""
     os.system("mtp-tracks > " + filename)
 
-
-
-
 class MTPLastfmGTK:
-    def __init__(self, author, version, error_log=False, test_mode=False):
+    def __init__(self, author, version, home, glade, test_mode=False):
         self.test_mode = test_mode
-        self.error_log = error_log
         self.author = author
         self.version = version
+        self.HOME_DIR = home
+        self.GLADE = glade
 
-        self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
-        self.MAIN_PATH = get_path()
-
-        self.GLADE = {}
-        for file in ["gui", "log", "tag"]:
-            self.GLADE[file] = os.path.join(self.MAIN_PATH, "glade", file + ".glade")
-        try:
-            os.mkdir(self.HOME_DIR)
-        except OSError:
-            pass
-        
-        if self.error_log:
-            log_file = self.HOME_DIR + "errors.log"
-            sys.stderr = open(log_file, 'a')
-            print _('Error messages will be logged in %s') % log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
 
