@@ -67,7 +67,35 @@ class lastfmDb_Users:
             return current_user
         else:
             return self.cursor.fetchall()
+        
+    def get_average_connection_time(self, user):
+        """Returns the average of the users previous MTP connection times"""
+        try:
+            self.cursor.execute("SELECT conn_count, total_time from connection_timer WHERE username=?", (user,))
+        except sqlite3.OperationalError:
+            self.cursor.execute("""
+                                CREATE TABLE IF NOT EXISTS `connection_timer` (
+                                `username` varchar(100) NOT NULL,
+                                `conn_count` integer(5) DEFAULT 0,
+                                `total_time` integer(10) DEFAULT 0)""")
+            self.db.commit()
+            return self.get_average_connection_time(user)
+        
+        avg = self.cursor.fetchone()
+        if avg is None:
+            self.cursor.execute("""INSERT INTO connection_timer (username) VALUES (?)""", (user,))
+            self.db.commit()
+            avg = (0, 0)
+        return avg
     
+    
+    def update_connection_time(self, user, count, total):
+        total = round(total)
+        self.cursor.execute("""UPDATE connection_timer set conn_count=?,
+                            total_time=? WHERE username=?""", (count, total, user))
+        self.db.commit()
+
+   
     def get_session_key(self, user):
         """Return the session key for user, or False if no key exists
         This is user to love submissions"""
