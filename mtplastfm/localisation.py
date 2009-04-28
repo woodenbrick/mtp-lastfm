@@ -19,7 +19,7 @@ import locale
 import gettext
 import gtk.glade
 
-APP_NAME = "mtplastfm"
+APP_NAME = "mtp-lastfm"
 local_path = "/usr/share/locale"
 langs = []
 lc, encoding = locale.getdefaultlocale()
