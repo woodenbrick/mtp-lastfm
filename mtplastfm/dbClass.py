@@ -17,7 +17,6 @@
 
 import os
 import sqlite3
-import md5
 import getpass
 
 

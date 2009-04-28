@@ -18,7 +18,7 @@
 import os
 import sys
 import re
-import md5
+import hashlib
 import gtk
 import pygtk
 import gtk.glade
@@ -385,7 +385,7 @@ class MTPLastfmGTK:
             login_error.set_text(_("Error: Please enter a username and password"))
         else:
             if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
-                self.password = md5.new(self.password).hexdigest()
+                self.password = hashlib.md5(self.password).hexdigest()
             if self.authenticate_user():
                 if remember_password is True:
                     self.usersDB.update_user(self.username, self.password)
