@@ -18,7 +18,7 @@
 import os
 import sys
 import re
-import md5
+import hashlib
 import gtk
 import pygtk
 import gtk.glade
@@ -40,39 +40,19 @@ import localisation
 _ = localisation.set_get_text()
 _pl = localisation.set_get_text_plural()
 
-def get_path():
-    return os.path.dirname(__file__)
-
-        
+   
 def connect_to_mtp_device(filename):
     """Run in a seperate thread"""
     os.system("mtp-tracks > " + filename)
 
-
-
-
 class MTPLastfmGTK:
-    def __init__(self, author, version, error_log=False, test_mode=False):
+    def __init__(self, author, version, home, glade, test_mode=False):
         self.test_mode = test_mode
-        self.error_log = error_log
         self.author = author
         self.version = version
+        self.HOME_DIR = home
+        self.GLADE = glade
 
-        self.HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
-        self.MAIN_PATH = get_path()
-
-        self.GLADE = {}
-        for file in ["gui", "log", "tag"]:
-            self.GLADE[file] = os.path.join(self.MAIN_PATH, "glade", file + ".glade")
-        try:
-            os.mkdir(self.HOME_DIR)
-        except OSError:
-            pass
-        
-        if self.error_log:
-            log_file = self.HOME_DIR + "errors.log"
-            sys.stderr = open(log_file, 'a')
-            print _('Error messages will be logged in %s') % log_file 
         self.tree = gtk.glade.XML(self.GLADE['gui'])
         self.tree.signal_autoconnect(self)
 
@@ -95,7 +75,7 @@ class MTPLastfmGTK:
             if self.authenticate_user():
                 self.setup_user_session()
             else:
-                self.tree.get_widget("login_error").set_text(self.authentication_error)
+                self.tree.get_widget("login_error").set_text(self.authentication_error.reason[1])
     
   
     def show_main_window(self):
@@ -127,28 +107,39 @@ class MTPLastfmGTK:
         progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
         progress_bar.set_vars(pulse_mode=True)
         progress_bar.start()
-        libmtp_error = False
         if not self.test_mode:
             #threaded in case libmtp stops responding
             conn = threading.Thread(target=connect_to_mtp_device, args=([dump_file]))
+            #we should get an average time for the users device to run this process
+            #then show a cancel button if it is taking much longer than normal
+            warn_msg_given = False
+            count, total = self.usersDB.get_average_connection_time(self.username)
+            try:
+                avg_time = total / count
+            except ZeroDivisionError:
+                avg_time = 0
+                warn_msg_given = True
             start_time = time.time()
+            print "Connection Time allowance:", avg_time + 15, "seconds"
             conn.daemon = True
             conn.start()
             while conn.isAlive():
                 while gtk.events_pending():
                     gtk.main_iteration()
-                if time.time() - start_time > 15:
-                    self.write_info(_("libmtp seems to be having trouble closing the session with your device and may need to be reset manually."))
-                    libmtp_error = True    
-                    break
+                if time.time() - start_time > avg_time + 15 and warn_msg_given is False:
+                    self.write_info(_("Warning: Your device seems to be taking longer than normal to upload a track listing.\n"))
+                    warn_msg_given = True
+            total += (time.time() - start_time)
+            count += 1
+            self.usersDB.update_connection_time(self.username, count, total)
+            
         f = file(dump_file, 'r').readlines()
         if len(f) < 3:
             self.write_info(_("Device not found."))
             progress_bar.stop()
         else:
-            if not libmtp_error:
-                self.write_info(_("Done."), new_line=" ")
-                self.write_info(_("It is now safe to remove your device."))
+            self.write_info(_("Done."), new_line=" ")
+            self.write_info(_("It is now safe to remove your device."))
             if self.first_run:
                 self.write_info(_("Populating database for first time, may take a while..."))
             else:
@@ -394,7 +385,7 @@ class MTPLastfmGTK:
             login_error.set_text(_("Error: Please enter a username and password"))
         else:
             if not re.findall(r"^([a-fA-F\d]{32})$", self.password):
-                self.password = md5.new(self.password).hexdigest()
+                self.password = hashlib.md5(self.password).hexdigest()
             if self.authenticate_user():
                 if remember_password is True:
                     self.usersDB.update_user(self.username, self.password)

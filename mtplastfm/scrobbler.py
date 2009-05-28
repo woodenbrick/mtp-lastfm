@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
-import md5
+import hashlib
 import time
 import urllib
 import gtk
@@ -166,7 +166,7 @@ class Scrobbler:
         return u
     
     def create_authentication_code(self):
-        code = md5.new(self.password + self.timestamp).hexdigest()
+        code = hashlib.md5(self.password + self.timestamp).hexdigest()
         return code
     
     def create_timestamp(self):

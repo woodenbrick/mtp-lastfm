@@ -20,7 +20,7 @@ import gettext
 import gtk.glade
 
 APP_NAME = "mtp-lastfm"
-local_path = os.path.join(os.path.dirname(__file__), "l10n")
+local_path = "/usr/share/locale"
 langs = []
 lc, encoding = locale.getdefaultlocale()
 if (lc):

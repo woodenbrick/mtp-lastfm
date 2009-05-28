@@ -6,13 +6,17 @@ import gtk
 import pygtk
 
 
-#decide if we have been distributed in a deb or sitting in the source dir
-if os.path.abspath(__file__) == "/usr/bin/mtp-lastfm":
-    sys.path.append("/usr/share/mtp-lastfm")
-
-import localisation
+#find src
+bin_path = os.path.dirname(os.path.abspath(__file__))
+if bin_path != "/usr/bin":
+    sys.path.append(os.path.join(bin_path, "mtplastfm"))
+    UI_DIR = os.path.join(bin_path, "glade")
+else:
+    UI_DIR = os.path.join("/usr", "share", "mtp-lastfm")
+    
+from mtplastfm import localisation
 _ = localisation.set_get_text()
-from mtplastfm import MTPLastfmGTK
+from mtplastfm.main import MTPLastfmGTK
 
 __author__ = ("Daniel Woodhouse","Saku Laukkanen")
 __version__ = "0.81.2"
@@ -22,9 +26,22 @@ parser.add_option('--error-log', '-e', action="store_true", help=_("logs all std
 parser.add_option('--test-mode', '-t', action="store_true", help=_("disables connections to last.fm for offline debugging"))
 options, args = parser.parse_args()
 
-mtp = MTPLastfmGTK(author=__author__,
-                   version=__version__, error_log=options.error_log,
-                   test_mode=options.test_mode)
+HOME_DIR = os.path.join(os.environ['HOME'], ".mtp-lastfm") + os.sep
+try:
+    os.mkdir(HOME_DIR)
+except OSError:
+    pass
+
+if options.error_log:
+    log_file = HOME_DIR + "errors.log"
+    sys.stderr = open(log_file, 'a')
+    print _('Error messages will be logged in %s') % log_file
+
+GLADE = {"path" : UI_DIR + os.sep}
+for file in ["gui", "log", "tag"]:
+    GLADE[file] = os.path.join(UI_DIR, file + ".glade")
+
+mtp = MTPLastfmGTK(__author__, __version__, HOME_DIR, GLADE, test_mode=options.test_mode)
 gtk.main()
 
 

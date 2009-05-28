@@ -29,7 +29,7 @@ class Songview(object):
     def __init__(self, db, parent):
         self.parent = parent
         self.db = db
-        self.path = os.path.join(self.parent.MAIN_PATH, "glade") + os.sep
+        self.path = self.parent.GLADE['path']
         self.all_menu_items = {
             "love" : _("Love"), "ban" : _("Ban"),
             "dont-scrobble" : _("Don't Scrobble"),

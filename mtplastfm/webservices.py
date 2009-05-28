@@ -14,7 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
-import md5
+import hashlib
 import urllib2
 import urllib
 import webbrowser
@@ -74,7 +74,7 @@ class LastfmWebService(object):
                 data += j
 
         data += self.api_2
-        api_sig = md5.new(data.encode('UTF-8')).hexdigest()
+        api_sig = hashlib.md5(data.encode('UTF-8')).hexdigest()
         return api_sig
     
     
