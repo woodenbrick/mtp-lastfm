@@ -125,7 +125,6 @@ class Scrobbler:
                     post_values["o" + str_index] = u"P"
                     self.del_ids.append(track[0])
                     index += 1
-                        
                 post_values["s"] = self.session_id
                 post_values = urllib.urlencode(post_values)
                 self.parent.write_info(_("Sending tracks, waiting for reply..."))
