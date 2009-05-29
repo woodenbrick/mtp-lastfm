@@ -126,8 +126,7 @@ class SongData(object):
   
     def append_missing_data(self):
         """The User rating and Use count may be missing.  If so, append
-        them before export we will also check the track duration and give a default of 3 minutes
-        if it is set at 0"""
+        them before export"""
         if self.required_data['User rating:'] is False:
             self.required_data['User rating:'] = ""
         if self.required_data['Use count:'] is False:
@@ -136,8 +135,6 @@ class SongData(object):
             self.required_data['Track number:'] = ""
         if self.required_data['Album:'] is False:
             self.required_data['Album:'] = ""
-        if self.required_data['Duration:'] == 0:
-            self.required_data['Duration:'] = 180
     
     def split_data(self, data):
         """Splits the data into key, value"""

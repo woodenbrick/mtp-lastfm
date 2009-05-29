@@ -53,7 +53,10 @@ class Scrobbler:
         list = self.parent.song_db.return_scrobble_list()
         total_dur = 0
         for duration in list:
-            total_dur += duration[3]
+            if duration[3] == 0:
+                total_dur += 180
+            else:
+                total_dur += duration[3]
         return round(total_dur / 3600.0, 2)
         
     def handshake(self):
@@ -115,10 +118,20 @@ class Scrobbler:
                     str_index = "[" + str(index) + "]"
                     for i in range(0, len(param)):
                         str_param = str(param[i]) + str_index
+                        #[i+1] to skip the trackid 
                         post_values[str_param] = track[i+1]
                         #work out play time based on track length
                         if param[i] == "l":
-                            past_time += track[i+1]
+                            #track length of 0 should be submitted as ""
+                            #but we still want them spread nicely
+                            #so we will pretend they are 3 minutes long
+                            #XXX last.fm lies, if you submit a track length
+                            #of "" it just rejects it, fuckers.
+                            if track[i+1] == 0:
+                                post_values[str_param] = 180
+                                past_time += 180
+                            else:
+                                past_time += track[i+1]
                             post_values["i" + str_index] = past_time
                             
                     post_values["m" + str_index] = u""
