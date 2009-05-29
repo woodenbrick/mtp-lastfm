@@ -35,6 +35,8 @@ import songview
 import webservices
 from progressbar import ProgressBar
 from options import Options
+import logger
+log = logger.new_logger("main.py")
 
 import localisation
 _ = localisation.set_get_text()
@@ -472,20 +474,27 @@ class MTPLastfmGTK:
         text = _("Please authenticate MTP-Lastfm in your web browser.  This is required if you wish to love/tag tracks.  After the authentication is complete click OK")
         message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
                                     gtk.BUTTONS_OK_CANCEL, text)
+        log.debug("Starting webservice")
         webservice = webservices.LastfmWebService()
+        log.debug("Requesting token")
         token = webservice.request_session_token()
+        log.debug("Opening browser to request authorisation")
         webservice.request_authorisation(token)
+        log.debug("Opening message dialog")
         resp = message.run()
         message.destroy()
         if resp == gtk.RESPONSE_OK:
+            log.debug("Checking if sessionkey is valid")
             valid, session_key = webservice.create_web_service_session(token)
             if valid is True:
+                log.debug("Key is valid, adding to database")
                 self.usersDB.add_key(self.username, session_key)
                 self.tree.get_widget("auth_label").set_text(_("User authenticated"))
                 self.tree.get_widget("authenticate").hide()
                 self.session_key = session_key
                 text = _("Authentication complete")
             else:
+                log.debug("Key is invalid")
                 self.tree.get_widget("auth_label").set_text(session_key)
                 text = session_key
             result = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,

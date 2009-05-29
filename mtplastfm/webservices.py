@@ -21,6 +21,8 @@ import webbrowser
 import httplib
 import xml.etree.ElementTree as ET
 from httprequest import HttpRequest
+import logger
+log = logger.new_logger("webservices.py")
 
 import localisation
 _ = localisation.set_get_text()
@@ -31,6 +33,7 @@ class LastfmWebService(object):
         self.api_key = "2d21a4ab6f049a413eb27dbf9af10579"
         self.api_2 = "6146d36f59da8720cd5f3dd2c8422da0"
         self.url = "http://ws.audioscrobbler.com/2.0/"
+        log.debug("Web service variables: \napikey: %s\napi2: %s\nurl: %s\n" % (self.api_key, self.api_2, self.url))
     
     def request_session_token(self):
         """returns a token which is used authenticate mtp-lastfm with the users account"""
@@ -45,6 +48,9 @@ class LastfmWebService(object):
         """Searches an XML document for a single tag and returns its value"""
         tree = ET.parse(conn)
         iter = tree.getiterator()
+        #list full tree for debugging
+        for child in iter:
+            log.debug(child.tag + " : " + child.text)
         for child in iter:
             if child.tag == tag:
                 token = child.text
@@ -60,6 +66,7 @@ class LastfmWebService(object):
         iter = tree.getiterator()
         tags = []
         for child in iter:
+            log.debug(child.tag + " : " + child.text)
             if child.tag == tag:
                 tags.append(child.text)
         return tags
@@ -84,7 +91,9 @@ class LastfmWebService(object):
             "api_key" : self.api_key,
             "token" : token
         })
+        log.debug("encoded values: %s" % str(encoded_values))
         webbrowser.open("http://www.last.fm/api/auth/?" + encoded_values)
+        log.debug("webbrowser opened")
         
         
     def create_web_service_session(self, token):
@@ -95,12 +104,16 @@ class LastfmWebService(object):
             "token" : token }
         data['api_sig'] = self.create_api_sig(data)
         encode_values = urllib.urlencode(data)
+        log.debug("Requesting infinite lifespan token")
+        log.debug("encoded values: %s" % str(encode_values))
         url = self.url + "?" + encode_values
         try:
             conn = urllib2.urlopen(url)
             self.key = self.parse_xml(conn, "key")
+            log.debug("Request successful")
             return True, self.key
         except urllib2.HTTPError:
+            log.debug("Authentication problem")
             return False, _("A problem occurred during authentication")
     
     

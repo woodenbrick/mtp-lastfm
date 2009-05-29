@@ -18,7 +18,8 @@
 import os
 import sqlite3
 import getpass
-
+import logger
+log = logger.new_logger("dbClass.py")
 
 class lastfmDb_Users:
     def __init__(self, path):
@@ -106,6 +107,9 @@ class lastfmDb_Users:
             return key[0]
         
     def add_key(self, user, key):
+        log.debug("inserting key")
+        self.cursor.execute("DELETE from sessionkeys WHERE username=?", (user,))
+        self.db.commit()
         self.cursor.execute("INSERT into sessionkeys (username, sessionkey) VALUES (?, ?)"
                             , (user, key))
         self.db.commit()
