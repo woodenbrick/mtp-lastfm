@@ -107,6 +107,10 @@ class lastfmDb_Users:
             return key[0]
         
     def add_key(self, user, key):
+        log.debug("checking for old keys")
+        rows = self.cursor.execute("SELECT * from sessionkeys").fetchall()
+        for row in rows:
+            log.debug(str(row))
         log.debug("inserting key")
         self.cursor.execute("DELETE from sessionkeys WHERE username=?", (user,))
         self.db.commit()
