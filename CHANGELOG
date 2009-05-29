@@ -3,6 +3,8 @@ Changelog for MTP-Lastfm
 Release 0.82
   * Distribute with distutils
   * average time counter for mtp connection with warning
+  * fix for 0 length tracks
+  * partial French translation
 
 Release 0.81
   * Added tagging support
