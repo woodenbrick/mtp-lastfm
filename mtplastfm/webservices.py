@@ -92,7 +92,8 @@ class LastfmWebService(object):
             "token" : token
         })
         log.debug("encoded values: %s" % str(encoded_values))
-        webbrowser.open("http://www.last.fm/api/auth/?" + encoded_values)
+        print "Copy and paste this url into your browser:\nhttp://www.last.fm/api/auth/?%s" % encoded_values
+        #webbrowser.open("http://www.last.fm/api/auth/?" + encoded_values)
         log.debug("webbrowser opened")
         
         
