@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-15 21:55+0300\n"
+"POT-Creation-Date: 2009-05-29 18:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,41 +16,42 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: httprequest.py:54 mtplastfm.py:362
+#: mtplastfm/httprequest.py:54 mtplastfm/main.py:353 mtplastfm/main.py:484
 msgid "User authenticated"
 msgstr ""
 
-#: httprequest.py:55
+#: mtplastfm/httprequest.py:55
 msgid "Username or password incorrect, please reset"
 msgstr ""
 
-#: httprequest.py:56
+#: mtplastfm/httprequest.py:56
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
 msgstr ""
 
-#: httprequest.py:57
+#: mtplastfm/httprequest.py:57
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr ""
 
-#: lastfmtagger.py:30
+#: mtplastfm/lastfmtagger.py:31
 msgid "Track"
 msgstr ""
 
-#: lastfmtagger.py:30 lastfmtagger.py:57 lastfmtagger.py:72 songdata.py:40
-#: songview.py:39
+#: mtplastfm/lastfmtagger.py:31 mtplastfm/songdata.py:40
+#: mtplastfm/songview.py:39
 msgid "Artist"
 msgstr ""
 
-#: lastfmtagger.py:30 lastfmtagger.py:87 songdata.py:40 songview.py:39
+#: mtplastfm/lastfmtagger.py:32 mtplastfm/lastfmtagger.py:89
+#: mtplastfm/songdata.py:40 mtplastfm/songview.py:39
 msgid "Album"
 msgstr ""
 
 #. .Translators:
 #. sentence will be on the form of:
 #. "Tagging Artist <name of artist>"
-#: lastfmtagger.py:61
+#: mtplastfm/lastfmtagger.py:63
 #, python-format
 msgid "Tagging %(type)s: %(name)s"
 msgstr ""
@@ -59,194 +60,189 @@ msgstr ""
 #. This takes the form of either:
 #. "Tagging Album <name of album> by Artist" or
 #. "Tagging Track <name of track> by Artist"
-#: lastfmtagger.py:69
+#: mtplastfm/lastfmtagger.py:71
 #, python-format
 msgid "Tagging %(type)s: %(name)s by %(artist)s"
 msgstr ""
 
-#: lastfmtagger.py:102
+#: mtplastfm/lastfmtagger.py:104
 msgid "Popular tags"
 msgstr ""
 
-#: lastfmtagger.py:104
+#: mtplastfm/lastfmtagger.py:106
 msgid "Your Tags"
 msgstr ""
 
-#: lastfmtagger.py:150
+#: mtplastfm/lastfmtagger.py:152
 msgid "Sending tags"
 msgstr ""
 
-#: lastfmtagger.py:155
+#: mtplastfm/lastfmtagger.py:157
 msgid "Tags sent"
 msgstr ""
 
-#: mtplastfm.py:75
-#, python-format
-msgid "Error messages will be logged in %s"
-msgstr ""
-
-#: mtplastfm.py:125
+#: mtplastfm/main.py:105
 msgid "Connecting to MTP device"
 msgstr ""
 
-#: mtplastfm.py:141
+#: mtplastfm/main.py:130
 msgid ""
-"libmtp seems to be having trouble closing the session with your device and "
-"may need to be reset manually."
+"Warning: Your device seems to be taking longer than normal to upload a track "
+"listing.\n"
 msgstr ""
 
-#: mtplastfm.py:146
+#: mtplastfm/main.py:138
 msgid "Device not found."
 msgstr ""
 
-#: mtplastfm.py:150 mtplastfm.py:302
+#: mtplastfm/main.py:141 mtplastfm/main.py:293
 msgid "Done."
 msgstr ""
 
-#: mtplastfm.py:151
+#: mtplastfm/main.py:142
 msgid "It is now safe to remove your device."
 msgstr ""
 
-#: mtplastfm.py:153
+#: mtplastfm/main.py:144
 msgid "Populating database for first time, may take a while..."
 msgstr ""
 
-#: mtplastfm.py:155
+#: mtplastfm/main.py:146
 msgid "Cross checking song data with local database..."
 msgstr ""
 
-#: mtplastfm.py:229
+#: mtplastfm/main.py:220
 msgid "Authenticating..."
 msgstr ""
 
-#: mtplastfm.py:266
+#: mtplastfm/main.py:257
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr ""
 
-#: mtplastfm.py:285
+#: mtplastfm/main.py:276
 msgid "Sending love..."
 msgstr ""
 
-#: mtplastfm.py:293
+#: mtplastfm/main.py:284
 msgid "Ok."
 msgstr ""
 
-#: mtplastfm.py:375
+#: mtplastfm/main.py:366
 msgid "Database cleared"
 msgstr ""
 
-#: mtplastfm.py:394
+#: mtplastfm/main.py:385
 msgid "Error: Please enter a username and password"
 msgstr ""
 
-#: mtplastfm.py:412
+#: mtplastfm/main.py:403
 msgid "User database doesn't exist, creating."
 msgstr ""
 
-#: mtplastfm.py:480
+#: mtplastfm/main.py:472
 msgid ""
 "Please authenticate MTP-Lastfm in your web browser.  This is required if you "
 "wish to love/tag tracks.  After the authentication is complete click OK"
 msgstr ""
 
-#: mtplastfm.py:491
+#: mtplastfm/main.py:487
 msgid "Authentication complete"
 msgstr ""
 
-#: scrobbler.py:131
+#: mtplastfm/scrobbler.py:130
 msgid "Sending tracks, waiting for reply..."
 msgstr ""
 
-#: scrobbler.py:135
+#: mtplastfm/scrobbler.py:134
 msgid "OK"
 msgstr ""
 
-#: scrobbler.py:142
+#: mtplastfm/scrobbler.py:141
 msgid "Nothing to scrobble."
 msgstr ""
 
-#: scrobbler.py:153
+#: mtplastfm/scrobbler.py:152
 msgid "There was an error sending data to last.fm:"
 msgstr ""
 
-#: songdata.py:39
+#: mtplastfm/songdata.py:39
 msgid "Track ID"
 msgstr ""
 
-#: songdata.py:39
+#: mtplastfm/songdata.py:39
 msgid "Title"
 msgstr ""
 
-#: songdata.py:41
+#: mtplastfm/songdata.py:41
 msgid "Track number"
 msgstr ""
 
-#: songdata.py:42
+#: mtplastfm/songdata.py:42
 msgid "Duration"
 msgstr ""
 
-#: songdata.py:43
+#: mtplastfm/songdata.py:43
 msgid "User rating"
 msgstr ""
 
-#: songdata.py:44 songview.py:39
+#: mtplastfm/songdata.py:44 mtplastfm/songview.py:39
 msgid "Playcount"
 msgstr ""
 
-#: songdata.py:53
+#: mtplastfm/songdata.py:53
 msgid "Tracks that recently failed a validity check:\n"
 msgstr ""
 
-#: songdata.py:89
+#: mtplastfm/songdata.py:89
 msgid "None"
 msgstr ""
 
-#: songview.py:34
+#: mtplastfm/songview.py:34
 msgid "Love"
 msgstr ""
 
-#: songview.py:34
+#: mtplastfm/songview.py:34
 msgid "Ban"
 msgstr ""
 
-#: songview.py:35
+#: mtplastfm/songview.py:35
 msgid "Don't Scrobble"
 msgstr ""
 
-#: songview.py:36
+#: mtplastfm/songview.py:36
 msgid "Tag"
 msgstr ""
 
-#: songview.py:36
+#: mtplastfm/songview.py:36
 msgid "Remove Ban"
 msgstr ""
 
-#: songview.py:37
+#: mtplastfm/songview.py:37
 msgid "Remove Love"
 msgstr ""
 
-#: songview.py:39
+#: mtplastfm/songview.py:39
 msgid "Song"
 msgstr ""
 
-#: songview.py:39
+#: mtplastfm/songview.py:39
 msgid "Rating"
 msgstr ""
 
-#: songview.py:174
+#: mtplastfm/songview.py:178
 msgid "Cached tracks"
 msgstr ""
 
-#: songview.py:187
+#: mtplastfm/songview.py:191
 msgid "Loved tracks"
 msgstr ""
 
-#: songview.py:214
+#: mtplastfm/songview.py:218
 msgid "Banned tracks"
 msgstr ""
 
-#: webservices.py:104
+#: mtplastfm/webservices.py:104
 msgid "A problem occurred during authentication"
 msgstr ""
 
