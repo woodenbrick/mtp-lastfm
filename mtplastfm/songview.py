@@ -18,6 +18,7 @@
 import os
 import gtk
 import pygtk
+import gobject
 pygtk.require("2.0")
 
 import localisation
@@ -35,7 +36,7 @@ class Songview(object):
             "dont-scrobble" : _("Don't Scrobble"),
             "tag" : _("Tag"), "ban-remove" : _("Remove Ban"),
             "love-remove" : _("Remove Love")}
-        self.liststore = gtk.ListStore(int, str, str, str, gtk.gdk.Pixbuf, int)
+        self.liststore = gtk.ListStore(gobject.TYPE_DOUBLE, str, str, str, gtk.gdk.Pixbuf, int)
         self.columns = ["Id", _("Artist"), _("Song"), _("Album"), _("Rating"), _("Playcount")]
         self.tree_view = self.create_window()
         self.tree_view.set_model(self.liststore)
