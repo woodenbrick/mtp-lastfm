@@ -1,8 +1,13 @@
 h2. MTP-Lastfm 0.82
 
 The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen, or the Zune) to last.fm.  You can love, ban and tag tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
-h3.  "Download a deb package":http://github.com/woodenbrick/mtp-lastfm/downloads or add the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa
-The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen, or the Zune) to last.fm.  You can Love/Ban tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
+h3.  Deb packages are available from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa
+The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen) to last.fm.  You can Love/Ban tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
+
+h3. This software wont work with the following players:
+* Zune (requires authentication)
+* iRiver Clix2 (doesn't track playcount)
+This isn't an exhaustive list obviously, just what people have told me.
 
 To run from source dir: ./bin/mtp-lastfm
 Install: python setup.py install (as superuser)
