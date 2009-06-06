@@ -48,20 +48,19 @@ class Songview(object):
         self.window.set_title(self.title)
         self.window.set_position(gtk.WIN_POS_CENTER)
         self.window.set_icon(gtk.gdk.pixbuf_new_from_file(self.path + self.icon))
-        self.window.set_default_size(1000, 600)
         self.window.connect("destroy", self.on_window_destroy)
         scroller = gtk.ScrolledWindow()
+        scroller.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.window.add(scroller)
-        
+        #self.window.set_default_size(200, 400)
         self.tree_view = gtk.TreeView()
         self.tree_view.set_name("treeview")
         self.tree_view.set_rubber_banding(True)
         self.tree_view.set_grid_lines(gtk.TREE_VIEW_GRID_LINES_VERTICAL)
-        #<property name="enable_tree_lines">True</property>
         self.tree_view.connect("button_press_event", self.on_tree_view_button_press_event)
+        scroller.add(self.tree_view)
         self.tree_view.show()
         scroller.show()
-        scroller.add(self.tree_view)
         return self.tree_view
     
     def fill_liststore(self, data):
@@ -72,8 +71,7 @@ class Songview(object):
             self.liststore.append([row[0], row[2], row[3], row[4], row5, row[1]])
         
     def append_columns(self):
-        i = 0
-        for column in self.columns:
+        for i, column in enumerate(self.columns):
             col = gtk.TreeViewColumn(column)
             if i == 4 or i == 6:
                 cell = gtk.CellRendererPixbuf()
@@ -86,15 +84,33 @@ class Songview(object):
                 col.set_attributes(cell, text=i)
             
             col.set_sizing(gtk.TREE_VIEW_COLUMN_GROW_ONLY)
-            col.set_min_width(30)
-            col.set_max_width(250)
+            col.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
             col.set_resizable(True)
-            col.set_spacing(10)
+            col.set_spacing(30)
             if i == 0:
                 col.set_visible(False)
             self.tree_view.append_column(col)
-            i +=1
+    
+    def set_window_size(self):
+        """Call after the treeview has been realised"""
+        resolution = gtk.gdk.Screen()
+        max_width = resolution.get_width() - 200
+        cols = self.tree_view.get_columns()
+        total = 0
+        for col in cols:
+            width = col.get_width()
+            if width > 350:
+                col.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+                width = 350
+                col.set_fixed_width(width)
+            total += width
+        #fullscreen if we end up with large column sizes
+        if total > max_width:
+            self.window.maximize()
+        else:
+            self.window.resize(total, 500)
 
+    
     def create_right_click_menu(self, *args):
         """args are strings corresponding to keys in self.all_menu_items
         key: name, value: text, key + '.png': image"""
@@ -134,7 +150,8 @@ class Songview(object):
                                         activate_time=event.time)
             #returning True prevents the selection from being lost
             return True
-   
+        
+                
     def get_selection(self, marking=None):
         """Looks at the treeview and returns the id numbers of the selected songs
         marking is the optional value you want to set the affected rows to"""
@@ -179,13 +196,15 @@ class CacheWindow(Songview):
         self.title = _("Cached tracks")
         self.icon = "cache.png"
         Songview.__init__(self, db, parent)
-        self.window.show()
         data = self.db.return_unique_scrobbles().fetchall()
         self.fill_liststore(data)
         self.append_columns()
         self.right_click_menu = self.create_right_click_menu("love", "ban",
                                                              "dont-scrobble", "tag")
-
+        self.window.realize()
+        self.set_window_size()
+        self.window.show()
+        
     
 class LovedWindow(Songview):
     def __init__(self, db, parent):
@@ -196,6 +215,8 @@ class LovedWindow(Songview):
         self.fill_liststore(data)
         self.right_click_menu = self.create_right_click_menu("love-remove", "tag")
         self.append_columns()
+        self.window.realize()
+        self.set_window_size()
         self.window.show()
 
     def on_change_marking_activate(self, widget):
@@ -223,4 +244,6 @@ class BannedWindow(Songview):
         self.fill_liststore(data)
         self.right_click_menu = self.create_right_click_menu("ban-remove", "tag")
         self.append_columns()
+        self.window.realize()
+        self.set_window_size()
         self.window.show()
