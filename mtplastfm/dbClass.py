@@ -261,12 +261,7 @@ class lastfmDb:
         """This function goes through and counts each individual
         scrobble, may be inefficent. Returns the count, resets the table counter
         and sets self.scrobble_counter"""
-        self.cursor.execute("select scrobble_count from scrobble")
-        rows = self.cursor.fetchall()
-        total = 0
-        for r in rows:
-            total += 1
-        self.scrobble_counter = total
+        self.scrobble_counter = self.cursor.execute("select COUNT(*) from scrobble").fetchone()[0]
         self.update_scrobble_count()
         return self.scrobble_counter
     
