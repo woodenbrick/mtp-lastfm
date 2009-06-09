@@ -1,11 +1,14 @@
 Changelog for MTP-Lastfm
 
+Committed for next release:
+  * fix for recycled track ids
+  * long track ids can be added to message liststore
+
 Release 0.82
   * Distribute with distutils
   * average time counter for mtp connection with warning
   * fix for 0 length tracks
   * partial French translation
-  * long track ids can be added to message liststore
 
 Release 0.81
   * Added tagging support
