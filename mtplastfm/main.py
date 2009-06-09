@@ -142,6 +142,7 @@ class MTPLastfmGTK:
             self.write_info(_("It is now safe to remove your device."))
             if self.first_run:
                 self.write_info(_("Populating database for first time, may take a while..."))
+                self.first_run = False
             else:
                 self.write_info(_("Cross checking song data with local database..."))
             progress_bar.set_vars(max_value=len(f), start_value=1)
@@ -171,7 +172,7 @@ class MTPLastfmGTK:
                 button.show()
                 self.tree.get_widget("info").add_child_at_anchor(button, anchor)
                 button.connect("clicked", self.show_error_details, None)
-            self.song_db.update_scrobble_count()
+            self.song_db.reset_scrobble_counter()
             self.set_button_count()
             
             if self.options.return_option("auto_scrobble") == True:
