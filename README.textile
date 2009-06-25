@@ -10,8 +10,12 @@ There are also deb packages available from the "PPA repository":https://launchpa
 Report bugs, help translate and track new features at "Launchpad":https://launchpad.net/mtp-lastfm 
 
 h3. This software wont work with the following players:
-* Zune (requires authentication)
-* iRiver Clix2 (doesn't track playcount)
+Requires authentication
+* Zune
+Doesn't track playcount
+* iRiver Clix2
+* Sony Ericsson W910i
+
 This isn't an exhaustive list obviously, just what people have told me. Please let me know if your player doesn't work so I can add it to this list.
 
 h3. Dependencies:
