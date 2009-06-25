@@ -14,7 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
-
+import subprocess
 import os
 import sys
 import re
@@ -24,6 +24,7 @@ import pygtk
 import gtk.glade
 import gobject
 import threading
+import Queue
 gtk.gdk.threads_init()
 import time
 pygtk.require("2.0")
@@ -39,11 +40,15 @@ from options import Options
 import localisation
 _ = localisation.set_get_text()
 _pl = localisation.set_get_text_plural()
+queue = Queue.Queue()
 
-   
 def connect_to_mtp_device(filename):
     """Run in a seperate thread"""
-    os.system("mtp-tracks > " + filename)
+    f = open(filename, "w")
+    ret = subprocess.call("mtp-tracks", stdout=f)
+    queue.put(ret)
+    
+    
 
 class MTPLastfmGTK:
     def __init__(self, author, version, home, glade, test_mode=False):
@@ -132,51 +137,56 @@ class MTPLastfmGTK:
             total += (time.time() - start_time)
             count += 1
             self.usersDB.update_connection_time(self.username, count, total)
-            
+        success = queue.get()
+        if success == 1:
+            self.write_info(_("Device found, but an error occurred. Please make sure it is not mounted by another program (eg. music player, desktop)."))
+            progress_bar.stop()
+            return
         f = file(dump_file, 'r').readlines()
         if len(f) < 3:
             self.write_info(_("Device not found."))
             progress_bar.stop()
+            return
+
+        self.write_info(_("Done."), new_line=" ")
+        self.write_info(_("It is now safe to remove your device."))
+        if self.first_run:
+            self.write_info(_("Populating database for first time, may take a while..."))
+            self.first_run = False
         else:
-            self.write_info(_("Done."), new_line=" ")
-            self.write_info(_("It is now safe to remove your device."))
-            if self.first_run:
-                self.write_info(_("Populating database for first time, may take a while..."))
-                self.first_run = False
-            else:
-                self.write_info(_("Cross checking song data with local database..."))
-            progress_bar.set_vars(max_value=len(f), start_value=1)
-            self.song_db.pending_scrobble_list = None
-            song_obj = SongData(self.song_db, self.HOME_DIR, self)
+            self.write_info(_("Cross checking song data with local database..."))
+        progress_bar.set_vars(max_value=len(f), start_value=1)
+        self.song_db.pending_scrobble_list = None
+        song_obj = SongData(self.song_db, self.HOME_DIR, self)
 
-            for line in f:
-                while gtk.events_pending():
-                    gtk.main_iteration()
-                song_obj.check_new_data(line)
-                progress_bar.current_progress += 1
-            progress_bar.delayed_stop(300)
-            #feed song_obj a new Track so it checks for the last song
-            song_obj.check_new_data("Track ID: 0\n") 
+        for line in f:
+            while gtk.events_pending():
+                gtk.main_iteration()
+            song_obj.check_new_data(line)
+            progress_bar.current_progress += 1
+        progress_bar.delayed_stop(300)
+        #feed song_obj a new Track so it checks for the last song
+        song_obj.check_new_data("Track ID: 0\n") 
 
-            self.song_db.pending_scrobble_list = None
-            self.write_info(_pl("%(num)d track checked", "%(num)d tracks checked",
-                                song_obj.song_count) % {"num" : song_obj.song_count})
-            if song_obj.error_count > 0:
-                self.write_info(_pl("%(num)d item was not added to your song database.\n",
-                                    "%(num)d items were not added to your song database.\n",
-                                    song_obj.error_count) % {"num" : song_obj.error_count})
-                buffer = self.tree.get_widget("info").get_buffer()
-                iter = buffer.get_end_iter()
-                anchor = buffer.create_child_anchor(iter)
-                button = gtk.Button(label=None, stock="gtk-info")
-                button.show()
-                self.tree.get_widget("info").add_child_at_anchor(button, anchor)
-                button.connect("clicked", self.show_error_details, None)
-            self.song_db.reset_scrobble_counter()
-            self.set_button_count()
-            
-            if self.options.return_option("auto_scrobble") == True:
-                self.on_scrobble_clicked(None)
+        self.song_db.pending_scrobble_list = None
+        self.write_info(_pl("%(num)d track checked", "%(num)d tracks checked",
+                            song_obj.song_count) % {"num" : song_obj.song_count})
+        if song_obj.error_count > 0:
+            self.write_info(_pl("%(num)d item was not added to your song database.\n",
+                                "%(num)d items were not added to your song database.\n",
+                                song_obj.error_count) % {"num" : song_obj.error_count})
+            buffer = self.tree.get_widget("info").get_buffer()
+            iter = buffer.get_end_iter()
+            anchor = buffer.create_child_anchor(iter)
+            button = gtk.Button(label=None, stock="gtk-info")
+            button.show()
+            self.tree.get_widget("info").add_child_at_anchor(button, anchor)
+            button.connect("clicked", self.show_error_details, None)
+        self.song_db.reset_scrobble_counter()
+        self.set_button_count()
+        
+        if self.options.return_option("auto_scrobble") == True:
+            self.on_scrobble_clicked(None)
                 
     
     def show_error_details(self, widget, data):
