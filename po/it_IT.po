@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-06-25 12:58+0300\n"
+"POT-Creation-Date: 2009-06-27 21:35+0300\n"
 "PO-Revision-Date: 2009-04-15 10:09+0000\n"
 "Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-06-25 12:52+0000\n"
+"X-Launchpad-Export-Date: 2009-07-04 07:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
@@ -185,6 +185,172 @@ msgstr "Tracce escluse"
 msgid "A problem occurred during authentication"
 msgstr "Si è verificato un problema durante l'autenticazione"
 
+#: glade/gui.glade.h:3
+msgid "<b>Database</b>"
+msgstr "<b>Database</b>"
+
+#: glade/gui.glade.h:4
+msgid "<b>MTP-Lastfm</b>"
+msgstr "<b>MTP-Lastfm</b>"
+
+#: glade/gui.glade.h:5
+msgid "<b>Options</b>"
+msgstr "<b>Opzioni</b>"
+
+#: glade/gui.glade.h:6
+msgid "<b>Scrobble ordering</b>"
+msgstr "<b>Ordine di invio</b>"
+
+#: glade/gui.glade.h:7
+msgid "<b>Scrobble timing</b>"
+msgstr "<b>Ora di invio</b>"
+
+#: glade/gui.glade.h:9
+msgid "Alphabetical"
+msgstr "Alfabetico"
+
+#: glade/gui.glade.h:10
+msgid "Always use default time"
+msgstr "Usa sempre l'ora predefinita"
+
+#: glade/gui.glade.h:12
+msgid "Authenticate now"
+msgstr "Effettuare l'accesso"
+
+#: glade/gui.glade.h:13
+msgid "Calculate scrobble time to finish \"Now\""
+msgstr "Calcola l'ora di ascolto in modo da finire \"ora\""
+
+#: glade/gui.glade.h:14
+msgid "Clears your locally stored song data"
+msgstr "Elimina i dati locali relativi alle canzoni"
+
+#: glade/gui.glade.h:15
+msgid "Connect to device on startup"
+msgstr "Connetti al dispositivo all'avvio"
+
+#: glade/gui.glade.h:16
+msgid "Default scrobble start time (Hours)"
+msgstr "Ora di ascolto predefinita"
+
+#: glade/gui.glade.h:17
+msgid "Enter the time (in hours) that you wish to start scrobbling from:"
+msgstr "Inserire l'ora a cui vuoi che inizi l'ascolto"
+
+#: glade/gui.glade.h:19
+msgid ""
+"If you continue everything will be cleared from your\n"
+"local database.  Usually you only want to do this if\n"
+"you have formatted your device."
+msgstr ""
+"Continuando, il database locale sarà completamente \n"
+"eliminato. Normalmente, si effettua questa operazione \n"
+"solo in seguito a formattazione del dispositivo"
+
+#: glade/gui.glade.h:23
+msgid "Login"
+msgstr "Connetti"
+
+#: glade/gui.glade.h:24
+msgid "Logout"
+msgstr "Disconneti"
+
+#: glade/gui.glade.h:25
+msgid "MTP-Lastfm"
+msgstr "MTP-Lastfm"
+
+#: glade/gui.glade.h:27
+msgid "MTP-Lastfm - Login"
+msgstr "MTP-Lastfm - Connetti"
+
+#: glade/gui.glade.h:30
+msgid ""
+"MTP-Lastfm is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"MTP-Lastfm is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"MTP-Lastfm.  If not, see http://www.gnu.org/licenses/"
+msgstr ""
+"MTP-Lastfm è software libero: può essere modificato e distribuito nei "
+"termini della GNU General Public License, pubblicata dalla Free Software "
+"Foundation, versione 3 o successiva.\n"
+"\n"
+"MTP-Lastfm è distribuito con la speranza che possa risultare utile, ma SENZA "
+"ALCUNA GARANZIA; senza la garanzia implicita di COMMERCIABILITÀ o che sia "
+"ADATTO PER UNO SCOPO SPECIFICO. Per ulteriori dettagli, fare riferimento "
+"alla GNU General Public License.\n"
+"\n"
+"Una copia della GNU General Public License dovrebbe essere distribuita con "
+"MTP-Lastfm. È comunque possibile recuperarla all'indirizzo "
+"http://www.gnu.org/licenses/"
+
+#: glade/gui.glade.h:35
+msgid "Please login to your last.fm account"
+msgstr "Effetturare l'accesso al proprio account last.fm"
+
+#: glade/gui.glade.h:36
+msgid "Random"
+msgstr "Casuale"
+
+#: glade/gui.glade.h:37
+msgid "Remember me?"
+msgstr "Ricordami"
+
+#: glade/gui.glade.h:39
+msgid "Reset Database"
+msgstr "Svuota il database"
+
+#: glade/gui.glade.h:40
+msgid ""
+"Scrobble automatically after device check (Leave unchecked to love/ban "
+"tracks)"
+msgstr ""
+"Invia automaticamente le tracce dopo il controllo (non selezionare per "
+"aggiungere preferiti)"
+
+#: glade/gui.glade.h:41
+msgid "Set time manually"
+msgstr "Imposta l'ora manualmente"
+
+#: glade/gui.glade.h:43
+msgid "gtk-apply"
+msgstr "gtk-apply"
+
+#: glade/gui.glade.h:44
+msgid "gtk-cancel"
+msgstr "gtk-cancel"
+
+#: glade/gui.glade.h:45
+msgid "gtk-ok"
+msgstr "gtk-ok"
+
+#: glade/gui.glade.h:46
+msgid ""
+"mtp-lastfm tracks your listening habits on your mtp device and uploads them "
+"to last.fm"
+msgstr ""
+"mtp-lastfm registra le tue abitudini di ascolto sul tuo dispositivo MTP e le "
+"invia a last.fm"
+
+#: glade/gui.glade.h:47
+msgid "password:"
+msgstr "password:"
+
+#: glade/gui.glade.h:48
+msgid "username:"
+msgstr "username:"
+
+#: glade/tag.glade.h:3
+msgid "gtk-close"
+msgstr "gtk-close"
+
 #: mtplastfm/httprequest.py:57
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr ""
@@ -282,4 +448,60 @@ msgstr ""
 
 #: mtplastfm/songview.py:196
 msgid "Cached tracks"
+msgstr ""
+
+#: glade/gui.glade.h:1
+msgid "<b>Authentication</b>"
+msgstr ""
+
+#: glade/gui.glade.h:2
+msgid "<b>Automation</b>"
+msgstr ""
+
+#: glade/gui.glade.h:8
+msgid "About MTP-Lastfm"
+msgstr ""
+
+#: glade/gui.glade.h:11
+msgid "Authenticate MTP-Lastfm to love/tag tracks"
+msgstr ""
+
+#: glade/gui.glade.h:18
+msgid "Git repository"
+msgstr ""
+
+#: glade/gui.glade.h:22
+msgid "Launchpad Homepage"
+msgstr ""
+
+#: glade/gui.glade.h:26
+msgid "MTP-Lastfm - Clear Database"
+msgstr ""
+
+#: glade/gui.glade.h:28
+msgid "MTP-Lastfm - Scrobbling"
+msgstr ""
+
+#: glade/gui.glade.h:29
+msgid "MTP-Lastfm - Settings"
+msgstr ""
+
+#: glade/gui.glade.h:38
+msgid "Report a bug"
+msgstr ""
+
+#: glade/gui.glade.h:42
+msgid "Suggest a new feature"
+msgstr ""
+
+#: glade/log.glade.h:1
+msgid "Song data log"
+msgstr ""
+
+#: glade/tag.glade.h:1
+msgid "Enter your tags, seperated by commas:"
+msgstr ""
+
+#: glade/tag.glade.h:2
+msgid "Send Tags"
 msgstr ""
