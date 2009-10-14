@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-07-04 07:48+0000\n"
+"X-Launchpad-Export-Date: 2009-09-13 12:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
@@ -89,6 +89,23 @@ msgstr "Tags senden"
 msgid "Connecting to MTP device"
 msgstr "Verbinde mit MTP-Gerät"
 
+#: mtplastfm/main.py:135
+msgid ""
+"Warning: Your device seems to be taking longer than normal to upload a track "
+"listing.\n"
+msgstr ""
+"Warnung: Ihr Gerät scheint für das Hochladen der Titelliste länger als "
+"gewöhnlich zu brauchen.\n"
+
+#: mtplastfm/main.py:142
+msgid ""
+"Device found, but an error occurred. Please make sure it is not mounted by "
+"another program (eg. music player, desktop)."
+msgstr ""
+"Gerät gefunden, aber ein Fehler trat auf. Bitte stellen Sie sicher, dass das "
+"Gerät nicht von einem anderem Programm eingebunden wird (z. B. Musik-Player, "
+"Desktop)"
+
 #: mtplastfm/main.py:147
 msgid "Device not found."
 msgstr "Gerät nicht gefunden"
@@ -108,6 +125,22 @@ msgstr "Datenbank wird initial gefüllt. Dies kann einige Zeit dauern..."
 #: mtplastfm/main.py:157
 msgid "Cross checking song data with local database..."
 msgstr "Song-Daten werden mit lokaler Datenbank abgeglichen..."
+
+#: mtplastfm/main.py:172
+#, python-format
+msgid "%(num)d track checked"
+msgid_plural "%(num)d tracks checked"
+msgstr[0] "%(num)d Titel geprüft"
+msgstr[1] "%(num)d Titel geprüft"
+
+#: mtplastfm/main.py:175
+#, python-format
+msgid "%(num)d item was not added to your song database.\n"
+msgid_plural "%(num)d items were not added to your song database.\n"
+msgstr[0] ""
+"%(num)d Eintrag wurde nicht zu ihrer Song-Datenbank hinzugefügt.\n"
+msgstr[1] ""
+"%(num)d Einträge wurden nicht zu ihrer Song-Datenbank hinzugefügt.\n"
 
 #: mtplastfm/main.py:231
 msgid "Authenticating..."
@@ -151,6 +184,13 @@ msgstr ""
 msgid "Authentication complete"
 msgstr "Authentifizierung vollständig"
 
+#: mtplastfm/scrobbler.py:89
+#, python-format
+msgid "Preparing %(num)d track for scrobbling"
+msgid_plural "Preparing %(num)d tracks for scrobbling"
+msgstr[0] "Bereite %(num)d Titel zum Scrobbeln vor"
+msgstr[1] "Bereite %(num)d Titel zum Scrobbeln vor"
+
 #: mtplastfm/scrobbler.py:130
 msgid "Sending tracks, waiting for reply..."
 msgstr "Übertrage Tracks, warten auf Antwort..."
@@ -158,6 +198,13 @@ msgstr "Übertrage Tracks, warten auf Antwort..."
 #: mtplastfm/scrobbler.py:134
 msgid "OK"
 msgstr "OK"
+
+#: mtplastfm/scrobbler.py:137
+#, python-format
+msgid "Scrobbled %(num)d track"
+msgid_plural "Scrobbled %(num)d tracks"
+msgstr[0] "%(num)d Titel gescrobbelt"
+msgstr[1] "%(num)d Titel gescrobbelt"
 
 #: mtplastfm/scrobbler.py:141
 msgid "Nothing to scrobble."
@@ -471,50 +518,3 @@ msgstr "Stichworte senden"
 #: glade/tag.glade.h:3
 msgid "gtk-close"
 msgstr "gtk-close"
-
-#: mtplastfm/main.py:135
-msgid ""
-"Warning: Your device seems to be taking longer than normal to upload a track "
-"listing.\n"
-msgstr ""
-"Warnung: Ihr Gerät scheint für das Hochladen der Titelliste länger als "
-"gewöhnlich zu brauchen.\n"
-
-#: mtplastfm/main.py:142
-msgid ""
-"Device found, but an error occurred. Please make sure it is not mounted by "
-"another program (eg. music player, desktop)."
-msgstr ""
-"Gerät gefunden, aber ein Fehler trat auf. Bitte stellen Sie sicher, dass das "
-"Gerät nicht von einem anderem Programm eingebunden wird (z. B. Musik-Player, "
-"Desktop)"
-
-#: mtplastfm/main.py:172
-#, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] "%(num)d Titel geprüft"
-msgstr[1] "%(num)d Titel geprüft"
-
-#: mtplastfm/main.py:175
-#, python-format
-msgid "%(num)d item was not added to your song database.\n"
-msgid_plural "%(num)d items were not added to your song database.\n"
-msgstr[0] ""
-"%(num)d Eintrag wurde nicht zu ihrer Song-Datenbank hinzugefügt.\n"
-msgstr[1] ""
-"%(num)d Einträge wurden nicht zu ihrer Song-Datenbank hinzugefügt.\n"
-
-#: mtplastfm/scrobbler.py:89
-#, python-format
-msgid "Preparing %(num)d track for scrobbling"
-msgid_plural "Preparing %(num)d tracks for scrobbling"
-msgstr[0] "Bereite %(num)d Titel zum Scrobbeln vor"
-msgstr[1] "Bereite %(num)d Titel zum Scrobbeln vor"
-
-#: mtplastfm/scrobbler.py:137
-#, python-format
-msgid "Scrobbled %(num)d track"
-msgid_plural "Scrobbled %(num)d tracks"
-msgstr[0] "%(num)d Titel gescrobbelt"
-msgstr[1] "%(num)d Titel gescrobbelt"
