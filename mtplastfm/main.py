@@ -225,7 +225,7 @@ class MTPLastfmGTK:
     def authenticate_user(self):
         """This authenticates the user with last.fm ie. The Handshake"""
         #disable all buttons etc
-        self.tree.get_widget("login_window").set_sensitive(False)
+        self.tree.get_widget("vbox7").set_sensitive(False)
         self.tree.get_widget("username_entry").set_text(self.username)
         self.tree.get_widget("password_entry").set_text(self.password)
         self.tree.get_widget("login_error").set_text(_("Authenticating..."))
@@ -237,7 +237,7 @@ class MTPLastfmGTK:
             msg = "This is the test version, scrobbling is disabled"
         else:
             server_response, msg = self.scrobbler.handshake()
-        self.tree.get_widget("login_window").set_sensitive(True)
+        self.tree.get_widget("vbox7").set_sensitive(True)
         if server_response == "OK":
             self.write_info(msg, clear_buffer=True)
             self.session_key = self.usersDB.get_session_key(self.username)
