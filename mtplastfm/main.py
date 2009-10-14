@@ -80,7 +80,7 @@ class MTPLastfmGTK:
             if self.authenticate_user():
                 self.setup_user_session()
             else:
-                self.tree.get_widget("login_error").set_text(self.authentication_error.reason[1])
+                self.tree.get_widget("login_error").set_text("There was an error")#self.authentication_error.reason[1])
     
   
     def show_main_window(self):
