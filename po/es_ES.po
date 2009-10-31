@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-06-27 21:35+0300\n"
-"PO-Revision-Date: 2009-10-19 15:50+0000\n"
-"Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
+"PO-Revision-Date: 2009-10-26 19:26+0000\n"
+"Last-Translator: Daniel Ferreira <spanish_nerdo@hotmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-10-23 04:36+0000\n"
+"X-Launchpad-Export-Date: 2009-10-27 08:27+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
@@ -179,6 +179,9 @@ msgid ""
 "Please authenticate MTP-Lastfm in your web browser.  This is required if you "
 "wish to love/tag tracks.  After the authentication is complete click OK"
 msgstr ""
+"Por favor autentique MTP-Lastfm en su navegador Web. Esto es requerido si "
+"Usted desea el love/tag tracks. Después de que la autenticación sea "
+"completada haga clic en OK."
 
 #: mtplastfm/main.py:498
 msgid "Authentication complete"
@@ -240,7 +243,7 @@ msgstr "Número de reproducciones"
 
 #: mtplastfm/songdata.py:53
 msgid "Tracks that recently failed a validity check:\n"
-msgstr ""
+msgstr "Pistas que fallaron recientemente en el control de validez.\n"
 
 #: mtplastfm/songdata.py:89
 msgid "None"
@@ -316,11 +319,11 @@ msgstr "<b>Opciones</b>"
 
 #: glade/gui.glade.h:6
 msgid "<b>Scrobble ordering</b>"
-msgstr ""
+msgstr "<b>Orden de scrobble</b>"
 
 #: glade/gui.glade.h:7
 msgid "<b>Scrobble timing</b>"
-msgstr ""
+msgstr "<b>Ritmo de scrobble</b>"
 
 #: glade/gui.glade.h:8
 msgid "About MTP-Lastfm"
@@ -336,7 +339,7 @@ msgstr "Siempre usar la hora predeterminada"
 
 #: glade/gui.glade.h:11
 msgid "Authenticate MTP-Lastfm to love/tag tracks"
-msgstr ""
+msgstr "Autentique MTP-Lastfm a las pistas love/tag"
 
 #: glade/gui.glade.h:12
 msgid "Authenticate now"
@@ -344,11 +347,11 @@ msgstr "Autenticar ahora"
 
 #: glade/gui.glade.h:13
 msgid "Calculate scrobble time to finish \"Now\""
-msgstr ""
+msgstr "Calcula el tiempo de scrobble para que termine ''Ahora''"
 
 #: glade/gui.glade.h:14
 msgid "Clears your locally stored song data"
-msgstr ""
+msgstr "Borra tus datos de las canciones guardadas"
 
 #: glade/gui.glade.h:15
 msgid "Connect to device on startup"
@@ -356,11 +359,12 @@ msgstr "Conectar al dispositivo al iniciar"
 
 #: glade/gui.glade.h:16
 msgid "Default scrobble start time (Hours)"
-msgstr ""
+msgstr "Tiempo de inicio de Scrobble por defecto (Horas)"
 
 #: glade/gui.glade.h:17
 msgid "Enter the time (in hours) that you wish to start scrobbling from:"
 msgstr ""
+"Escriba el tiempo (en horas)  en las que quiere que inicie el scrobbling:"
 
 #: glade/gui.glade.h:18
 msgid "Git repository"
@@ -401,7 +405,7 @@ msgstr "MTP-Lastfm - Iniciar sesión"
 
 #: glade/gui.glade.h:28
 msgid "MTP-Lastfm - Scrobbling"
-msgstr ""
+msgstr "MTP-Lastfm - Scrobbling"
 
 #: glade/gui.glade.h:29
 msgid "MTP-Lastfm - Settings"
@@ -460,6 +464,8 @@ msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
 msgstr ""
+"Scrobble automático tras el chequeo de dispositivos (dejar desmarcado para "
+"las pistas favoritas y prohibidas)"
 
 #: glade/gui.glade.h:41
 msgid "Set time manually"
@@ -486,6 +492,8 @@ msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
 msgstr ""
+"mtp-lastfm sigue tus hábitos musicales  de tu dispositivo mtp y los sube a "
+"last.fm"
 
 #: glade/gui.glade.h:47
 msgid "password:"
@@ -497,7 +505,7 @@ msgstr "nombre de usuario:"
 
 #: glade/log.glade.h:1
 msgid "Song data log"
-msgstr ""
+msgstr "Registro de datos de las canciones"
 
 #: glade/tag.glade.h:1
 msgid "Enter your tags, seperated by commas:"
