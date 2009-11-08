@@ -21,10 +21,12 @@ import re
 import hashlib
 import gtk
 import pygtk
+import urllib
 import gtk.glade
 import gobject
 import threading
 import Queue
+import webbrowser
 gtk.gdk.threads_init()
 import time
 pygtk.require("2.0")
@@ -201,11 +203,11 @@ class MTPLastfmGTK:
         buttons = {
             "love" :
                 [len(self.song_db.return_pending_love().fetchall()),
-                "loved_label"],
+                "Pending love"],
             
             "ban" :
                 [len(self.song_db.return_tracks("B").fetchall()),
-                "banned_label"],
+                "Banned tracks"],
                 
             "cache" :
                 [self.song_db.scrobble_counter,
@@ -218,8 +220,12 @@ class MTPLastfmGTK:
             else:
                 sensitivity = True
                 text = "(" + str(value[0]) + ")"
-            
-            self.tree.get_widget(value[1]).set_text(text)
+            #set the song count for the cache button
+            #not sure yet how to change the label on a menu item
+            try:
+                self.tree.get_widget(value[1]).set_text(text)
+            except:
+                pass
             self.tree.get_widget(key).set_sensitive(sensitivity)
    
     def authenticate_user(self):
@@ -408,7 +414,8 @@ class MTPLastfmGTK:
                 self.tree.get_widget("login_error").set_text(self.authentication_error)
     
     def setup_user_session(self):
-        self.tree.get_widget("user").set_text(self.username)
+        self.tree.get_widget("user").set_markup("<b>%s</b>" % self.username)
+        self.set_user_image()
         self.options = Options(self.username, self.usersDB)
         if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
             self.write_info(_("User database doesn't exist, creating."))
@@ -421,7 +428,23 @@ class MTPLastfmGTK:
         if self.options.return_option("startup_check") == True:
             self.on_check_device_clicked(None)
         
-        
+    
+    def set_user_image(self):
+        path = self.HOME_DIR + self.username + ".thumb"
+        try:
+            image = gtk.gdk.pixbuf_new_from_file_at_size(path, 100, 40)
+        except:
+            #image doesn't exist, download
+            self.tree.get_widget("login_error").set_text(_("Downloading user image..."))
+            webservice = webservices.LastfmWebService()
+            request = urllib.urlopen("http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s" % (self.username, webservice.api_key))
+            image_url = webservice.parse_xml(request, "image")
+            print image_url
+            urllib.urlretrieve(image_url, path)
+            image = gtk.Image()
+            image = gtk.gdk.pixbuf_new_from_file_at_size(path, 40, 40)
+        self.tree.get_widget("user_thumb").set_from_pixbuf(image)
+    
     def on_username_entry_insert_text(self, widget):
         """Check the user database on keypress to see if we have a match"""
         entry = self.tree.get_widget("username_entry").get_text()
@@ -509,6 +532,11 @@ class MTPLastfmGTK:
         response = self.tree.get_widget("about_dialog").run()
         if response == gtk.RESPONSE_DELETE_EVENT or response == gtk.RESPONSE_CANCEL:
             self.tree.get_widget("about_dialog").hide()
+            
+    def open_website(self, widget):
+        buttons = {"user_button" : "http://last.fm/user/%s" % self.username,
+                   "report_bug" : "https://bugs.launchpad.net/mtp-lastfm"}
+        webbrowser.open_new_tab(buttons[widget.name])
 
 if __name__ == "__main__":
     mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)
