@@ -16,14 +16,12 @@
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 import subprocess
 import os
-import sys
 import re
 import hashlib
 import gtk
 import pygtk
 import urllib
 import gtk.glade
-import gobject
 import threading
 import Queue
 import webbrowser
@@ -46,9 +44,9 @@ queue = Queue.Queue()
 
 def connect_to_mtp_device(filename):
     """Run in a seperate thread"""
-    f = open(filename, "w")
-    ret = subprocess.call("mtp-tracks", stdout=f)
-    queue.put(ret)
+    dump = open(filename, "w")
+    process = subprocess.call("mtp-tracks", stdout=dump)
+    queue.put(process)
     
     
 
@@ -66,8 +64,8 @@ class MTPLastfmGTK:
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
-        self.tree.get_widget("info").get_window(gtk.TEXT_WINDOW_TEXT).set_cursor(
-            gtk.gdk.Cursor(gtk.gdk.ARROW))
+        self.tree.get_widget("info").get_window(
+            gtk.TEXT_WINDOW_TEXT).set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
         
         about_dialog = self.tree.get_widget("about_dialog")
         about_dialog.set_version(self.version)
@@ -82,7 +80,8 @@ class MTPLastfmGTK:
             if self.authenticate_user():
                 self.setup_user_session()
             else:
-                self.tree.get_widget("login_error").set_text("There was an error")#self.authentication_error.reason[1])
+                self.tree.get_widget("login_error").set_text(
+                    "There was an error")
     
   
     def show_main_window(self):
@@ -134,14 +133,17 @@ class MTPLastfmGTK:
                 while gtk.events_pending():
                     gtk.main_iteration()
                 if time.time() - start_time > avg_time + 15 and warn_msg_given is False:
-                    self.write_info(_("Warning: Your device seems to be taking longer than normal to upload a track listing.\n"))
+                    self.write_info(_("Warning: Your device seems to be taking \
+                                      longer than normal to upload a track listing.\n"))
                     warn_msg_given = True
             total += (time.time() - start_time)
             count += 1
             self.usersDB.update_connection_time(self.username, count, total)
         success = queue.get()
         if success == 1:
-            self.write_info(_("Device found, but an error occurred. Please make sure it is not mounted by another program (eg. music player, desktop)."))
+            self.write_info(_("Device found, but an error occurred. Please make \
+                              sure it is not mounted by another program \
+                              (eg. music player, desktop)."))
             progress_bar.stop()
             return
         f = file(dump_file, 'r').readlines()
@@ -191,7 +193,7 @@ class MTPLastfmGTK:
             self.on_scrobble_clicked(None)
                 
     
-    def show_error_details(self, widget, data):
+    def show_error_details(self, *args):
         tree = gtk.glade.XML(self.GLADE['log'])
         f = open(self.HOME_DIR + "db.log", "r").read()
         self.write_info(new_info=f, text_widget=tree.get_widget("text_view"),
@@ -275,7 +277,7 @@ class MTPLastfmGTK:
         self.scrobbler.set_scrobble_time(scr_time)
         scrobble_list = self.song_db.return_scrobble_list(self.options.return_scrobble_ordering())
         if self.scrobbler.submit_tracks(scrobble_list):
-                self.song_db.delete_scrobbles('all')
+            self.song_db.delete_scrobbles('all')
         else:
             self.song_db.delete_scrobbles(self.scrobbler.deletion_ids)
         
@@ -311,7 +313,8 @@ class MTPLastfmGTK:
     
     
     def show_scrobble_dialog(self):
-        self.tree.get_widget("scrobble_time_manual").set_value(self.options.return_option("scrobble_time"))
+        self.tree.get_widget("scrobble_time_manual").set_value(
+            self.options.return_option("scrobble_time"))
         response = self.tree.get_widget("scrobble_dialog").run()
         while gtk.events_pending():
             gtk.main_iteration(False)
@@ -422,7 +425,8 @@ class MTPLastfmGTK:
             self.first_run = True
         else:
             self.first_run = False
-        self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB", self.first_run)
+        self.song_db = dbClass.lastfmDb(self.HOME_DIR + self.username + "DB",
+                                        self.first_run)
         self.set_button_count()
         self.show_main_window()
         if self.options.return_option("startup_check") == True:
@@ -437,13 +441,14 @@ class MTPLastfmGTK:
             #image doesn't exist, download
             self.tree.get_widget("login_error").set_text(_("Downloading user image..."))
             webservice = webservices.LastfmWebService()
-            request = urllib.urlopen("http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s" % (self.username, webservice.api_key))
+            url = "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s"
+            request = urllib.urlopen(url % (self.username, webservice.api_key))
             image_url = webservice.parse_xml(request, "image")
-            print image_url
-            urllib.urlretrieve(image_url, path)
-            image = gtk.Image()
-            image = gtk.gdk.pixbuf_new_from_file_at_size(path, 40, 40)
-        self.tree.get_widget("user_thumb").set_from_pixbuf(image)
+            if image_url is not None:
+                urllib.urlretrieve(image_url, path)
+                image = gtk.Image()
+                image = gtk.gdk.pixbuf_new_from_file_at_size(path, 100, 40)
+                self.tree.get_widget("user_thumb").set_from_pixbuf(image)
     
     def on_username_entry_insert_text(self, widget):
         """Check the user database on keypress to see if we have a match"""
@@ -503,7 +508,9 @@ class MTPLastfmGTK:
         
     def on_authenticate_clicked(self, widget):
         """This is the button in the options menu"""
-        text = _("Please authenticate MTP-Lastfm in your web browser.  This is required if you wish to love/tag tracks.  After the authentication is complete click OK")
+        text = _("Please authenticate MTP-Lastfm in your web browser.  \
+                 This is required if you wish to love/tag tracks.  \
+                 After the authentication is complete click OK")
         message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
                                     gtk.BUTTONS_OK_CANCEL, text)
         webservice = webservices.LastfmWebService()
