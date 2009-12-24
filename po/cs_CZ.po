@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-06-27 21:35+0300\n"
-"PO-Revision-Date: 2009-10-19 14:44+0000\n"
+"PO-Revision-Date: 2009-11-07 10:57+0000\n"
 "Last-Translator: Kuvaly <kuvaly@seznam.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-10-27 08:27+0000\n"
+"X-Launchpad-Export-Date: 2009-11-08 04:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
 msgid "User authenticated"
-msgstr ""
+msgstr "Uživatel ověřen"
 
 #: mtplastfm/httprequest.py:55
 msgid "Username or password incorrect, please reset"
-msgstr ""
+msgstr "Uživatelské jméno či heslo je nekorektní, prosím resetujte ho"
 
 #: mtplastfm/httprequest.py:56
 msgid ""
