@@ -435,21 +435,17 @@ class MTPLastfmGTK:
     
     def set_user_image(self):
         path = self.HOME_DIR + self.username + ".thumb"
-        try:
+        self.tree.get_widget("login_error").set_text(_("Downloading user image..."))
+        webservice = webservices.LastfmWebService()
+        url = "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s"
+        request = urllib.urlopen(url % (self.username, webservice.api_key))
+        image_url = webservice.parse_xml(request, "image")
+        if image_url is not None:
+            urllib.urlretrieve(image_url, path)
+            image = gtk.Image()
             image = gtk.gdk.pixbuf_new_from_file_at_size(path, 100, 40)
-        except:
-            #image doesn't exist, download
-            self.tree.get_widget("login_error").set_text(_("Downloading user image..."))
-            webservice = webservices.LastfmWebService()
-            url = "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s"
-            request = urllib.urlopen(url % (self.username, webservice.api_key))
-            image_url = webservice.parse_xml(request, "image")
-            if image_url is not None:
-                urllib.urlretrieve(image_url, path)
-                image = gtk.Image()
-                image = gtk.gdk.pixbuf_new_from_file_at_size(path, 100, 40)
-                self.tree.get_widget("user_thumb").set_from_pixbuf(image)
-    
+            self.tree.get_widget("user_thumb").set_from_pixbuf(image)
+            
     def on_username_entry_insert_text(self, widget):
         """Check the user database on keypress to see if we have a match"""
         entry = self.tree.get_widget("username_entry").get_text()
