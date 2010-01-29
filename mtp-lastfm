@@ -3,6 +3,7 @@ import os
 import sys
 import optparse
 import gtk
+import time
 
 
 #find src path
@@ -37,6 +38,7 @@ except OSError:
 if options.error_log:
     log_file = HOME_DIR + "errors.log"
     sys.stderr = open(log_file, 'a')
+    sys.stderr.write("\n["+time.asctime( time.localtime(time.time()) )+"]:\n")
     print _('Error messages will be logged in %s') % log_file
 
 GLADE = {"path" : UI_DIR + os.sep}
