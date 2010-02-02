@@ -8,8 +8,10 @@ handlers:
 - url: /css
   static_dir: static/css
 
+- url: /api/.*
+  script: api.py
+  
 - url: /.*
-  script: usage_server.py
 
 
   
