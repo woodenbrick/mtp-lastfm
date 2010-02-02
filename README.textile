@@ -1,1 +1,3 @@
-This is a Google App Engine Server package to keep track of MTP devices and their compatability with MTP-Lastfm
+h2. MTP-Lastfm 0.82
+
+This is the server side software that collects usage data for mtp-lastfm, such as unsupported devices.

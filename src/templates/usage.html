@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <link href="/css/default.css" type="text/css" rel="stylesheet">
+
+    <body>
+        List of compatible devices by Manufacturer
+        {% for man in devices.items %}
+        <table>
+        <tr><th class='device'>{{man.0}}</th></tr>
+        {% for d in man.1 %}
+        <tr><td>{{d.model}}</td><td>
+        {% ifequal d.issues 0 %}
+        No known issues ({{d.count}}user{% ifnotequal d.issues 1 %}s{% endifnotequal %})
+        {% else %}
+        {{d.issues}} of {{d.count}} users have reported problems with this device.</tr>
+        {% endifequal %}
+        {% endfor %}
+        </table>
+        {% endfor %}
+
+    </body></html>
