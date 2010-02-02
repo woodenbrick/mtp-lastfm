@@ -107,14 +107,9 @@ class HasIssues(webapp.RequestHandler):
 
 class Error(webapp.RequestHandler):
     def get(self, page):
-        self.response.headers['Content-Type'] = "text/plain"
-        self.response.out.write("Page %s not found." % page)
-
-class Fuck(webapp.RequestHandler):
-    def get(self):
-        #self.response.headers['Content-Type'] = "text/xml"
+        self.response.headers['Content-Type'] = "text/xml"
         self.response.set_status(400, "FUCK")
-        #self.response.out.write(template.render("templates/lfmerror.xml", {}))
+        self.response.out.write(template.render("templates/lfmerror.xml", {}))
 
 
 class AddNew(webapp.RequestHandler):
@@ -133,9 +128,7 @@ application = webapp.WSGIApplication([
     ('/hasissue', HasIssues),
     ('/usage', UsageStatistics),
     ('/addnew', AddNew),
-    ('/fuck', Fuck),
-    
-  # (r'/(.*)', Error),
+    (r'/(.*)', Error),
     
 ], debug=True)
 
