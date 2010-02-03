@@ -25,15 +25,15 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from cgi import escape
 
-
+from models import Device
 
 API_TEMPLATE_PATH = "templates/api/"
 
 
 class AllDevices(webapp.RequestHandler):
     def get(self):
-        devices = Device.all()
-        status = "OK" if devices is not None else "NOTFOUND"
+        devices = Device.all().fetch(1000)
+        status = "OK" if len(devices) != 0 else "NOTFOUND"
         self.response.headers['Content-Type'] = "text/xml"
         self.response.out.write(template.render(API_TEMPLATE_PATH + "devices.xml",
                                                 {"status" : status, "devices" : devices}))
@@ -68,11 +68,9 @@ class AddNew(webapp.RequestHandler):
         x.put()
         
 application = webapp.WSGIApplication([
-    ('/api/hasissue', HasIssues),
     ('/api/devices', AllDevices),
     ('/api/devices/(.*)', DevicesByManufacturer),
     ('/api/devices/(.*)/(.*)', SingleDevice),
-    ('/usage', UsageStatistics),
     ('/api/addnew', AddNew),
     (r'/api/(.*)', Error),
     
