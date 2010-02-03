@@ -44,6 +44,12 @@ class Problems(db.Model):
     user = db.ReferenceProperty(UsersWithProblems)
 
 
+def write_error(handler, error_code, msg):
+    handler.response.headers['Content-Type'] = "text/xml"
+    handler.response.set_status(400, "NOTFOUND")
+    handler.response.out.write(template.render("templates/lfmerror.xml",
+                                            {"status" : error_code,
+                                             "error_msg" : msg}))
 
 class UsageStatistics(webapp.RequestHandler):
     def post(self):
@@ -107,9 +113,8 @@ class HasIssues(webapp.RequestHandler):
 
 class Error(webapp.RequestHandler):
     def get(self, page):
-        self.response.headers['Content-Type'] = "text/xml"
-        self.response.set_status(400, "FUCK")
-        self.response.out.write(template.render("templates/lfmerror.xml", {}))
+        write_error(self, "NOTFOUND", "URL not found: %s" % page)
+
 
 
 class AddNew(webapp.RequestHandler):
@@ -125,10 +130,10 @@ class AddNew(webapp.RequestHandler):
         x.put()
         
 application = webapp.WSGIApplication([
-    ('/hasissue', HasIssues),
-    ('/usage', UsageStatistics),
-    ('/addnew', AddNew),
-    (r'/(.*)', Error),
+    ('/api/hasissue', HasIssues),
+    ('/api/usage', UsageStatistics),
+    ('/api/addnew', AddNew),
+    (r'/api/(.*)', Error),
     
 ], debug=True)
 
