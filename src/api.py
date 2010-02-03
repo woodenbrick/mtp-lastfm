@@ -26,7 +26,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from cgi import escape
 
-class Usage(db.Model):
+class Device(db.Model):
     model = db.StringProperty()
     manufacturer = db.StringProperty()
     issues = db.IntegerProperty()
@@ -43,13 +43,22 @@ class Problems(db.Model):
     dump = db.BlobProperty()
     user = db.ReferenceProperty(UsersWithProblems)
 
+API_TEMPLATE_PATH = "templates/api/"
+WEB_TEMPLATE_PATH = "templates/webinterface"
 
-def write_error(handler, error_code, msg):
-    handler.response.headers['Content-Type'] = "text/xml"
-    handler.response.set_status(400, "NOTFOUND")
-    handler.response.out.write(template.render("templates/lfmerror.xml",
-                                            {"status" : error_code,
-                                             "error_msg" : msg}))
+class AllDevices(webapp.RequestHandler):
+    def get(self):
+        devices = Device.all()
+        status = "OK" if devices is not None else "NOTFOUND"
+        self.response.headers['Content-Type'] = "text/xml"
+        self.response.out.write(template.render(API_TEMPLATE_PATH + "devices.xml",
+                                                {"status" : status, "devices" : devices}))
+
+class DevicesByManufacturer(webapp.RequestHandler):
+    pass
+
+class SingleDevice(webapp.RequestHandler):
+    pass
 
 class UsageStatistics(webapp.RequestHandler):
     def post(self):
@@ -113,9 +122,11 @@ class HasIssues(webapp.RequestHandler):
 
 class Error(webapp.RequestHandler):
     def get(self, page):
-        write_error(self, "NOTFOUND", "URL not found: %s" % page)
-
-
+        handler.response.headers['Content-Type'] = "text/xml"
+        handler.response.set_status(400, "NOTFOUND")
+        handler.response.out.write(template.render("templates/error.xml",
+                                            {"status" : error_code,
+                                             "error_msg" : msg}))
 
 class AddNew(webapp.RequestHandler):
     #not production code
@@ -131,7 +142,10 @@ class AddNew(webapp.RequestHandler):
         
 application = webapp.WSGIApplication([
     ('/api/hasissue', HasIssues),
-    ('/api/usage', UsageStatistics),
+    ('/api/devices', AllDevices),
+    ('/api/devices/(.*)', DevicesByManufacturer),
+    ('/api/devices/(.*)/(.*)', SingleDevice),
+    ('/usage', UsageStatistics),
     ('/api/addnew', AddNew),
     (r'/api/(.*)', Error),
     
