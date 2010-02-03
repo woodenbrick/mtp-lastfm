@@ -12,6 +12,6 @@
     {% endfor %}
   </devices>
   {% else %}
-  <error>{{error_msg}}</error>
+  <error>No devices were found on the server.</error>
   {% endifequal %}
 </mtp-lastfm>
