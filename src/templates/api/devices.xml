@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mtp-lastfm status="{{status}}">
+    {% ifequal status "OK" %}
+    <devices>
+    {% for device in devices %}
+    <device>
+      <manufacturer>{{device.manufacturer}}</manufacturer>
+      <model>{{device.model}}</model>
+      <users>{{device.users}}</users>
+      <issues>{{device.issues}}</issues>
+    </device>
+    {% endfor %}
+  </devices>
+  {% else %}
+  <error>{{error_msg}}</error>
+  {% endifequal %}
+</mtp-lastfm>
