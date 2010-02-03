@@ -12,6 +12,7 @@ handlers:
   script: api.py
   
 - url: /.*
+  script: webinterface.py
 
 
   
