@@ -66,4 +66,3 @@ char* get_libmtp_version()
     return LIBMTP_VERSION_STRING;
 }
 
-
