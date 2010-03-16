@@ -347,29 +347,29 @@ class lastfmDb:
         exists, or creates a new row. In both cases the scrobble table
         is added to as well."""
         self.cursor.execute("""SELECT artist, song, rating, usecount FROM
-                            songs WHERE trackid = ?""", (song_dic['Track ID:'],))
+                            songs WHERE trackid = ?""", (song_dic['id'],))
         row = self.cursor.fetchone()
         if row is None:
-            rating, usecount = song_dic['User rating:'], song_dic['Use count:']
+            rating, usecount = song_dic['rating'], song_dic['usecount']
         else:
-            if row[0] != song_dic['Artist:'] or row[1] != song_dic['Title:']:
+            if row[0] != song_dic['artist'] or row[1] != song_dic['title']:
                 self.reset_track_id(song_dic)
                 return
             rating, usecount = row[2], row[3]
         if row == None:
-            num_scrobbles = song_dic['Use count:']
+            num_scrobbles = song_dic['usecount']
             self.cursor.execute("""insert into songs (trackid, artist,
                                 song, album, tracknumber, duration,
                                 usecount, rating) values (?, ?, ?, ?, ?, ?, ?, ?)""",
-                                (song_dic['Track ID:'], song_dic['Artist:'],
-                                 song_dic['Title:'], song_dic['Album:'],
-                                 song_dic['Track number:'], song_dic['Duration:'],
+                                (song_dic['id'], song_dic['artist'],
+                                 song_dic['title'], song_dic['album'],
+                                 song_dic['tracknumber'], song_dic['duration'],
                                  usecount, rating))
             self.db.commit()
         else:
             
             #song has row in db
-            num_scrobbles = song_dic['Use count:'] - usecount
+            num_scrobbles = song_dic['usecount'] - usecount
             #this should be 0 or greater though due to some freak of nature sometimes it isnt
             if num_scrobbles < 0:
                 num_scrobbles = 0
@@ -377,17 +377,17 @@ class lastfmDb:
             #what should we do? We currently have no way to change the rating
             #on the device so we will give priority to a 5 or 1 star on the device
             #and leave any other ratings alone
-            if song_dic['User rating:'] != "":
-                rating = song_dic['User rating:']
+            if song_dic['rating'] != "":
+                rating = song_dic['rating']
         if num_scrobbles > 0:
             self.cursor.execute("""update songs set usecount=?, rating=?
-                                where trackid=?""", (song_dic['Use count:'],
+                                where trackid=?""", (song_dic['usecount'],
                                                      rating,
-                                                    song_dic['Track ID:']))
+                                                    song_dic['id']))
             self.db.commit()
         
         if rating == 'L':
-            self.add_to_love_cache([song_dic['Track ID:']])
+            self.add_to_love_cache([song_dic['id']])
             
         if rating != 'B':
             self.scrobble_counter += num_scrobbles
@@ -395,11 +395,11 @@ class lastfmDb:
             if self.had_pending_scrobbles:
                 if self.pending_scrobble_list is None:
                     self.fill_pending_scrobble_list()
-                count = self.return_new_count(count, song_dic['Track ID:'])
+                count = self.return_new_count(count, song_dic['id'])
                 
             while num_scrobbles > 0:
                 self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
-                                    values (?, ?)""", (song_dic['Track ID:'], count))
+                                    values (?, ?)""", (song_dic['id'], count))
                 num_scrobbles -= 1
             self.db.commit()
             
@@ -428,10 +428,10 @@ class lastfmDb:
     def reset_track_id(self, song_dic):
         """If a device has songs deleted from it, its trackids may be recycled
         this removes references to the old id and replaces them with the new"""
-        self.cursor.execute("delete from love_cache where trackid=?", (song_dic['Track ID:'],))
-        self.cursor.execute("delete from songs where trackid=?", (song_dic['Track ID:'],))
+        self.cursor.execute("delete from love_cache where trackid=?", (song_dic['id'],))
+        self.cursor.execute("delete from songs where trackid=?", (song_dic['id'],))
         #we will remove songs that havent been scrobbled yet, too bad for the user
-        self.cursor.execute("delete from scrobble where trackid=?", (song_dic['Track ID:'],))
+        self.cursor.execute("delete from scrobble where trackid=?", (song_dic['id'],))
         self.db.commit()
         self.add_new_data(song_dic)
         
