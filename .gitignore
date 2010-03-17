@@ -1,4 +1,9 @@
+*.so
 *.pyc
 *.psd
 *~
 mtp-lastfm.kpf
+*.glade.h
+*.pro*
+.debian-base
+build
