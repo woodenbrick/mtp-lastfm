@@ -8,7 +8,11 @@ h2. Installing
 
 The program can be installed from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa if you run Ubuntu/Debian.
 
-It can also be run from the source directory, or installed using distutils. To do this you will need the libmtp develpment headers (libmtp-dev) in order to build the c extension module:
+It can also be run from the source directory or installed using distutils. There is a C extension module in the src which requires compilation, so make sure you have the following installed:
+pkg-config
+python-distutils-extra
+libmtp-dev
+python-dev
 
 Run from src directory:
 python setup.py build_ext --inplace
