@@ -173,6 +173,10 @@ class lastfmDb:
         self.cursor = self.db.cursor()
         if create is True:
             self.initial_creation()
+        self.pending_scrobble_list = None
+        #keeps track of scrobbles added during last run
+        #should be reset to 0 before each new run
+        self.new_scrobble_count = 0 
         self.return_scrobble_count()
             
     def initial_creation(self):
@@ -391,12 +395,17 @@ class lastfmDb:
             
         if rating != 'B':
             self.scrobble_counter += num_scrobbles
+            self.new_scrobble_count += num_scrobbles
             count = num_scrobbles
             if self.had_pending_scrobbles:
                 if self.pending_scrobble_list is None:
                     self.fill_pending_scrobble_list()
                 count = self.return_new_count(count, song_dic['id'])
-                
+            #XXX this needs to be fixed, we are keeping each scrobble seperately in
+            #the database rather than having 1 row per track with a count column
+            #the only reason for this implementation is so we can randomise scrobbles
+            #and not group multiple plays of the same track together but there
+            #must be a more efficient way.
             while num_scrobbles > 0:
                 self.cursor.execute("""insert into scrobble (trackid, scrobble_count)
                                     values (?, ?)""", (song_dic['id'], count))
