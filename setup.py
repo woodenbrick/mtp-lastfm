@@ -6,17 +6,18 @@ import os
 import glob 
 import commands
 PROGRAM_NAME = 'mtp-lastfm'
-VERSION = '0.76'
-success = os.system("swig -python cmod/mtpconnect.i")
-print success
+VERSION = '0.85'
+
 def pkgconfig(*packages, **kw):
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
     for token in commands.getoutput("pkg-config --libs --cflags %s" % ' '.join(packages)).split():
         kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kw
-
-mtpconnect_module = Extension('_mtpconnect', sources=['cmod/mtpconnect.c',
-                                                      'cmod/mtpconnect_wrap.c'],
+#i would like to do the swig build here but cant figure out the correct
+#way so we will just distribute the wrapper file
+mtpconnect_module = Extension('mtplastfm/cmod/_mtpconnect', sources=[
+    'mtplastfm/cmod/mtpconnect.c',
+    'mtplastfm/cmod/mtpconnect_wrap.c'],
                            **pkgconfig("libmtp")
                            )
 glade = glob.glob(os.path.join("glade", "*.glade"))
