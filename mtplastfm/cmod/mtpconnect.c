@@ -21,9 +21,9 @@
 LIBMTP_mtpdevice_t* device;
 LIBMTP_track_t *current_track, *tmp;
 int counter;
-char* invalid_track;
 
-int open_device()
+
+int open_device(void)
 {
     LIBMTP_Init();
     LIBMTP_error_number_t error;
@@ -62,8 +62,7 @@ int open_device()
 }
 
 
-
-void close_device()
+void close_device(void)
 {
     if(device != NULL)
         LIBMTP_Release_Device(device);
@@ -71,7 +70,7 @@ void close_device()
         printf("No pointer to device found\n");
 }
 
-int reset_device()
+int reset_device(void)
 {
     if(device != NULL)
         return LIBMTP_Reset_Device(device);
@@ -80,29 +79,29 @@ int reset_device()
     return 1;
 }
 
-LIBMTP_mtpdevice_t* next_device()
+LIBMTP_mtpdevice_t* next_device(void)
 {
     device = device->next;
     return device;
 }
 
 
-char* get_manufacturer()
+char* get_manufacturer(void)
 {
     return LIBMTP_Get_Manufacturername(device);
 }
 
-char* get_model()
+char* get_model(void)
 {
     return LIBMTP_Get_Modelname(device);
 }
 
-char* get_libmtp_version()
+char* get_libmtp_version(void)
 {
     return LIBMTP_VERSION_STRING;
 }
 
-LIBMTP_track_t* get_tracks()
+LIBMTP_track_t* get_tracks(void)
 {
     counter = 0;
     current_track = LIBMTP_Get_Tracklisting_With_Callback(device, NULL, NULL);
@@ -117,12 +116,12 @@ LIBMTP_track_t* get_tracks()
     return current_track;
 }
 
-int get_track_count()
+int get_track_count(void)
 {
     return counter;
 }
 
-LIBMTP_track_t* next_track()
+LIBMTP_track_t* next_track(void)
 {
     LIBMTP_track_t* tmp;
     tmp = current_track;
@@ -131,22 +130,22 @@ LIBMTP_track_t* next_track()
     return current_track;
 }
 
-char* get_artist()
+char* get_artist(void)
 {
     return current_track->artist;
 }
 
-char* get_title()
+char* get_title(void)
 {
     return current_track->title;
 }
 
-char* get_album()
+char* get_album(void)
 {
     return current_track->album;
 }
 
-int get_duration()
+int get_duration(void)
 {
     //return in seconds and make it 3minutes long if this attribute is missing
     //otherwise last.fm wont scrobble it.
@@ -156,12 +155,12 @@ int get_duration()
 }
 
 
-int get_item_id()
+int get_item_id(void)
 {
     return current_track->item_id;
 }
 
-char get_rating()
+char get_rating(void)
 {
     //return as a char that can be sent straight to last.fm
     if(current_track->rating == 99)
@@ -171,42 +170,29 @@ char get_rating()
     return "";
 }
 
-int get_track_number()
+int get_track_number(void)
 {
     return current_track->tracknumber;
 }
 
-int get_usecount()
+int get_usecount(void)
 {
     return current_track->usecount;
 }
 
-int is_valid_track()
+int is_valid_track(void)
 {
     //check if this is a valid track and sets the error string variable if it isnt
     //a valid track must contain at least:
     // artist/title/acceptable filetype
+
+    if(! LIBMTP_FILETYPE_IS_AUDIO(current_track->filetype))
+        return 1;
     if(current_track->title == NULL || current_track->title == "")
-    {
-        invalid_track = "Invalid title";
-        return 0;
-    }
+        return 3;
     if(current_track->artist == NULL || current_track->artist == "")
-    {
-        invalid_track = "Invalid artist";
-        return 0;
-    }
-    if(! current_track->filetype == 25)//need to find correct codes
-    {
-        invalid_track = "Invalid filetype";
-        return 0;
-    }
-    return 1;
+        return 2;
+    return 0;
 
 }
 
-
-char* get_invalid_track_string()
-{
-    return invalid_track;
-}
