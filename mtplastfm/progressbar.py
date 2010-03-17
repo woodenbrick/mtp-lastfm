@@ -27,11 +27,13 @@ class ProgressBar(object):
         self.progress_bar.set_pulse_step(0.03)
         self.progress_bar.set_text("")
     
-    def set_vars(self, max_value=100, start_value=0, update=100, pulse_mode=False):
+    def set_vars(self, max_value=100, start_value=0, update=100, pulse_mode=False,
+                 text=""):
         self.update_speed = update
         self.current_progress = start_value
         self.max_value = max_value
         self.pulse_mode = pulse_mode
+        self.progress_bar.set_text(text)
         self.progress_bar.set_fraction(start_value)
 
         
@@ -62,5 +64,6 @@ class ProgressBar(object):
         
     def stop(self):
         self.progress_bar.hide()
+        self.progress_bar.set_text("")
         gobject.source_remove(self.timer)
 
