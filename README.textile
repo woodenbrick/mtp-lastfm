@@ -4,26 +4,27 @@ The purpose of this program is to scrobble tracks from mtp devices (such as the 
 
 A list of compatible players is "now available.":http://mtp-lastfm.appspot.com This list will improve as more people submit their player details to the database. mtp-lastfm will automatically do this after its first run.
 
-The program can be run from the source directory, or installed using distutils
-To run from source you first need to build the c extension module:
+h2. Installing
+
+The program can be installed from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa if you run Ubuntu/Debian.
+
+It can also be run from the source directory, or installed using distutils. To do this you will need the libmtp develpment headers (libmtp-dev) in order to build the c extension module:
+
+Run from src directory:
 python setup.py build_ext --inplace
 ./mtp-lastfm
 
-Install: python setup.py install (as superuser)
-
-There are also deb packages available from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa
+Install: 
+python setup.py install (as superuser)
 
 Report bugs, help translate and track new features at "Launchpad":https://launchpad.net/mtp-lastfm 
 
 
 h3. Dependencies:
-* python
+* libmtp
 * python-sqlite
-* sqlite3
 * py-gtk
-* gtk
 * gtk-glade
-
 
 Screenshots:
 

@@ -14,7 +14,6 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
-import subprocess
 import os
 import re
 import hashlib
@@ -30,14 +29,19 @@ import time
 pygtk.require("2.0")
 
 import dbClass
-from songdata import SongData
 import scrobbler
 import songview
 import webservices
 from progressbar import ProgressBar
 from options import Options
-from cmod import mtpconnect
-
+try:
+    from cmod import mtpconnect
+except ImportError:
+    message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
+                                    gtk.BUTTONS_OK, "mtpconnect module not built, please see README.textile for details. Program will now exit.")
+    message.run()
+    message.destroy()
+    gtk.main_quit()
 
 import localisation
 _ = localisation.set_get_text()

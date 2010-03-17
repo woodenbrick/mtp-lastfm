@@ -34,7 +34,7 @@ setup ( name = PROGRAM_NAME,
 	    license = 'GPLv3',
         platforms = ['Linux'],
         url = 'http://github.com/woodenbrick/mtp-lastfm/tree',
-        packages = ['mtplastfm'],
+        packages = ['mtplastfm', 'mtplastfm.cmod'],
         ext_modules = [mtpconnect_module],
         data_files = [
             ('share/applications/', ['mtp-lastfm.desktop']),
