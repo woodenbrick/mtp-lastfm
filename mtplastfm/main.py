@@ -36,12 +36,27 @@ import songview
 import webservices
 from progressbar import ProgressBar
 from options import Options
-import mtpconnect
+from cmod import mtpconnect
 
 
 import localisation
 _ = localisation.set_get_text()
 _pl = localisation.set_get_text_plural()
+
+#these are returned after an attempted connection to an MTP device
+mtp_error_strings = {0 : _("Successfully connected"),
+                     1 : _("General error"),
+                     2 : _("PTP Layer Error"),
+                     3 : _("USB Layer Error"),
+                     4 : _("Memory Allocation Error"),
+                     5 : _("No device attached"),
+                     6 : _("Storage full"),
+                     7 : _("Problem connecting"),
+                     8 : _("Connection cancelled")}
+
+mtp_invalid_file_strings = {1 : _("Invalid filetype"),
+                            2 : _("Invalid artist"),
+                            3 : _("Invalid title")}
 
 class MTPLastfmGTK:
     def __init__(self, author, version, home, glade, test_mode=False):
@@ -57,6 +72,7 @@ class MTPLastfmGTK:
         self.main_window = self.tree.get_widget("main_window")
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
+        self.progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
         self.tree.get_widget("info").get_window(
             gtk.TEXT_WINDOW_TEXT).set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
         
@@ -101,22 +117,29 @@ class MTPLastfmGTK:
         
   
     def on_check_device_clicked(self, widget):
-        self.write_info(_("Connecting to MTP device"), new_line=" ")
-        progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
+        #open dblog
+        log = open(self.HOME_DIR + "db.log", "w")
+        log.write(_("Tracks that recently failed a validity check:\n"))
+        #disable button as a double click will cause a panic
+        self.tree.get_widget("check_device").set_sensitive(False)
+        self.write_info(_("Connecting to MTP device"))
         conn_status = mtpconnect.open_device()
+        self.write_info(mtp_error_strings[conn_status])
         if conn_status != 0:
-            self.write_info("Error: " + str(conn_status))
+            self.tree.get_widget("check_device").set_sensitive(True)
             return
-        else:
-            self.write_info(_("OK"))
+        start = time.time()
         current_track = mtpconnect.get_tracks()
         track_count = mtpconnect.get_track_count()
         invalid_track_count = 0
-        progress_bar.set_vars(max_value=track_count)
-        self.write_info(_("Cross checking %s tracks with local database..." % track_count))
-        progress_bar.start()
+        self.progress_bar.set_vars(max_value=track_count)
+        self.write_info(_("%s items found on device, cross checking with local database..." % track_count))
+        self.progress_bar.start()
+        #reset song counter to 0 so we know how many new scrobbles were added this time
+        #in case there were some pending already
+        self.song_db.new_scrobble_count = 0
         while current_track is not None:
-            if mtpconnect.is_valid_track() == 1:
+            if mtpconnect.is_valid_track() == 0:
                 #build a songdic that matches old implementation
                 song = {"id" : mtpconnect.get_item_id(),
                         "artist" : mtpconnect.get_artist(),
@@ -129,24 +152,40 @@ class MTPLastfmGTK:
                 self.song_db.add_new_data(song)
             else:
                 invalid_track_count += 1
-                self.write_info(mtpconnect.get_invalid_track_string())
+                self.log_error(log)
             current_track = mtpconnect.next_track()
-            progress_bar.current_progress += 1
-            progress_bar.progress_bar.set_text(song['artist'])
+            self.progress_bar.current_progress += 1
+            if self.progress_bar.current_progress % 20 == 0 or self.progress_bar.current_progress == track_count:
+                self.progress_bar.progress_bar.set_text(song['artist'])
+                self.tree.get_widget("cache_label").set_text("(%s)" % self.song_db.scrobble_counter)            
             while gtk.events_pending():
                 gtk.main_iteration()
+        if track_count == 0:
+            self.write_info(_("No tracks were found on your device."))
+        if self.song_db.new_scrobble_count != 0:
+            self.write_info(_("Found %s new tracks for scrobbling" % self.song_db.new_scrobble_count))
+        end = time.time()
+        print end - start
         mtpconnect.close_device()
-        progress_bar.delayed_stop(300)
+        self.progress_bar.delayed_stop(300)
         if invalid_track_count > 0:
-            create_log_button()
+            self.create_log_button(invalid_track_count)
+            self.tree.get_widget("log_menu").set_sensitive(True)
+        else:
+            self.tree.get_widget("log_menu").set_sensitive(False)
+        log.close()
         self.song_db.reset_scrobble_counter()
         self.set_button_count()
+        self.tree.get_widget("check_device").set_sensitive(True)
         if self.options.return_option("auto_scrobble") == True:
             self.on_scrobble_clicked(None)
         #we will see if the user has uploaded their device details to our server
         #and ask permission if they have not
 
-    def create_log_button(self):
+    def create_log_button(self, error_count):
+        self.write_info(_pl("%(num)d item was not added to your song database.\n",
+                            "%(num)d items were not added to your song database.\n",
+                            error_count) % {"num" : error_count})
         buffer = self.tree.get_widget("info").get_buffer()
         iter = buffer.get_end_iter()
         anchor = buffer.create_child_anchor(iter)
@@ -155,8 +194,12 @@ class MTPLastfmGTK:
         self.tree.get_widget("info").add_child_at_anchor(button, anchor)
         button.connect("clicked", self.show_error_details, None)
 
-
-    
+    def log_error(self, log):
+        log.write("%s: %s\nID: %s\n%s: %s\n%s: %s\n\n" %
+            (_("Reason"), mtp_invalid_file_strings[mtpconnect.is_valid_track()],
+             mtpconnect.get_item_id(), _("Title"), str(mtpconnect.get_title()),
+             _("Artist"), str(mtpconnect.get_artist())))
+             
     def show_error_details(self, *args):
         tree = gtk.glade.XML(self.GLADE['log'])
         f = open(self.HOME_DIR + "db.log", "r").read()
@@ -257,21 +300,20 @@ class MTPLastfmGTK:
         if love_cache != []:
             webservice = webservices.LastfmWebService()
             self.write_info(_("Sending love..."))
-            progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
-            progress_bar.set_vars(len(love_cache), 0)
-            progress_bar.start()
+            self.progress_bar.set_vars(len(love_cache), 0)
+            self.progress_bar.start()
             for item in love_cache:
                 self.write_info(item[1] + " - " + item[2])
                 response = webservice.love_track(item[1], item[2], self.session_key)
                 if response == "ok":
                     self.write_info(_("Ok."), new_line=" ")
                     loved.append(item[0])
-                    progress_bar.current_progress = len(loved)
+                    self.progress_bar.current_progress = len(loved)
                     while gtk.events_pending():
                         gtk.main_iteration()
                 else:
                     self.write_info(response)
-            progress_bar.delayed_stop(300)
+            self.progress_bar.delayed_stop(300)
             self.song_db.mark_as_love_sent(loved)
             self.write_info(_("Done."))
     
