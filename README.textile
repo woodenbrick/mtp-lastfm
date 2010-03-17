@@ -14,11 +14,11 @@ python-distutils-extra
 libmtp-dev
 python-dev
 
-Run from src directory:
+To build the module in the src directory:
 python setup.py build_ext --inplace
 ./mtp-lastfm
 
-Install: 
+Or if you wish to build and install: 
 python setup.py install (as superuser)
 
 Report bugs, help translate and track new features at "Launchpad":https://launchpad.net/mtp-lastfm 

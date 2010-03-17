@@ -13,7 +13,12 @@ if bin_path != "/usr/bin":
     UI_DIR = os.path.join(bin_path, "glade")
 else:
     UI_DIR = os.path.join("/usr", "share", "mtp-lastfm")
-    
+
+try:
+    from mtplastfm.cmod import mtpconnect
+except ImportError:
+    print "mtpconnect module not built, please see README.textile for details. Program will now exit."
+    sys.exit(1)
 from mtplastfm import localisation
 _ = localisation.set_get_text()
 from mtplastfm.main import MTPLastfmGTK

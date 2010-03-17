@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Mar 17 13:25:23 2010 -->
+<!--Generated with glade3 3.4.5 on Wed Mar 17 17:41:22 2010 -->
 <glade-interface>
   <widget class="GtkWindow" id="main_window">
     <property name="height_request">400</property>
-    <property name="visible">True</property>
     <property name="title" translatable="yes">MTP-Lastfm</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon">mtp-lastfm.png</property>

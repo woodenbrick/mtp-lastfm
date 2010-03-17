@@ -34,14 +34,8 @@ import songview
 import webservices
 from progressbar import ProgressBar
 from options import Options
-try:
-    from cmod import mtpconnect
-except ImportError:
-    message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
-                                    gtk.BUTTONS_OK, "mtpconnect module not built, please see README.textile for details. Program will now exit.")
-    message.run()
-    message.destroy()
-    gtk.main_quit()
+from httprequest import HttpRequest
+from cmod import mtpconnect
 
 import localisation
 _ = localisation.set_get_text()
@@ -77,8 +71,6 @@ class MTPLastfmGTK:
         self.options_window = self.tree.get_widget("options_window")
         self.login_window = self.tree.get_widget("login_window")
         self.progress_bar = ProgressBar(self.tree.get_widget("progressbar"))
-        self.tree.get_widget("info").get_window(
-            gtk.TEXT_WINDOW_TEXT).set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
         
         about_dialog = self.tree.get_widget("about_dialog")
         about_dialog.set_version(self.version)
@@ -100,6 +92,9 @@ class MTPLastfmGTK:
     def show_main_window(self):
         self.login_window.hide()
         self.main_window.show()
+        self.tree.get_widget("info").get_window(
+            gtk.TEXT_WINDOW_TEXT).set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
+        self.set_user_image()
         while gtk.events_pending():
             gtk.main_iteration(False)
 
@@ -428,7 +423,6 @@ class MTPLastfmGTK:
     
     def setup_user_session(self):
         self.tree.get_widget("user").set_markup("<b>%s</b>" % self.username)
-        self.set_user_image()
         self.options = Options(self.username, self.usersDB)
         if not os.path.exists(self.HOME_DIR + self.username + 'DB'):
             self.write_info(_("User database doesn't exist, creating."))
@@ -444,16 +438,20 @@ class MTPLastfmGTK:
         
     
     def set_user_image(self):
-        path = self.HOME_DIR + self.username + ".thumb"
-        self.tree.get_widget("login_error").set_text(_("Downloading user image..."))
         webservice = webservices.LastfmWebService()
         url = "http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=%s&api_key=%s"
-        request = urllib.urlopen(url % (self.username, webservice.api_key))
-        image_url = webservice.parse_xml(request, "image")
-        if image_url is not None:
-            urllib.urlretrieve(image_url, path)
-            image = gtk.Image()
-            image = gtk.gdk.pixbuf_new_from_file_at_size(path, 100, 40)
+        request = HttpRequest(url=url % (self.username, webservice.api_key), timeout=10)
+        msg = request.connect(xml=True)
+        image_url = webservice.parse_xml(msg, "image")
+        if image_url is not None and not os.path.exists(self.HOME_DIR +
+                                                        os.path.basename(image_url)):
+            request = HttpRequest(image_url)
+            request.retrieve(image_url, self.HOME_DIR + os.path.basename(image_url),
+                             self.tree.get_widget("user_thumb"))
+        else:
+            image = gtk.gdk.pixbuf_new_from_file_at_size(self.HOME_DIR +
+                                                         os.path.basename(image_url),
+                                                         100, 40)
             self.tree.get_widget("user_thumb").set_from_pixbuf(image)
             
     def on_username_entry_insert_text(self, widget):
