@@ -56,6 +56,7 @@ mtp_invalid_file_strings = {1 : _("Invalid filetype"),
                             2 : _("Invalid artist"),
                             3 : _("Invalid title")}
 
+
 class MTPLastfmGTK:
     def __init__(self, author, version, home, glade, test_mode=False):
         self.test_mode = test_mode
@@ -123,11 +124,15 @@ class MTPLastfmGTK:
         self.tree.get_widget("check_device").set_sensitive(False)
         self.write_info(_("Connecting to MTP device"))
         conn_status = mtpconnect.open_device()
-        self.write_info(mtp_error_strings[conn_status])
         if conn_status != 0:
+            self.write_info(mtp_error_strings[conn_status])
             self.tree.get_widget("check_device").set_sensitive(True)
             return
-        start = time.time()
+        self.tree.get_widget("send_comp_info").set_sensitive(True)
+        self.stats = {"manufacturer" : mtpconnect.get_manufacturer(),
+                     "model" : mtpconnect.get_model(),
+                     "name" : mtpconnect.get_friendly_name()}
+        self.write_info(_("Successfully connected to %(name)s %(model)s" % self.stats))
         current_track = mtpconnect.get_tracks()
         track_count = mtpconnect.get_track_count()
         invalid_track_count = 0
@@ -154,19 +159,19 @@ class MTPLastfmGTK:
                 self.log_error(log)
             current_track = mtpconnect.next_track()
             self.progress_bar.current_progress += 1
-            if self.progress_bar.current_progress % 20 == 0 or self.progress_bar.current_progress == track_count:
+            if self.progress_bar.current_progress % 20 == 0 or self.progress_bar.current_progress > track_count - 20:
                 self.progress_bar.progress_bar.set_text(song['artist'])
                 self.tree.get_widget("cache_label").set_text("(%s)" % self.song_db.scrobble_counter)            
+            if self.progress_bar.current_progress == track_count:
+                self.progress_bar.set_vars(pulse_mode=True, text=_("Closing device"))
             while gtk.events_pending():
                 gtk.main_iteration()
         if track_count == 0:
             self.write_info(_("No tracks were found on your device."))
         if self.song_db.new_scrobble_count != 0:
             self.write_info(_("Found %s new tracks for scrobbling" % self.song_db.new_scrobble_count))
-        end = time.time()
-        print end - start
         mtpconnect.close_device()
-        self.progress_bar.delayed_stop(300)
+        self.progress_bar.stop()
         if invalid_track_count > 0:
             self.create_log_button(invalid_track_count)
             self.tree.get_widget("log_menu").set_sensitive(True)
@@ -178,8 +183,10 @@ class MTPLastfmGTK:
         self.tree.get_widget("check_device").set_sensitive(True)
         if self.options.return_option("auto_scrobble") == True:
             self.on_scrobble_clicked(None)
-        #we will see if the user has uploaded their device details to our server
-        #and ask permission if they have not
+        if not self.usersDB.has_asked_for_stats(self.username, self.stats):
+            self.open_program_works_dialog(None)
+            self.usersDB.asked_for_stats(self.username, self.stats)
+
 
     def create_log_button(self, error_count):
         self.write_info(_pl("%(num)d item was not added to your song database.\n",
@@ -548,6 +555,49 @@ class MTPLastfmGTK:
         buttons = {"user_button" : "http://last.fm/user/%s" % self.username,
                    "report_bug" : "https://bugs.launchpad.net/mtp-lastfm"}
         webbrowser.open_new_tab(buttons[widget.name])
+        
+    def open_program_works_dialog(self, widget):
+        #check if user has scrobbles pending, if they do then software works
+        #no scrobbles would indicate that it doesn't (though this is not certain
+        #as users may not have listened to any tracks on device
+        if self.song_db.scrobble_counter > 0:
+            comp_str = _("MTP-Lasfm has %s pending scrobbles from your device and "
+            "is considered compatible." % self.song_db.scrobble_counter)
+            self.tree.get_widget("radio_prog_work").set_active(True)
+        elif self.song_db.cursor.execute(
+            """select * from songs where usecount > 0""").fetchone() is not None:
+            comp_str = _("MTP-Lasfm has previously scrobbled tracks from your device and "
+            "is considered compatible.")
+            self.tree.get_widget("radio_prog_work").set_active(True)
+        else:
+            comp_str = _("MTP-Lastfm didn't find any played songs on your device. "
+            "If you have definitely listened to tracks before connecting, then "
+            "please mark as incompatible.")
+            self.tree.get_widget("radio_prog_not_work").set_active(False)
+        self.tree.get_widget("compatibility_msg").set_text(comp_str)
+        self.tree.get_widget("data_to_be_submitted").set_markup(_(
+        "The following data will be submitted:\n"
+        "Manufacturer: <b>%(manufacturer)s</b>\nModel: <b>%(model)s</b>"
+        "\nName: <b>%(name)s</b>\nLast.fm username: " %
+        self.stats) + "<b>%s</b>\n\n" % self.username)
+        self.tree.get_widget("send_info").show()
+
+    def on_program_works_submit(self, widget):
+        #send to server
+        start, end = self.tree.get_widget("comment").get_buffer().get_bounds()
+        data = {"os" : self.tree.get_widget("os").get_text(),
+                "comment": self.tree.get_widget("comment").get_buffer().get_text(start, end),
+                "username" : self.username}
+        data.update(self.stats)
+        self.write_info(_("Compatibility information submitted."))
+        self.tree.get_widget("send_info").hide()
+    
+    def on_program_works_cancel(self, widget):
+        self.tree.get_widget("send_info").hide()
+    
+    def on_program_works_destroy(self, widget):
+        self.tree.get_widget("send_info").hide()
+        return True
 
 if __name__ == "__main__":
     mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)

@@ -22,14 +22,12 @@ import getpass
 
 class lastfmDb_Users:
     def __init__(self, path):
-        path = os.path.join(path, "usersDB")
-        if not os.path.exists(path):
-            self.create_new_database(path)    
+        path = os.path.join(path, "usersDB")  
         self.db = sqlite3.Connection(path)
         self.cursor = self.db.cursor()
+        self.create_new_database()  
     
-    def create_new_database(self, path):
-        connection = sqlite3.Connection(path)
+    def create_new_database(self):
         query = ['''CREATE TABLE IF NOT EXISTS `users` (
         `username` varchar(100) NOT NULL,
         `password` varchar(255) NOT NULL,
@@ -49,13 +47,15 @@ class lastfmDb_Users:
         `scrobble_time` integer(3) DEFAULT 8,
         `use_default_time` boolean DEFAULT 0
         )''',
+        '''CREATE TABLE IF NOT EXISTS `stats` (
+        `username` varchar(100) NOT NULL,
+        `manufacturer` varchar(100) NOT NULL,
+        `model` varchar(100) NOT NULL
+        )'''
         ]
-        
-        cursor = connection.cursor()
         for q in query:
-            cursor.execute(q)
-        connection.commit()
-        connection.close()
+            self.cursor.execute(q)
+            self.db.commit()
         
     def get_users(self, all=False):
         """Returns last user who logged in and chose to remember their password
@@ -165,6 +165,21 @@ class lastfmDb_Users:
         self.cursor.execute("""insert into options (username) values ('default')""")
         self.db.commit()
 
+    def asked_for_stats(self, username, stats):
+        self.cursor.execute("""insert into stats (username,
+                            manufacturer, model) values (?, ?, ?)""",
+                            (username, stats['manufacturer'], stats['model']))
+        self.db.commit()
+        
+    def has_asked_for_stats(self, username, stats):
+        result = self.cursor.execute("""select * from stats where
+                                     username=? and manufacturer=?
+                                     and model=?""",(
+                                        username, stats['manufacturer'],
+                                        stats['model'])).fetchone()
+        if result is None:
+            return False
+        return True
 
     
 class lastfmDb:
