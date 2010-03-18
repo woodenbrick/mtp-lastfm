@@ -57,6 +57,7 @@ get_libmtp_version = _mtpconnect.get_libmtp_version
 get_tracks = _mtpconnect.get_tracks
 get_track_count = _mtpconnect.get_track_count
 next_track = _mtpconnect.next_track
+get_friendly_name = _mtpconnect.get_friendly_name
 get_artist = _mtpconnect.get_artist
 get_title = _mtpconnect.get_title
 get_album = _mtpconnect.get_album

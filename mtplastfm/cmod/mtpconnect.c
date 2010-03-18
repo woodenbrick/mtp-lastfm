@@ -130,6 +130,11 @@ LIBMTP_track_t* next_track(void)
     return current_track;
 }
 
+char* get_friendly_name(void)
+{
+    return LIBMTP_Get_Friendlyname(device);
+}
+
 char* get_artist(void)
 {
     return current_track->artist;

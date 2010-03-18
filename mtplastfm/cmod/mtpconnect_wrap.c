@@ -2674,6 +2674,19 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_get_friendly_name(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  char *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":get_friendly_name")) SWIG_fail;
+  result = (char *)get_friendly_name();
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_get_artist(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   char *result = 0 ;
@@ -2801,6 +2814,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"get_tracks", _wrap_get_tracks, METH_VARARGS, NULL},
 	 { (char *)"get_track_count", _wrap_get_track_count, METH_VARARGS, NULL},
 	 { (char *)"next_track", _wrap_next_track, METH_VARARGS, NULL},
+	 { (char *)"get_friendly_name", _wrap_get_friendly_name, METH_VARARGS, NULL},
 	 { (char *)"get_artist", _wrap_get_artist, METH_VARARGS, NULL},
 	 { (char *)"get_title", _wrap_get_title, METH_VARARGS, NULL},
 	 { (char *)"get_album", _wrap_get_album, METH_VARARGS, NULL},

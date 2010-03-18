@@ -22,18 +22,19 @@
  #include <stdio.h>
  %}
 
-extern int open_device(void);
-extern void close_device(void);
-extern int reset_device(void);
-extern char* get_manufacturer(void);
-extern char* get_model(void);
-extern char* get_libmtp_version(void);
-extern LIBMTP_track_t* get_tracks(void);
-extern int get_track_count(void);
-extern LIBMTP_track_t* next_track(void);
+int open_device(void);
+void close_device(void);
+int reset_device(void);
+char* get_manufacturer(void);
+char* get_model(void);
+char* get_libmtp_version(void);
+LIBMTP_track_t* get_tracks(void);
+int get_track_count(void);
+LIBMTP_track_t* next_track(void);
 
-extern char* get_artist(void);
-extern char* get_title(void);
+char* get_friendly_name(void);
+char* get_artist(void);
+char* get_title(void);
 char* get_album(void);
 int get_duration(void);
 int get_item_id(void);
