@@ -9,17 +9,17 @@ h2. Installing
 The program can be installed from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa if you run Ubuntu/Debian.
 
 It can also be run from the source directory or installed using distutils. There is a C extension module in the src which requires compilation, so make sure you have the following installed:
-pkg-config
-python-distutils-extra
-libmtp-dev
-python-dev
+* pkg-config
+* python-distutils-extra
+* libmtp-dev
+* python-dev
 
 To build the module in the src directory:
-python setup.py build_ext --inplace
-./mtp-lastfm
+@python setup.py build_ext --inplace
+./mtp-lastfm@
 
 Or if you wish to build and install: 
-python setup.py install (as superuser)
+@python setup.py install@ (as superuser)
 
 Report bugs, help translate and track new features at "Launchpad":https://launchpad.net/mtp-lastfm 
 
