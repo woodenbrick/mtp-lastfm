@@ -15,8 +15,8 @@ It can also be run from the source directory or installed using distutils. There
 * python-dev
 
 To build the module in the src directory:
-@python setup.py build_ext --inplace
-./mtp-lastfm@
+@python setup.py build_ext --inplace@
+@./mtp-lastfm@
 
 Or if you wish to build and install: 
 @python setup.py install@ (as superuser)
