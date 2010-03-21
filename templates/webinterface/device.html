@@ -1,8 +1,8 @@
 {% include "header.html" %}
         <h1>{{device.manufacturer}} - {{device.model}}</h1>
-        {% ifequal d.not_working_count 0 %}
+        {% ifequal device.not_working_count 0 %}
             <img src="/images/tick.png">
-            <span class="tweakup">Device is considered compatible ({{device.user_count}} user{{device.user_count|pluralize}}.</span>
+            <span class="tweakup">Device is considered compatible ({{device.user_count}} user{{device.user_count|pluralize}}).</span>
             
         {% else %}
         <img src="/images/{% ifequal device.not_working_count device.user_count %}cross.png{% else %}question.png

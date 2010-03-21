@@ -57,9 +57,15 @@ class AddNew(webapp.RequestHandler):
         manufacturer = self.request.get("manufacturer")
         username = self.request.get("username")
         dev_name = self.request.get("name")
-        not_working = int(self.request.get("not_working"))
+        try:
+            not_working = int(self.request.get("not_working"))
+        except ValueError:
+            self.response.out.write("Error: incorrect value for not working parameter")
+            return
         comment = escape(self.request.get("comment").strip())
-        
+        if model == "" or manufacturer == "" or username == "":
+            self.response.out.write("Error: missing values")
+            return
         #get device
         device = Device.all().filter("manufacturer =", manufacturer).filter(
             "model =", model).get()
@@ -90,6 +96,7 @@ class AddNew(webapp.RequestHandler):
             device.comment_count += 1
         user.put()
         device.put()
+        self.response.out.write("OK\n")
             
         
         
