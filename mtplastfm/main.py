@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
+import sys
 import os
 import re
 import hashlib
@@ -597,7 +598,8 @@ class MTPLastfmGTK:
         if success == "OK\n":
             self.write_info(_("Compatibility information submitted."))
         else:
-            self.write_info(success)
+            self.write_info(_("An error occured during submission"))
+            sys.stderr.write(success)
         self.tree.get_widget("send_info").hide()
     
     def on_program_works_cancel(self, widget):
