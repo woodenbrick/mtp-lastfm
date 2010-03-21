@@ -587,9 +587,17 @@ class MTPLastfmGTK:
         start, end = self.tree.get_widget("comment").get_buffer().get_bounds()
         data = {"os" : self.tree.get_widget("os").get_text(),
                 "comment": self.tree.get_widget("comment").get_buffer().get_text(start, end),
-                "username" : self.username}
+                "username" : self.username,
+                "not_working" : 0 if
+                self.tree.get_widget("radio_prog_work").get_active() else 1}
         data.update(self.stats)
-        self.write_info(_("Compatibility information submitted."))
+        data = urllib.urlencode(data)
+        response = urllib.urlopen("http://mtp-lastfm.appspot.com/api/add", data)
+        success = response.read()
+        if success == "OK\n":
+            self.write_info(_("Compatibility information submitted."))
+        else:
+            self.write_info(success)
         self.tree.get_widget("send_info").hide()
     
     def on_program_works_cancel(self, widget):
@@ -602,3 +610,4 @@ class MTPLastfmGTK:
 if __name__ == "__main__":
     mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)
     gtk.main()
+
