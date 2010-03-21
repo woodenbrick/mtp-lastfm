@@ -1,0 +1,33 @@
+{% include "header.html" %}
+        <h1>{{device.manufacturer}} - {{device.model}}</h1>
+        {% ifequal d.not_working_count 0 %}
+            <img src="/images/tick.png">
+            <span class="tweakup">Device is considered compatible ({{device.user_count}} user{{device.user_count|pluralize}}.</span>
+            
+        {% else %}
+        <img src="/images/{% ifequal device.not_working_count device.user_count %}cross.png{% else %}question.png
+            {% endifequal %}">
+            <span class="tweakup">{{device.user_count}} user{{device.user_count|pluralize}}.
+            {{device.not_working_count|percentage:device.user_count}} have reported this device is incompatible.
+             </span>
+            
+        {% endifequal %}
+        
+        {% if comments %}
+        <table class="rounded-corner" width=500>
+        <thead class='rounded-corner'><tr><th class='rounded-left'>Comments
+        </th><th class='rounded-right'></th></tr></thead>
+        <tfoot class='rounded-corner'><tr><td class='rounded-foot-left'>
+        </th><td class='rounded-foot-right'></th></tr></tfoot>
+        {% for comment in comments %}
+        <tr><td>
+            <p>{{comment.comment}}<br>
+            <img src="{{comment.user.username}}">
+                <a href="http://last.fm/user/{{comment.user.username}}">
+                {{comment.user.username}}</a> {{comment.date|date:"d M Y"}}
+        </td><td></td></tr>
+        {% endfor %}
+        </table>
+        {%endif%}
+        <p><a href="/device/all">Back to all devices.</a></p>
+{% include "footer.html" %}

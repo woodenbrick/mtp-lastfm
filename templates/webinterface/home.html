@@ -1,0 +1,27 @@
+{% include "header.html" %}
+<img id="logo" src="/images/logo.png" />
+<p>MTP-Lastfm in an open source application that scrobbles tracks from MTP devices
+(such as the Creative Zen, or the Sanza Fuze) to <a href="http://last.fm">Last.fm</a>.
+You can love, ban and tag tracks before scrobbling,
+and also use the ratings on your device (5=Love, 1=Ban). Currently only Linux is
+supported.</p>
+
+<p>You can check your device compatibility <a href="/device/all">here.</a>
+If your device is not listed, <a href="/install">install</a> MTP-Lastfm and
+mark its compatability so we can improve our database.
+MTP-Lastfm 0.85 and higher will automatically ask permission to do this after its
+first run.</p>
+
+<p>MTP-Lastfm is released under the GPL and source is available at
+<a href="http://github.com/woodenbrick/mtp-lastfm">Github</a>.
+<p>
+Last commit:
+<img id="gravatar" src="http://www.gravatar.com/avatar/{{gravatar}}?s=40" />
+<a href="{{github.url}}">{{github.id|truncate:7}}</a><br />
+{{github.message|truncate:100}}<br />
+    <a href="http://github.com/{{github.author.login}}">{{github.author.name}}</a>
+    {{github.authored_date|datetime_from_string|timesince}} ago.</p>
+
+See <a href="https://launchpad.net/mtp-lastfm">Launchpad</a> for bug
+reporting and translations.</p>
+{% include "footer.html" %}

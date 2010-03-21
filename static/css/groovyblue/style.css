@@ -1,0 +1,209 @@
+/*
+Author:		Donny Burnside
+Website:	http://www.ginger-ninja.net/
+*/
+
+/* Misc. */
+
+* {
+	margin:0;
+	padding:0;
+	}
+body {
+	font-family:Trebuchet MS, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	background-color:#393939;
+	margin:25px 0 4px 0;
+	color:#222222;
+	}
+img {
+	border:0;
+	}
+p {
+	margin-bottom:20px;
+	line-height:20px;
+	}
+
+#logo{
+	float:right;
+	padding:20px;
+}
+
+#gravatar{
+	float:left;
+	padding:10px;
+}
+
+/* Structure */
+
+#wrapper {
+	width:700px;
+	margin:0 auto;
+	}
+#header {
+	height:100px;
+	line-height:100px;
+	background-image:url(images/bg-header.gif);
+	background-repeat:no-repeat;
+	padding-left:15px;
+	}
+#navigation {
+	float:right;
+	margin-right:15px;
+	}
+#content {
+	background-color:#fff;
+	background-image:url(images/bg-content.gif);
+	background-repeat:no-repeat;
+	background-position:top center;
+	padding:40px 100px;
+	}
+#footer {
+	text-align:right;
+	background-image:url(images/bg-footer.gif);
+	background-repeat:no-repeat;
+	background-position:top center;
+	line-height:24px;
+	color:#efefef;
+	}
+
+/* Navigation */
+
+#navigation ul {
+	list-style-type:none;
+	}
+#navigation li {
+	float:left;
+	text-align:center;
+	text-transform:lowercase;
+	}
+#navigation li a {
+	display:block;
+	height:100px;
+	width:100px;
+	text-decoration:none;
+	color:#ffffff;
+	}
+#navigation li a:hover {
+	color:#222222;
+	background:url(images/bg-navigation-hover.gif);
+	background-repeat:repeat-x;
+	}
+#navigation .active {
+	color:#222222;
+	background:url(images/bg-navigation-hover.gif);
+	background-repeat:repeat-x;
+	}
+
+#content ul {
+	margin-bottom:20px;
+	margin-left: 20px;
+	line-height: 20px;
+}
+/* Headings */
+
+h1 {
+	font-size:30px;
+	font-weight:normal;
+	letter-spacing:-1px;
+	}
+
+/* Link Colors */
+
+h1 a {
+	color:#fff;
+	text-decoration:none;
+	}
+h1 a:hover {
+	color:#fff;
+	}
+.code {
+	font-family:monospace;
+	font-size:14px;
+	color: red;
+}
+.centeredimage {
+	margin-left: 170px;
+}
+.tweakup {
+	position: relative;
+	top: -10px;
+	left: 10px;
+}
+#content a {
+	text-decoration:none;
+	font-weight:bold;
+	color:#222222;
+	}
+#content a:hover {
+	text-decoration:underline;
+	}
+
+#footer a {
+	color:#ffffff;
+	text-decoration:none;
+	border-bottom:1px dotted #ffffff;
+	}
+#footer a:hover {
+	color:#ffffff;
+	}
+
+#github {
+	float: right;
+	
+}
+
+table.rounded-corner a:link
+{
+	width: 90%;
+}
+.rounded-corner
+{
+	/*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;*/
+	font-size: 14px;
+	/*margin: 45px;*/
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+}
+.rounded-corner thead th.rounded-left
+{
+	background: #b9c9fe url('table-images/left.png') left -1px no-repeat;
+}
+.rounded-corner thead th.rounded-right
+{
+	background: #b9c9fe url('table-images/right.png') right -1px no-repeat;
+}
+.rounded-corner th
+{
+	padding: 8px;
+	font-weight: normal;
+	font-size: 17px;
+	color: #039;
+	background: #b9c9fe;
+}
+.rounded-corner td
+{
+	padding: 5px;
+	background: #e8edff;
+	border-top: 1px solid #fff;
+	color: #669;
+}
+
+.shrinkcolumn
+{
+	width:35%;
+}
+.rounded-corner tfoot td.rounded-foot-left
+{
+	background: #e8edff url('table-images/botleft.png') left bottom no-repeat;
+}
+.rounded-corner tfoot td.rounded-foot-right
+{
+	background: #e8edff url('table-images/botright.png') right bottom no-repeat;
+}
+.rounded-corner tbody tr:hover td
+{
+	background: #d0dafd;
+	
+}

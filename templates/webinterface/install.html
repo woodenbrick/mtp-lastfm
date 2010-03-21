@@ -1,0 +1,37 @@
+{% include "header.html" %}
+<h1>Installing MTP-Lastfm</h1>
+
+<p>If you use Ubuntu/Debian or a derivative, the preferred way of installation is
+the <a href="https://launchpad.net/~mtp-lastfm/+archive/ppa">PPA repository.</a></p>
+
+<p>Alternatively download and build the latest source from
+<a href="http://github.com/woodenbrick/mtp-lastfm">Github.</a>
+
+You can either run from the source directory or install it using distutils. MTP-Lastfm is
+ mostly written in Python, but has a small extension written in C to connect with the device.</p>
+
+<p>To build the C extension in the src directory and run from there:<br />
+<span class="code">python setup.py build_ext --inplace<br />
+./mtp-lastfm</span></p>
+
+<p>Or if you prefer to build and install (run as superuser):<br />
+<span class="code">python setup.py install</span></p>
+
+<p>If you build packages for your distro let me know and I will provide a link here.</p>
+
+<h2>Build dependencies:</h2>
+<ul>
+<li>pkg-config</li>
+<li>python-distutils-extra</li>
+<li>libmtp-dev</li>
+<li>python-dev</li>
+</ul>
+<h2>Runtime Dependencies:</h2>
+<ul>
+    <li>libmtp</li>
+    <li>python-sqlite</li>
+    <li>py-gtk</li>
+    <li>gtk-glade</li>
+</ul>
+
+{% include "footer.html" %}

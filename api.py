@@ -24,8 +24,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from cgi import escape
-
-from models import Device
+from models import Comment, Device, User
 
 API_TEMPLATE_PATH = "templates/api/"
 
@@ -44,35 +43,62 @@ class DevicesByManufacturer(webapp.RequestHandler):
 class SingleDevice(webapp.RequestHandler):
     pass
 
-
-        
-
 class Error(webapp.RequestHandler):
     def get(self, page):
-        handler.response.headers['Content-Type'] = "text/xml"
-        handler.response.set_status(400, "NOTFOUND")
-        handler.response.out.write(template.render("templates/error.xml",
+        self.response.headers['Content-Type'] = "text/xml"
+        self.response.set_status(400, "NOTFOUND")
+        self.response.out.write(template.render("templates/error.xml",
                                             {"status" : error_code,
                                              "error_msg" : msg}))
 
 class AddNew(webapp.RequestHandler):
-    #not production code
-    def get(self):
-        model = "Pen 2"
-        manufacturer="Ham Ltd"
-        x = Usage.all().filter("model =", model).filter("manufacturer =", manufacturer).get()
-        if x is None:
-            x = Usage(model=model, manufacturer=manufacturer, count=1)
+    def post(self):
+        model = self.request.get("model")
+        manufacturer = self.request.get("manufacturer")
+        username = self.request.get("username")
+        dev_name = self.request.get("name")
+        not_working = int(self.request.get("not_working"))
+        comment = escape(self.request.get("comment").strip())
+        
+        #get device
+        device = Device.all().filter("manufacturer =", manufacturer).filter(
+            "model =", model).get()
+        if device is None:
+            device = Device(manufacturer=manufacturer, model=model)
+            device.put()
+        user = User.all().filter("username =", username).filter(
+            "device_friendly_name =", dev_name).filter(
+    "device =", Device.gql("WHERE model=:1", model).get()).get()
+        if user is None:
+            user = User(username=username, device_friendly_name=dev_name,
+            device=device, not_working=bool(not_working))
+            user.put()
+            device.user_count += 1
+            device.not_working_count += not_working
+            device.put()
         else:
-            x.count += 1
-        x.put()
+            if user.not_working != not_working:
+                #got a bit of mindchanging here cirrus...
+                if not_working == 1:
+                    device.not_working_count += 1
+                else:
+                    device.not_working_count -= 1
+                device.put()
+        if comment != "":
+            new_comment = Comment(user=user, comment=comment, device=device)
+            new_comment.put()
+            device.comment_count += 1
+        user.put()
+        device.put()
+            
+        
         
 application = webapp.WSGIApplication([
     ('/api/devices', AllDevices),
     ('/api/devices/(.*)', DevicesByManufacturer),
     ('/api/devices/(.*)/(.*)', SingleDevice),
-    ('/api/addnew', AddNew),
-    (r'/api/(.*)', Error),
+    ('/api/add', AddNew),
+   # (r'/api/(.*)', Error),
     
 ], debug=True)
 

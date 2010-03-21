@@ -6,8 +6,8 @@
     <device>
       <manufacturer>{{device.manufacturer}}</manufacturer>
       <model>{{device.model}}</model>
-      <users>{{device.users}}</users>
-      <issues>{{device.issues}}</issues>
+      <users>{{device.user_count}}</users>
+      <issues>{{device.not_working_count}}</issues>
     </device>
     {% endfor %}
   </devices>
