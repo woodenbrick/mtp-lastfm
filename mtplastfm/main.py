@@ -608,8 +608,7 @@ class MTPLastfmGTK:
     def on_program_works_destroy(self, widget):
         self.tree.get_widget("send_info").hide()
         return True
-
-if __name__ == "__main__":
-    mtp = MTPLastfmGTK(("Daniel",), "dev", test_mode=True)
-    gtk.main()
+    
+    def has_issue(self, widget):
+        webbrowser.open_new_tab("http://mtp-lastfm.appspot.com/device/all")
 
