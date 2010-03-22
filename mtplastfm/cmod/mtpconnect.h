@@ -15,24 +15,24 @@
 //You should have received a copy of the GNU General Public License
 //along with mtp-lastfm.  If not, see http://www.gnu.org/licenses/
 
- %module mtpconnect
- %{
-#define SWIG_FILE_WITH_INIT
+
 #include <libmtp.h>
-#include "mtpconnect.h"
- #include <stdio.h>
- %}
+#include <stdio.h>
+
+LIBMTP_mtpdevice_t* device;
+LIBMTP_track_t *current_track, *tmp;
+int counter;
 
 int open_device(void);
 void close_device(void);
 int reset_device(void);
+LIBMTP_mtpdevice_t* next_device(void);
 char* get_manufacturer(void);
 char* get_model(void);
 char* get_libmtp_version(void);
 LIBMTP_track_t* get_tracks(void);
 int get_track_count(void);
 LIBMTP_track_t* next_track(void);
-
 char* get_friendly_name(void);
 char* get_artist(void);
 char* get_title(void);
@@ -42,7 +42,4 @@ int get_item_id(void);
 char get_rating(void);
 int get_track_number(void);
 int get_usecount(void);
-
 int is_valid_track(void);
-
-

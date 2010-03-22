@@ -2506,6 +2506,7 @@ static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
 
 #define SWIG_FILE_WITH_INIT
 #include <libmtp.h>
+#include "mtpconnect.h"
  #include <stdio.h>
  
 
@@ -2553,6 +2554,13 @@ SWIGINTERNINLINE PyObject *
 SWIG_FromCharPtr(const char *cptr)
 { 
   return SWIG_FromCharPtrAndSize(cptr, (cptr ? strlen(cptr) : 0));
+}
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_char  (char c) 
+{ 
+  return SWIG_FromCharPtrAndSize(&c,1);
 }
 
 #ifdef __cplusplus
@@ -2754,11 +2762,11 @@ fail:
 
 SWIGINTERN PyObject *_wrap_get_rating(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  char *result = 0 ;
+  char result;
   
   if (!PyArg_ParseTuple(args,(char *)":get_rating")) SWIG_fail;
-  result = (char *)get_rating();
-  resultobj = SWIG_FromCharPtr((const char *)result);
+  result = (char)get_rating();
+  resultobj = SWIG_From_char((char)(result));
   return resultobj;
 fail:
   return NULL;

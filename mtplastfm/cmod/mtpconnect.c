@@ -17,11 +17,7 @@
 
 #include <libmtp.h>
 #include <stdio.h>
-
-LIBMTP_mtpdevice_t* device;
-LIBMTP_track_t *current_track, *tmp;
-int counter;
-
+#include "mtpconnect.h"
 
 int open_device(void)
 {
@@ -169,10 +165,10 @@ char get_rating(void)
 {
     //return as a char that can be sent straight to last.fm
     if(current_track->rating == 99)
-        return "L";
+        return 'L';
     if(current_track->rating == 1)
-        return "B";
-    return "";
+        return 'B';
+    return ' ';
 }
 
 int get_track_number(void)
@@ -193,9 +189,9 @@ int is_valid_track(void)
 
     if(! LIBMTP_FILETYPE_IS_AUDIO(current_track->filetype))
         return 1;
-    if(current_track->title == NULL || current_track->title == "")
+    if(current_track->title == NULL)
         return 3;
-    if(current_track->artist == NULL || current_track->artist == "")
+    if(current_track->artist == NULL) 
         return 2;
     return 0;
 
