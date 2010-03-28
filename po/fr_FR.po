@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-22 13:26+0000\n"
-"PO-Revision-Date: 2010-03-24 13:18+0000\n"
+"PO-Revision-Date: 2010-03-27 14:33+0000\n"
 "Last-Translator: viktor <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-25 04:55+0000\n"
+"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
@@ -330,7 +330,7 @@ msgstr "Tag"
 
 #: mtplastfm/songview.py:37
 msgid "Remove Ban"
-msgstr ""
+msgstr "Annuler bannissement"
 
 #: mtplastfm/songview.py:38
 msgid "Remove Love"
@@ -527,6 +527,10 @@ msgid ""
 "It would be of great help if you can submit this to our online database. You "
 "can also submit this data at a later date from the Help menu."
 msgstr ""
+"MTP-Lastfm rassemble maintenant des données sur la compatibilité du "
+"périphérique avec le logiciel. Votre aide nous serait très précieuse si vous "
+"envoyiez ceci à notre base de données en ligne. Vous pouvez aussi nous "
+"transmettre ces données plus tard en passant par le menu Aide."
 
 #: glade/gui.glade.h:41
 msgid "Operating System:"

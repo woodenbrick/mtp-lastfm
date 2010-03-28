@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-30 13:15+0200\n"
-"PO-Revision-Date: 2010-03-14 20:37+0000\n"
-"Last-Translator: GüneyTekfidan <Unknown>\n"
+"POT-Creation-Date: 2010-03-22 13:26+0000\n"
+"PO-Revision-Date: 2010-03-27 12:21+0000\n"
+"Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-03-15 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: mtplastfm/httprequest.py:54 mtplastfm/main.py:374 mtplastfm/main.py:522
+#: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
 msgid "User authenticated"
 msgstr "Kullanıcının kimliği doğrulandı"
 
-#: mtplastfm/httprequest.py:55
+#: mtplastfm/httprequest.py:83
 msgid "Username or password incorrect, please reset"
-msgstr "Kullanıcı adı ve şifre yanlış, lütfen sıfırlayın"
+msgstr "Kullanıcı adı veya şifre yanlış, lütfen sıfırlayın"
 
-#: mtplastfm/httprequest.py:56
+#: mtplastfm/httprequest.py:84
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
@@ -34,7 +34,7 @@ msgstr ""
 "Bu yaftalayıcının gönderim yapması yasaklanmıştır,lütfen geliştiriciyi "
 "bilgilendirin"
 
-#: mtplastfm/httprequest.py:57
+#: mtplastfm/httprequest.py:85
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr "Tarih damgası hatalı, lütfen saat ayarlarınızı denetleyin."
 
@@ -42,13 +42,12 @@ msgstr "Tarih damgası hatalı, lütfen saat ayarlarınızı denetleyin."
 msgid "Track"
 msgstr "Parça"
 
-#: mtplastfm/lastfmtagger.py:31 mtplastfm/songdata.py:40
-#: mtplastfm/songview.py:40
+#: mtplastfm/lastfmtagger.py:31 mtplastfm/main.py:208 mtplastfm/songview.py:40
 msgid "Artist"
 msgstr "Sanatçı"
 
 #: mtplastfm/lastfmtagger.py:32 mtplastfm/lastfmtagger.py:89
-#: mtplastfm/songdata.py:40 mtplastfm/songview.py:40
+#: mtplastfm/songview.py:40
 msgid "Album"
 msgstr "Albüm"
 
@@ -85,98 +84,180 @@ msgstr "Etiketler gönderiliyor"
 msgid "Tags sent"
 msgstr "Gönderilmiş etiketler"
 
-#: mtplastfm/main.py:112
+#: mtplastfm/main.py:46
+msgid "Successfully connected"
+msgstr ""
+
+#: mtplastfm/main.py:47
+msgid "General error"
+msgstr ""
+
+#: mtplastfm/main.py:48
+msgid "PTP Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:49
+msgid "USB Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:50
+msgid "Memory Allocation Error"
+msgstr ""
+
+#: mtplastfm/main.py:51
+msgid "No device attached"
+msgstr ""
+
+#: mtplastfm/main.py:52
+msgid "Storage full"
+msgstr ""
+
+#: mtplastfm/main.py:53
+msgid "Problem connecting"
+msgstr ""
+
+#: mtplastfm/main.py:54
+msgid "Connection cancelled"
+msgstr ""
+
+#: mtplastfm/main.py:56
+msgid "Invalid filetype"
+msgstr ""
+
+#: mtplastfm/main.py:57
+msgid "Invalid artist"
+msgstr ""
+
+#: mtplastfm/main.py:58
+msgid "Invalid title"
+msgstr ""
+
+#: mtplastfm/main.py:123
+msgid "Tracks that recently failed a validity check:\n"
+msgstr "Son zamanlarda geçerlilik sınamasında başarısız olan parçalar:\n"
+
+#: mtplastfm/main.py:126
 msgid "Connecting to MTP device"
 msgstr "MTP aygıtına bağlanılıyor"
 
-#: mtplastfm/main.py:137
-msgid ""
-"Warning: Your device seems to be taking                                      "
-" longer than normal to upload a track listing.\n"
-msgstr ""
-
-#: mtplastfm/main.py:145
-msgid ""
-"Device found, but an error occurred. Please make                             "
-"  sure it is not mounted by another program                               "
-"(eg. music player, desktop)."
-msgstr ""
-
-#: mtplastfm/main.py:152
-msgid "Device not found."
-msgstr "Aygıt bulunamadı."
-
-#: mtplastfm/main.py:156 mtplastfm/main.py:313
-msgid "Done."
-msgstr "Tamamlandı."
-
-#: mtplastfm/main.py:157
-msgid "It is now safe to remove your device."
-msgstr "Aygıtınızı şimdi güvenle çıkarabilirsiniz."
-
-#: mtplastfm/main.py:159
-msgid "Populating database for first time, may take a while..."
-msgstr "Veritabanı ilk defa oluşturuluyor, bir kaç dakika alabilir..."
-
-#: mtplastfm/main.py:162
-msgid "Cross checking song data with local database..."
-msgstr "Şarkı verisi yerel veritabanı ile çapraz kontrol ediliyor..."
-
-#: mtplastfm/main.py:177
+#: mtplastfm/main.py:136
 #, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] "%(num)d adet parça denetlendi"
+msgid "Successfully connected to %(name)s %(model)s"
+msgstr ""
 
-#: mtplastfm/main.py:180
+#: mtplastfm/main.py:141
+#, python-format
+msgid "%s items found on device, cross checking with local database..."
+msgstr ""
+
+#: mtplastfm/main.py:167
+msgid "Closing device"
+msgstr ""
+
+#: mtplastfm/main.py:171
+msgid "No tracks were found on your device."
+msgstr ""
+
+#: mtplastfm/main.py:173
+#, python-format
+msgid "Found %s new tracks for scrobbling"
+msgstr ""
+
+#: mtplastfm/main.py:193
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
 msgid_plural "%(num)d items were not added to your song database.\n"
 msgstr[0] "%(num)d öğe\n"
 
-#: mtplastfm/main.py:240
+#: mtplastfm/main.py:206
+msgid "Reason"
+msgstr ""
+
+#: mtplastfm/main.py:207
+msgid "Title"
+msgstr "Başlık"
+
+#: mtplastfm/main.py:253
 msgid "Authenticating..."
 msgstr "Doğrulanıyor..."
 
-#: mtplastfm/main.py:277
+#: mtplastfm/main.py:290
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr "Yaftalama %s saat önce başladı"
 
-#: mtplastfm/main.py:296
+#: mtplastfm/main.py:309
 msgid "Sending love..."
 msgstr "sevgi gönderiliyor..."
 
-#: mtplastfm/main.py:304
+#: mtplastfm/main.py:316
 msgid "Ok."
 msgstr "Tamam."
 
-#: mtplastfm/main.py:387
+#: mtplastfm/main.py:325
+msgid "Done."
+msgstr "Tamamlandı."
+
+#: mtplastfm/main.py:399
 msgid "Database cleared"
 msgstr "Veritabanı temizlendi"
 
-#: mtplastfm/main.py:406
+#: mtplastfm/main.py:418
 msgid "Error: Please enter a username and password"
 msgstr "Hata: Lütfen bir kullanıcı adı ve parola giriniz"
 
-#: mtplastfm/main.py:425
+#: mtplastfm/main.py:436
 msgid "User database doesn't exist, creating."
 msgstr "Kullanıcı veritabanı bulunamadı, şimdi yaratılıyor."
 
-#: mtplastfm/main.py:439
-msgid "Downloading user image..."
-msgstr ""
-
-#: mtplastfm/main.py:508
+#: mtplastfm/main.py:523
 msgid ""
 "Please authenticate MTP-Lastfm in your web browser.                   This "
 "is required if you wish to love/tag tracks.                   After the "
 "authentication is complete click OK"
 msgstr ""
 
-#: mtplastfm/main.py:525
+#: mtplastfm/main.py:540
 msgid "Authentication complete"
 msgstr "Kimlik doğrulama tamamlandı"
+
+#: mtplastfm/main.py:565
+#, python-format
+msgid ""
+"MTP-Lasfm has %s pending scrobbles from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:570
+msgid ""
+"MTP-Lasfm has previously scrobbled tracks from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:574
+msgid ""
+"MTP-Lastfm didn't find any played songs on your device. If you have "
+"definitely listened to tracks before connecting, then please mark as "
+"incompatible."
+msgstr ""
+
+#: mtplastfm/main.py:580
+#, python-format
+msgid ""
+"The following data will be submitted:\n"
+"Manufacturer: <b>%(manufacturer)s</b>\n"
+"Model: <b>%(model)s</b>\n"
+"Name: <b>%(name)s</b>\n"
+"Last.fm username: "
+msgstr ""
+
+#: mtplastfm/main.py:599
+msgid "Compatibility information submitted."
+msgstr ""
+
+#: mtplastfm/main.py:601
+msgid "An error occured during submission"
+msgstr ""
 
 #: mtplastfm/scrobbler.py:89
 #, python-format
@@ -205,38 +286,6 @@ msgstr "Skoplanacak bir şey yok."
 #: mtplastfm/scrobbler.py:152
 msgid "There was an error sending data to last.fm:"
 msgstr "last.fm'e veri gönderilirken bir hata oluştu:"
-
-#: mtplastfm/songdata.py:39
-msgid "Track ID"
-msgstr "Parça No"
-
-#: mtplastfm/songdata.py:39
-msgid "Title"
-msgstr "Başlık"
-
-#: mtplastfm/songdata.py:41
-msgid "Track number"
-msgstr "Parça numarası"
-
-#: mtplastfm/songdata.py:42
-msgid "Duration"
-msgstr "Süre"
-
-#: mtplastfm/songdata.py:43
-msgid "User rating"
-msgstr "Kullanıcı derecelendirmesi"
-
-#: mtplastfm/songdata.py:44 mtplastfm/songview.py:40
-msgid "Playcount"
-msgstr "Çalma Sayısı"
-
-#: mtplastfm/songdata.py:53
-msgid "Tracks that recently failed a validity check:\n"
-msgstr "Son zamanlarda geçerlilik sınamasında başarısız olan parçalar:\n"
-
-#: mtplastfm/songdata.py:89
-msgid "None"
-msgstr "Hiçbiri"
 
 #: mtplastfm/songview.py:35
 msgid "Love"
@@ -270,6 +319,10 @@ msgstr "Şarkı"
 msgid "Rating"
 msgstr "Değerlendirme"
 
+#: mtplastfm/songview.py:40
+msgid "Playcount"
+msgstr "Çalma Sayısı"
+
 #: mtplastfm/songview.py:196
 msgid "Cached tracks"
 msgstr "Önbelleklenen parçalar"
@@ -278,7 +331,7 @@ msgstr "Önbelleklenen parçalar"
 msgid "Loved tracks"
 msgstr "Sevilen parçalar"
 
-#: mtplastfm/songview.py:240 glade/gui.glade.h:13
+#: mtplastfm/songview.py:240 glade/gui.glade.h:15
 msgid "Banned tracks"
 msgstr "Yasaklanan parçalar"
 
@@ -295,71 +348,83 @@ msgid "<b>Automation</b>"
 msgstr "<b>Otomasyon</b>"
 
 #: glade/gui.glade.h:3
+msgid "<b>Compatibility:</b>"
+msgstr ""
+
+#: glade/gui.glade.h:4
 msgid "<b>Database</b>"
 msgstr "<b>Veritabanı</b>"
 
-#: glade/gui.glade.h:4
+#: glade/gui.glade.h:5
 msgid "<b>MTP-Lastfm</b>"
 msgstr "<b>MTP-Lastfm</b>"
 
-#: glade/gui.glade.h:5
+#: glade/gui.glade.h:6
+msgid "<b>Optional</b>"
+msgstr ""
+
+#: glade/gui.glade.h:7
 msgid "<b>Options</b>"
 msgstr "<b>Seçenekler</b>"
 
-#: glade/gui.glade.h:6
+#: glade/gui.glade.h:8
 msgid "<b>Scrobble ordering</b>"
 msgstr "<b>Skroplama sıralaması</b>"
 
-#: glade/gui.glade.h:7
+#: glade/gui.glade.h:9
 msgid "<b>Scrobble timing</b>"
 msgstr "yafta zamanlaması"
 
-#: glade/gui.glade.h:8
+#: glade/gui.glade.h:10
 msgid "About MTP-Lastfm"
 msgstr "MTP-Lastfm Hakkında"
 
-#: glade/gui.glade.h:9
+#: glade/gui.glade.h:11
 msgid "Alphabetical"
 msgstr "Alfabetik"
 
-#: glade/gui.glade.h:10
+#: glade/gui.glade.h:12
 msgid "Always use default time"
 msgstr "Her zaman varsayılan zamanı kullan"
 
-#: glade/gui.glade.h:11
+#: glade/gui.glade.h:13
 msgid "Authenticate MTP-Lastfm to love/tag tracks"
 msgstr "MTP-Lastfm'de parçaları sev/etiketle  için kimlik doğrula"
 
-#: glade/gui.glade.h:12
+#: glade/gui.glade.h:14
 msgid "Authenticate now"
 msgstr "Şimdi kimlik doğrula"
 
-#: glade/gui.glade.h:14
+#: glade/gui.glade.h:16
 msgid "Calculate scrobble time to finish \"Now\""
 msgstr "Bitmeye kalan skroplama zamanını hesapla \"Şimdi\""
 
-#: glade/gui.glade.h:15
+#: glade/gui.glade.h:17
 msgid "Clears your locally stored song data"
 msgstr "Yerel olarak sakladığınız şarkı verilerini temizler"
 
-#: glade/gui.glade.h:16
+#: glade/gui.glade.h:18
+msgid "Comment"
+msgstr ""
+
+#: glade/gui.glade.h:19
 msgid "Connect to device on startup"
 msgstr "Aygıta başlangıçta bağlan"
 
-#: glade/gui.glade.h:17
+#: glade/gui.glade.h:20
 msgid "Default scrobble start time (Hours)"
 msgstr "Varsayılan yaftalama başlangıç zamanı (Saat)"
 
-#: glade/gui.glade.h:18
+#: glade/gui.glade.h:21
 msgid "Enter the time (in hours) that you wish to start scrobbling from:"
 msgstr ""
 "Skroplamaya başlamak için tercih ettiğiniz zamanı (saat olarak) girin:"
 
-#: glade/gui.glade.h:19
+#: glade/gui.glade.h:22
 msgid "Git repository"
 msgstr "Git deposu"
 
-#: glade/gui.glade.h:20
+#: glade/gui.glade.h:23
 msgid ""
 "If you continue everything will be cleared from your\n"
 "local database.  Usually you only want to do this if\n"
@@ -369,43 +434,43 @@ msgstr ""
 "şey silinecektir. Genellikle bu işlem, aygıtınızı yeni \n"
 "biçimlendirdiyseniz kullanmanız içindir."
 
-#: glade/gui.glade.h:23
+#: glade/gui.glade.h:26
 msgid "Launchpad Homepage"
 msgstr "Launchpad Anasayfası"
 
-#: glade/gui.glade.h:24
+#: glade/gui.glade.h:27
 msgid "Log"
 msgstr ""
 
-#: glade/gui.glade.h:25
+#: glade/gui.glade.h:28
 msgid "Login"
 msgstr "Oturum Aç"
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:29
 msgid "Logout"
 msgstr "Oturumu kapat"
 
-#: glade/gui.glade.h:27
+#: glade/gui.glade.h:30
 msgid "MTP-Lastfm"
 msgstr "MTP-Lastfm"
 
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:31
 msgid "MTP-Lastfm - Clear Database"
 msgstr "MTP-Lastfm - Veritabanını Temizle"
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:32
 msgid "MTP-Lastfm - Login"
 msgstr "MTP-Lastfm - Giriş Yap"
 
-#: glade/gui.glade.h:30
+#: glade/gui.glade.h:33
 msgid "MTP-Lastfm - Scrobbling"
 msgstr "MTP-Lastfm - Yaftalama"
 
-#: glade/gui.glade.h:31
+#: glade/gui.glade.h:34
 msgid "MTP-Lastfm - Settings"
 msgstr "MTP-Lastfm - Ayarlar"
 
-#: glade/gui.glade.h:32
+#: glade/gui.glade.h:35
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -431,39 +496,54 @@ msgstr ""
 "\n"
 "MTP-Lastfm ile beraber GNU Genel Kamu Lisansını da almış olmalısınız."
 
-#: glade/gui.glade.h:37
-msgid "Not working?"
-msgstr "Çalışmıyor mu?"
+#: glade/gui.glade.h:40
+msgid ""
+"MTP-Lastfm is now collecting data on device compatibility with the software. "
+"It would be of great help if you can submit this to our online database. You "
+"can also submit this data at a later date from the Help menu."
+msgstr ""
 
-#: glade/gui.glade.h:38
+#: glade/gui.glade.h:41
+msgid "Operating System:"
+msgstr ""
+
+#: glade/gui.glade.h:42
 msgid "Pending Love"
 msgstr ""
 
-#: glade/gui.glade.h:39
+#: glade/gui.glade.h:43
 msgid "Please login to your last.fm account"
 msgstr "Lütfen last.fm hesabınıza giriş yapınız"
 
-#: glade/gui.glade.h:40
+#: glade/gui.glade.h:44
+msgid "Program doesn't work"
+msgstr ""
+
+#: glade/gui.glade.h:45
+msgid "Program works as expected"
+msgstr ""
+
+#: glade/gui.glade.h:46
 msgid "Random"
 msgstr "Rastgele"
 
-#: glade/gui.glade.h:41
+#: glade/gui.glade.h:47
 msgid "Remember me?"
 msgstr "Beni hatırla?"
 
-#: glade/gui.glade.h:42
+#: glade/gui.glade.h:48
 msgid "Report a bug"
 msgstr "Hata bildir"
 
-#: glade/gui.glade.h:43
+#: glade/gui.glade.h:49
 msgid "Reset Database"
 msgstr "Veritabanını Sıfırla"
 
-#: glade/gui.glade.h:44
+#: glade/gui.glade.h:50
 msgid "Scrobble"
 msgstr "Yafta"
 
-#: glade/gui.glade.h:45
+#: glade/gui.glade.h:51
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
@@ -471,59 +551,75 @@ msgstr ""
 "Aygıtı denetledikten sonra otomatik olarak skropla (Parçaları "
 "sevmek/yasaklamak için seçmeyin)"
 
-#: glade/gui.glade.h:46
+#: glade/gui.glade.h:52
+msgid "Send"
+msgstr ""
+
+#: glade/gui.glade.h:53
+msgid "Send compatibility info"
+msgstr ""
+
+#: glade/gui.glade.h:54
+msgid "Send data"
+msgstr ""
+
+#: glade/gui.glade.h:55
 msgid "Set time manually"
 msgstr "Zamanı elle ayarla"
 
-#: glade/gui.glade.h:47
+#: glade/gui.glade.h:56
 msgid "Suggest a new feature"
 msgstr "Yeni bir özellik tavsiye et"
 
-#: glade/gui.glade.h:48
+#: glade/gui.glade.h:57
+msgid "View compatible devices"
+msgstr ""
+
+#: glade/gui.glade.h:58
 msgid "_Edit"
 msgstr ""
 
-#: glade/gui.glade.h:49
+#: glade/gui.glade.h:59
 msgid "_File"
 msgstr "_Dosya"
 
-#: glade/gui.glade.h:50
+#: glade/gui.glade.h:60
 msgid "_Help"
 msgstr "_Yardım"
 
-#: glade/gui.glade.h:51
+#: glade/gui.glade.h:61
 msgid "_View"
 msgstr "_Göster"
 
-#: glade/gui.glade.h:52
+#: glade/gui.glade.h:62
 msgid "gtk-about"
 msgstr "gtk-hakkında"
 
-#: glade/gui.glade.h:53
+#: glade/gui.glade.h:63
 msgid "gtk-apply"
 msgstr "gtk-uygula"
 
-#: glade/gui.glade.h:54
+#: glade/gui.glade.h:64
 msgid "gtk-cancel"
 msgstr "gtk-iptal"
 
-#: glade/gui.glade.h:55
+#: glade/gui.glade.h:65
 msgid "gtk-connect"
 msgstr ""
 
-#: glade/gui.glade.h:56
+#: glade/gui.glade.h:66
 msgid "gtk-ok"
 msgstr "gtk-tamam"
 
-#: glade/gui.glade.h:57
+#: glade/gui.glade.h:67
 msgid "gtk-preferences"
 msgstr "gtk-tercihleri"
 
-#: glade/gui.glade.h:58
+#: glade/gui.glade.h:68
 msgid "gtk-quit"
 msgstr "gtk-çıkış"
 
-#: glade/gui.glade.h:59
+#: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
@@ -531,10 +627,26 @@ msgstr ""
 "mtp-lastfm mtp aygıtındaki dinleme alışkanlıklarınızı takip eder ve "
 "last.fm'e yükler"
 
-#: glade/gui.glade.h:60
+#: glade/gui.glade.h:70
 msgid "password:"
 msgstr "parola:"
 
-#: glade/gui.glade.h:61
+#: glade/gui.glade.h:71
 msgid "username:"
 msgstr "kullanıcı adı:"
+
+#: glade/log.glade.h:1
+msgid "Song data log"
+msgstr "Şarkı verisi kütüğü"
+
+#: glade/tag.glade.h:1
+msgid "Enter your tags, seperated by commas:"
+msgstr "Etiketlerinizi, virgülle ayırarak giriniz:"
+
+#: glade/tag.glade.h:2
+msgid "Send Tags"
+msgstr "Etiketleri Gönder"
+
+#: glade/tag.glade.h:3
+msgid "gtk-close"
+msgstr "gtk-kapat"

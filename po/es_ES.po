@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-22 13:26+0000\n"
-"PO-Revision-Date: 2010-03-24 01:42+0000\n"
-"Last-Translator: Carlos Alberto Ospina <Unknown>\n"
+"PO-Revision-Date: 2010-03-27 12:16+0000\n"
+"Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-03-25 04:55+0000\n"
+"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
@@ -533,7 +533,7 @@ msgstr "El programa no funciona"
 
 #: glade/gui.glade.h:45
 msgid "Program works as expected"
-msgstr ""
+msgstr "El programa trabaja como es esperado"
 
 #: glade/gui.glade.h:46
 msgid "Random"
