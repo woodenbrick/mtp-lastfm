@@ -87,8 +87,8 @@ class MTPLastfmGTK:
             if self.authenticate_user():
                 self.setup_user_session()
             else:
-                self.tree.get_widget("login_error").set_text(
-                    "There was an error")
+                self.tree.get_widget("login_error").set_text(self.authentication_error)
+
     
   
     def show_main_window(self):
@@ -265,7 +265,7 @@ class MTPLastfmGTK:
             self.session_key = self.usersDB.get_session_key(self.username)
             return True
         else:
-            self.authentication_error = msg
+            self.authentication_error = msg.reason[1]
             return False
             
     
@@ -451,8 +451,9 @@ class MTPLastfmGTK:
         request = HttpRequest(url=url % (self.username, webservice.api_key), timeout=10)
         msg = request.connect(xml=True)
         image_url = webservice.parse_xml(msg, "image")
-        if image_url is not None and not os.path.exists(self.HOME_DIR +
-                                                        os.path.basename(image_url)):
+        if image_url is None:
+            return
+        if not os.path.exists(self.HOME_DIR + os.path.basename(image_url)):
             request = HttpRequest(image_url)
             request.retrieve(image_url, self.HOME_DIR + os.path.basename(image_url),
                              self.tree.get_widget("user_thumb"))
