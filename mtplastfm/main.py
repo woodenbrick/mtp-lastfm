@@ -563,7 +563,7 @@ class MTPLastfmGTK:
         #no scrobbles would indicate that it doesn't (though this is not certain
         #as users may not have listened to any tracks on device
         if self.song_db.scrobble_counter > 0:
-            comp_str = _("MTP-Lasfm has %s pending scrobbles from your device and "
+            comp_str = _("MTP-Lastfm has %s pending scrobbles from your device and "
             "is considered compatible." % self.song_db.scrobble_counter)
             self.tree.get_widget("radio_prog_work").set_active(True)
         elif self.song_db.cursor.execute(
