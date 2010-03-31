@@ -76,6 +76,7 @@ class Scrobbler:
 
     def submit_tracks(self, c):
         """Takes c, a cursor object with scrobble data and tries to submit it to last.fm"""
+        self.scrobble_count = 0
         past_time = int(time.time() - self.scrobble_time)
         progress_bar = ProgressBar(self.parent.tree.get_widget("progressbar"))
         progress_bar.set_vars(self.parent.song_db.scrobble_counter, 0)
