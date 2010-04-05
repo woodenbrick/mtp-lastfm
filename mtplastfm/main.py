@@ -147,11 +147,11 @@ class MTPLastfmGTK:
             if mtpconnect.is_valid_track() == 0:
                 #build a songdic that matches old implementation
                 song = {"id" : mtpconnect.get_item_id(),
-                        "artist" : mtpconnect.get_artist(),
-                        "title" : mtpconnect.get_title(),
+                        "artist" : unicode(mtpconnect.get_artist(), 'utf-8'),
+                        "title" : unicode(mtpconnect.get_title(), 'utf-8'),
                         "tracknumber" : mtpconnect.get_track_number(),
-                        "rating" : mtpconnect.get_rating(),
-                        "album" : mtpconnect.get_album(),
+                        "rating" : unicode(mtpconnect.get_rating(), 'utf-8'),
+                        "album" : unicode(mtpconnect.get_album(), 'utf-8'),
                         "duration" : mtpconnect.get_duration(),
                         "usecount" : mtpconnect.get_usecount()}
                 self.song_db.add_new_data(song)
