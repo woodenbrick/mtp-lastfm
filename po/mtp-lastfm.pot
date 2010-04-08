@@ -575,34 +575,6 @@ msgstr ""
 msgid "_View"
 msgstr ""
 
-#: glade/gui.glade.h:62
-msgid "gtk-about"
-msgstr ""
-
-#: glade/gui.glade.h:63
-msgid "gtk-apply"
-msgstr ""
-
-#: glade/gui.glade.h:64
-msgid "gtk-cancel"
-msgstr ""
-
-#: glade/gui.glade.h:65
-msgid "gtk-connect"
-msgstr ""
-
-#: glade/gui.glade.h:66
-msgid "gtk-ok"
-msgstr ""
-
-#: glade/gui.glade.h:67
-msgid "gtk-preferences"
-msgstr ""
-
-#: glade/gui.glade.h:68
-msgid "gtk-quit"
-msgstr ""
-
 #: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
@@ -629,6 +601,3 @@ msgstr ""
 msgid "Send Tags"
 msgstr ""
 
-#: glade/tag.glade.h:3
-msgid "gtk-close"
-msgstr ""
