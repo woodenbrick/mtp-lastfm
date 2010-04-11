@@ -194,7 +194,6 @@ int get_track_number(void)
 int get_usecount(void)
 {
     fprintf(stderr, "getting usecount\n");
-    fflush(1);
     return current_track->usecount;
 }
 
