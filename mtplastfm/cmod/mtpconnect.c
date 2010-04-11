@@ -18,40 +18,40 @@
 #include <libmtp.h>
 #include <stdio.h>
 #include "mtpconnect.h"
-
 int open_device(void)
 {
+    fprintf(stderr, "Opening device");
     LIBMTP_Init();
     LIBMTP_error_number_t error;
     error = LIBMTP_Get_Connected_Devices(&device);
     switch(error)
     {
     case(LIBMTP_ERROR_CONNECTING):
-        printf("Error connecting\n"); //7
+        fprintf(stderr, "Error connecting\n"); //7
         break;
     case(LIBMTP_ERROR_NO_DEVICE_ATTACHED):
-        printf("No Device attached\n"); //5
+        fprintf(stderr, "No Device attached\n"); //5
         break;
     case(LIBMTP_ERROR_GENERAL):
-        printf("General error\n");
+        fprintf(stderr, "General error\n");
         break;
     case(LIBMTP_ERROR_PTP_LAYER):
-        printf("PTP Layer Error\n");
+        fprintf(stderr, "PTP Layer Error\n");
         break;
     case(LIBMTP_ERROR_USB_LAYER):
-        printf("USB Layer Error\n");
+        fprintf(stderr, "USB Layer Error\n");
         break;
     case(LIBMTP_ERROR_MEMORY_ALLOCATION):
-        printf("Memory allocation error\n");
+        fprintf(stderr, "Memory allocation error\n");
         break;
     case(LIBMTP_ERROR_STORAGE_FULL):
-        printf("Error: Storage full\n");
+        fprintf(stderr, "Error: Storage full\n");
         break;
     case(LIBMTP_ERROR_CANCELLED):
-        printf("Connection cancelled\n");
+        fprintf(stderr, "Connection cancelled\n");
         break;
     case(LIBMTP_ERROR_NONE):
-        printf("Successfully connected\n");
+        fprintf(stderr, "Successfully connected\n");
         break;
     }
     return error;
@@ -61,9 +61,12 @@ int open_device(void)
 void close_device(void)
 {
     if(device != NULL)
+    {
+        fprintf(stderr, "Closing device\n");
         LIBMTP_Release_Device(device);
+    }
     else
-        printf("No pointer to device found\n");
+        fprintf(stderr, "No pointer to device found\n");
 }
 
 int reset_device(void)
@@ -71,7 +74,7 @@ int reset_device(void)
     if(device != NULL)
         return LIBMTP_Reset_Device(device);
     else
-        printf("No pointer to device found\n");
+        fprintf(stderr, "No pointer to device found\n");
     return 1;
 }
 
@@ -84,11 +87,13 @@ LIBMTP_mtpdevice_t* next_device(void)
 
 char* get_manufacturer(void)
 {
+    fprintf(stderr, "getting manufacturer\n");
     return LIBMTP_Get_Manufacturername(device);
 }
 
 char* get_model(void)
 {
+    fprintf(stderr, "getting model\n");
     return LIBMTP_Get_Modelname(device);
 }
 
@@ -99,16 +104,19 @@ char* get_libmtp_version(void)
 
 LIBMTP_track_t* get_tracks(void)
 {
+    fprintf(stderr, "getting track listing\n");
     counter = 0;
     current_track = LIBMTP_Get_Tracklisting_With_Callback(device, NULL, NULL);
     //count tracks
     //is this a good idea, it may waste time on large collections
+    fprintf(stderr, "tracks aqcuired, running count");
     tmp = current_track;
     while(tmp != NULL)
     {
         counter++;
         tmp = tmp->next;
     }
+    fprintf(stderr, "Count: %d\n", counter);
     return current_track;
 }
 
@@ -119,6 +127,7 @@ int get_track_count(void)
 
 LIBMTP_track_t* next_track(void)
 {
+    fprintf(stderr, "Getting next track\n");
     LIBMTP_track_t* tmp;
     tmp = current_track;
     current_track = current_track->next;
@@ -128,21 +137,25 @@ LIBMTP_track_t* next_track(void)
 
 char* get_friendly_name(void)
 {
+    fprintf(stderr, "Getting friendly name\n");
     return LIBMTP_Get_Friendlyname(device);
 }
 
 char* get_artist(void)
 {
+    fprintf(stderr, "Getting artist\n");
     return current_track->artist;
 }
 
 char* get_title(void)
 {
+    fprintf(stderr, "Getting title\n");
     return current_track->title;
 }
 
 char* get_album(void)
 {
+    fprintf(stderr, "Getting album\n");
     return current_track->album;
 }
 
@@ -150,6 +163,7 @@ int get_duration(void)
 {
     //return in seconds and make it 3minutes long if this attribute is missing
     //otherwise last.fm wont scrobble it.
+    fprintf(stderr, "Getting duration\n");
     if (current_track->duration == 0)
         return 180;
     return current_track->duration / 1000;
@@ -163,6 +177,7 @@ int get_item_id(void)
 
 char get_rating(void)
 {
+    fprintf(stderr, "Getting rating\n");
     //return as a char that can be sent straight to last.fm
     if(current_track->rating == 99)
         return 'L';
@@ -178,6 +193,8 @@ int get_track_number(void)
 
 int get_usecount(void)
 {
+    fprintf(stderr, "getting usecount\n");
+    fflush(1);
     return current_track->usecount;
 }
 
@@ -186,6 +203,7 @@ int is_valid_track(void)
     //check if this is a valid track and sets the error string variable if it isnt
     //a valid track must contain at least:
     // artist/title/acceptable filetype
+    fprintf(stderr, "checking is valid filetype\n");
 
     if(! LIBMTP_FILETYPE_IS_AUDIO(current_track->filetype))
         return 1;
