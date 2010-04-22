@@ -41,10 +41,11 @@ class Scrobbler:
         self.parent = parent
         self.client = 'mtl'
         self.version = '1.0'
-        self.url = "http://post.audioscrobbler.com:80"
+        self.base_url = "http://post.audioscrobbler.com:80"
         self.deletion_ids = []
         self.scrobble_count = 0
         self.handshake_attempts = 0
+        self.bad_session_count = 0
         
     def set_scrobble_time(self, time):
         self.scrobble_time = int(time * 3600)
@@ -61,11 +62,10 @@ class Scrobbler:
         self.handshake_attempts += 1
         self.timestamp = self.create_timestamp()
         self.authentication_code = self.create_authentication_code()
-        self.url += r"/?" + self.encode_url()
-        
+        self.url = self.base_url + r"/?" + self.encode_url()
         req = HttpRequest(url=self.url, timeout=10)
         success, response = req.connect()
-           
+        print req.handshake_response(response[0])
         if success:
             self.session_id = response[1]
             status = response[0]
@@ -160,9 +160,10 @@ class Scrobbler:
             self.deletion_ids.extend(self.del_ids)    
             return True
         else:
-            if msg == "BADSESSION":
+            if msg[0] == "BADSESSION":
+                self.bad_session_count += 1
                 server_response, message = self.handshake()
-                if server_response == "OK":
+                if server_response == "OK" and self.bad_session_count <= 3:
                     return self._send_post(post_values)
                 else:
                     self.parent.write_info(_("Error during handshake."))

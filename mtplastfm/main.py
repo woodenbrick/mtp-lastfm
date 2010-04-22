@@ -265,7 +265,7 @@ class MTPLastfmGTK:
             self.session_key = self.usersDB.get_session_key(self.username)
             return True
         else:
-            self.authentication_error = msg.reason[1]
+            self.authentication_error = msg
             return False
             
     
