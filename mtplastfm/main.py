@@ -146,14 +146,26 @@ class MTPLastfmGTK:
         while current_track is not None:
             if mtpconnect.is_valid_track() == 0:
                 #build a songdic that matches old implementation
-                song = {"id" : mtpconnect.get_item_id(),
-                        "artist" : unicode(mtpconnect.get_artist(), 'utf-8'),
-                        "title" : unicode(mtpconnect.get_title(), 'utf-8'),
-                        "tracknumber" : mtpconnect.get_track_number(),
-                        "rating" : unicode(mtpconnect.get_rating(), 'utf-8'),
-                        "album" : unicode(mtpconnect.get_album(), 'utf-8'),
-                        "duration" : mtpconnect.get_duration(),
-                        "usecount" : mtpconnect.get_usecount()}
+                song = {}
+                song['artist'] = mtpconnect.get_artist()
+                song['title'] = mtpconnect.get_title()
+                song['rating'] = mtpconnect.get_rating()
+                song['album'] = mtpconnect.get_album()
+                for key, value in song.items():
+                    try:
+                        song[key] = unicode(value, 'utf-8')
+                    except TypeError:
+                        song[key] = ""
+                song['id'] = mtpconnect.get_item_id()
+                try:
+                    song['tracknumber'] = int(mtpconnect.get_track_number())
+                except TypeError:
+                    song['tracknumber'] = 0
+                song['duration'] = mtpconnect.get_duration()
+                try:
+                    song['usecount'] = int(mtpconnect.get_usecount())
+                except TypeError:
+                    song['usecount'] = 0
                 self.song_db.add_new_data(song)
             else:
                 invalid_track_count += 1

@@ -143,8 +143,6 @@ char* get_title(void)
 
 char* get_album(void)
 {
-    if(current_track->album == NULL)
-        return ' ';
     return current_track->album;
 }
 
@@ -175,15 +173,11 @@ char get_rating(void)
 
 int get_track_number(void)
 {
-    if(current_track->tracknumber == NULL)
-        return ' ';
     return current_track->tracknumber;
 }
 
 int get_usecount(void)
 {
-    if(current_track->usecount == NULL)
-        return 0;
     return current_track->usecount;
 }
 
