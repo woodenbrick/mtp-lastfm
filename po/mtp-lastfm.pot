@@ -210,8 +210,8 @@ msgstr ""
 
 #: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.                   This "
-"is required if you wish to love/tag tracks.                   After the "
+"Please authenticate MTP-Lastfm in your web browser. This "
+"is required if you wish to love/tag tracks. After the "
 "authentication is complete click OK"
 msgstr ""
 
