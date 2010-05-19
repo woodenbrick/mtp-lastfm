@@ -533,9 +533,7 @@ class MTPLastfmGTK:
         
     def on_authenticate_clicked(self, widget):
         """This is the button in the options menu"""
-        text = _("Please authenticate MTP-Lastfm in your web browser.  \
-                 This is required if you wish to love/tag tracks.  \
-                 After the authentication is complete click OK")
+        text = _("""Please authenticate MTP-Lastfm in your web browser. This is required if you wish to love/tag tracks. After the authentication is complete click OK""")
         message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO,
                                     gtk.BUTTONS_OK_CANCEL, text)
         webservice = webservices.LastfmWebService()
