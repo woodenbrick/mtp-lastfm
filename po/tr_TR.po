@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-22 13:26+0000\n"
-"PO-Revision-Date: 2010-03-27 12:21+0000\n"
+"PO-Revision-Date: 2010-04-07 14:22+0000\n"
 "Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-09-05 07:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
@@ -212,9 +212,8 @@ msgstr "Kullanıcı veritabanı bulunamadı, şimdi yaratılıyor."
 
 #: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.                   This "
-"is required if you wish to love/tag tracks.                   After the "
-"authentication is complete click OK"
+"Please authenticate MTP-Lastfm in your web browser. This is required if you "
+"wish to love/tag tracks. After the authentication is complete click OK"
 msgstr ""
 
 #: mtplastfm/main.py:540
@@ -591,34 +590,6 @@ msgstr "_Yardım"
 msgid "_View"
 msgstr "_Göster"
 
-#: glade/gui.glade.h:62
-msgid "gtk-about"
-msgstr "gtk-hakkında"
-
-#: glade/gui.glade.h:63
-msgid "gtk-apply"
-msgstr "gtk-uygula"
-
-#: glade/gui.glade.h:64
-msgid "gtk-cancel"
-msgstr "gtk-iptal"
-
-#: glade/gui.glade.h:65
-msgid "gtk-connect"
-msgstr ""
-
-#: glade/gui.glade.h:66
-msgid "gtk-ok"
-msgstr "gtk-tamam"
-
-#: glade/gui.glade.h:67
-msgid "gtk-preferences"
-msgstr "gtk-tercihleri"
-
-#: glade/gui.glade.h:68
-msgid "gtk-quit"
-msgstr "gtk-çıkış"
-
 #: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
@@ -646,7 +617,3 @@ msgstr "Etiketlerinizi, virgülle ayırarak giriniz:"
 #: glade/tag.glade.h:2
 msgid "Send Tags"
 msgstr "Etiketleri Gönder"
-
-#: glade/tag.glade.h:3
-msgid "gtk-close"
-msgstr "gtk-kapat"

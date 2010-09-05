@@ -24,7 +24,7 @@ _ = localisation.set_get_text()
 from mtplastfm.main import MTPLastfmGTK
 
 __author__ = ("Daniel Woodhouse","Saku Laukkanen")
-__version__ = "0.85.2"
+__version__ = "0.86"
 
 parser = optparse.OptionParser(version="mtp-lastfm %s by %s" % (
     __version__,', '.join(__author__)))

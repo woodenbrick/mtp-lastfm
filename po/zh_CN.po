@@ -7,32 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-06-27 21:35+0300\n"
-"PO-Revision-Date: 2009-11-23 16:24+0000\n"
-"Last-Translator: Gtianp <Unknown>\n"
+"POT-Creation-Date: 2010-03-22 13:26+0000\n"
+"PO-Revision-Date: 2010-08-01 16:24+0000\n"
+"Last-Translator: mtp-lastfm <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2009-11-24 04:40+0000\n"
+"X-Launchpad-Export-Date: 2010-09-05 07:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
+#: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
 msgid "User authenticated"
 msgstr "用户已确认"
 
-#: mtplastfm/httprequest.py:55
+#: mtplastfm/httprequest.py:83
 msgid "Username or password incorrect, please reset"
 msgstr "用户名或密码错误，请重新输入"
 
-#: mtplastfm/httprequest.py:56
+#: mtplastfm/httprequest.py:84
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
 msgstr "本歌曲记录客户端已停用，请注意开发者动向"
 
-#: mtplastfm/httprequest.py:57
+#: mtplastfm/httprequest.py:85
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr "时间戳错误，清检查你的时钟设置"
 
@@ -40,13 +40,12 @@ msgstr "时间戳错误，清检查你的时钟设置"
 msgid "Track"
 msgstr "音轨"
 
-#: mtplastfm/lastfmtagger.py:31 mtplastfm/songdata.py:40
-#: mtplastfm/songview.py:40
+#: mtplastfm/lastfmtagger.py:31 mtplastfm/main.py:208 mtplastfm/songview.py:40
 msgid "Artist"
 msgstr "艺术家"
 
 #: mtplastfm/lastfmtagger.py:32 mtplastfm/lastfmtagger.py:89
-#: mtplastfm/songdata.py:40 mtplastfm/songview.py:40
+#: mtplastfm/songview.py:40
 msgid "Album"
 msgstr "专辑"
 
@@ -83,92 +82,179 @@ msgstr "传送标签"
 msgid "Tags sent"
 msgstr "标签已传送"
 
-#: mtplastfm/main.py:110
+#: mtplastfm/main.py:46
+msgid "Successfully connected"
+msgstr ""
+
+#: mtplastfm/main.py:47
+msgid "General error"
+msgstr ""
+
+#: mtplastfm/main.py:48
+msgid "PTP Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:49
+msgid "USB Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:50
+msgid "Memory Allocation Error"
+msgstr ""
+
+#: mtplastfm/main.py:51
+msgid "No device attached"
+msgstr ""
+
+#: mtplastfm/main.py:52
+msgid "Storage full"
+msgstr ""
+
+#: mtplastfm/main.py:53
+msgid "Problem connecting"
+msgstr ""
+
+#: mtplastfm/main.py:54
+msgid "Connection cancelled"
+msgstr ""
+
+#: mtplastfm/main.py:56
+msgid "Invalid filetype"
+msgstr ""
+
+#: mtplastfm/main.py:57
+msgid "Invalid artist"
+msgstr ""
+
+#: mtplastfm/main.py:58
+msgid "Invalid title"
+msgstr ""
+
+#: mtplastfm/main.py:123
+msgid "Tracks that recently failed a validity check:\n"
+msgstr "曲目有效性检测失败：\n"
+
+#: mtplastfm/main.py:126
 msgid "Connecting to MTP device"
 msgstr "正连接MTP设备"
 
-#: mtplastfm/main.py:135
-msgid ""
-"Warning: Your device seems to be taking longer than normal to upload a track "
-"listing.\n"
-msgstr "警告：从设备传输曲目列表可能已超时\n"
-
-#: mtplastfm/main.py:142
-msgid ""
-"Device found, but an error occurred. Please make sure it is not mounted by "
-"another program (eg. music player, desktop)."
-msgstr "设备已发现,可有错误.请确认你的设备没有被别的程序加载(例如,音乐播放器,桌面等)."
-
-#: mtplastfm/main.py:147
-msgid "Device not found."
-msgstr "未找到设备"
-
-#: mtplastfm/main.py:151 mtplastfm/main.py:304
-msgid "Done."
-msgstr "完成。"
-
-#: mtplastfm/main.py:152
-msgid "It is now safe to remove your device."
-msgstr "现在可以安全移出你的设备了"
-
-#: mtplastfm/main.py:154
-msgid "Populating database for first time, may take a while..."
-msgstr "第一次载入数据库,可能需要一些时间……"
-
-#: mtplastfm/main.py:157
-msgid "Cross checking song data with local database..."
-msgstr "用本地数据库交叉检测歌曲数据……"
-
-#: mtplastfm/main.py:172
+#: mtplastfm/main.py:136
 #, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] "%(num)d 曲目已检测"
+msgid "Successfully connected to %(name)s %(model)s"
+msgstr ""
 
-#: mtplastfm/main.py:175
+#: mtplastfm/main.py:141
+#, python-format
+msgid "%s items found on device, cross checking with local database..."
+msgstr ""
+
+#: mtplastfm/main.py:167
+msgid "Closing device"
+msgstr ""
+
+#: mtplastfm/main.py:171
+msgid "No tracks were found on your device."
+msgstr ""
+
+#: mtplastfm/main.py:173
+#, python-format
+msgid "Found %s new tracks for scrobbling"
+msgstr ""
+
+#: mtplastfm/main.py:193
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
 msgid_plural "%(num)d items were not added to your song database.\n"
 msgstr[0] "%(num)d 项目没有添加到你的歌曲数据库。\n"
 
-#: mtplastfm/main.py:231
+#: mtplastfm/main.py:206
+msgid "Reason"
+msgstr ""
+
+#: mtplastfm/main.py:207
+msgid "Title"
+msgstr "标题"
+
+#: mtplastfm/main.py:253
 msgid "Authenticating..."
 msgstr "正在认证..."
 
-#: mtplastfm/main.py:268
+#: mtplastfm/main.py:290
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr "从 %s 小时前开始记录歌曲数据"
 
-#: mtplastfm/main.py:287
+#: mtplastfm/main.py:309
 msgid "Sending love..."
 msgstr "传送喜爱曲目……"
 
-#: mtplastfm/main.py:295
+#: mtplastfm/main.py:316
 msgid "Ok."
 msgstr "完成"
 
-#: mtplastfm/main.py:377
+#: mtplastfm/main.py:325
+msgid "Done."
+msgstr "完成。"
+
+#: mtplastfm/main.py:399
 msgid "Database cleared"
 msgstr "数据库已清除"
 
-#: mtplastfm/main.py:396
+#: mtplastfm/main.py:418
 msgid "Error: Please enter a username and password"
 msgstr "错误：情输入用户名和密码"
 
-#: mtplastfm/main.py:414
+#: mtplastfm/main.py:436
 msgid "User database doesn't exist, creating."
 msgstr "用户数据库不存在，正在创建。"
 
-#: mtplastfm/main.py:483
+#: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.  This is required if you "
-"wish to love/tag tracks.  After the authentication is complete click OK"
-msgstr "如果你要添加喜爱曲目或者标记曲目，请确认MTP-Lastfm在你的Web浏览器中。验证完成后点击“确定”"
+"Please authenticate MTP-Lastfm in your web browser. This is required if you "
+"wish to love/tag tracks. After the authentication is complete click OK"
+msgstr ""
 
-#: mtplastfm/main.py:498
+#: mtplastfm/main.py:540
 msgid "Authentication complete"
 msgstr "验证完成"
+
+#: mtplastfm/main.py:565
+#, python-format
+msgid ""
+"MTP-Lasfm has %s pending scrobbles from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:570
+msgid ""
+"MTP-Lasfm has previously scrobbled tracks from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:574
+msgid ""
+"MTP-Lastfm didn't find any played songs on your device. If you have "
+"definitely listened to tracks before connecting, then please mark as "
+"incompatible."
+msgstr ""
+
+#: mtplastfm/main.py:580
+#, python-format
+msgid ""
+"The following data will be submitted:\n"
+"Manufacturer: <b>%(manufacturer)s</b>\n"
+"Model: <b>%(model)s</b>\n"
+"Name: <b>%(name)s</b>\n"
+"Last.fm username: "
+msgstr ""
+
+#: mtplastfm/main.py:599
+msgid "Compatibility information submitted."
+msgstr ""
+
+#: mtplastfm/main.py:601
+msgid "An error occured during submission"
+msgstr ""
 
 #: mtplastfm/scrobbler.py:89
 #, python-format
@@ -197,38 +283,6 @@ msgstr "没有可传送的了"
 #: mtplastfm/scrobbler.py:152
 msgid "There was an error sending data to last.fm:"
 msgstr "传送数据到last.fm遇到错误："
-
-#: mtplastfm/songdata.py:39
-msgid "Track ID"
-msgstr "曲目标签"
-
-#: mtplastfm/songdata.py:39
-msgid "Title"
-msgstr "标题"
-
-#: mtplastfm/songdata.py:41
-msgid "Track number"
-msgstr "音轨编号"
-
-#: mtplastfm/songdata.py:42
-msgid "Duration"
-msgstr "时长"
-
-#: mtplastfm/songdata.py:43
-msgid "User rating"
-msgstr "用户分级"
-
-#: mtplastfm/songdata.py:44 mtplastfm/songview.py:40
-msgid "Playcount"
-msgstr "播放计数"
-
-#: mtplastfm/songdata.py:53
-msgid "Tracks that recently failed a validity check:\n"
-msgstr "曲目有效性检测失败：\n"
-
-#: mtplastfm/songdata.py:89
-msgid "None"
-msgstr "无"
 
 #: mtplastfm/songview.py:35
 msgid "Love"
@@ -262,6 +316,10 @@ msgstr "曲目"
 msgid "Rating"
 msgstr "评级"
 
+#: mtplastfm/songview.py:40
+msgid "Playcount"
+msgstr "播放计数"
+
 #: mtplastfm/songview.py:196
 msgid "Cached tracks"
 msgstr "缓存曲目"
@@ -270,7 +328,7 @@ msgstr "缓存曲目"
 msgid "Loved tracks"
 msgstr "喜爱的曲目"
 
-#: mtplastfm/songview.py:240
+#: mtplastfm/songview.py:240 glade/gui.glade.h:15
 msgid "Banned tracks"
 msgstr "禁止的曲目"
 
@@ -287,109 +345,125 @@ msgid "<b>Automation</b>"
 msgstr "<b>自动</b>"
 
 #: glade/gui.glade.h:3
+msgid "<b>Compatibility:</b>"
+msgstr ""
+
+#: glade/gui.glade.h:4
 msgid "<b>Database</b>"
 msgstr "<b>数据库</b>"
 
-#: glade/gui.glade.h:4
+#: glade/gui.glade.h:5
 msgid "<b>MTP-Lastfm</b>"
 msgstr "<b>MTP-Lastfm</b>"
 
-#: glade/gui.glade.h:5
+#: glade/gui.glade.h:6
+msgid "<b>Optional</b>"
+msgstr ""
+
+#: glade/gui.glade.h:7
 msgid "<b>Options</b>"
 msgstr "<b>选项</b>"
 
-#: glade/gui.glade.h:6
+#: glade/gui.glade.h:8
 msgid "<b>Scrobble ordering</b>"
 msgstr "<b>歌曲记录顺序</b>"
 
-#: glade/gui.glade.h:7
+#: glade/gui.glade.h:9
 msgid "<b>Scrobble timing</b>"
 msgstr "<b>歌曲记录时间</b>"
 
-#: glade/gui.glade.h:8
+#: glade/gui.glade.h:10
 msgid "About MTP-Lastfm"
 msgstr "关于 MTP-Lastfm"
 
-#: glade/gui.glade.h:9
+#: glade/gui.glade.h:11
 msgid "Alphabetical"
 msgstr "按字母表顺序"
 
-#: glade/gui.glade.h:10
+#: glade/gui.glade.h:12
 msgid "Always use default time"
 msgstr "总是使用默认时间"
 
-#: glade/gui.glade.h:11
+#: glade/gui.glade.h:13
 msgid "Authenticate MTP-Lastfm to love/tag tracks"
 msgstr "授权MTP-Lastfm访问你的last.fm帐户以传送喜爱或标记的曲目"
 
-#: glade/gui.glade.h:12
+#: glade/gui.glade.h:14
 msgid "Authenticate now"
 msgstr "现在验证"
 
-#: glade/gui.glade.h:13
+#: glade/gui.glade.h:16
 msgid "Calculate scrobble time to finish \"Now\""
 msgstr "以“现在”作为曲目播放完毕的时间"
 
-#: glade/gui.glade.h:14
+#: glade/gui.glade.h:17
 msgid "Clears your locally stored song data"
 msgstr "清除你的本地曲目信息"
 
-#: glade/gui.glade.h:15
+#: glade/gui.glade.h:18
+msgid "Comment"
+msgstr ""
+
+#: glade/gui.glade.h:19
 msgid "Connect to device on startup"
 msgstr "自动连接设备"
 
-#: glade/gui.glade.h:16
+#: glade/gui.glade.h:20
 msgid "Default scrobble start time (Hours)"
 msgstr "默认记录起始时间（小时）"
 
-#: glade/gui.glade.h:17
+#: glade/gui.glade.h:21
 msgid "Enter the time (in hours) that you wish to start scrobbling from:"
 msgstr "输入希望开始记录的时间（几小时前）："
 
-#: glade/gui.glade.h:18
+#: glade/gui.glade.h:22
 msgid "Git repository"
 msgstr "Git库"
 
-#: glade/gui.glade.h:19
+#: glade/gui.glade.h:23
 msgid ""
 "If you continue everything will be cleared from your\n"
 "local database.  Usually you only want to do this if\n"
 "you have formatted your device."
 msgstr "如果继续，所有本地数据都会被清除。只有在你格式化设备后才需要这样做。"
 
-#: glade/gui.glade.h:22
+#: glade/gui.glade.h:26
 msgid "Launchpad Homepage"
 msgstr "Launchpad 主页"
 
-#: glade/gui.glade.h:23
+#: glade/gui.glade.h:27
+msgid "Log"
+msgstr ""
+
+#: glade/gui.glade.h:28
 msgid "Login"
 msgstr "登录"
 
-#: glade/gui.glade.h:24
+#: glade/gui.glade.h:29
 msgid "Logout"
 msgstr "注销"
 
-#: glade/gui.glade.h:25
+#: glade/gui.glade.h:30
 msgid "MTP-Lastfm"
 msgstr "MTP-Lastfm"
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:31
 msgid "MTP-Lastfm - Clear Database"
 msgstr "MTP-Lastfm - 清除数据库"
 
-#: glade/gui.glade.h:27
+#: glade/gui.glade.h:32
 msgid "MTP-Lastfm - Login"
 msgstr "MTP-Lastfm - 登录"
 
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:33
 msgid "MTP-Lastfm - Scrobbling"
 msgstr "MTP-Lastfm - 传送歌曲记录"
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:34
 msgid "MTP-Lastfm - Settings"
 msgstr "MTP-Lastfm - 设置"
 
-#: glade/gui.glade.h:30
+#: glade/gui.glade.h:35
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -410,63 +484,110 @@ msgstr ""
 "GPL).\n"
 "你在获得该软件时应同时收到一份GNU通用公许可证(GNU GPL).如果没有,请访问:http://www.gnu.org/licenses/"
 
-#: glade/gui.glade.h:35
+#: glade/gui.glade.h:40
+msgid ""
+"MTP-Lastfm is now collecting data on device compatibility with the software. "
+"It would be of great help if you can submit this to our online database. You "
+"can also submit this data at a later date from the Help menu."
+msgstr ""
+
+#: glade/gui.glade.h:41
+msgid "Operating System:"
+msgstr ""
+
+#: glade/gui.glade.h:42
+msgid "Pending Love"
+msgstr ""
+
+#: glade/gui.glade.h:43
 msgid "Please login to your last.fm account"
 msgstr "请登如你的last.fm帐户"
 
-#: glade/gui.glade.h:36
+#: glade/gui.glade.h:44
+msgid "Program doesn't work"
+msgstr ""
+
+#: glade/gui.glade.h:45
+msgid "Program works as expected"
+msgstr ""
+
+#: glade/gui.glade.h:46
 msgid "Random"
 msgstr "随机"
 
-#: glade/gui.glade.h:37
+#: glade/gui.glade.h:47
 msgid "Remember me?"
 msgstr "记住这个用户名"
 
-#: glade/gui.glade.h:38
+#: glade/gui.glade.h:48
 msgid "Report a bug"
 msgstr "报告错误"
 
-#: glade/gui.glade.h:39
+#: glade/gui.glade.h:49
 msgid "Reset Database"
 msgstr "重置数据库"
 
-#: glade/gui.glade.h:40
+#: glade/gui.glade.h:50
+msgid "Scrobble"
+msgstr ""
+
+#: glade/gui.glade.h:51
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
 msgstr "在检查完设备后自动上传歌曲记录(不检查喜爱或禁止的曲目)"
 
-#: glade/gui.glade.h:41
+#: glade/gui.glade.h:52
+msgid "Send"
+msgstr ""
+
+#: glade/gui.glade.h:53
+msgid "Send compatibility info"
+msgstr ""
+
+#: glade/gui.glade.h:54
+msgid "Send data"
+msgstr ""
+
+#: glade/gui.glade.h:55
 msgid "Set time manually"
 msgstr "手动设置时间"
 
-#: glade/gui.glade.h:42
+#: glade/gui.glade.h:56
 msgid "Suggest a new feature"
 msgstr "建议新特性"
 
-#: glade/gui.glade.h:43
-msgid "gtk-apply"
-msgstr "应用"
+#: glade/gui.glade.h:57
+msgid "View compatible devices"
+msgstr ""
 
-#: glade/gui.glade.h:44
-msgid "gtk-cancel"
-msgstr "取消"
+#: glade/gui.glade.h:58
+msgid "_Edit"
+msgstr ""
 
-#: glade/gui.glade.h:45
-msgid "gtk-ok"
-msgstr "确定"
+#: glade/gui.glade.h:59
+msgid "_File"
+msgstr ""
 
-#: glade/gui.glade.h:46
+#: glade/gui.glade.h:60
+msgid "_Help"
+msgstr ""
+
+#: glade/gui.glade.h:61
+msgid "_View"
+msgstr ""
+
+#: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
 msgstr "MTP-lastfm 从你的MTP设备中获知你的收听习惯并把这些信息上传到last.fm"
 
-#: glade/gui.glade.h:47
+#: glade/gui.glade.h:70
 msgid "password:"
 msgstr "密码:"
 
-#: glade/gui.glade.h:48
+#: glade/gui.glade.h:71
 msgid "username:"
 msgstr "用户名:"
 
@@ -482,6 +603,61 @@ msgstr "输入你的标签,用半角逗号,隔开"
 msgid "Send Tags"
 msgstr "传送标签"
 
-#: glade/tag.glade.h:3
-msgid "gtk-close"
-msgstr "关闭"
+#~ msgid ""
+#~ "Warning: Your device seems to be taking longer than normal to upload a track "
+#~ "listing.\n"
+#~ msgstr "警告：从设备传输曲目列表可能已超时\n"
+
+#~ msgid "Populating database for first time, may take a while..."
+#~ msgstr "第一次载入数据库,可能需要一些时间……"
+
+#~ msgid "It is now safe to remove your device."
+#~ msgstr "现在可以安全移出你的设备了"
+
+#~ msgid "Device not found."
+#~ msgstr "未找到设备"
+
+#~ msgid "Cross checking song data with local database..."
+#~ msgstr "用本地数据库交叉检测歌曲数据……"
+
+#, python-format
+#~ msgid "%(num)d track checked"
+#~ msgid_plural "%(num)d tracks checked"
+#~ msgstr[0] "%(num)d 曲目已检测"
+
+#~ msgid "Track ID"
+#~ msgstr "曲目标签"
+
+#~ msgid ""
+#~ "Please authenticate MTP-Lastfm in your web browser.  This is required if you "
+#~ "wish to love/tag tracks.  After the authentication is complete click OK"
+#~ msgstr "如果你要添加喜爱曲目或者标记曲目，请确认MTP-Lastfm在你的Web浏览器中。验证完成后点击“确定”"
+
+#~ msgid "None"
+#~ msgstr "无"
+
+#~ msgid "User rating"
+#~ msgstr "用户分级"
+
+#~ msgid "Duration"
+#~ msgstr "时长"
+
+#~ msgid "Track number"
+#~ msgstr "音轨编号"
+
+#~ msgid "gtk-close"
+#~ msgstr "关闭"
+
+#~ msgid "gtk-ok"
+#~ msgstr "确定"
+
+#~ msgid "gtk-apply"
+#~ msgstr "应用"
+
+#~ msgid "gtk-cancel"
+#~ msgstr "取消"
+
+#~ msgid ""
+#~ "Device found, but an error occurred. Please make sure it is not mounted by "
+#~ "another program (eg. music player, desktop)."
+#~ msgstr "设备已发现,可有错误.请确认你的设备没有被别的程序加载(例如,音乐播放器,桌面等)."

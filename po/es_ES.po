@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-22 13:26+0000\n"
-"PO-Revision-Date: 2010-03-27 12:16+0000\n"
-"Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
+"PO-Revision-Date: 2010-08-07 16:43+0000\n"
+"Last-Translator: Juan Angel Ferrer Juárez <jado.92.mty@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-09-05 07:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
@@ -32,14 +32,14 @@ msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
 msgstr ""
-"Este cliente de scrobbling ha sido expulsado de submision, por favor notique "
-"al desarrollador"
+"Este cliente ha sido bloqueado para el envío, por favor notifique al "
+"desarrollador."
 
 #: mtplastfm/httprequest.py:85
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr ""
-"La marca de tiempo es incorrent, por favor comprueba las preferencias de tu "
-"reloj"
+"La marca de tiempo es incorrecta, por favor compruebe las preferencias del "
+"reloj."
 
 #: mtplastfm/lastfmtagger.py:31
 msgid "Track"
@@ -97,15 +97,15 @@ msgstr "Error general"
 
 #: mtplastfm/main.py:48
 msgid "PTP Layer Error"
-msgstr "Error capa PTP"
+msgstr "Error en la capa PTP"
 
 #: mtplastfm/main.py:49
 msgid "USB Layer Error"
-msgstr "Error capa USB"
+msgstr "Error en la capa USB"
 
 #: mtplastfm/main.py:50
 msgid "Memory Allocation Error"
-msgstr "Error asignación de memoria"
+msgstr "Error de asignación de memoria"
 
 #: mtplastfm/main.py:51
 msgid "No device attached"
@@ -125,15 +125,15 @@ msgstr "Conexión cancelada"
 
 #: mtplastfm/main.py:56
 msgid "Invalid filetype"
-msgstr "Tipo de archivo invalido"
+msgstr "Tipo de archivo inválido"
 
 #: mtplastfm/main.py:57
 msgid "Invalid artist"
-msgstr "Artista invalido"
+msgstr "Artista inválido"
 
 #: mtplastfm/main.py:58
 msgid "Invalid title"
-msgstr "Título invalido"
+msgstr "Título inválido"
 
 #: mtplastfm/main.py:123
 msgid "Tracks that recently failed a validity check:\n"
@@ -146,34 +146,36 @@ msgstr "Conectando al dispositivo MTP"
 #: mtplastfm/main.py:136
 #, python-format
 msgid "Successfully connected to %(name)s %(model)s"
-msgstr ""
+msgstr "Conectado con éxito a %(name)s %(model)s"
 
 #: mtplastfm/main.py:141
 #, python-format
 msgid "%s items found on device, cross checking with local database..."
 msgstr ""
+"%s archivos encontrado en el dispositivo, comprobando referencias cruzadas "
+"con base de datos local..."
 
 #: mtplastfm/main.py:167
 msgid "Closing device"
-msgstr "Cerrando dispositivo"
+msgstr "Cerrando el dispositivo"
 
 #: mtplastfm/main.py:171
 msgid "No tracks were found on your device."
-msgstr "Ningún track fue encontrado en su dispositivo"
+msgstr "Ninguna pista fue hallada en su dispositivo"
 
 #: mtplastfm/main.py:173
 #, python-format
 msgid "Found %s new tracks for scrobbling"
-msgstr ""
+msgstr "Encontradas %s pistas nuevas."
 
 #: mtplastfm/main.py:193
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
 msgid_plural "%(num)d items were not added to your song database.\n"
 msgstr[0] ""
-"%(num)d elemento no fue añadido a tu base de datos de canciones.\n"
+"La pista %(num)d  no fue añadida a tu base de datos de canciones.\n"
 msgstr[1] ""
-"%(num)d elementos no fueron añadidos a tu base de datos de canciones.\n"
+"Las pistas %(num)d  no fueron añadidas a tu base de datos de canciones.\n"
 
 #: mtplastfm/main.py:206
 msgid "Reason"
@@ -190,7 +192,7 @@ msgstr "Autenticando..."
 #: mtplastfm/main.py:290
 #, python-format
 msgid "Scrobbling started %s hours ago"
-msgstr "O scrobbling iniciouse fai %s horas."
+msgstr "El scrobbling se inició hace %s horas"
 
 #: mtplastfm/main.py:309
 msgid "Sending love..."
@@ -218,13 +220,11 @@ msgstr "No existe el usuario de la base de datos, creando."
 
 #: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.                   This "
-"is required if you wish to love/tag tracks.                   After the "
-"authentication is complete click OK"
+"Please authenticate MTP-Lastfm in your web browser. This is required if you "
+"wish to love/tag tracks. After the authentication is complete click OK"
 msgstr ""
-"Favor autenticarse MTP-Lastfm en su navegador. Esto es requerido si usted "
-"desea preferida/etiquetar pista. Después la autenticación se completa al "
-"presionar OK."
+"Por favor dale permisos a MTP-Lastfm en tu navegador Es necesario si deseas "
+"amar/etiquetar pistas. Después de que le hallas dado permisos pulsa Aceptar"
 
 #: mtplastfm/main.py:540
 msgid "Authentication complete"
@@ -236,12 +236,16 @@ msgid ""
 "MTP-Lasfm has %s pending scrobbles from your device and is considered "
 "compatible."
 msgstr ""
+"MTP-Lasfm tiene %s scrobbles pendientes de su dispositivo y se considera "
+"compatible."
 
 #: mtplastfm/main.py:570
 msgid ""
 "MTP-Lasfm has previously scrobbled tracks from your device and is considered "
 "compatible."
 msgstr ""
+"MTP-Lasfm tiene pistas previamente scrobbleadas de su dispositivo y se "
+"considera compatible."
 
 #: mtplastfm/main.py:574
 msgid ""
@@ -249,6 +253,9 @@ msgid ""
 "definitely listened to tracks before connecting, then please mark as "
 "incompatible."
 msgstr ""
+"MTP-Lastfm no encontró ninguna canción reproducida en el dispositivo. Si "
+"está seguro de que ha reproducido pistas antes de conectar el dispositivo, "
+"por favor márquelo como incompatible."
 
 #: mtplastfm/main.py:580
 #, python-format
@@ -259,10 +266,15 @@ msgid ""
 "Name: <b>%(name)s</b>\n"
 "Last.fm username: "
 msgstr ""
+"Se mandará la siguiente información:\n"
+"Fabricante: <b>%(manufacturer)s</b>\n"
+"Modelo: <b>%(model)s</b>\n"
+"Nombre:<b>%(name)s</b>\n"
+"Usuario de Last.fm: "
 
 #: mtplastfm/main.py:599
 msgid "Compatibility information submitted."
-msgstr "Envianda información de compactibilidad"
+msgstr "Envianda información de compatibilidad"
 
 #: mtplastfm/main.py:601
 msgid "An error occured during submission"
@@ -514,6 +526,14 @@ msgid ""
 "It would be of great help if you can submit this to our online database. You "
 "can also submit this data at a later date from the Help menu."
 msgstr ""
+"MTP-Lastfm is now collecting data on device compatibility with the software. "
+"It would be of great help if you can submit this to our online database. You "
+"can also submit this data at a later date from the Help menu\r\n"
+"\r\n"
+"MTP-Lastfm está recogiendo información acerca de la compatibilidad del "
+"dispositivo con el software. Sería de gran ayuda si puede mandar estos datos "
+"a nuestra base de datos online.También puede mandar esta información más "
+"tarde desde el menú de ayuda."
 
 #: glade/gui.glade.h:41
 msgid "Operating System:"
@@ -603,34 +623,6 @@ msgstr "_Ayuda"
 msgid "_View"
 msgstr "_Ver"
 
-#: glade/gui.glade.h:62
-msgid "gtk-about"
-msgstr "Acerca de gtk"
-
-#: glade/gui.glade.h:63
-msgid "gtk-apply"
-msgstr "gtk-apply"
-
-#: glade/gui.glade.h:64
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
-#: glade/gui.glade.h:65
-msgid "gtk-connect"
-msgstr "gtk-conectar"
-
-#: glade/gui.glade.h:66
-msgid "gtk-ok"
-msgstr "gtk-ok"
-
-#: glade/gui.glade.h:67
-msgid "gtk-preferences"
-msgstr "gtk-preferencias"
-
-#: glade/gui.glade.h:68
-msgid "gtk-quit"
-msgstr "gtk-salir"
-
 #: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
@@ -658,7 +650,3 @@ msgstr "Ingrese sus etiquetas, separadas por comas:"
 #: glade/tag.glade.h:2
 msgid "Send Tags"
 msgstr "Enviar etiquetas"
-
-#: glade/tag.glade.h:3
-msgid "gtk-close"
-msgstr "gtk-close"
