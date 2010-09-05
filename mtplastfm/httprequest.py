@@ -68,7 +68,7 @@ class HttpRequest(object):
                 self.queue.put((True, response))
                 return
         except urllib2.URLError, error:
-             response.append(error)
+             response.append(error.reason[1])
         except httplib.BadStatusLine:
              response = response.append("Bad status line")
         if xml:
@@ -88,5 +88,4 @@ class HttpRequest(object):
         try:
             return responses[response]
         except KeyError:
-            return response
-
+            return str(response) 

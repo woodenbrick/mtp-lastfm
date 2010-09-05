@@ -1,12 +1,12 @@
-h2. MTP-Lastfm 0.85
+MTP-Lastfm 0.85
 
-The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen, or the Sanza Fuze) to "Last.fm.":http://last.fm You can love, ban and tag tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
+The purpose of this program is to scrobble tracks from mtp devices (such as the Creative Zen, or the Sanza Fuze) to Last.fm. You can love, ban and tag tracks before scrobbling, and also use the ratings on your device (5=Love, 1=Ban).
 
-A list of compatible players is "now available.":http://mtp-lastfm.appspot.com This list will improve as more people submit their player details to the database. mtp-lastfm will automatically do this after its first run.
+A list of compatible players is "now available at http://mtp-lastfm.appspot.com This list will improve as more people submit their player details to the database. mtp-lastfm will automatically do this after its first run.
 
-h2. Installing
+Installing
 
-The program can be installed from the "PPA repository":https://launchpad.net/~mtp-lastfm/+archive/ppa if you run Ubuntu/Debian.
+The program can be installed from the PPA repository: https://launchpad.net/~mtp-lastfm/+archive/ppa if you run Ubuntu/Debian.
 
 It can also be run from the source directory or installed using distutils. There is a C extension module in the src which requires compilation, so make sure you have the following installed:
 * pkg-config
@@ -15,13 +15,13 @@ It can also be run from the source directory or installed using distutils. There
 * python-dev
 
 To build the module in the src directory:
-@python setup.py build_ext --inplace@
-@./mtp-lastfm@
+python setup.py build_ext --inplace
+./mtp-lastfm
 
 Or if you wish to build and install: 
-@python setup.py install@ (as superuser)
+python setup.py install (as superuser)
 
-Report bugs, help translate and track new features at "Launchpad":https://launchpad.net/mtp-lastfm 
+Report bugs, help translate and track new features at https://launchpad.net/mtp-lastfm 
 
 
 h3. Dependencies:
@@ -30,10 +30,3 @@ h3. Dependencies:
 * py-gtk
 * gtk-glade
 
-Screenshots:
-
-!http://mtp-lastfm.appspot.com/images/screenshot1.png!
-
-!http://mtp-lastfm.appspot.com/images/screenshot2.png!
-
-!http://mtp-lastfm.appspot.com/images/screenshot3.png!
