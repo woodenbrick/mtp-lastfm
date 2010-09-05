@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mtp-lastfm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-06-27 21:35+0300\n"
-"PO-Revision-Date: 2009-04-15 10:09+0000\n"
-"Last-Translator: Daniel Woodhouse <wodemoneke@gmail.com>\n"
+"POT-Creation-Date: 2010-03-22 13:26+0000\n"
+"PO-Revision-Date: 2010-07-12 12:38+0000\n"
+"Last-Translator: RaNDoM <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-10-27 08:27+0000\n"
+"X-Launchpad-Export-Date: 2010-09-05 07:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: mtplastfm/httprequest.py:54 mtplastfm/main.py:364 mtplastfm/main.py:495
+#: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
 msgid "User authenticated"
 msgstr "Utente autenticato"
 
-#: mtplastfm/httprequest.py:55
+#: mtplastfm/httprequest.py:83
 msgid "Username or password incorrect, please reset"
 msgstr "Username o password errati. Inserire nuovamente"
 
-#: mtplastfm/httprequest.py:56
+#: mtplastfm/httprequest.py:84
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
@@ -34,7 +34,7 @@ msgstr ""
 "L'invio di dati da questo client di scrobbling è stato bloccato; per favore, "
 "informare gli sviluppatori"
 
-#: mtplastfm/httprequest.py:57
+#: mtplastfm/httprequest.py:85
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr ""
 
@@ -42,13 +42,12 @@ msgstr ""
 msgid "Track"
 msgstr ""
 
-#: mtplastfm/lastfmtagger.py:31 mtplastfm/songdata.py:40
-#: mtplastfm/songview.py:40
+#: mtplastfm/lastfmtagger.py:31 mtplastfm/main.py:208 mtplastfm/songview.py:40
 msgid "Artist"
 msgstr "Artista"
 
 #: mtplastfm/lastfmtagger.py:32 mtplastfm/lastfmtagger.py:89
-#: mtplastfm/songdata.py:40 mtplastfm/songview.py:40
+#: mtplastfm/songview.py:40
 msgid "Album"
 msgstr "Album"
 
@@ -85,94 +84,180 @@ msgstr ""
 msgid "Tags sent"
 msgstr ""
 
-#: mtplastfm/main.py:110
+#: mtplastfm/main.py:46
+msgid "Successfully connected"
+msgstr ""
+
+#: mtplastfm/main.py:47
+msgid "General error"
+msgstr "Errore generale"
+
+#: mtplastfm/main.py:48
+msgid "PTP Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:49
+msgid "USB Layer Error"
+msgstr ""
+
+#: mtplastfm/main.py:50
+msgid "Memory Allocation Error"
+msgstr "Errore di allocazione di memoria"
+
+#: mtplastfm/main.py:51
+msgid "No device attached"
+msgstr "Nessun dispositivo collegato"
+
+#: mtplastfm/main.py:52
+msgid "Storage full"
+msgstr "Memoria piena"
+
+#: mtplastfm/main.py:53
+msgid "Problem connecting"
+msgstr "Problema di connessione"
+
+#: mtplastfm/main.py:54
+msgid "Connection cancelled"
+msgstr "Connessione annullata"
+
+#: mtplastfm/main.py:56
+msgid "Invalid filetype"
+msgstr "Formato del file non valido"
+
+#: mtplastfm/main.py:57
+msgid "Invalid artist"
+msgstr "Artista non valido"
+
+#: mtplastfm/main.py:58
+msgid "Invalid title"
+msgstr "Titolo non valido"
+
+#: mtplastfm/main.py:123
+msgid "Tracks that recently failed a validity check:\n"
+msgstr "Tracce che recentemente non hanno superato un test di validità:\n"
+
+#: mtplastfm/main.py:126
 msgid "Connecting to MTP device"
 msgstr "Connessione al dispositivo MTP in corso"
 
-#: mtplastfm/main.py:135
-msgid ""
-"Warning: Your device seems to be taking longer than normal to upload a track "
-"listing.\n"
-msgstr ""
-
-#: mtplastfm/main.py:142
-msgid ""
-"Device found, but an error occurred. Please make sure it is not mounted by "
-"another program (eg. music player, desktop)."
-msgstr ""
-
-#: mtplastfm/main.py:147
-msgid "Device not found."
-msgstr "Dispositivo non trovato"
-
-#: mtplastfm/main.py:151 mtplastfm/main.py:304
-msgid "Done."
-msgstr "Fatto."
-
-#: mtplastfm/main.py:152
-msgid "It is now safe to remove your device."
-msgstr "Ora è possibile rimuovere il dispositivo"
-
-#: mtplastfm/main.py:154
-msgid "Populating database for first time, may take a while..."
-msgstr "Creazione del database in corso, attendere..."
-
-#: mtplastfm/main.py:157
-msgid "Cross checking song data with local database..."
-msgstr "Confronto i dati del dispositivo con il database locale..."
-
-#: mtplastfm/main.py:172
+#: mtplastfm/main.py:136
 #, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Successfully connected to %(name)s %(model)s"
+msgstr "Connesso correttamente a %(name)s %(model)s"
 
-#: mtplastfm/main.py:175
+#: mtplastfm/main.py:141
+#, python-format
+msgid "%s items found on device, cross checking with local database..."
+msgstr ""
+
+#: mtplastfm/main.py:167
+msgid "Closing device"
+msgstr ""
+
+#: mtplastfm/main.py:171
+msgid "No tracks were found on your device."
+msgstr "Non sono state trovate tracce sul tuo dispositivo"
+
+#: mtplastfm/main.py:173
+#, python-format
+msgid "Found %s new tracks for scrobbling"
+msgstr ""
+
+#: mtplastfm/main.py:193
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
 msgid_plural "%(num)d items were not added to your song database.\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: mtplastfm/main.py:231
+#: mtplastfm/main.py:206
+msgid "Reason"
+msgstr ""
+
+#: mtplastfm/main.py:207
+msgid "Title"
+msgstr "Titolo"
+
+#: mtplastfm/main.py:253
 msgid "Authenticating..."
 msgstr "Autenticazione in corso..."
 
-#: mtplastfm/main.py:268
+#: mtplastfm/main.py:290
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr "Invio dati iniziato %s ore fa"
 
-#: mtplastfm/main.py:287
+#: mtplastfm/main.py:309
 msgid "Sending love..."
 msgstr "Invio i preferiti..."
 
-#: mtplastfm/main.py:295
+#: mtplastfm/main.py:316
 msgid "Ok."
 msgstr "Ok."
 
-#: mtplastfm/main.py:377
+#: mtplastfm/main.py:325
+msgid "Done."
+msgstr "Fatto."
+
+#: mtplastfm/main.py:399
 msgid "Database cleared"
 msgstr "Database cancellato"
 
-#: mtplastfm/main.py:396
+#: mtplastfm/main.py:418
 msgid "Error: Please enter a username and password"
 msgstr "Errore: inserire username e password"
 
-#: mtplastfm/main.py:414
+#: mtplastfm/main.py:436
 msgid "User database doesn't exist, creating."
 msgstr "Il database dell'utente non esiste, creazione in corso."
 
-#: mtplastfm/main.py:483
+#: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.  This is required if you "
-"wish to love/tag tracks.  After the authentication is complete click OK"
+"Please authenticate MTP-Lastfm in your web browser. This is required if you "
+"wish to love/tag tracks. After the authentication is complete click OK"
 msgstr ""
 
-#: mtplastfm/main.py:498
+#: mtplastfm/main.py:540
 msgid "Authentication complete"
 msgstr "Autenticazione completata"
+
+#: mtplastfm/main.py:565
+#, python-format
+msgid ""
+"MTP-Lasfm has %s pending scrobbles from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:570
+msgid ""
+"MTP-Lasfm has previously scrobbled tracks from your device and is considered "
+"compatible."
+msgstr ""
+
+#: mtplastfm/main.py:574
+msgid ""
+"MTP-Lastfm didn't find any played songs on your device. If you have "
+"definitely listened to tracks before connecting, then please mark as "
+"incompatible."
+msgstr ""
+
+#: mtplastfm/main.py:580
+#, python-format
+msgid ""
+"The following data will be submitted:\n"
+"Manufacturer: <b>%(manufacturer)s</b>\n"
+"Model: <b>%(model)s</b>\n"
+"Name: <b>%(name)s</b>\n"
+"Last.fm username: "
+msgstr ""
+
+#: mtplastfm/main.py:599
+msgid "Compatibility information submitted."
+msgstr ""
+
+#: mtplastfm/main.py:601
+msgid "An error occured during submission"
+msgstr ""
 
 #: mtplastfm/scrobbler.py:89
 #, python-format
@@ -203,38 +288,6 @@ msgstr "Nessuna traccia da inviare."
 #: mtplastfm/scrobbler.py:152
 msgid "There was an error sending data to last.fm:"
 msgstr "Errore durante l'invio dei dati a last.fm"
-
-#: mtplastfm/songdata.py:39
-msgid "Track ID"
-msgstr "ID Traccia"
-
-#: mtplastfm/songdata.py:39
-msgid "Title"
-msgstr "Titolo"
-
-#: mtplastfm/songdata.py:41
-msgid "Track number"
-msgstr "Traccia n°"
-
-#: mtplastfm/songdata.py:42
-msgid "Duration"
-msgstr "Durata"
-
-#: mtplastfm/songdata.py:43
-msgid "User rating"
-msgstr "Valutazione dell'utente"
-
-#: mtplastfm/songdata.py:44 mtplastfm/songview.py:40
-msgid "Playcount"
-msgstr "Nr di ascolti"
-
-#: mtplastfm/songdata.py:53
-msgid "Tracks that recently failed a validity check:\n"
-msgstr "Tracce che recentemente non hanno superato un test di validità:\n"
-
-#: mtplastfm/songdata.py:89
-msgid "None"
-msgstr "Nessuno"
 
 #: mtplastfm/songview.py:35
 msgid "Love"
@@ -268,6 +321,10 @@ msgstr "Canzone"
 msgid "Rating"
 msgstr "Valutazione"
 
+#: mtplastfm/songview.py:40
+msgid "Playcount"
+msgstr "Nr di ascolti"
+
 #: mtplastfm/songview.py:196
 msgid "Cached tracks"
 msgstr ""
@@ -276,7 +333,7 @@ msgstr ""
 msgid "Loved tracks"
 msgstr "Preferiti"
 
-#: mtplastfm/songview.py:240
+#: mtplastfm/songview.py:240 glade/gui.glade.h:15
 msgid "Banned tracks"
 msgstr "Tracce escluse"
 
@@ -293,70 +350,82 @@ msgid "<b>Automation</b>"
 msgstr ""
 
 #: glade/gui.glade.h:3
+msgid "<b>Compatibility:</b>"
+msgstr ""
+
+#: glade/gui.glade.h:4
 msgid "<b>Database</b>"
 msgstr "<b>Database</b>"
 
-#: glade/gui.glade.h:4
+#: glade/gui.glade.h:5
 msgid "<b>MTP-Lastfm</b>"
 msgstr "<b>MTP-Lastfm</b>"
 
-#: glade/gui.glade.h:5
+#: glade/gui.glade.h:6
+msgid "<b>Optional</b>"
+msgstr ""
+
+#: glade/gui.glade.h:7
 msgid "<b>Options</b>"
 msgstr "<b>Opzioni</b>"
 
-#: glade/gui.glade.h:6
+#: glade/gui.glade.h:8
 msgid "<b>Scrobble ordering</b>"
 msgstr "<b>Ordine di invio</b>"
 
-#: glade/gui.glade.h:7
+#: glade/gui.glade.h:9
 msgid "<b>Scrobble timing</b>"
 msgstr "<b>Ora di invio</b>"
 
-#: glade/gui.glade.h:8
+#: glade/gui.glade.h:10
 msgid "About MTP-Lastfm"
 msgstr ""
 
-#: glade/gui.glade.h:9
+#: glade/gui.glade.h:11
 msgid "Alphabetical"
 msgstr "Alfabetico"
 
-#: glade/gui.glade.h:10
+#: glade/gui.glade.h:12
 msgid "Always use default time"
 msgstr "Usa sempre l'ora predefinita"
 
-#: glade/gui.glade.h:11
+#: glade/gui.glade.h:13
 msgid "Authenticate MTP-Lastfm to love/tag tracks"
 msgstr ""
 
-#: glade/gui.glade.h:12
+#: glade/gui.glade.h:14
 msgid "Authenticate now"
 msgstr "Effettuare l'accesso"
 
-#: glade/gui.glade.h:13
+#: glade/gui.glade.h:16
 msgid "Calculate scrobble time to finish \"Now\""
 msgstr "Calcola l'ora di ascolto in modo da finire \"ora\""
 
-#: glade/gui.glade.h:14
+#: glade/gui.glade.h:17
 msgid "Clears your locally stored song data"
 msgstr "Elimina i dati locali relativi alle canzoni"
 
-#: glade/gui.glade.h:15
-msgid "Connect to device on startup"
-msgstr "Connetti al dispositivo all'avvio"
-
-#: glade/gui.glade.h:16
-msgid "Default scrobble start time (Hours)"
-msgstr "Ora di ascolto predefinita"
-
-#: glade/gui.glade.h:17
-msgid "Enter the time (in hours) that you wish to start scrobbling from:"
-msgstr "Inserire l'ora a cui vuoi che inizi l'ascolto"
-
 #: glade/gui.glade.h:18
-msgid "Git repository"
+msgid "Comment"
 msgstr ""
 
 #: glade/gui.glade.h:19
+msgid "Connect to device on startup"
+msgstr "Connetti al dispositivo all'avvio"
+
+#: glade/gui.glade.h:20
+msgid "Default scrobble start time (Hours)"
+msgstr "Ora di ascolto predefinita"
+
+#: glade/gui.glade.h:21
+msgid "Enter the time (in hours) that you wish to start scrobbling from:"
+msgstr "Inserire l'ora a cui vuoi che inizi l'ascolto"
+
+#: glade/gui.glade.h:22
+msgid "Git repository"
+msgstr ""
+
+#: glade/gui.glade.h:23
 msgid ""
 "If you continue everything will be cleared from your\n"
 "local database.  Usually you only want to do this if\n"
@@ -366,39 +435,43 @@ msgstr ""
 "eliminato. Normalmente, si effettua questa operazione \n"
 "solo in seguito a formattazione del dispositivo"
 
-#: glade/gui.glade.h:22
+#: glade/gui.glade.h:26
 msgid "Launchpad Homepage"
 msgstr ""
 
-#: glade/gui.glade.h:23
+#: glade/gui.glade.h:27
+msgid "Log"
+msgstr ""
+
+#: glade/gui.glade.h:28
 msgid "Login"
 msgstr "Connetti"
 
-#: glade/gui.glade.h:24
+#: glade/gui.glade.h:29
 msgid "Logout"
 msgstr "Disconneti"
 
-#: glade/gui.glade.h:25
+#: glade/gui.glade.h:30
 msgid "MTP-Lastfm"
 msgstr "MTP-Lastfm"
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:31
 msgid "MTP-Lastfm - Clear Database"
 msgstr ""
 
-#: glade/gui.glade.h:27
+#: glade/gui.glade.h:32
 msgid "MTP-Lastfm - Login"
 msgstr "MTP-Lastfm - Connetti"
 
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:33
 msgid "MTP-Lastfm - Scrobbling"
 msgstr ""
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:34
 msgid "MTP-Lastfm - Settings"
 msgstr ""
 
-#: glade/gui.glade.h:30
+#: glade/gui.glade.h:35
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -426,27 +499,54 @@ msgstr ""
 "MTP-Lastfm. È comunque possibile recuperarla all'indirizzo "
 "http://www.gnu.org/licenses/"
 
-#: glade/gui.glade.h:35
+#: glade/gui.glade.h:40
+msgid ""
+"MTP-Lastfm is now collecting data on device compatibility with the software. "
+"It would be of great help if you can submit this to our online database. You "
+"can also submit this data at a later date from the Help menu."
+msgstr ""
+
+#: glade/gui.glade.h:41
+msgid "Operating System:"
+msgstr ""
+
+#: glade/gui.glade.h:42
+msgid "Pending Love"
+msgstr ""
+
+#: glade/gui.glade.h:43
 msgid "Please login to your last.fm account"
 msgstr "Effetturare l'accesso al proprio account last.fm"
 
-#: glade/gui.glade.h:36
+#: glade/gui.glade.h:44
+msgid "Program doesn't work"
+msgstr ""
+
+#: glade/gui.glade.h:45
+msgid "Program works as expected"
+msgstr ""
+
+#: glade/gui.glade.h:46
 msgid "Random"
 msgstr "Casuale"
 
-#: glade/gui.glade.h:37
+#: glade/gui.glade.h:47
 msgid "Remember me?"
 msgstr "Ricordami"
 
-#: glade/gui.glade.h:38
+#: glade/gui.glade.h:48
 msgid "Report a bug"
 msgstr ""
 
-#: glade/gui.glade.h:39
+#: glade/gui.glade.h:49
 msgid "Reset Database"
 msgstr "Svuota il database"
 
-#: glade/gui.glade.h:40
+#: glade/gui.glade.h:50
+msgid "Scrobble"
+msgstr ""
+
+#: glade/gui.glade.h:51
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
@@ -454,27 +554,47 @@ msgstr ""
 "Invia automaticamente le tracce dopo il controllo (non selezionare per "
 "aggiungere preferiti)"
 
-#: glade/gui.glade.h:41
+#: glade/gui.glade.h:52
+msgid "Send"
+msgstr ""
+
+#: glade/gui.glade.h:53
+msgid "Send compatibility info"
+msgstr ""
+
+#: glade/gui.glade.h:54
+msgid "Send data"
+msgstr ""
+
+#: glade/gui.glade.h:55
 msgid "Set time manually"
 msgstr "Imposta l'ora manualmente"
 
-#: glade/gui.glade.h:42
+#: glade/gui.glade.h:56
 msgid "Suggest a new feature"
 msgstr ""
 
-#: glade/gui.glade.h:43
-msgid "gtk-apply"
-msgstr "gtk-apply"
+#: glade/gui.glade.h:57
+msgid "View compatible devices"
+msgstr ""
 
-#: glade/gui.glade.h:44
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
+#: glade/gui.glade.h:58
+msgid "_Edit"
+msgstr ""
 
-#: glade/gui.glade.h:45
-msgid "gtk-ok"
-msgstr "gtk-ok"
+#: glade/gui.glade.h:59
+msgid "_File"
+msgstr ""
 
-#: glade/gui.glade.h:46
+#: glade/gui.glade.h:60
+msgid "_Help"
+msgstr ""
+
+#: glade/gui.glade.h:61
+msgid "_View"
+msgstr ""
+
+#: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
@@ -482,11 +602,11 @@ msgstr ""
 "mtp-lastfm registra le tue abitudini di ascolto sul tuo dispositivo MTP e le "
 "invia a last.fm"
 
-#: glade/gui.glade.h:47
+#: glade/gui.glade.h:70
 msgid "password:"
 msgstr "password:"
 
-#: glade/gui.glade.h:48
+#: glade/gui.glade.h:71
 msgid "username:"
 msgstr "username:"
 
@@ -501,7 +621,3 @@ msgstr ""
 #: glade/tag.glade.h:2
 msgid "Send Tags"
 msgstr ""
-
-#: glade/tag.glade.h:3
-msgid "gtk-close"
-msgstr "gtk-close"

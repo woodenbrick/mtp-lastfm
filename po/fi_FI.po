@@ -9,27 +9,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.76\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-30 13:15+0200\n"
-"PO-Revision-Date: 2010-01-30 12:03+0000\n"
-"Last-Translator: Saku Laukkanen <nollapiste@nettikirje.fi>\n"
+"POT-Creation-Date: 2010-03-22 13:26+0000\n"
+"PO-Revision-Date: 2010-07-24 10:40+0000\n"
+"Last-Translator: Melker Narikka <Unknown>\n"
 "Language-Team: Ubuntu Finnish Translators <ubuntu-l10n-"
 "fin@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-01-31 04:52+0000\n"
+"X-Launchpad-Export-Date: 2010-09-05 07:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: mtplastfm/httprequest.py:54 mtplastfm/main.py:374 mtplastfm/main.py:522
+#: mtplastfm/httprequest.py:82 mtplastfm/main.py:386 mtplastfm/main.py:537
 msgid "User authenticated"
 msgstr "Käyttäjä tunnistettu"
 
-#: mtplastfm/httprequest.py:55
+#: mtplastfm/httprequest.py:83
 msgid "Username or password incorrect, please reset"
 msgstr "Käyttäjänimi tai salasana on virheellinen, yritä uudelleen"
 
-#: mtplastfm/httprequest.py:56
+#: mtplastfm/httprequest.py:84
 msgid ""
 "This scrobbling client has been banned from submission, please notify the "
 "developer"
@@ -37,7 +37,7 @@ msgstr ""
 "Last.fm on estänyt tämän siirto-ohjelman toiminnan. Olkaa hyvä ja "
 "ilmoittakaa tästä ohjelman kehittäjälle."
 
-#: mtplastfm/httprequest.py:57
+#: mtplastfm/httprequest.py:85
 msgid "Timestamp is incorrect, please check your clock settings"
 msgstr "Aikaleima on virheellinen, tarkista kelloasetuksesi."
 
@@ -45,13 +45,12 @@ msgstr "Aikaleima on virheellinen, tarkista kelloasetuksesi."
 msgid "Track"
 msgstr "Kappale"
 
-#: mtplastfm/lastfmtagger.py:31 mtplastfm/songdata.py:40
-#: mtplastfm/songview.py:40
+#: mtplastfm/lastfmtagger.py:31 mtplastfm/main.py:208 mtplastfm/songview.py:40
 msgid "Artist"
 msgstr "Esittäjä"
 
 #: mtplastfm/lastfmtagger.py:32 mtplastfm/lastfmtagger.py:89
-#: mtplastfm/songdata.py:40 mtplastfm/songview.py:40
+#: mtplastfm/songview.py:40
 msgid "Album"
 msgstr "Levy"
 
@@ -88,106 +87,193 @@ msgstr "Lähetetään luokituksia"
 msgid "Tags sent"
 msgstr "Luokitukset lähetetty"
 
-#: mtplastfm/main.py:112
+#: mtplastfm/main.py:46
+msgid "Successfully connected"
+msgstr "Yhdistetty onnistuneesti"
+
+#: mtplastfm/main.py:47
+msgid "General error"
+msgstr "Yleinen virhe"
+
+#: mtplastfm/main.py:48
+msgid "PTP Layer Error"
+msgstr "PTP-kerroksen virhe"
+
+#: mtplastfm/main.py:49
+msgid "USB Layer Error"
+msgstr "USB-kerroksen virhe"
+
+#: mtplastfm/main.py:50
+msgid "Memory Allocation Error"
+msgstr "Muistinjakamisvirhe"
+
+#: mtplastfm/main.py:51
+msgid "No device attached"
+msgstr "Ei liitettyä laitetta"
+
+#: mtplastfm/main.py:52
+msgid "Storage full"
+msgstr "Muisti täynnä"
+
+#: mtplastfm/main.py:53
+msgid "Problem connecting"
+msgstr "Ongelma yhdistämisessä"
+
+#: mtplastfm/main.py:54
+msgid "Connection cancelled"
+msgstr "Yhteys peruutettu"
+
+#: mtplastfm/main.py:56
+msgid "Invalid filetype"
+msgstr "Väärä tiedostotyyppi"
+
+#: mtplastfm/main.py:57
+msgid "Invalid artist"
+msgstr "Kelvoton esittäjäkenttä"
+
+#: mtplastfm/main.py:58
+msgid "Invalid title"
+msgstr "Kelvoton otsikkokenttä"
+
+#: mtplastfm/main.py:123
+msgid "Tracks that recently failed a validity check:\n"
+msgstr "Kappaleet jotka eivät läpäisseet tarkistusta:\n"
+
+#: mtplastfm/main.py:126
 msgid "Connecting to MTP device"
 msgstr "Yhdistetään MTP-laitteeseen..."
 
-#: mtplastfm/main.py:137
-msgid ""
-"Warning: Your device seems to be taking                                      "
-" longer than normal to upload a track listing.\n"
-msgstr ""
-"Varoitus: Laitteella kestää tavallista pitempään lähettää kappalelistaa.\n"
-
-#: mtplastfm/main.py:145
-msgid ""
-"Device found, but an error occurred. Please make                             "
-"  sure it is not mounted by another program                               "
-"(eg. music player, desktop)."
-msgstr ""
-"Havaittiin virhe laitteen löytämisen jälkeen. Varmista ettei mikään toinen "
-"ohjelma ole liittänyt laitetta (esim. musiikkisoitin, tiedostoselain)."
-
-#: mtplastfm/main.py:152
-msgid "Device not found."
-msgstr "Laitetta ei löytynyt."
-
-#: mtplastfm/main.py:156 mtplastfm/main.py:313
-msgid "Done."
-msgstr "Valmis."
-
-#: mtplastfm/main.py:157
-msgid "It is now safe to remove your device."
-msgstr "Laitteen irrottaminen on nyt turvallista."
-
-#: mtplastfm/main.py:159
-msgid "Populating database for first time, may take a while..."
-msgstr "Luodaan uutta tietokantaa, tämä saattaa kestää kauan..."
-
-#: mtplastfm/main.py:162
-msgid "Cross checking song data with local database..."
-msgstr "Verrataan kappaletietoja paikalliseen tietokantaan..."
-
-#: mtplastfm/main.py:177
+#: mtplastfm/main.py:136
 #, python-format
-msgid "%(num)d track checked"
-msgid_plural "%(num)d tracks checked"
-msgstr[0] "%(num)d kappale tarkistettu"
-msgstr[1] "%(num)d kappaletta tarkistettu"
+msgid "Successfully connected to %(name)s %(model)s"
+msgstr "Onnistuneesti yhdistetty kohteeseen %(name)s %(model)s"
 
-#: mtplastfm/main.py:180
+#: mtplastfm/main.py:141
+#, python-format
+msgid "%s items found on device, cross checking with local database..."
+msgstr ""
+"Löytyi %s kohdetta laitteella, tarkistetaan ristiin paikallisella "
+"tietokannalla..."
+
+#: mtplastfm/main.py:167
+msgid "Closing device"
+msgstr "Suljetaan laite"
+
+#: mtplastfm/main.py:171
+msgid "No tracks were found on your device."
+msgstr "Yhtään kappaletta ei löydetty laitteeltasi."
+
+#: mtplastfm/main.py:173
+#, python-format
+msgid "Found %s new tracks for scrobbling"
+msgstr "Löytyi %s uutta raitaa siirrettäväksi"
+
+#: mtplastfm/main.py:193
 #, python-format
 msgid "%(num)d item was not added to your song database.\n"
 msgid_plural "%(num)d items were not added to your song database.\n"
 msgstr[0] "Kappale, jota ei voitu lisätä tietokantaan: %(num)d\n"
 msgstr[1] "Kappaleet, joita ei voitu lisätä tietokantaan: %(num)d\n"
 
-#: mtplastfm/main.py:240
+#: mtplastfm/main.py:206
+msgid "Reason"
+msgstr "Syy"
+
+#: mtplastfm/main.py:207
+msgid "Title"
+msgstr "Nimi"
+
+#: mtplastfm/main.py:253
 msgid "Authenticating..."
 msgstr "Tunnistaudutaan..."
 
-#: mtplastfm/main.py:277
+#: mtplastfm/main.py:290
 #, python-format
 msgid "Scrobbling started %s hours ago"
 msgstr "Tietojen lähettäminen aloitettiin %s tuntia sitten"
 
-#: mtplastfm/main.py:296
+#: mtplastfm/main.py:309
 msgid "Sending love..."
 msgstr "Lähetetään tietoja Ihana-merkityistä kappaleista"
 
-#: mtplastfm/main.py:304
+#: mtplastfm/main.py:316
 msgid "Ok."
 msgstr "Ok."
 
-#: mtplastfm/main.py:387
+#: mtplastfm/main.py:325
+msgid "Done."
+msgstr "Valmis."
+
+#: mtplastfm/main.py:399
 msgid "Database cleared"
 msgstr "Tietokanta tyhjennetty"
 
-#: mtplastfm/main.py:406
+#: mtplastfm/main.py:418
 msgid "Error: Please enter a username and password"
 msgstr "Virhe: Kirjoita käyttäjätunnus ja salasana"
 
-#: mtplastfm/main.py:425
+#: mtplastfm/main.py:436
 msgid "User database doesn't exist, creating."
 msgstr "Luodaan puuttuvaa käyttäjätietokantaa"
 
-#: mtplastfm/main.py:439
-msgid "Downloading user image..."
-msgstr "Ladataan avataria..."
-
-#: mtplastfm/main.py:508
+#: mtplastfm/main.py:523
 msgid ""
-"Please authenticate MTP-Lastfm in your web browser.                   This "
-"is required if you wish to love/tag tracks.                   After the "
-"authentication is complete click OK"
+"Please authenticate MTP-Lastfm in your web browser. This is required if you "
+"wish to love/tag tracks. After the authentication is complete click OK"
 msgstr ""
-"Sinun tulee antaa ohjelmalle lupa käyttää last.fm-käyttäjätiliäsi. Luvan "
-"antamista tarvitaan kappaleiden merkitsemiseen. Kun lupa on annettu, paina "
-"OK."
 
-#: mtplastfm/main.py:525
+#: mtplastfm/main.py:540
 msgid "Authentication complete"
 msgstr "Tunnistautuminen valmis"
+
+#: mtplastfm/main.py:565
+#, python-format
+msgid ""
+"MTP-Lasfm has %s pending scrobbles from your device and is considered "
+"compatible."
+msgstr ""
+"MTP-Lastfm:llä on %s suoritettavaa siirtoa laitteeltasi ja mielletään "
+"yhteensopivaksi."
+
+#: mtplastfm/main.py:570
+msgid ""
+"MTP-Lasfm has previously scrobbled tracks from your device and is considered "
+"compatible."
+msgstr ""
+"MTP-Lastfm on siirtänyt aikaisemmin kappaleita laitteeltasi ja mielletään "
+"yhteensopivaksi."
+
+#: mtplastfm/main.py:574
+msgid ""
+"MTP-Lastfm didn't find any played songs on your device. If you have "
+"definitely listened to tracks before connecting, then please mark as "
+"incompatible."
+msgstr ""
+"MTP-Lastfm ei löytänyt soitettuja kappaleita laitteeltasi. Jos olet "
+"kuunnellut kappaleita ennen yhdistämistä, merkitse epäyhteensopivaksi."
+
+#: mtplastfm/main.py:580
+#, python-format
+msgid ""
+"The following data will be submitted:\n"
+"Manufacturer: <b>%(manufacturer)s</b>\n"
+"Model: <b>%(model)s</b>\n"
+"Name: <b>%(name)s</b>\n"
+"Last.fm username: "
+msgstr ""
+"Seuraavat tiedot lähetetään:\n"
+"Valmistaja: <b>%(manufacturer)s</b>\n"
+"Malli: <b>%(model)s</b>\n"
+"Nimi: <b>%(name)s</b>\n"
+"Last.fm käyttäjätunnus: "
+
+#: mtplastfm/main.py:599
+msgid "Compatibility information submitted."
+msgstr "Yhteensopivuustiedot lähetetty."
+
+#: mtplastfm/main.py:601
+msgid "An error occured during submission"
+msgstr "Lähetyksen aikana tapahtui virhe."
 
 #: mtplastfm/scrobbler.py:89
 #, python-format
@@ -218,38 +304,6 @@ msgstr "Ei lähetettäviä tietoja"
 #: mtplastfm/scrobbler.py:152
 msgid "There was an error sending data to last.fm:"
 msgstr "Virhe lähetettäessä tietoja last.fm-palveluun"
-
-#: mtplastfm/songdata.py:39
-msgid "Track ID"
-msgstr "Kappaleen tunnus"
-
-#: mtplastfm/songdata.py:39
-msgid "Title"
-msgstr "Nimi"
-
-#: mtplastfm/songdata.py:41
-msgid "Track number"
-msgstr "Kappaleen numero"
-
-#: mtplastfm/songdata.py:42
-msgid "Duration"
-msgstr "Kesto"
-
-#: mtplastfm/songdata.py:43
-msgid "User rating"
-msgstr "Arvostelu"
-
-#: mtplastfm/songdata.py:44 mtplastfm/songview.py:40
-msgid "Playcount"
-msgstr "Toistot"
-
-#: mtplastfm/songdata.py:53
-msgid "Tracks that recently failed a validity check:\n"
-msgstr "Kappaleet jotka eivät läpäisseet tarkistusta:\n"
-
-#: mtplastfm/songdata.py:89
-msgid "None"
-msgstr "(tuntematon)"
 
 #: mtplastfm/songview.py:35
 msgid "Love"
@@ -283,6 +337,10 @@ msgstr "Kappale"
 msgid "Rating"
 msgstr "Arvostelu"
 
+#: mtplastfm/songview.py:40
+msgid "Playcount"
+msgstr "Toistot"
+
 #: mtplastfm/songview.py:196
 msgid "Cached tracks"
 msgstr "Kappalelista"
@@ -291,7 +349,7 @@ msgstr "Kappalelista"
 msgid "Loved tracks"
 msgstr "Ihanat kappaleet"
 
-#: mtplastfm/songview.py:240 glade/gui.glade.h:13
+#: mtplastfm/songview.py:240 glade/gui.glade.h:15
 msgid "Banned tracks"
 msgstr "Estetyt kappaleet"
 
@@ -308,70 +366,82 @@ msgid "<b>Automation</b>"
 msgstr "<b>Automatisointi</b>"
 
 #: glade/gui.glade.h:3
+msgid "<b>Compatibility:</b>"
+msgstr "<b>Yhteensopivuus:</b>"
+
+#: glade/gui.glade.h:4
 msgid "<b>Database</b>"
 msgstr "<b>Tietokanta</b>"
 
-#: glade/gui.glade.h:4
+#: glade/gui.glade.h:5
 msgid "<b>MTP-Lastfm</b>"
 msgstr "<b>MTP-Lastfm</b>"
 
-#: glade/gui.glade.h:5
+#: glade/gui.glade.h:6
+msgid "<b>Optional</b>"
+msgstr "<b>Lisävalinnat</b>"
+
+#: glade/gui.glade.h:7
 msgid "<b>Options</b>"
 msgstr "<b>Asetukset</b>"
 
-#: glade/gui.glade.h:6
+#: glade/gui.glade.h:8
 msgid "<b>Scrobble ordering</b>"
 msgstr "<b>Lähetysjärjestys</b>"
 
-#: glade/gui.glade.h:7
+#: glade/gui.glade.h:9
 msgid "<b>Scrobble timing</b>"
 msgstr "<b>Lähetysaika</b>"
 
-#: glade/gui.glade.h:8
+#: glade/gui.glade.h:10
 msgid "About MTP-Lastfm"
 msgstr "Tietoja ohjelmasta MTP-Lastfm"
 
-#: glade/gui.glade.h:9
+#: glade/gui.glade.h:11
 msgid "Alphabetical"
 msgstr "Aakkosellinen"
 
-#: glade/gui.glade.h:10
+#: glade/gui.glade.h:12
 msgid "Always use default time"
 msgstr "Muista asetettu aika aina"
 
-#: glade/gui.glade.h:11
+#: glade/gui.glade.h:13
 msgid "Authenticate MTP-Lastfm to love/tag tracks"
 msgstr "Anna MTP-Lastfm-ohjelmalle lupa merkitä kappaleita"
 
-#: glade/gui.glade.h:12
+#: glade/gui.glade.h:14
 msgid "Authenticate now"
 msgstr "Tunnistaudu heti"
 
-#: glade/gui.glade.h:14
+#: glade/gui.glade.h:16
 msgid "Calculate scrobble time to finish \"Now\""
 msgstr "Määritä lähetysajan loppuvan välittömästi"
 
-#: glade/gui.glade.h:15
+#: glade/gui.glade.h:17
 msgid "Clears your locally stored song data"
 msgstr "Poistaa paikallisen kappaletietokannan"
 
-#: glade/gui.glade.h:16
+#: glade/gui.glade.h:18
+msgid "Comment"
+msgstr "Kommentti"
+
+#: glade/gui.glade.h:19
 msgid "Connect to device on startup"
 msgstr "Yhdistä laitteeseen käynnistettäessä"
 
-#: glade/gui.glade.h:17
+#: glade/gui.glade.h:20
 msgid "Default scrobble start time (Hours)"
 msgstr "Lähetyksen kesto tunneissa"
 
-#: glade/gui.glade.h:18
+#: glade/gui.glade.h:21
 msgid "Enter the time (in hours) that you wish to start scrobbling from:"
 msgstr "Valitse aika jolloin haluat siirron alkavan:"
 
-#: glade/gui.glade.h:19
+#: glade/gui.glade.h:22
 msgid "Git repository"
 msgstr "GIT-pakettivarasto"
 
-#: glade/gui.glade.h:20
+#: glade/gui.glade.h:23
 msgid ""
 "If you continue everything will be cleared from your\n"
 "local database.  Usually you only want to do this if\n"
@@ -381,43 +451,43 @@ msgstr ""
 "Yleensä näin tehdään vain, kun käytettävä\n"
 "laite on alustettu."
 
-#: glade/gui.glade.h:23
+#: glade/gui.glade.h:26
 msgid "Launchpad Homepage"
 msgstr "Launchpad-sivusto"
 
-#: glade/gui.glade.h:24
+#: glade/gui.glade.h:27
 msgid "Log"
 msgstr "Loki"
 
-#: glade/gui.glade.h:25
+#: glade/gui.glade.h:28
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
-#: glade/gui.glade.h:26
+#: glade/gui.glade.h:29
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: glade/gui.glade.h:27
+#: glade/gui.glade.h:30
 msgid "MTP-Lastfm"
 msgstr "MTP-Lastfm"
 
-#: glade/gui.glade.h:28
+#: glade/gui.glade.h:31
 msgid "MTP-Lastfm - Clear Database"
 msgstr "MTP-Lastfm - Tietokannan tyhjennys"
 
-#: glade/gui.glade.h:29
+#: glade/gui.glade.h:32
 msgid "MTP-Lastfm - Login"
 msgstr "MTP-Lastfm - Kirjaudu sisään"
 
-#: glade/gui.glade.h:30
+#: glade/gui.glade.h:33
 msgid "MTP-Lastfm - Scrobbling"
 msgstr "MTP-Lastfm - Kappaleiden siirto"
 
-#: glade/gui.glade.h:31
+#: glade/gui.glade.h:34
 msgid "MTP-Lastfm - Settings"
 msgstr "MTP-Lastfm - Asetukset"
 
-#: glade/gui.glade.h:32
+#: glade/gui.glade.h:35
 msgid ""
 "MTP-Lastfm is free software: you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -446,39 +516,57 @@ msgstr ""
 "mukana; jos et sitä saanut, niin lähetä käy sivulla "
 "http://www.gnu.org/licenses/"
 
-#: glade/gui.glade.h:37
-msgid "Not working?"
-msgstr "Ei toimi?"
+#: glade/gui.glade.h:40
+msgid ""
+"MTP-Lastfm is now collecting data on device compatibility with the software. "
+"It would be of great help if you can submit this to our online database. You "
+"can also submit this data at a later date from the Help menu."
+msgstr ""
+"MTP-Lastfm kerää nyt tietoa laiteyhteensopivuudesta ohjelmiston kanssa. "
+"Olisi suuri apu, jos voisit lähettää tämän online-tietokantaamme. Voit "
+"lähettää nämä tiedot myös myöhemmin Ohje-valikon kautta."
 
-#: glade/gui.glade.h:38
+#: glade/gui.glade.h:41
+msgid "Operating System:"
+msgstr "Käyttöjärjestelmä:"
+
+#: glade/gui.glade.h:42
 msgid "Pending Love"
 msgstr "Ihanat"
 
-#: glade/gui.glade.h:39
+#: glade/gui.glade.h:43
 msgid "Please login to your last.fm account"
 msgstr "Kirjaudu sisään last.fm-tilillesi"
 
-#: glade/gui.glade.h:40
+#: glade/gui.glade.h:44
+msgid "Program doesn't work"
+msgstr "Ohjelma ei toimi"
+
+#: glade/gui.glade.h:45
+msgid "Program works as expected"
+msgstr "Ohjelma toimii odotetusti"
+
+#: glade/gui.glade.h:46
 msgid "Random"
 msgstr "Satunnainen"
 
-#: glade/gui.glade.h:41
+#: glade/gui.glade.h:47
 msgid "Remember me?"
 msgstr "Muista minut"
 
-#: glade/gui.glade.h:42
+#: glade/gui.glade.h:48
 msgid "Report a bug"
 msgstr "Ilmoita ohjelmassa olevasta virheestä"
 
-#: glade/gui.glade.h:43
+#: glade/gui.glade.h:49
 msgid "Reset Database"
 msgstr "Tyhjennä tietokanta"
 
-#: glade/gui.glade.h:44
+#: glade/gui.glade.h:50
 msgid "Scrobble"
 msgstr "Lähetä"
 
-#: glade/gui.glade.h:45
+#: glade/gui.glade.h:51
 msgid ""
 "Scrobble automatically after device check (Leave unchecked to love/ban "
 "tracks)"
@@ -486,59 +574,47 @@ msgstr ""
 "Siirrä automaattisesti laitetunnistuken jälkeen(jätä tyhjäksi jos haluat "
 "merkitä kappaleita)"
 
-#: glade/gui.glade.h:46
+#: glade/gui.glade.h:52
+msgid "Send"
+msgstr "Lähetä"
+
+#: glade/gui.glade.h:53
+msgid "Send compatibility info"
+msgstr "Lähetä yhteensopivuustiedot"
+
+#: glade/gui.glade.h:54
+msgid "Send data"
+msgstr "Lähetä tiedot"
+
+#: glade/gui.glade.h:55
 msgid "Set time manually"
 msgstr "Aseta aika käsin"
 
-#: glade/gui.glade.h:47
+#: glade/gui.glade.h:56
 msgid "Suggest a new feature"
 msgstr "Ehdota uutta ominaisuutta"
 
-#: glade/gui.glade.h:48
+#: glade/gui.glade.h:57
+msgid "View compatible devices"
+msgstr "Näytä yhteensopivat laitteet"
+
+#: glade/gui.glade.h:58
 msgid "_Edit"
 msgstr "_Muokkaa"
 
-#: glade/gui.glade.h:49
+#: glade/gui.glade.h:59
 msgid "_File"
 msgstr "_Tiedosto"
 
-#: glade/gui.glade.h:50
+#: glade/gui.glade.h:60
 msgid "_Help"
 msgstr "_Ohje"
 
-#: glade/gui.glade.h:51
+#: glade/gui.glade.h:61
 msgid "_View"
 msgstr "_Näytä"
 
-#: glade/gui.glade.h:52
-msgid "gtk-about"
-msgstr "gtk-about"
-
-#: glade/gui.glade.h:53
-msgid "gtk-apply"
-msgstr "gtk-apply"
-
-#: glade/gui.glade.h:54
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
-#: glade/gui.glade.h:55
-msgid "gtk-connect"
-msgstr "gtk-connect"
-
-#: glade/gui.glade.h:56
-msgid "gtk-ok"
-msgstr "gtk-ok"
-
-#: glade/gui.glade.h:57
-msgid "gtk-preferences"
-msgstr "gtk-preferences"
-
-#: glade/gui.glade.h:58
-msgid "gtk-quit"
-msgstr "gtk-quit"
-
-#: glade/gui.glade.h:59
+#: glade/gui.glade.h:69
 msgid ""
 "mtp-lastfm tracks your listening habits on your mtp device and uploads them "
 "to last.fm"
@@ -546,10 +622,52 @@ msgstr ""
 "MTP-Lastfm tarkistaa kuunetelmasi kappaleet MTP-laitteeltasi ja lähettää "
 "tiedot last.fm-palveluun"
 
-#: glade/gui.glade.h:60
+#: glade/gui.glade.h:70
 msgid "password:"
 msgstr "Salasana:"
 
-#: glade/gui.glade.h:61
+#: glade/gui.glade.h:71
 msgid "username:"
 msgstr "Käyttäjätunnus:"
+
+#: glade/log.glade.h:1
+msgid "Song data log"
+msgstr "Kappaleloki"
+
+#: glade/tag.glade.h:1
+msgid "Enter your tags, seperated by commas:"
+msgstr "Lisää luokituksia käyttäen pikkua erottimena:"
+
+#: glade/tag.glade.h:2
+msgid "Send Tags"
+msgstr "Lähetä luokitukset"
+
+#~ msgid "Populating database for first time, may take a while..."
+#~ msgstr "Luodaan uutta tietokantaa, tämä saattaa kestää kauan..."
+
+#~ msgid "Cross checking song data with local database..."
+#~ msgstr "Verrataan kappaletietoja paikalliseen tietokantaan..."
+
+#~ msgid "Track ID"
+#~ msgstr "Kappaleen tunnus"
+
+#~ msgid "Track number"
+#~ msgstr "Kappaleen numero"
+
+#~ msgid "Duration"
+#~ msgstr "Kesto"
+
+#~ msgid "User rating"
+#~ msgstr "Arvostelu"
+
+#~ msgid "None"
+#~ msgstr "(tuntematon)"
+
+#~ msgid "gtk-apply"
+#~ msgstr "gtk-apply"
+
+#~ msgid "gtk-cancel"
+#~ msgstr "gtk-cancel"
+
+#~ msgid "gtk-ok"
+#~ msgstr "gtk-ok"
