@@ -5,15 +5,14 @@ import optparse
 import gtk
 import time
 
-
-#find src path
 bin_path = os.path.dirname(os.path.abspath(__file__))
-if bin_path != "/usr/bin":
+#find src path
+if os.path.exists(os.path.join(bin_path, "mtplastfm")):
     sys.path.append(os.path.join(bin_path, "mtplastfm"))
     UI_DIR = os.path.join(bin_path, "glade")
 else:
-    UI_DIR = os.path.join("/usr", "share", "mtp-lastfm")
-
+    UI_DIR = os.path.join("/usr", "local", "share", "mtp-lastfm")
+print "Glade dir:", UI_DIR
 try:
     from mtplastfm.cmod import mtpconnect
 except ImportError:
